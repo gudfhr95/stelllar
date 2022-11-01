@@ -15,6 +15,9 @@ node_modules
 !.yarn/sdks
 !.yarn/versions
 
+# env files
+.env.development
+
 # IDEs and editors
 /.idea
 .project
