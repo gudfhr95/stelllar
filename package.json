@@ -47,6 +47,9 @@
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
+    "@mikro-orm/core": "^5.5.0",
+    "@mikro-orm/nestjs": "^5.1.2",
+    "@mikro-orm/postgresql": "^5.5.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
