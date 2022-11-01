@@ -16,6 +16,7 @@ node_modules
 !.yarn/versions
 
 # env files
+.env
 .env.development
 
 # IDEs and editors

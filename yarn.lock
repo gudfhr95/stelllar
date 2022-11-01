@@ -1630,6 +1630,58 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hapi/address@npm:^4.0.1":
+  version: 4.1.0
+  resolution: "@hapi/address@npm:4.1.0"
+  dependencies:
+    "@hapi/hoek": ^9.0.0
+  checksum: 01e8257c9428be2a2a0441b24dcab2396a6ca20f53799fd921035b45f9f62a6014f1a0dfaf2dd10912a8b0098a9ba53c3f0863a67e7acbadddeb3d2785591cfc
+  languageName: node
+  linkType: hard
+
+"@hapi/formula@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@hapi/formula@npm:2.0.0"
+  checksum: 902da057c53027d9356de15e53a8af9ea4795d3fb78c066668b36cfca54abd2d707860469618448e7de02eb8364ead86e53b839dbd363e1aeb65ee9a195e5fad
+  languageName: node
+  linkType: hard
+
+"@hapi/hoek@npm:^9.0.0":
+  version: 9.3.0
+  resolution: "@hapi/hoek@npm:9.3.0"
+  checksum: 4771c7a776242c3c022b168046af4e324d116a9d2e1d60631ee64f474c6e38d1bb07092d898bf95c7bc5d334c5582798a1456321b2e53ca817d4e7c88bc25b43
+  languageName: node
+  linkType: hard
+
+"@hapi/joi@npm:^17.1.1":
+  version: 17.1.1
+  resolution: "@hapi/joi@npm:17.1.1"
+  dependencies:
+    "@hapi/address": ^4.0.1
+    "@hapi/formula": ^2.0.0
+    "@hapi/hoek": ^9.0.0
+    "@hapi/pinpoint": ^2.0.0
+    "@hapi/topo": ^5.0.0
+  checksum: 803d77e19e26802860de22b8d1ae3435679844202703d20bfd6246a8c6aa00143ce48d0e8beecf55812334e8e89ac04b79301264d4a3f87c980eb0c0646b33ab
+  languageName: node
+  linkType: hard
+
+"@hapi/pinpoint@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@hapi/pinpoint@npm:2.0.0"
+  checksum: ed011c0af4eeab75f7ea2b4657f16a93e31d449a43b40a4f398e2f1a0752357af2badd7b3f3e2da9554cb9d13adb52bde123b250acef1709260954d0301eed16
+  languageName: node
+  linkType: hard
+
+"@hapi/topo@npm:^5.0.0":
+  version: 5.1.0
+  resolution: "@hapi/topo@npm:5.1.0"
+  dependencies:
+    "@hapi/hoek": ^9.0.0
+  checksum: 604dfd5dde76d5c334bd03f9001fce69c7ce529883acf92da96f4fe7e51221bf5e5110e964caca287a6a616ba027c071748ab636ff178ad750547fba611d6014
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.9.2":
   version: 0.9.5
   resolution: "@humanwhocodes/config-array@npm:0.9.5"
@@ -2049,6 +2101,22 @@ __metadata:
     class-validator:
       optional: true
   checksum: 80e916d5e5400916522e11b3be1c7c937858ae16ac9aa7ec65bf86f694dad0ab6bc4e8e28390b0e5b6aeccd9f71288b27383de89a72eac5dd79039e1ed10ab58
+  languageName: node
+  linkType: hard
+
+"@nestjs/config@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "@nestjs/config@npm:2.2.0"
+  dependencies:
+    dotenv: 16.0.1
+    dotenv-expand: 8.0.3
+    lodash: 4.17.21
+    uuid: 8.3.2
+  peerDependencies:
+    "@nestjs/common": ^7.0.0 || ^8.0.0 || ^9.0.0
+    reflect-metadata: ^0.1.13
+    rxjs: ^6.0.0 || ^7.2.0
+  checksum: 42b9d8014da51ee76621f705d3783d10fbcaa8362881ecd591b8c9542e8067d3e61258bb01556694c355471ea6af8485c05ba85d1326f54f810bff19bfefef2e
   languageName: node
   linkType: hard
 
@@ -3319,6 +3387,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: d076bb61f45d0fc42dee496ef8b1c2f8742e15d5e47e90e20d0243386e426c04d4efd408a48875ab432f7960b4ce3414db20ed0fbbfc7bcc89d84e574f6e045a
+  languageName: node
+  linkType: hard
+
+"@types/hapi__joi@npm:^17.1.8":
+  version: 17.1.8
+  resolution: "@types/hapi__joi@npm:17.1.8"
+  checksum: b346c23a30ea848e7d69bf0df00aa467a4c333b1ba0be8b824bade25dfd7857b37678b3bb63d21fdf5aaeab6437919c5b698e899f69655bd8727afc2d5ece69d
   languageName: node
   linkType: hard
 
@@ -6158,6 +6233,20 @@ __metadata:
     domelementtype: ^2.2.0
     domhandler: ^4.2.0
   checksum: abf7434315283e9aadc2a24bac0e00eab07ae4313b40cc239f89d84d7315ebdfd2fb1b5bf750a96bc1b4403d7237c7b2ebf60459be394d625ead4ca89b934391
+  languageName: node
+  linkType: hard
+
+"dotenv-expand@npm:8.0.3":
+  version: 8.0.3
+  resolution: "dotenv-expand@npm:8.0.3"
+  checksum: 128ce90ac825b543de3ece0154a51b056ab0dc36bb26d97a68cd0b8707327ecd3c182fb6ac63b26a0fcdfa85064419906a1065cb634f1f9dc08ad311375f1fc0
+  languageName: node
+  linkType: hard
+
+"dotenv@npm:16.0.1":
+  version: 16.0.1
+  resolution: "dotenv@npm:16.0.1"
+  checksum: f459ffce07b977b7f15d8cc4ee69cdff77d4dd8c5dc8c85d2d485ee84655352c2415f9dd09d42b5b5985ced3be186130871b34e2f3e2569ebc72fbc2e8096792
   languageName: node
   linkType: hard
 
@@ -9698,7 +9787,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.14, lodash@npm:^4.17.20, lodash@npm:^4.17.21":
+"lodash@npm:4.17.21, lodash@npm:^4.17.14, lodash@npm:^4.17.20, lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7
@@ -12834,7 +12923,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "stelllar@workspace:."
   dependencies:
+    "@hapi/joi": ^17.1.1
     "@nestjs/common": ^9.0.0
+    "@nestjs/config": ^2.2.0
     "@nestjs/core": ^9.0.0
     "@nestjs/platform-express": ^9.0.0
     "@nestjs/schematics": ^9.0.0
@@ -12853,6 +12944,7 @@ __metadata:
     "@nrwl/web": 15.0.4
     "@nrwl/workspace": 15.0.4
     "@testing-library/react": 13.4.0
+    "@types/hapi__joi": ^17.1.8
     "@types/jest": 28.1.1
     "@types/node": 18.7.18
     "@types/react": 18.0.20
@@ -13828,21 +13920,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"uuid@npm:8.3.2, uuid@npm:^8.3.2":
+  version: 8.3.2
+  resolution: "uuid@npm:8.3.2"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 5575a8a75c13120e2f10e6ddc801b2c7ed7d8f3c8ac22c7ed0c7b2ba6383ec0abda88c905085d630e251719e0777045ae3236f04c812184b7c765f63a70e58df
+  languageName: node
+  linkType: hard
+
 "uuid@npm:9.0.0":
   version: 9.0.0
   resolution: "uuid@npm:9.0.0"
   bin:
     uuid: dist/bin/uuid
   checksum: 8dd2c83c43ddc7e1c71e36b60aea40030a6505139af6bee0f382ebcd1a56f6cd3028f7f06ffb07f8cf6ced320b76aea275284b224b002b289f89fe89c389b028
-  languageName: node
-  linkType: hard
-
-"uuid@npm:^8.3.2":
-  version: 8.3.2
-  resolution: "uuid@npm:8.3.2"
-  bin:
-    uuid: dist/bin/uuid
-  checksum: 5575a8a75c13120e2f10e6ddc801b2c7ed7d8f3c8ac22c7ed0c7b2ba6383ec0abda88c905085d630e251719e0777045ae3236f04c812184b7c765f63a70e58df
   languageName: node
   linkType: hard
 
