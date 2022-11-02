@@ -2,6 +2,46 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Group implements BaseEntity {
+  id: ID!
+  createdAt: DateTime!
+  users: [User!]!
+}
+
+interface BaseEntity {
+  id: ID!
+  createdAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Folder implements BaseEntity {
+  id: ID!
+  createdAt: DateTime!
+  name: String!
+  description: String
+  avatarUrl: String
+  owner: User
+  postCount: NonNegativeInt!
+  followerCount: NonNegativeInt!
+  isFollowing: Boolean!
+  isCollaborative: Boolean!
+  visibility: FolderVisibility!
+}
+
+"""Integers that will have a value of 0 or more."""
+scalar NonNegativeInt
+
+enum FolderVisibility {
+  Public
+  Friends
+  Private
+  Unlisted
+}
+
 type User implements BaseEntity {
   id: ID!
   createdAt: DateTime!
@@ -14,7 +54,9 @@ type User implements BaseEntity {
   isAdmin: Boolean!
   color: Color!
   isCurrentUser: Boolean!
+  groups: [Group!]!
   relatedUsers: [User!]!
+  folders: [Folder!]!
   unreadCount: NonNegativeInt!
   showChat: Boolean!
   relationshipStatus: RelationshipStatus!
@@ -22,16 +64,6 @@ type User implements BaseEntity {
   isStaff: Boolean!
   isOnline: Boolean!
 }
-
-interface BaseEntity {
-  id: ID!
-  createdAt: DateTime!
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 """
 A field whose value conforms to the standard internet email address format as specified in RFC822: https://www.w3.org/Protocols/rfc822/.
@@ -54,9 +86,6 @@ enum Color {
   Purple
   Pink
 }
-
-"""Integers that will have a value of 0 or more."""
-scalar NonNegativeInt
 
 enum RelationshipStatus {
   None

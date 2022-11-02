@@ -4,6 +4,7 @@ import { Entity, Enum, ManyToOne, Property } from '@mikro-orm/core';
 import { User } from '../../user/entity/user.entity';
 import { GraphQLNonNegativeInt } from 'graphql-scalars';
 import { FolderVisibility } from './folder-visibility.enum';
+import { GraphQLBoolean } from 'graphql/type';
 
 @ObjectType({ implements: BaseEntity })
 @Entity()
@@ -38,7 +39,7 @@ export class Folder extends BaseEntity {
   @Field()
   isFollowing: boolean;
 
-  @Field()
+  @Field(() => GraphQLBoolean)
   @Property({ columnType: 'boolean' })
   isCollaborative = false;
 

@@ -20,6 +20,7 @@ import { UserFolder } from '../../folder/entity/user-folder.entity';
 import { ServerUser } from '../../server/entity/server-user.entity';
 import { GroupUser } from '../../group/entity/group-user.entity';
 import { Group } from '../../group/entity/group.entity';
+import { Folder } from '../../folder/entity/folder.entity';
 
 @ObjectType({ implements: BaseEntity })
 @Entity()
@@ -94,6 +95,9 @@ export class User extends BaseEntity {
 
   @Field(() => [User])
   relatedUsers: User[];
+
+  @Field(() => [Folder])
+  folders: Folder[];
 
   @Field(() => GraphQLNonNegativeInt)
   unreadCount: number;
