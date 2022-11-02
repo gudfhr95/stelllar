@@ -2,24 +2,18 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User implements BaseEntity {
+type Folder implements BaseEntity {
   id: ID!
   createdAt: DateTime!
-  username: String!
-  email: EmailAddress
-  lastLoginAt: DateTime
-  lastMessageAt: DateTime
+  name: String!
+  description: String
   avatarUrl: String
-  onlineStatus: OnlineStatus!
-  isAdmin: Boolean!
-  isCurrentUser: Boolean!
-  relatedUsers: [User!]!
-  unreadCount: NonNegativeInt!
-  showChat: Boolean!
-  relationshipStatus: RelationshipStatus!
-  isOg: Boolean!
-  isStaff: Boolean!
-  isOnline: Boolean!
+  owner: User
+  postCount: NonNegativeInt!
+  followerCount: NonNegativeInt!
+  isFollowing: Boolean!
+  isCollaborative: Boolean!
+  visibility: FolderVisibility!
 }
 
 interface BaseEntity {
@@ -31,6 +25,128 @@ interface BaseEntity {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+"""Integers that will have a value of 0 or more."""
+scalar NonNegativeInt
+
+enum FolderVisibility {
+  Public
+  Friends
+  Private
+  Unlisted
+}
+
+type Channel implements BaseEntity {
+  id: ID!
+  createdAt: DateTime!
+  server: Server!
+}
+
+type Server implements BaseEntity {
+  id: ID!
+  createdAt: DateTime!
+  name: String!
+  displayName: String!
+  description: String
+  owner: User!
+  roles: [Role!]!
+  folders: [Folder!]!
+  category: ServerCategory!
+  userCount: NonNegativeInt!
+  onlineCount: NonNegativeInt!
+  avatarUrl: String
+  bannerUrl: String
+  isBanned: Boolean!
+  isDeleted: Boolean!
+  isPublic: Boolean!
+  isChatEnabled: Boolean!
+  isDownvotesEnabled: Boolean!
+  channels: [Channel!]!
+  permissions: [ServerPermission!]!
+  isFeatured: Boolean!
+  isJoined: Boolean!
+}
+
+enum ServerCategory {
+  Arts
+  Business
+  Culture
+  Discussion
+  Entertainment
+  Gaming
+  Health
+  Hobbies
+  Lifestyle
+  Memes
+  Meta
+  News
+  Politics
+  Programming
+  Science
+  Sports
+  Technology
+  Other
+}
+
+enum ServerPermission {
+  ManageChannels
+  PrivateChannels
+  RestrictedChannels
+  ManageServer
+  ManageUsers
+  SendMessages
+  ManageMessages
+  ManagePosts
+  ManageComments
+  ManageFolders
+  AddPostToFolder
+  DisplayRoleSeparately
+  Admin
+}
+
+type Role implements BaseEntity {
+  id: ID!
+  createdAt: DateTime!
+  name: String!
+  isDefault: Boolean!
+  color: HexColorCode
+  permissions: [ServerPermission!]!
+}
+
+"""
+A field whose value is a hex color code: https://en.wikipedia.org/wiki/Web_colors.
+"""
+scalar HexColorCode @specifiedBy(url: "https://en.wikipedia.org/wiki/Web_colors")
+
+type Group implements BaseEntity {
+  id: ID!
+  createdAt: DateTime!
+  users: [User!]!
+}
+
+type User implements BaseEntity {
+  id: ID!
+  createdAt: DateTime!
+  username: String!
+  email: EmailAddress
+  lastLoginAt: DateTime
+  lastMessageAt: DateTime
+  avatarUrl: String
+  onlineStatus: OnlineStatus!
+  isAdmin: Boolean!
+  color: Color!
+  isCurrentUser: Boolean!
+  groups: [Group!]!
+  relatedUsers: [User!]!
+  folders: [Folder!]!
+  servers: [Server!]!
+  unreadCount: NonNegativeInt!
+  showChat: Boolean!
+  relationshipStatus: RelationshipStatus!
+  isOg: Boolean!
+  isStaff: Boolean!
+  isOnline: Boolean!
+}
 
 """
 A field whose value conforms to the standard internet email address format as specified in RFC822: https://www.w3.org/Protocols/rfc822/.
@@ -44,8 +160,15 @@ enum OnlineStatus {
   Offline
 }
 
-"""Integers that will have a value of 0 or more."""
-scalar NonNegativeInt
+enum Color {
+  Red
+  Yellow
+  Green
+  Blue
+  Indigo
+  Purple
+  Pink
+}
 
 enum RelationshipStatus {
   None

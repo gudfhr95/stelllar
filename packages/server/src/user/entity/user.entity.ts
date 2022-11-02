@@ -1,4 +1,12 @@
-import { Collection, Entity, Enum, OneToMany, Property } from '@mikro-orm/core';
+import {
+  Collection,
+  Entity,
+  Enum,
+  ManyToMany,
+  OneToMany,
+  Property,
+  QueryOrder,
+} from '@mikro-orm/core';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { BaseEntity } from '../../common/entity/base.entity';
 import { GraphQLEmailAddress, GraphQLNonNegativeInt } from 'graphql-scalars';
@@ -6,6 +14,14 @@ import { GraphQLBoolean } from 'graphql/type';
 import { OnlineStatus } from './online-status.enum';
 import { Relationship } from './relationship.entity';
 import { RelationshipStatus } from './relationship-status.enum';
+import { Color } from '../../common/entity/color.enum';
+import { randomEnum } from '../../common/util/random-enum';
+import { UserFolder } from '../../folder/entity/user-folder.entity';
+import { ServerUser } from '../../server/entity/server-user.entity';
+import { GroupUser } from '../../group/entity/group-user.entity';
+import { Group } from '../../group/entity/group.entity';
+import { Folder } from '../../folder/entity/folder.entity';
+import { Server } from '../../server/entity/server.entity';
 
 @ObjectType({ implements: BaseEntity })
 @Entity()
@@ -30,14 +46,16 @@ export class User extends BaseEntity {
   avatarUrl?: string;
 
   @Field(() => OnlineStatus)
-  @Enum({
-    items: () => OnlineStatus,
-  })
+  @Enum({ items: () => OnlineStatus })
   onlineStatus: OnlineStatus = OnlineStatus.Online;
 
   @Field(() => GraphQLBoolean)
   @Property({ columnType: 'boolean' })
   isAdmin = false;
+
+  @Field(() => Color)
+  @Enum({ items: () => Color })
+  color: Color = randomEnum(Color);
 
   @Field()
   isCurrentUser: boolean;
@@ -54,11 +72,36 @@ export class User extends BaseEntity {
   @Property({ nullable: true, columnType: 'text' })
   banReason?: string;
 
+  @OneToMany(() => UserFolder, 'user', {
+    orderBy: { position: QueryOrder.ASC },
+  })
+  userFolders = new Collection<UserFolder>(this);
+
+  @OneToMany(() => ServerUser, 'user', {
+    orderBy: { position: QueryOrder.ASC },
+  })
+  serverUsers = new Collection<ServerUser>(this);
+
+  @OneToMany(() => GroupUser, 'user', {
+    orderBy: { lastMessageAt: QueryOrder.DESC },
+  })
+  groupUsers = new Collection<GroupUser>(this);
+
+  @Field(() => [Group])
+  @ManyToMany(() => Group, 'users')
+  groups: Group[];
+
   @OneToMany(() => Relationship, 'owner')
   relationships = new Collection<Relationship>(this);
 
   @Field(() => [User])
   relatedUsers: User[];
+
+  @Field(() => [Folder])
+  folders: Folder[];
+
+  @Field(() => [Server])
+  servers: Server[];
 
   @Field(() => GraphQLNonNegativeInt)
   unreadCount: number;

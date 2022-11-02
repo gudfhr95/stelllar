@@ -5,6 +5,11 @@ import * as Joi from '@hapi/joi';
 import { UserModule } from './user/user.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
+import { FolderModule } from './folder/folder.module';
+import { ServerModule } from './server/server.module';
+import { GroupModule } from './group/group.module';
+import { PostModule } from './post/post.module';
+import { ChannelModule } from './channel/channel.module';
 
 @Module({
   imports: [
@@ -25,6 +30,11 @@ import { ApolloDriver } from '@nestjs/apollo';
       autoSchemaFile: 'packages/server/src/schema.gql',
     }),
     UserModule,
+    FolderModule,
+    ServerModule,
+    GroupModule,
+    PostModule,
+    ChannelModule,
   ],
   controllers: [],
   providers: [],

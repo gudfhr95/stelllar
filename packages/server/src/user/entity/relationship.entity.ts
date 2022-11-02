@@ -28,9 +28,7 @@ export class Relationship {
   @Property({ columnType: 'boolean' })
   showChat = false;
 
-  @Enum({
-    items: () => RelationshipStatus,
-  })
+  @Enum({ items: () => RelationshipStatus })
   status: RelationshipStatus = RelationshipStatus.None;
 
   @Property()

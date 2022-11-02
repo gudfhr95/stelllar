@@ -11318,6 +11318,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mudder@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "mudder@npm:2.1.0"
+  checksum: d15bb3daa353a4c362911b04525a5879d6075bc7be5e5b81f528275598c4edb33a674b346834372dfbc1d7214fd15314b38a7f91ba0f7d58e0c64530df7c3840
+  languageName: node
+  linkType: hard
+
 "multer@npm:1.4.4-lts.1":
   version: 1.4.4-lts.1
   resolution: "multer@npm:1.4.4-lts.1"
@@ -14244,6 +14251,7 @@ __metadata:
     graphql-scalars: ^1.20.0
     jest: 28.1.1
     jest-environment-jsdom: 28.1.1
+    mudder: ^2.1.0
     next: 13.0.0
     nx: 15.0.4
     prettier: ^2.6.2
