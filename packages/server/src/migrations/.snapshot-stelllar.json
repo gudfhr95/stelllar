@@ -1116,15 +1116,6 @@
     },
     {
       "columns": {
-        "user_id": {
-          "name": "user_id",
-          "type": "bigint",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "bigint"
-        },
         "post_id": {
           "name": "post_id",
           "type": "bigint",
@@ -1133,31 +1124,6 @@
           "primary": false,
           "nullable": false,
           "mappedType": "bigint"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamptz(0)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 6,
-          "mappedType": "datetime"
-        },
-        "type": {
-          "name": "type",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "default": "'None'",
-          "enumItems": [
-            "Up",
-            "None",
-            "Down"
-          ],
-          "mappedType": "enum"
         }
       },
       "name": "post_vote",
@@ -1166,28 +1132,15 @@
         {
           "keyName": "post_vote_pkey",
           "columnNames": [
-            "user_id",
             "post_id"
           ],
-          "composite": true,
+          "composite": false,
           "primary": true,
           "unique": true
         }
       ],
       "checks": [],
       "foreignKeys": {
-        "post_vote_user_id_foreign": {
-          "constraintName": "post_vote_user_id_foreign",
-          "columnNames": [
-            "user_id"
-          ],
-          "localTableName": "public.post_vote",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.user",
-          "updateRule": "cascade"
-        },
         "post_vote_post_id_foreign": {
           "constraintName": "post_vote_post_id_foreign",
           "columnNames": [
@@ -1198,6 +1151,7 @@
             "id"
           ],
           "referencedTableName": "public.post",
+          "deleteRule": "cascade",
           "updateRule": "cascade"
         }
       }

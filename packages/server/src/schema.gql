@@ -2,6 +2,43 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Image {
+  originalUrl: String!
+  originalWidth: PositiveInt!
+  originalHeight: PositiveInt!
+  smallUrl: String
+  popupUrl: String
+}
+
+"""Integers that will have a value greater than 0."""
+scalar PositiveInt
+
+type LinkMetadata {
+  title: String
+  description: String
+  date: DateTime
+  author: String
+  publisher: String
+  imageUrl: String
+  image: Image
+  logoUrl: String
+  logo: Image
+  url: String
+  twitterCard: String
+  themeColor: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type PostImage {
+  image: Image!
+  linkUrl: String
+  caption: String
+}
+
 type Folder implements BaseEntity {
   id: ID!
   createdAt: DateTime!
@@ -21,11 +58,6 @@ interface BaseEntity {
   createdAt: DateTime!
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 """Integers that will have a value of 0 or more."""
 scalar NonNegativeInt
 
@@ -34,6 +66,34 @@ enum FolderVisibility {
   Friends
   Private
   Unlisted
+}
+
+type Post implements BaseEntity {
+  id: ID!
+  createdAt: DateTime!
+  title: String!
+  text: String
+  linkUrl: String
+  linkMetadata: LinkMetadata
+  linkMetadatas: [LinkMetadata!]!
+  images: [PostImage!]!
+  author: User
+  serverUser: ServerUser
+  isPinned: Boolean!
+  pinnedAt: DateTime
+  server: Server!
+  folders: [Folder!]
+  voteCount: Int!
+  voteType: VoteType!
+  commentCount: NonNegativeInt!
+  updatedAt: DateTime
+  isDeleted: Boolean!
+}
+
+enum VoteType {
+  Up
+  None
+  Down
 }
 
 type Channel implements BaseEntity {
@@ -117,6 +177,11 @@ type Role implements BaseEntity {
 A field whose value is a hex color code: https://en.wikipedia.org/wiki/Web_colors.
 """
 scalar HexColorCode @specifiedBy(url: "https://en.wikipedia.org/wiki/Web_colors")
+
+type ServerUser {
+  user: User!
+  role: Role!
+}
 
 type Group implements BaseEntity {
   id: ID!
