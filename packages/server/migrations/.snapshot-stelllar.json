@@ -24,6 +24,44 @@
           "nullable": false,
           "length": 6,
           "mappedType": "datetime"
+        }
+      },
+      "name": "group",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "group_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint",
+          "unsigned": true,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "bigint"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz(0)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
         },
         "username": {
           "name": "username",
@@ -95,6 +133,7 @@
           "autoincrement": false,
           "primary": false,
           "nullable": false,
+          "default": "'Purple'",
           "enumItems": [
             "Red",
             "Yellow",
@@ -370,6 +409,113 @@
             "id"
           ],
           "referencedTableName": "public.user",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "bigint"
+        }
+      },
+      "name": "group_user",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "group_user_pkey",
+          "columnNames": [
+            "user_id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "group_user_user_id_foreign": {
+          "constraintName": "group_user_user_id_foreign",
+          "columnNames": [
+            "user_id"
+          ],
+          "localTableName": "public.group_user",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.user",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "group_id": {
+          "name": "group_id",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "bigint"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "bigint"
+        }
+      },
+      "name": "group_users",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "group_users_pkey",
+          "columnNames": [
+            "group_id",
+            "user_id"
+          ],
+          "composite": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "group_users_group_id_foreign": {
+          "constraintName": "group_users_group_id_foreign",
+          "columnNames": [
+            "group_id"
+          ],
+          "localTableName": "public.group_users",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.group",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "group_users_user_id_foreign": {
+          "constraintName": "group_users_user_id_foreign",
+          "columnNames": [
+            "user_id"
+          ],
+          "localTableName": "public.group_users",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.user",
+          "deleteRule": "cascade",
           "updateRule": "cascade"
         }
       }

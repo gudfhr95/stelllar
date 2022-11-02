@@ -2,6 +2,7 @@ import {
   Collection,
   Entity,
   Enum,
+  ManyToMany,
   OneToMany,
   Property,
   QueryOrder,
@@ -18,6 +19,7 @@ import { randomEnum } from '../../common/util/random-enum';
 import { UserFolder } from '../../folder/entity/user-folder.entity';
 import { ServerUser } from '../../server/entity/server-user.entity';
 import { GroupUser } from '../../group/entity/group-user.entity';
+import { Group } from '../../group/entity/group.entity';
 
 @ObjectType({ implements: BaseEntity })
 @Entity()
@@ -82,6 +84,10 @@ export class User extends BaseEntity {
     orderBy: { lastMessageAt: QueryOrder.DESC },
   })
   groupUsers = new Collection<GroupUser>(this);
+
+  @Field(() => [Group])
+  @ManyToMany(() => Group, 'users')
+  groups: Group[];
 
   @OneToMany(() => Relationship, 'owner')
   relationships = new Collection<Relationship>(this);
