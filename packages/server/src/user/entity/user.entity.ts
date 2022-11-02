@@ -1,9 +1,10 @@
-import { Entity, Enum, Property } from '@mikro-orm/core';
+import { Collection, Entity, Enum, OneToMany, Property } from '@mikro-orm/core';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { BaseEntity } from '../../common/entity/base.entity';
 import { GraphQLEmailAddress, GraphQLNonNegativeInt } from 'graphql-scalars';
 import { GraphQLBoolean } from 'graphql/type';
 import { OnlineStatus } from './online-status.enum';
+import { Relationship } from './relationship.entity';
 
 @ObjectType({ implements: BaseEntity })
 @Entity()
@@ -51,6 +52,9 @@ export class User extends BaseEntity {
 
   @Property({ nullable: true, columnType: 'text' })
   banReason?: string;
+
+  @OneToMany(() => Relationship, 'owner')
+  relationships = new Collection<Relationship>(this);
 
   @Field(() => [User])
   relatedUsers: User[];

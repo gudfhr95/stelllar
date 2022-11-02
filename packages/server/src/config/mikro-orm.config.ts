@@ -1,11 +1,12 @@
 import { Options } from '@mikro-orm/core';
 import { ConfigService } from '@nestjs/config';
 import { User } from '../user/entity/user.entity';
+import { Relationship } from '../user/entity/relationship.entity';
 
 const configService = new ConfigService();
 
 const MikroOrmConfig: Options = {
-  entities: [User],
+  entities: [User, Relationship],
   type: 'postgresql',
   host: configService.get('POSTGRES_HOST'),
   port: configService.get('POSTGRES_PORT'),
