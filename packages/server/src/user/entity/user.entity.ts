@@ -1,4 +1,11 @@
-import { Collection, Entity, Enum, OneToMany, Property } from '@mikro-orm/core';
+import {
+  Collection,
+  Entity,
+  Enum,
+  OneToMany,
+  Property,
+  QueryOrder,
+} from '@mikro-orm/core';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { BaseEntity } from '../../common/entity/base.entity';
 import { GraphQLEmailAddress, GraphQLNonNegativeInt } from 'graphql-scalars';
@@ -8,6 +15,7 @@ import { Relationship } from './relationship.entity';
 import { RelationshipStatus } from './relationship-status.enum';
 import { Color } from '../../common/entity/color.enum';
 import { randomEnum } from '../../common/util/random-enum';
+import { UserFolder } from '../../folder/entity/user-folder.entity';
 
 @ObjectType({ implements: BaseEntity })
 @Entity()
@@ -57,6 +65,11 @@ export class User extends BaseEntity {
 
   @Property({ nullable: true, columnType: 'text' })
   banReason?: string;
+
+  @OneToMany(() => UserFolder, 'user', {
+    orderBy: { position: QueryOrder.ASC },
+  })
+  userFolders = new Collection<UserFolder>(this);
 
   @OneToMany(() => Relationship, 'owner')
   relationships = new Collection<Relationship>(this);
