@@ -17,6 +17,7 @@ import { Color } from '../../common/entity/color.enum';
 import { randomEnum } from '../../common/util/random-enum';
 import { UserFolder } from '../../folder/entity/user-folder.entity';
 import { ServerUser } from '../../server/entity/server-user.entity';
+import { GroupUser } from '../../group/entity/group-user.entity';
 
 @ObjectType({ implements: BaseEntity })
 @Entity()
@@ -76,6 +77,11 @@ export class User extends BaseEntity {
     orderBy: { position: QueryOrder.ASC },
   })
   serverUsers = new Collection<ServerUser>(this);
+
+  @OneToMany(() => GroupUser, 'user', {
+    orderBy: { lastMessageAt: QueryOrder.DESC },
+  })
+  groupUsers = new Collection<GroupUser>(this);
 
   @OneToMany(() => Relationship, 'owner')
   relationships = new Collection<Relationship>(this);

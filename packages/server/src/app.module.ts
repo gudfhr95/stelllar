@@ -7,6 +7,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
 import { FolderModule } from './folder/folder.module';
 import { ServerModule } from './server/server.module';
+import { GroupModule } from './group/group.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ServerModule } from './server/server.module';
     UserModule,
     FolderModule,
     ServerModule,
+    GroupModule,
   ],
   controllers: [],
   providers: [],
