@@ -10,6 +10,7 @@ import { ServerModule } from './server/server.module';
 import { GroupModule } from './group/group.module';
 import { PostModule } from './post/post.module';
 import { ChannelModule } from './channel/channel.module';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { ChannelModule } from './channel/channel.module';
     GroupModule,
     PostModule,
     ChannelModule,
+    CommentModule,
   ],
   controllers: [],
   providers: [],
