@@ -104,6 +104,14 @@
         "command": "yarn exec mikro-orm migration:pending",
         "forwardAllArgs": "true"
       }
+    },
+    "migration:fresh": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/server",
+        "command": "yarn exec mikro-orm migration:fresh",
+        "forwardAllArgs": "true"
+      }
     }
   },
   "tags": []

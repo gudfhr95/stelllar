@@ -1,0 +1,43 @@
+import { Field, ObjectType } from '@nestjs/graphql';
+import { BaseEntity } from '../../common/entity/base.entity';
+import { Entity, ManyToOne, Property } from '@mikro-orm/core';
+import { User } from '../../user/entity/user.entity';
+import { GraphQLNonNegativeInt } from 'graphql-scalars';
+
+@ObjectType({ implements: BaseEntity })
+@Entity()
+export class Folder extends BaseEntity {
+  @Field()
+  @Property({ columnType: 'text' })
+  name: string;
+
+  @Field({ nullable: true })
+  @Property({ nullable: true, columnType: 'text' })
+  description?: string;
+
+  @Field({ nullable: true })
+  @Property({ nullable: true, columnType: 'text' })
+  avatarUrl?: string;
+
+  @Field(() => User, { nullable: true })
+  @ManyToOne(() => User, { nullable: true })
+  owner?: User;
+
+  @Property({ columnType: 'boolean' })
+  isDeleted = false;
+
+  @Field(() => GraphQLNonNegativeInt)
+  @Property({ columnType: 'int', unsigned: true })
+  postCount = 0;
+
+  @Field(() => GraphQLNonNegativeInt)
+  @Property({ columnType: 'int' })
+  followerCount = 0;
+
+  @Field()
+  isFollowing: boolean;
+
+  @Field()
+  @Property({ columnType: 'boolean' })
+  isCollaborative = false;
+}

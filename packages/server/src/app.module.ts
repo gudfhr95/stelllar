@@ -5,6 +5,7 @@ import * as Joi from '@hapi/joi';
 import { UserModule } from './user/user.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
+import { FolderModule } from './folder/folder.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { ApolloDriver } from '@nestjs/apollo';
       autoSchemaFile: 'packages/server/src/schema.gql',
     }),
     UserModule,
+    FolderModule,
   ],
   controllers: [],
   providers: [],
