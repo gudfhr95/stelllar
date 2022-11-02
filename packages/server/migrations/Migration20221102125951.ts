@@ -1,17 +1,23 @@
 import { Migration } from '@mikro-orm/migrations';
 
-export class Migration20221102123203 extends Migration {
+export class Migration20221102125951 extends Migration {
 
   async up(): Promise<void> {
     this.addSql('create table "group" ("id" bigserial primary key, "created_at" timestamptz(0) not null);');
 
-    this.addSql('create table "server" ("id" bigserial primary key, "created_at" timestamptz(0) not null);');
+    this.addSql('create table "user" ("id" bigserial primary key, "created_at" timestamptz(0) not null, "username" text not null, "email" text null, "last_login_at" timestamptz(0) null, "avatar_url" text null, "online_status" text check ("online_status" in (\'Online\', \'Away\', \'DoNotDisturb\', \'Offline\')) not null default \'Online\', "is_admin" boolean not null default false, "color" text check ("color" in (\'Red\', \'Yellow\', \'Green\', \'Blue\', \'Indigo\', \'Purple\', \'Pink\')) not null, "password_hash" text not null, "is_deleted" boolean not null default false, "is_banned" boolean not null default false, "ban_reason" text null, "is_og" boolean not null default false, "is_staff" boolean not null default false);');
+
+    this.addSql('create table "server" ("id" bigserial primary key, "created_at" timestamptz(0) not null, "name" text not null, "display_name" text not null, "description" text null, "owner_id" bigint not null, "category" text check ("category" in (\'Arts\', \'Business\', \'Culture\', \'Discussion\', \'Entertainment\', \'Gaming\', \'Health\', \'Hobbies\', \'Lifestyle\', \'Memes\', \'Meta\', \'News\', \'Politics\', \'Programming\', \'Science\', \'Sports\', \'Technology\', \'Other\')) not null default \'Other\', "user_count" int not null default 0, "avatar_url" text null, "banner_url" text null, "is_banned" boolean not null default false, "is_deleted" boolean not null default false, "is_public" boolean not null default true, "is_chat_enabled" boolean not null default true, "is_downvotes_enabled" boolean not null default false, "is_featured" boolean not null default false);');
+
+    this.addSql('create table "server_folder" ("server_id" bigint not null, "position" text not null default \'U\', constraint "server_folder_pkey" primary key ("server_id"));');
 
     this.addSql('create table "role" ("id" bigserial primary key, "created_at" timestamptz(0) not null, "name" text not null, "server_id" bigint not null, "is_default" boolean not null default false, "color" varchar(255) null, "permissions" text[] not null default \'{SendMessages}\');');
 
-    this.addSql('create table "user" ("id" bigserial primary key, "created_at" timestamptz(0) not null, "username" text not null, "email" text null, "last_login_at" timestamptz(0) null, "avatar_url" text null, "online_status" text check ("online_status" in (\'Online\', \'Away\', \'DoNotDisturb\', \'Offline\')) not null default \'Online\', "is_admin" boolean not null default false, "color" text check ("color" in (\'Red\', \'Yellow\', \'Green\', \'Blue\', \'Indigo\', \'Purple\', \'Pink\')) not null, "password_hash" text not null, "is_deleted" boolean not null default false, "is_banned" boolean not null default false, "ban_reason" text null, "is_og" boolean not null default false, "is_staff" boolean not null default false);');
+    this.addSql('create table "server_user" ("user_id" bigint not null, "server_id" bigint not null, "position" text not null default \'U\', "role_id" bigint not null, constraint "server_user_pkey" primary key ("user_id", "server_id"));');
 
-    this.addSql('create table "server_user" ("user_id" bigint not null, "position" text not null default \'U\', "role_id" bigint not null, constraint "server_user_pkey" primary key ("user_id"));');
+    this.addSql('create table "post" ("id" bigserial primary key, "created_at" timestamptz(0) not null, "server_id" bigint not null);');
+
+    this.addSql('create table "channel" ("id" bigserial primary key, "created_at" timestamptz(0) not null, "server_id" bigint not null, "position" text not null default \'U\');');
 
     this.addSql('create table "relationship" ("owner_id" bigint not null, "user_id" bigint not null, "created_at" timestamptz(0) not null, "show_chat" boolean not null default false, "status" text check ("status" in (\'None\', \'FriendRequestOutgoing\', \'FriendRequestIncoming\', \'Friends\', \'Blocking\', \'Blocked\')) not null default \'None\', "last_view_at" timestamptz(0) not null, "last_message_at" timestamptz(0) not null, "updated_at" timestamptz(0) not null, "unread_count" int not null default 0, constraint "relationship_pkey" primary key ("owner_id", "user_id"));');
 
@@ -23,10 +29,19 @@ export class Migration20221102123203 extends Migration {
 
     this.addSql('create table "user_folder" ("user_id" bigint not null, "position" text not null default \'U\', constraint "user_folder_pkey" primary key ("user_id"));');
 
+    this.addSql('alter table "server" add constraint "server_owner_id_foreign" foreign key ("owner_id") references "user" ("id") on update cascade;');
+
+    this.addSql('alter table "server_folder" add constraint "server_folder_server_id_foreign" foreign key ("server_id") references "server" ("id") on update cascade on delete cascade;');
+
     this.addSql('alter table "role" add constraint "role_server_id_foreign" foreign key ("server_id") references "server" ("id") on update cascade;');
 
-    this.addSql('alter table "server_user" add constraint "server_user_user_id_foreign" foreign key ("user_id") references "user" ("id") on update cascade on delete cascade;');
+    this.addSql('alter table "server_user" add constraint "server_user_user_id_foreign" foreign key ("user_id") references "user" ("id") on update cascade;');
+    this.addSql('alter table "server_user" add constraint "server_user_server_id_foreign" foreign key ("server_id") references "server" ("id") on update cascade;');
     this.addSql('alter table "server_user" add constraint "server_user_role_id_foreign" foreign key ("role_id") references "role" ("id") on update cascade;');
+
+    this.addSql('alter table "post" add constraint "post_server_id_foreign" foreign key ("server_id") references "server" ("id") on update cascade;');
+
+    this.addSql('alter table "channel" add constraint "channel_server_id_foreign" foreign key ("server_id") references "server" ("id") on update cascade;');
 
     this.addSql('alter table "relationship" add constraint "relationship_owner_id_foreign" foreign key ("owner_id") references "user" ("id") on update cascade;');
     this.addSql('alter table "relationship" add constraint "relationship_user_id_foreign" foreign key ("user_id") references "user" ("id") on update cascade;');

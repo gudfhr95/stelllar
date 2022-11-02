@@ -8,6 +8,8 @@ import { ApolloDriver } from '@nestjs/apollo';
 import { FolderModule } from './folder/folder.module';
 import { ServerModule } from './server/server.module';
 import { GroupModule } from './group/group.module';
+import { PostModule } from './post/post.module';
+import { ChannelModule } from './channel/channel.module';
 
 @Module({
   imports: [
@@ -31,6 +33,8 @@ import { GroupModule } from './group/group.module';
     FolderModule,
     ServerModule,
     GroupModule,
+    PostModule,
+    ChannelModule,
   ],
   controllers: [],
   providers: [],
