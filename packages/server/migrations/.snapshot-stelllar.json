@@ -133,7 +133,6 @@
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "default": "'Purple'",
           "enumItems": [
             "Red",
             "Yellow",
@@ -423,6 +422,16 @@
           "primary": false,
           "nullable": false,
           "mappedType": "bigint"
+        },
+        "last_message_at": {
+          "name": "last_message_at",
+          "type": "timestamptz(0)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
         }
       },
       "name": "group_user",
