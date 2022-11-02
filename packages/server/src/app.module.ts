@@ -3,6 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import * as Joi from '@hapi/joi';
 import { UserModule } from './user/user.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver } from '@nestjs/apollo';
 
 @Module({
   imports: [
@@ -17,6 +19,11 @@ import { UserModule } from './user/user.module';
       }),
     }),
     DatabaseModule,
+    GraphQLModule.forRoot({
+      driver: ApolloDriver,
+      playground: true,
+      autoSchemaFile: 'packages/server/src/schema.gql',
+    }),
     UserModule,
   ],
   controllers: [],
