@@ -80,6 +80,30 @@
         "command": "yarn exec mikro-orm migration:up",
         "forwardAllArgs": "true"
       }
+    },
+    "migration:down": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/server",
+        "command": "yarn exec mikro-orm migration:down",
+        "forwardAllArgs": "true"
+      }
+    },
+    "migration:list": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/server",
+        "command": "yarn exec mikro-orm migration:list",
+        "forwardAllArgs": "true"
+      }
+    },
+    "migration:pending": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/server",
+        "command": "yarn exec mikro-orm migration:pending",
+        "forwardAllArgs": "true"
+      }
     }
   },
   "tags": []
