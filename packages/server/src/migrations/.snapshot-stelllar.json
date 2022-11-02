@@ -62,6 +62,157 @@
           "nullable": false,
           "length": 6,
           "mappedType": "datetime"
+        }
+      },
+      "name": "server",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "server_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint",
+          "unsigned": true,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "bigint"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz(0)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "server_id": {
+          "name": "server_id",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "bigint"
+        },
+        "is_default": {
+          "name": "is_default",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "false",
+          "mappedType": "boolean"
+        },
+        "color": {
+          "name": "color",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "string"
+        },
+        "permissions": {
+          "name": "permissions",
+          "type": "text[]",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "'{SendMessages}'",
+          "enumItems": [
+            "ManageChannels",
+            "PrivateChannels",
+            "RestrictedChannels",
+            "ManageServer",
+            "ManageUsers",
+            "SendMessages",
+            "ManageMessages",
+            "ManagePosts",
+            "ManageComments",
+            "ManageFolders",
+            "AddPostToFolder",
+            "DisplayRoleSeparately",
+            "Admin"
+          ],
+          "mappedType": "array"
+        }
+      },
+      "name": "role",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "role_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "role_server_id_foreign": {
+          "constraintName": "role_server_id_foreign",
+          "columnNames": [
+            "server_id"
+          ],
+          "localTableName": "public.role",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.server",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint",
+          "unsigned": true,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "bigint"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz(0)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
         },
         "username": {
           "name": "username",
@@ -239,6 +390,15 @@
           "nullable": false,
           "default": "'U'",
           "mappedType": "text"
+        },
+        "role_id": {
+          "name": "role_id",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "bigint"
         }
       },
       "name": "server_user",
@@ -267,6 +427,18 @@
           ],
           "referencedTableName": "public.user",
           "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "server_user_role_id_foreign": {
+          "constraintName": "server_user_role_id_foreign",
+          "columnNames": [
+            "role_id"
+          ],
+          "localTableName": "public.server_user",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.role",
           "updateRule": "cascade"
         }
       }
