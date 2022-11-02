@@ -16,7 +16,7 @@ jobs:
         with:
           main-branch-name: develop
 
-      - run: yarn install --immutable --immutable-cache --check-cache
+      - run: yarn install
 
       - run: yarn exec nx workspace-lint
       - run: yarn exec nx format:check
