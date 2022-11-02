@@ -1,8 +1,9 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { BaseEntity } from '../../common/entity/base.entity';
-import { Entity, ManyToOne, Property } from '@mikro-orm/core';
+import { Entity, Enum, ManyToOne, Property } from '@mikro-orm/core';
 import { User } from '../../user/entity/user.entity';
 import { GraphQLNonNegativeInt } from 'graphql-scalars';
+import { FolderVisibility } from './folder-visibility.enum';
 
 @ObjectType({ implements: BaseEntity })
 @Entity()
@@ -40,4 +41,8 @@ export class Folder extends BaseEntity {
   @Field()
   @Property({ columnType: 'boolean' })
   isCollaborative = false;
+
+  @Field(() => FolderVisibility)
+  @Enum({ items: () => FolderVisibility })
+  visibility: FolderVisibility = FolderVisibility.Public;
 }
