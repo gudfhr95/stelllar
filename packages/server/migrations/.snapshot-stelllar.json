@@ -183,6 +183,58 @@
     },
     {
       "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "bigint"
+        },
+        "position": {
+          "name": "position",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "'U'",
+          "mappedType": "text"
+        }
+      },
+      "name": "server_user",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "server_user_pkey",
+          "columnNames": [
+            "user_id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "server_user_user_id_foreign": {
+          "constraintName": "server_user_user_id_foreign",
+          "columnNames": [
+            "user_id"
+          ],
+          "localTableName": "public.server_user",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.user",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
         "owner_id": {
           "name": "owner_id",
           "type": "bigint",

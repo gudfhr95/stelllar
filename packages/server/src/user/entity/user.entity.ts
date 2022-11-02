@@ -16,6 +16,7 @@ import { RelationshipStatus } from './relationship-status.enum';
 import { Color } from '../../common/entity/color.enum';
 import { randomEnum } from '../../common/util/random-enum';
 import { UserFolder } from '../../folder/entity/user-folder.entity';
+import { ServerUser } from '../../server/entity/server-user.entity';
 
 @ObjectType({ implements: BaseEntity })
 @Entity()
@@ -70,6 +71,11 @@ export class User extends BaseEntity {
     orderBy: { position: QueryOrder.ASC },
   })
   userFolders = new Collection<UserFolder>(this);
+
+  @OneToMany(() => ServerUser, 'user', {
+    orderBy: { position: QueryOrder.ASC },
+  })
+  serverUsers = new Collection<ServerUser>(this);
 
   @OneToMany(() => Relationship, 'owner')
   relationships = new Collection<Relationship>(this);
