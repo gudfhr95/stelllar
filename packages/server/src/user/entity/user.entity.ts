@@ -1,8 +1,9 @@
-import { Entity, Property } from '@mikro-orm/core';
+import { Entity, Enum, Property } from '@mikro-orm/core';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { BaseEntity } from '../../common/entity/base.entity';
 import { GraphQLEmailAddress, GraphQLNonNegativeInt } from 'graphql-scalars';
 import { GraphQLBoolean } from 'graphql/type';
+import { OnlineStatus } from './online-status.enum';
 
 @ObjectType({ implements: BaseEntity })
 @Entity()
@@ -25,6 +26,12 @@ export class User extends BaseEntity {
   @Field({ nullable: true })
   @Property({ nullable: true, columnType: 'text' })
   avatarUrl?: string;
+
+  @Field(() => OnlineStatus)
+  @Enum({
+    items: () => OnlineStatus,
+  })
+  onlineStatus: OnlineStatus = OnlineStatus.Online;
 
   @Field(() => GraphQLBoolean)
   @Property({ columnType: 'boolean' })

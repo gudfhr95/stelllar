@@ -10,6 +10,7 @@ type User implements BaseEntity {
   lastLoginAt: DateTime
   lastMessageAt: DateTime
   avatarUrl: String
+  onlineStatus: OnlineStatus!
   isAdmin: Boolean!
   isCurrentUser: Boolean!
   relatedUsers: [User!]!
@@ -33,6 +34,13 @@ scalar DateTime
 A field whose value conforms to the standard internet email address format as specified in RFC822: https://www.w3.org/Protocols/rfc822/.
 """
 scalar EmailAddress @specifiedBy(url: "https://www.w3.org/Protocols/rfc822/")
+
+enum OnlineStatus {
+  Online
+  Away
+  DoNotDisturb
+  Offline
+}
 
 """Integers that will have a value of 0 or more."""
 scalar NonNegativeInt
