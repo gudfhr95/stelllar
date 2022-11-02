@@ -6,6 +6,8 @@ import { GraphQLBoolean } from 'graphql/type';
 import { OnlineStatus } from './online-status.enum';
 import { Relationship } from './relationship.entity';
 import { RelationshipStatus } from './relationship-status.enum';
+import { Color } from '../../common/entity/color.enum';
+import { randomEnum } from '../../common/util/random-enum';
 
 @ObjectType({ implements: BaseEntity })
 @Entity()
@@ -30,14 +32,16 @@ export class User extends BaseEntity {
   avatarUrl?: string;
 
   @Field(() => OnlineStatus)
-  @Enum({
-    items: () => OnlineStatus,
-  })
+  @Enum({ items: () => OnlineStatus })
   onlineStatus: OnlineStatus = OnlineStatus.Online;
 
   @Field(() => GraphQLBoolean)
   @Property({ columnType: 'boolean' })
   isAdmin = false;
+
+  @Field(() => Color)
+  @Enum({ items: () => Color })
+  color: Color = randomEnum(Color);
 
   @Field()
   isCurrentUser: boolean;

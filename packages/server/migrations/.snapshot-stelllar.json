@@ -88,6 +88,24 @@
           "default": "false",
           "mappedType": "boolean"
         },
+        "color": {
+          "name": "color",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "enumItems": [
+            "Red",
+            "Yellow",
+            "Green",
+            "Blue",
+            "Indigo",
+            "Purple",
+            "Pink"
+          ],
+          "mappedType": "enum"
+        },
         "password_hash": {
           "name": "password_hash",
           "type": "text",

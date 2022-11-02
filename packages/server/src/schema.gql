@@ -12,6 +12,7 @@ type User implements BaseEntity {
   avatarUrl: String
   onlineStatus: OnlineStatus!
   isAdmin: Boolean!
+  color: Color!
   isCurrentUser: Boolean!
   relatedUsers: [User!]!
   unreadCount: NonNegativeInt!
@@ -42,6 +43,16 @@ enum OnlineStatus {
   Away
   DoNotDisturb
   Offline
+}
+
+enum Color {
+  Red
+  Yellow
+  Green
+  Blue
+  Indigo
+  Purple
+  Pink
 }
 
 """Integers that will have a value of 0 or more."""
