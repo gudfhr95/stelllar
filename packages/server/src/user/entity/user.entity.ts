@@ -5,6 +5,7 @@ import { GraphQLEmailAddress, GraphQLNonNegativeInt } from 'graphql-scalars';
 import { GraphQLBoolean } from 'graphql/type';
 import { OnlineStatus } from './online-status.enum';
 import { Relationship } from './relationship.entity';
+import { RelationshipStatus } from './relationship-status.enum';
 
 @ObjectType({ implements: BaseEntity })
 @Entity()
@@ -65,6 +66,9 @@ export class User extends BaseEntity {
   @Field()
   showChat: boolean;
 
+  @Field(() => RelationshipStatus)
+  relationshipStatus: RelationshipStatus;
+
   @Field(() => GraphQLBoolean)
   @Property({ columnType: 'boolean', default: false })
   isOg = false;
@@ -73,11 +77,10 @@ export class User extends BaseEntity {
   @Property({ columnType: 'boolean', default: false })
   isStaff = false;
 
-  constructor(username: string, email: string, password: string) {
-    super();
-
-    this.username = username;
-    this.email = email;
-    this.passwordHash = password;
+  @Field()
+  get isOnline(): boolean {
+    if (!this.lastLoginAt) return false;
+    const timeout = 5 * 60 * 1000; // five minutes
+    return new Date().getTime() - this.lastLoginAt.getTime() < timeout;
   }
 }

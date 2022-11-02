@@ -16,8 +16,10 @@ type User implements BaseEntity {
   relatedUsers: [User!]!
   unreadCount: NonNegativeInt!
   showChat: Boolean!
+  relationshipStatus: RelationshipStatus!
   isOg: Boolean!
   isStaff: Boolean!
+  isOnline: Boolean!
 }
 
 interface BaseEntity {
@@ -44,6 +46,15 @@ enum OnlineStatus {
 
 """Integers that will have a value of 0 or more."""
 scalar NonNegativeInt
+
+enum RelationshipStatus {
+  None
+  FriendRequestOutgoing
+  FriendRequestIncoming
+  Friends
+  Blocking
+  Blocked
+}
 
 type Query {
   sayHello: String!
