@@ -203,6 +203,24 @@
           "default": "false",
           "mappedType": "boolean"
         },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "'None'",
+          "enumItems": [
+            "None",
+            "FriendRequestOutgoing",
+            "FriendRequestIncoming",
+            "Friends",
+            "Blocking",
+            "Blocked"
+          ],
+          "mappedType": "enum"
+        },
         "last_view_at": {
           "name": "last_view_at",
           "type": "timestamptz(0)",

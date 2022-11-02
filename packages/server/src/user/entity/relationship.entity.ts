@@ -1,5 +1,12 @@
-import { Entity, ManyToOne, PrimaryKeyType, Property } from '@mikro-orm/core';
+import {
+  Entity,
+  Enum,
+  ManyToOne,
+  PrimaryKeyType,
+  Property,
+} from '@mikro-orm/core';
 import { User } from './user.entity';
+import { RelationshipStatus } from './relationship-status.enum';
 
 @Entity()
 export class Relationship {
@@ -20,6 +27,11 @@ export class Relationship {
 
   @Property({ columnType: 'boolean' })
   showChat = false;
+
+  @Enum({
+    items: () => RelationshipStatus,
+  })
+  status: RelationshipStatus = RelationshipStatus.None;
 
   @Property()
   lastViewAt: Date = new Date();
