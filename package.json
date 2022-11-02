@@ -47,7 +47,9 @@
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
+    "@mikro-orm/cli": "^5.5.0",
     "@mikro-orm/core": "^5.5.0",
+    "@mikro-orm/migrations": "^5.5.0",
     "@mikro-orm/nestjs": "^5.1.2",
     "@mikro-orm/postgresql": "^5.5.0",
     "@nestjs/apollo": "^10.1.4",
@@ -58,8 +60,10 @@
     "@nestjs/platform-express": "^9.0.0",
     "@types/hapi__joi": "^17.1.8",
     "apollo-server-express": "^3.10.4",
+    "class-validator": "^0.13.2",
     "core-js": "^3.6.5",
     "graphql": "^16.6.0",
+    "graphql-scalars": "^1.20.0",
     "next": "13.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -67,6 +71,12 @@
     "regenerator-runtime": "0.13.7",
     "rxjs": "^7.0.0",
     "tslib": "^2.3.0"
+  },
+  "mikro-orm": {
+    "useTsNode": true,
+    "configPaths": [
+      "./src/config/mikro-orm.config.ts"
+    ]
   },
   "packageManager": "yarn@3.2.4"
 }
