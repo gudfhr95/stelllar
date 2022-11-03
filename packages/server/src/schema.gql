@@ -127,10 +127,40 @@ type Post implements BaseEntity {
 """Integers that will have a value of 0 or more."""
 scalar NonNegativeInt
 
+type Group implements BaseEntity {
+  id: ID!
+  createdAt: DateTime!
+  owner: User!
+  name: String!
+  avatarUrl: String
+  lastMessageAt: DateTime!
+  users: [User!]!
+  unreadCount: NonNegativeInt!
+}
+
+type File {
+  url: String!
+  mime: String!
+  filename: String!
+  size: Float!
+}
+
 type Channel implements BaseEntity {
   id: ID!
   createdAt: DateTime!
+  name: String
+  description: String
   server: Server!
+  type: ChannelType!
+  mentionCount: NonNegativeInt!
+  isUnread: Boolean!
+  isDefault: Boolean!
+}
+
+enum ChannelType {
+  Public
+  Restricted
+  Private
 }
 
 type Server implements BaseEntity {
@@ -199,24 +229,6 @@ enum FolderVisibility {
   Friends
   Private
   Unlisted
-}
-
-type File {
-  url: String!
-  mime: String!
-  filename: String!
-  size: Float!
-}
-
-type Group implements BaseEntity {
-  id: ID!
-  createdAt: DateTime!
-  owner: User!
-  name: String!
-  avatarUrl: String
-  lastMessageAt: DateTime!
-  users: [User!]!
-  unreadCount: NonNegativeInt!
 }
 
 type User implements BaseEntity {
