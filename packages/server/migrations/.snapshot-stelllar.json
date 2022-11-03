@@ -388,58 +388,6 @@
     },
     {
       "columns": {
-        "server_id": {
-          "name": "server_id",
-          "type": "bigint",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "bigint"
-        },
-        "position": {
-          "name": "position",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "default": "'U'",
-          "mappedType": "text"
-        }
-      },
-      "name": "server_folder",
-      "schema": "public",
-      "indexes": [
-        {
-          "keyName": "server_folder_pkey",
-          "columnNames": [
-            "server_id"
-          ],
-          "composite": false,
-          "primary": true,
-          "unique": true
-        }
-      ],
-      "checks": [],
-      "foreignKeys": {
-        "server_folder_server_id_foreign": {
-          "constraintName": "server_folder_server_id_foreign",
-          "columnNames": [
-            "server_id"
-          ],
-          "localTableName": "public.server_folder",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.server",
-          "deleteRule": "cascade",
-          "updateRule": "cascade"
-        }
-      }
-    },
-    {
-      "columns": {
         "id": {
           "name": "id",
           "type": "bigint",
@@ -1926,6 +1874,88 @@
           ],
           "referencedTableName": "public.server",
           "deleteRule": "set null",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "server_id": {
+          "name": "server_id",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "bigint"
+        },
+        "folder_id": {
+          "name": "folder_id",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "bigint"
+        },
+        "position": {
+          "name": "position",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "'U'",
+          "mappedType": "text"
+        }
+      },
+      "name": "server_folder",
+      "schema": "public",
+      "indexes": [
+        {
+          "columnNames": [
+            "folder_id"
+          ],
+          "composite": false,
+          "keyName": "server_folder_folder_id_unique",
+          "primary": false,
+          "unique": true
+        },
+        {
+          "keyName": "server_folder_pkey",
+          "columnNames": [
+            "server_id",
+            "folder_id"
+          ],
+          "composite": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "server_folder_server_id_foreign": {
+          "constraintName": "server_folder_server_id_foreign",
+          "columnNames": [
+            "server_id"
+          ],
+          "localTableName": "public.server_folder",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.server",
+          "updateRule": "cascade"
+        },
+        "server_folder_folder_id_foreign": {
+          "constraintName": "server_folder_folder_id_foreign",
+          "columnNames": [
+            "folder_id"
+          ],
+          "localTableName": "public.server_folder",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.folder",
           "updateRule": "cascade"
         }
       }
