@@ -8,6 +8,8 @@ import { UseGuards } from '@nestjs/common';
 import { CurrentUser } from './decorator/current-user.decorator';
 import { Response } from 'express';
 import { GqlRes } from './decorator/gql-res.decorator';
+import { GqlJwtAuthGuard } from './guard/gql-jwt-auth.guard';
+import { GraphQLBoolean } from 'graphql/type';
 
 @Resolver()
 export class AuthResolver {
@@ -33,5 +35,12 @@ export class AuthResolver {
     response.setHeader('Set-Cookie', cookie);
 
     return user;
+  }
+
+  @UseGuards(GqlJwtAuthGuard)
+  @Mutation(() => GraphQLBoolean)
+  async logout(@GqlRes() response: Response) {
+    response.setHeader('Set-Cookie', this.authService.getCookieForLogOut());
+    return true;
   }
 }

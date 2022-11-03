@@ -293,6 +293,7 @@ type Query {
 type Mutation {
   register(input: RegisterInput!): User!
   login(input: LoginInput!): User!
+  logout: Boolean!
 }
 
 input RegisterInput {
