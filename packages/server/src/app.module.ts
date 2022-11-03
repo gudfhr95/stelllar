@@ -33,6 +33,7 @@ import { AuthModule } from './auth/auth.module';
       driver: ApolloDriver,
       playground: true,
       autoSchemaFile: 'packages/server/src/schema.gql',
+      context: ({ req, res }) => ({ req, res }),
     }),
     UserModule,
     FolderModule,

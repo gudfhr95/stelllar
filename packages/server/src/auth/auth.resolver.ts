@@ -6,6 +6,8 @@ import { LoginInput } from './input/login.input';
 import { GqlLocalAuthGuard } from './guard/gql-local-auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { CurrentUser } from './decorator/current-user.decorator';
+import { Response } from 'express';
+import { GqlRes } from './decorator/gql-res.decorator';
 
 @Resolver()
 export class AuthResolver {
@@ -22,7 +24,14 @@ export class AuthResolver {
 
   @UseGuards(GqlLocalAuthGuard)
   @Mutation(() => User)
-  async login(@Args('input') input: LoginInput, @CurrentUser() user: User) {
+  async login(
+    @Args('input') input: LoginInput,
+    @CurrentUser() user: User,
+    @GqlRes() response: Response
+  ) {
+    const cookie = this.authService.getCookieWithJwtToken(user.id);
+    response.setHeader('Set-Cookie', cookie);
+
     return user;
   }
 }
