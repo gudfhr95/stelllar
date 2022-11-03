@@ -1,9 +1,9 @@
 import { Migration } from '@mikro-orm/migrations';
 
-export class Migration20221103005954 extends Migration {
+export class Migration20221103010934 extends Migration {
 
   async up(): Promise<void> {
-    this.addSql('create table "user" ("id" bigserial primary key, "created_at" timestamptz(0) not null, "username" text not null, "email" text null, "last_login_at" timestamptz(0) null, "avatar_url" text null, "online_status" text check ("online_status" in (\'Online\', \'Away\', \'DoNotDisturb\', \'Offline\')) not null default \'Online\', "is_admin" boolean not null default false, "color" text check ("color" in (\'Red\', \'Yellow\', \'Green\', \'Blue\', \'Indigo\', \'Purple\', \'Pink\')) not null, "password_hash" text not null, "is_deleted" boolean not null default false, "is_banned" boolean not null default false, "ban_reason" text null, "is_og" boolean not null default false, "is_staff" boolean not null default false);');
+    this.addSql('create table "user" ("id" bigserial primary key, "created_at" timestamptz(0) not null, "username" text not null, "email" text null, "last_login_at" timestamptz(0) null, "avatar_url" text null, "online_status" text check ("online_status" in (\'Online\', \'Away\', \'DoNotDisturb\', \'Offline\')) not null default \'Online\', "is_admin" boolean not null default false, "color" text check ("color" in (\'Red\', \'Yellow\', \'Green\', \'Blue\', \'Indigo\', \'Purple\', \'Pink\')) not null default \'Green\', "password_hash" text not null, "is_deleted" boolean not null default false, "is_banned" boolean not null default false, "ban_reason" text null, "is_og" boolean not null default false, "is_staff" boolean not null default false);');
 
     this.addSql('create table "server" ("id" bigserial primary key, "created_at" timestamptz(0) not null, "name" text not null, "display_name" text not null, "description" text null, "owner_id" bigint not null, "category" text check ("category" in (\'Arts\', \'Business\', \'Culture\', \'Discussion\', \'Entertainment\', \'Gaming\', \'Health\', \'Hobbies\', \'Lifestyle\', \'Memes\', \'Meta\', \'News\', \'Politics\', \'Programming\', \'Science\', \'Sports\', \'Technology\', \'Other\')) not null default \'Other\', "user_count" int not null default 0, "avatar_url" text null, "banner_url" text null, "is_banned" boolean not null default false, "is_deleted" boolean not null default false, "is_public" boolean not null default true, "is_chat_enabled" boolean not null default true, "is_downvotes_enabled" boolean not null default false, "is_featured" boolean not null default false);');
 
@@ -11,7 +11,7 @@ export class Migration20221103005954 extends Migration {
 
     this.addSql('create table "server_user" ("user_id" bigint not null, "server_id" bigint not null, "position" text not null default \'U\', "created_at" timestamptz(0) not null, "role_id" bigint not null, "status" text check ("status" in (\'None\', \'Joined\', \'Banned\')) not null default \'Joined\', constraint "server_user_pkey" primary key ("user_id", "server_id"));');
 
-    this.addSql('create table "channel" ("id" bigserial primary key, "created_at" timestamptz(0) not null, "server_id" bigint not null, "position" text not null default \'U\');');
+    this.addSql('create table "channel" ("id" bigserial primary key, "created_at" timestamptz(0) not null, "name" text null, "description" text null, "server_id" bigint not null, "position" text not null default \'U\', "type" text check ("type" in (\'Public\', \'Restricted\', \'Private\')) not null default \'Public\', "is_deleted" boolean not null default false, "last_message_at" timestamptz(0) not null, "is_default" boolean not null default false);');
 
     this.addSql('create table "relationship" ("owner_id" bigint not null, "user_id" bigint not null, "created_at" timestamptz(0) not null, "show_chat" boolean not null default false, "status" text check ("status" in (\'None\', \'FriendRequestOutgoing\', \'FriendRequestIncoming\', \'Friends\', \'Blocking\', \'Blocked\')) not null default \'None\', "last_view_at" timestamptz(0) not null, "last_message_at" timestamptz(0) not null, "updated_at" timestamptz(0) not null, "unread_count" int not null default 0, constraint "relationship_pkey" primary key ("owner_id", "user_id"));');
 
@@ -41,6 +41,8 @@ export class Migration20221103005954 extends Migration {
     this.addSql('create table "reply" ("id" bigserial primary key, "created_at" timestamptz(0) not null, "user_id" bigint not null, "comment_id" bigint not null, "is_read" boolean not null default false);');
 
     this.addSql('create table "comment_vote" ("user_id" bigint not null, "comment_id" bigint not null, "created_at" timestamptz(0) not null, "type" text check ("type" in (\'Up\', \'None\', \'Down\')) not null default \'None\', constraint "comment_vote_pkey" primary key ("user_id", "comment_id"));');
+
+    this.addSql('create table "channel_user" ("user_id" bigint not null, "channel_id" bigint not null, "last_view_at" timestamptz(0) not null, "mention_count" int not null default 0, constraint "channel_user_pkey" primary key ("user_id", "channel_id"));');
 
     this.addSql('create table "user_folder" ("user_id" bigint not null, "folder_id" bigint not null, "position" text not null default \'U\', constraint "user_folder_pkey" primary key ("user_id", "folder_id"));');
 
@@ -98,6 +100,9 @@ export class Migration20221103005954 extends Migration {
 
     this.addSql('alter table "comment_vote" add constraint "comment_vote_user_id_foreign" foreign key ("user_id") references "user" ("id") on update cascade;');
     this.addSql('alter table "comment_vote" add constraint "comment_vote_comment_id_foreign" foreign key ("comment_id") references "comment" ("id") on update cascade;');
+
+    this.addSql('alter table "channel_user" add constraint "channel_user_user_id_foreign" foreign key ("user_id") references "user" ("id") on update cascade;');
+    this.addSql('alter table "channel_user" add constraint "channel_user_channel_id_foreign" foreign key ("channel_id") references "channel" ("id") on update cascade;');
 
     this.addSql('alter table "user_folder" add constraint "user_folder_user_id_foreign" foreign key ("user_id") references "user" ("id") on update cascade;');
     this.addSql('alter table "user_folder" add constraint "user_folder_folder_id_foreign" foreign key ("folder_id") references "folder" ("id") on update cascade;');
