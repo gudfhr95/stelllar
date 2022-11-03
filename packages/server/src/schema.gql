@@ -183,6 +183,13 @@ type ServerUser {
   role: Role!
 }
 
+type File {
+  url: String!
+  mime: String!
+  filename: String!
+  size: Float!
+}
+
 type Group implements BaseEntity {
   id: ID!
   createdAt: DateTime!

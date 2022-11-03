@@ -11,6 +11,7 @@ import { GroupModule } from './group/group.module';
 import { PostModule } from './post/post.module';
 import { ChannelModule } from './channel/channel.module';
 import { CommentModule } from './comment/comment.module';
+import { MessageModule } from './message/message.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { CommentModule } from './comment/comment.module';
     PostModule,
     ChannelModule,
     CommentModule,
+    MessageModule,
   ],
   controllers: [],
   providers: [],

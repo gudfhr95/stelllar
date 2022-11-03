@@ -11,7 +11,7 @@ import {
 } from '@mikro-orm/core';
 import { BaseEntity } from '../../common/entity/base.entity';
 import { Server } from '../../server/entity/server.entity';
-import { LinkMetadata } from './link-metadata.entity';
+import { LinkMetadata } from '../../common/entity/link-metadata.entity';
 import { PostImage } from './post-image.entity';
 import { User } from '../../user/entity/user.entity';
 import { ServerUser } from '../../server/entity/server-user.entity';
