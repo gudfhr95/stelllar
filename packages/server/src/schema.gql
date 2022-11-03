@@ -292,10 +292,16 @@ type Query {
 
 type Mutation {
   register(input: RegisterInput!): User!
+  login(input: LoginInput!): User!
 }
 
 input RegisterInput {
   email: EmailAddress!
   username: String!
+  password: String!
+}
+
+input LoginInput {
+  email: EmailAddress!
   password: String!
 }

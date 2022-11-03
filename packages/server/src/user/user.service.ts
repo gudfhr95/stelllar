@@ -33,11 +33,11 @@ export default class UserService {
     );
   }
 
-  async createUser(username, email, password) {
+  async createUser(email: string, username: string, password: string) {
     const user = await this.userRepository.create({
-      username: username,
-      email: email,
-      password: password,
+      username,
+      email,
+      password,
     });
 
     await this.userRepository.persistAndFlush(user);
