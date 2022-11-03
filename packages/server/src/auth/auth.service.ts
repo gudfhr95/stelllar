@@ -3,7 +3,7 @@ import * as argon2 from 'argon2';
 import UserService from '../user/user.service';
 
 @Injectable()
-export class AuthenticationService {
+export class AuthService {
   constructor(private readonly userService: UserService) {}
 
   public async register(email: string, username: string, password: string) {
