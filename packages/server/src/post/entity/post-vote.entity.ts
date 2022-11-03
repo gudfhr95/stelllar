@@ -8,7 +8,7 @@ import {
 import { Post } from './post.entity';
 import { User } from '../../user/entity/user.entity';
 import { Field } from '@nestjs/graphql';
-import { VoteType } from './vote-type.enum';
+import { VoteType } from '../../common/entity/vote-type.enum';
 
 @Entity()
 export class PostVote {

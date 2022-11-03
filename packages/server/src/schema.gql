@@ -79,6 +79,29 @@ type PostImage {
   caption: String
 }
 
+type Comment implements BaseEntity {
+  id: ID!
+  createdAt: DateTime!
+  author: User
+  serverUser: ServerUser
+  post: Post!
+  text: String!
+  parentComment: Comment
+  voteCount: Int!
+  voteType: VoteType!
+  isPinned: Boolean!
+  pinnedAt: DateTime
+  updatedAt: DateTime
+  isDeleted: Boolean!
+  linkMetadatas: [LinkMetadata!]!
+}
+
+enum VoteType {
+  Up
+  None
+  Down
+}
+
 type Post implements BaseEntity {
   id: ID!
   createdAt: DateTime!
@@ -99,12 +122,6 @@ type Post implements BaseEntity {
   commentCount: NonNegativeInt!
   updatedAt: DateTime
   isDeleted: Boolean!
-}
-
-enum VoteType {
-  Up
-  None
-  Down
 }
 
 """Integers that will have a value of 0 or more."""

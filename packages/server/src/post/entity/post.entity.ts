@@ -18,7 +18,7 @@ import { ServerUser } from '../../server/entity/server-user.entity';
 import { Comment } from '../../comment/entity/comment.entity';
 import { FolderPost } from '../../folder/entity/folder-post.entity';
 import { Folder } from '../../folder/entity/folder.entity';
-import { VoteType } from './vote-type.enum';
+import { VoteType } from '../../common/entity/vote-type.enum';
 import { PostVote } from './post-vote.entity';
 import { GraphQLNonNegativeInt } from 'graphql-scalars';
 import { GraphQLBoolean } from 'graphql/type';

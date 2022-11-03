@@ -388,58 +388,6 @@
     },
     {
       "columns": {
-        "server_id": {
-          "name": "server_id",
-          "type": "bigint",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "bigint"
-        },
-        "position": {
-          "name": "position",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "default": "'U'",
-          "mappedType": "text"
-        }
-      },
-      "name": "server_folder",
-      "schema": "public",
-      "indexes": [
-        {
-          "keyName": "server_folder_pkey",
-          "columnNames": [
-            "server_id"
-          ],
-          "composite": false,
-          "primary": true,
-          "unique": true
-        }
-      ],
-      "checks": [],
-      "foreignKeys": {
-        "server_folder_server_id_foreign": {
-          "constraintName": "server_folder_server_id_foreign",
-          "columnNames": [
-            "server_id"
-          ],
-          "localTableName": "public.server_folder",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.server",
-          "deleteRule": "cascade",
-          "updateRule": "cascade"
-        }
-      }
-    },
-    {
-      "columns": {
         "id": {
           "name": "id",
           "type": "bigint",
@@ -1166,118 +1114,6 @@
     },
     {
       "columns": {
-        "post_id": {
-          "name": "post_id",
-          "type": "bigint",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "bigint"
-        },
-        "added_at": {
-          "name": "added_at",
-          "type": "timestamptz(0)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 6,
-          "mappedType": "datetime"
-        }
-      },
-      "name": "folder_post",
-      "schema": "public",
-      "indexes": [
-        {
-          "keyName": "folder_post_pkey",
-          "columnNames": [
-            "post_id"
-          ],
-          "composite": false,
-          "primary": true,
-          "unique": true
-        }
-      ],
-      "checks": [],
-      "foreignKeys": {
-        "folder_post_post_id_foreign": {
-          "constraintName": "folder_post_post_id_foreign",
-          "columnNames": [
-            "post_id"
-          ],
-          "localTableName": "public.folder_post",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.post",
-          "deleteRule": "cascade",
-          "updateRule": "cascade"
-        }
-      }
-    },
-    {
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "bigint",
-          "unsigned": true,
-          "autoincrement": true,
-          "primary": true,
-          "nullable": false,
-          "mappedType": "bigint"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamptz(0)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 6,
-          "mappedType": "datetime"
-        },
-        "post_id": {
-          "name": "post_id",
-          "type": "bigint",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "bigint"
-        }
-      },
-      "name": "comment",
-      "schema": "public",
-      "indexes": [
-        {
-          "keyName": "comment_pkey",
-          "columnNames": [
-            "id"
-          ],
-          "composite": false,
-          "primary": true,
-          "unique": true
-        }
-      ],
-      "checks": [],
-      "foreignKeys": {
-        "comment_post_id_foreign": {
-          "constraintName": "comment_post_id_foreign",
-          "columnNames": [
-            "post_id"
-          ],
-          "localTableName": "public.comment",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.post",
-          "updateRule": "cascade"
-        }
-      }
-    },
-    {
-      "columns": {
         "id": {
           "name": "id",
           "type": "bigint",
@@ -1873,6 +1709,15 @@
           "nullable": true,
           "mappedType": "bigint"
         },
+        "server_id": {
+          "name": "server_id",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "bigint"
+        },
         "is_deleted": {
           "name": "is_deleted",
           "type": "boolean",
@@ -1957,6 +1802,409 @@
           "referencedTableName": "public.user",
           "deleteRule": "set null",
           "updateRule": "cascade"
+        },
+        "folder_server_id_foreign": {
+          "constraintName": "folder_server_id_foreign",
+          "columnNames": [
+            "server_id"
+          ],
+          "localTableName": "public.folder",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.server",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "server_id": {
+          "name": "server_id",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "bigint"
+        },
+        "folder_id": {
+          "name": "folder_id",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "bigint"
+        },
+        "position": {
+          "name": "position",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "'U'",
+          "mappedType": "text"
+        }
+      },
+      "name": "server_folder",
+      "schema": "public",
+      "indexes": [
+        {
+          "columnNames": [
+            "folder_id"
+          ],
+          "composite": false,
+          "keyName": "server_folder_folder_id_unique",
+          "primary": false,
+          "unique": true
+        },
+        {
+          "keyName": "server_folder_pkey",
+          "columnNames": [
+            "server_id",
+            "folder_id"
+          ],
+          "composite": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "server_folder_server_id_foreign": {
+          "constraintName": "server_folder_server_id_foreign",
+          "columnNames": [
+            "server_id"
+          ],
+          "localTableName": "public.server_folder",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.server",
+          "updateRule": "cascade"
+        },
+        "server_folder_folder_id_foreign": {
+          "constraintName": "server_folder_folder_id_foreign",
+          "columnNames": [
+            "folder_id"
+          ],
+          "localTableName": "public.server_folder",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.folder",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "post_id": {
+          "name": "post_id",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "bigint"
+        },
+        "folder_id": {
+          "name": "folder_id",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "bigint"
+        },
+        "added_by_user_id": {
+          "name": "added_by_user_id",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "bigint"
+        },
+        "added_at": {
+          "name": "added_at",
+          "type": "timestamptz(0)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        }
+      },
+      "name": "folder_post",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "folder_post_pkey",
+          "columnNames": [
+            "post_id",
+            "folder_id",
+            "added_by_user_id"
+          ],
+          "composite": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "folder_post_post_id_foreign": {
+          "constraintName": "folder_post_post_id_foreign",
+          "columnNames": [
+            "post_id"
+          ],
+          "localTableName": "public.folder_post",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.post",
+          "updateRule": "cascade"
+        },
+        "folder_post_folder_id_foreign": {
+          "constraintName": "folder_post_folder_id_foreign",
+          "columnNames": [
+            "folder_id"
+          ],
+          "localTableName": "public.folder_post",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.folder",
+          "updateRule": "cascade"
+        },
+        "folder_post_added_by_user_id_foreign": {
+          "constraintName": "folder_post_added_by_user_id_foreign",
+          "columnNames": [
+            "added_by_user_id"
+          ],
+          "localTableName": "public.folder_post",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.user",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint",
+          "unsigned": true,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "bigint"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz(0)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        },
+        "author_id": {
+          "name": "author_id",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "bigint"
+        },
+        "post_id": {
+          "name": "post_id",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "bigint"
+        },
+        "text": {
+          "name": "text",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "parent_comment_id": {
+          "name": "parent_comment_id",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "bigint"
+        },
+        "vote_count": {
+          "name": "vote_count",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "0",
+          "mappedType": "integer"
+        },
+        "is_pinned": {
+          "name": "is_pinned",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "false",
+          "mappedType": "boolean"
+        },
+        "pinned_at": {
+          "name": "pinned_at",
+          "type": "timestamptz(0)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 6,
+          "mappedType": "datetime"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz(0)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 6,
+          "mappedType": "datetime"
+        },
+        "is_deleted": {
+          "name": "is_deleted",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "false",
+          "mappedType": "boolean"
+        },
+        "link_metadatas": {
+          "name": "link_metadatas",
+          "type": "jsonb",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "json"
+        }
+      },
+      "name": "comment",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "comment_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "comment_author_id_foreign": {
+          "constraintName": "comment_author_id_foreign",
+          "columnNames": [
+            "author_id"
+          ],
+          "localTableName": "public.comment",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.user",
+          "updateRule": "cascade"
+        },
+        "comment_post_id_foreign": {
+          "constraintName": "comment_post_id_foreign",
+          "columnNames": [
+            "post_id"
+          ],
+          "localTableName": "public.comment",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.post",
+          "updateRule": "cascade"
+        },
+        "comment_parent_comment_id_foreign": {
+          "constraintName": "comment_parent_comment_id_foreign",
+          "columnNames": [
+            "parent_comment_id"
+          ],
+          "localTableName": "public.comment",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.comment",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "comment_id": {
+          "name": "comment_id",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "bigint"
+        }
+      },
+      "name": "comment_vote",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "comment_vote_pkey",
+          "columnNames": [
+            "comment_id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "comment_vote_comment_id_foreign": {
+          "constraintName": "comment_vote_comment_id_foreign",
+          "columnNames": [
+            "comment_id"
+          ],
+          "localTableName": "public.comment_vote",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.comment",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
         }
       }
     },
@@ -1964,6 +2212,15 @@
       "columns": {
         "user_id": {
           "name": "user_id",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "bigint"
+        },
+        "folder_id": {
+          "name": "folder_id",
           "type": "bigint",
           "unsigned": false,
           "autoincrement": false,
@@ -1988,9 +2245,10 @@
         {
           "keyName": "user_folder_pkey",
           "columnNames": [
-            "user_id"
+            "user_id",
+            "folder_id"
           ],
-          "composite": false,
+          "composite": true,
           "primary": true,
           "unique": true
         }
@@ -2007,7 +2265,18 @@
             "id"
           ],
           "referencedTableName": "public.user",
-          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "user_folder_folder_id_foreign": {
+          "constraintName": "user_folder_folder_id_foreign",
+          "columnNames": [
+            "folder_id"
+          ],
+          "localTableName": "public.user_folder",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.folder",
           "updateRule": "cascade"
         }
       }
