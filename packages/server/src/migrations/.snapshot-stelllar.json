@@ -25,8 +25,8 @@
           "length": 6,
           "mappedType": "datetime"
         },
-        "username": {
-          "name": "username",
+        "email": {
+          "name": "email",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,
@@ -34,13 +34,13 @@
           "nullable": false,
           "mappedType": "text"
         },
-        "email": {
-          "name": "email",
+        "username": {
+          "name": "username",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": true,
+          "nullable": false,
           "mappedType": "text"
         },
         "last_login_at": {
@@ -95,7 +95,6 @@
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "default": "'Green'",
           "enumItems": [
             "Red",
             "Yellow",
@@ -107,8 +106,8 @@
           ],
           "mappedType": "enum"
         },
-        "password_hash": {
-          "name": "password_hash",
+        "password": {
+          "name": "password",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,
@@ -169,6 +168,24 @@
       "name": "user",
       "schema": "public",
       "indexes": [
+        {
+          "columnNames": [
+            "email"
+          ],
+          "composite": false,
+          "keyName": "user_email_unique",
+          "primary": false,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "username"
+          ],
+          "composite": false,
+          "keyName": "user_username_unique",
+          "primary": false,
+          "unique": true
+        },
         {
           "keyName": "user_pkey",
           "columnNames": [

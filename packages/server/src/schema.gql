@@ -286,26 +286,16 @@ enum RelationshipStatus {
   Blocked
 }
 
-type LoginResponse {
-  user: User!
-  accessToken: JWT!
-}
-
-"""
-A field whose value is a JSON Web Token (JWT): https://jwt.io/introduction.
-"""
-scalar JWT
-
 type Query {
   getUser(id: ID, username: String): User
 }
 
 type Mutation {
-  createAccount(input: CreateAccountInput!): LoginResponse!
+  register(input: RegisterInput!): User!
 }
 
-input CreateAccountInput {
+input RegisterInput {
+  email: EmailAddress!
   username: String!
-  email: EmailAddress
   password: String!
 }
