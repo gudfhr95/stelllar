@@ -61,7 +61,7 @@ export class User extends BaseEntity {
   isCurrentUser: boolean;
 
   @Property({ columnType: 'text' })
-  passwordHash: string;
+  password: string;
 
   @Property({ columnType: 'boolean' })
   isDeleted = false;

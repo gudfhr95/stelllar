@@ -22,11 +22,22 @@ export default class UserService {
     );
   }
 
+  async getUserByEmail(email: string) {
+    const user = await this.userRepository.findOne({ email });
+    if (user) {
+      return user;
+    }
+    throw new HttpException(
+      'User with this email does not exist',
+      HttpStatus.NOT_FOUND
+    );
+  }
+
   async createUser(username, email, password) {
     const user = await this.userRepository.create({
       username: username,
       email: email,
-      passwordHash: password,
+      password: password,
     });
 
     await this.userRepository.persistAndFlush(user);

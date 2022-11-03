@@ -28,4 +28,34 @@ export class AuthenticationService {
       );
     }
   }
+
+  public async getAuthenticatedUser(email: string, plainTextPassword: string) {
+    try {
+      const user = await this.userService.getUserByEmail(email);
+      await this.verifyPassword(plainTextPassword, user.password);
+
+      return user;
+    } catch (error) {
+      throw new HttpException(
+        'Wrong credentials provided',
+        HttpStatus.BAD_REQUEST
+      );
+    }
+  }
+
+  private async verifyPassword(
+    plainTextPassword: string,
+    hashedPassword: string
+  ) {
+    const isPasswordMatching = await argon2.verify(
+      hashedPassword,
+      plainTextPassword
+    );
+    if (!isPasswordMatching) {
+      throw new HttpException(
+        'Wrong credentials provided',
+        HttpStatus.BAD_REQUEST
+      );
+    }
+  }
 }
