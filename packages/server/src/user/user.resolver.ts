@@ -2,27 +2,16 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { User } from './entity/user.entity';
 import { CreateAccountInput } from './input/create-account.input';
 import UserService from './user.service';
-import { Logger } from '@nestjs/common';
+import { LoginResponse } from './response/login.response';
+import { UserArgs } from './input/user.args';
 
 @Resolver(() => User)
 export class UserResolver {
   constructor(private userService: UserService) {}
 
-  @Query(() => String)
-  sayHello(): string {
-    return 'Hello World!';
-  }
+  @Query(() => User, { nullable: true })
+  async getUser(@Args() args: UserArgs) {}
 
-  @Mutation(() => User)
-  async createAccount(@Args('input') input: CreateAccountInput) {
-    const createdUser = await this.userService.createAccount(
-      input.username,
-      input.email,
-      input.password
-    );
-
-    Logger.log(createdUser);
-
-    return createdUser;
-  }
+  @Mutation(() => LoginResponse)
+  async createAccount(@Args('input') input: CreateAccountInput) {}
 }

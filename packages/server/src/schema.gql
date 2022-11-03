@@ -234,8 +234,8 @@ enum FolderVisibility {
 type User implements BaseEntity {
   id: ID!
   createdAt: DateTime!
+  email: EmailAddress!
   username: String!
-  email: EmailAddress
   lastLoginAt: DateTime
   lastMessageAt: DateTime
   avatarUrl: String
@@ -286,12 +286,22 @@ enum RelationshipStatus {
   Blocked
 }
 
+type LoginResponse {
+  user: User!
+  accessToken: JWT!
+}
+
+"""
+A field whose value is a JSON Web Token (JWT): https://jwt.io/introduction.
+"""
+scalar JWT
+
 type Query {
-  sayHello: String!
+  getUser(id: ID, username: String): User
 }
 
 type Mutation {
-  createAccount(input: CreateAccountInput!): User!
+  createAccount(input: CreateAccountInput!): LoginResponse!
 }
 
 input CreateAccountInput {

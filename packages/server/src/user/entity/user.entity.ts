@@ -26,13 +26,13 @@ import { Server } from '../../server/entity/server.entity';
 @ObjectType({ implements: BaseEntity })
 @Entity()
 export class User extends BaseEntity {
-  @Field()
-  @Property({ columnType: 'text' })
-  username: string;
-
-  @Field(() => GraphQLEmailAddress, { nullable: true })
-  @Property({ columnType: 'text', nullable: true })
+  @Field(() => GraphQLEmailAddress)
+  @Property({ columnType: 'text', unique: true })
   email: string;
+
+  @Field()
+  @Property({ columnType: 'text', unique: true })
+  username: string;
 
   @Field({ nullable: true })
   @Property({ nullable: true })

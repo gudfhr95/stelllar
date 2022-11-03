@@ -12,6 +12,7 @@ import { PostModule } from './post/post.module';
 import { ChannelModule } from './channel/channel.module';
 import { CommentModule } from './comment/comment.module';
 import { MessageModule } from './message/message.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { MessageModule } from './message/message.module';
     ChannelModule,
     CommentModule,
     MessageModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
