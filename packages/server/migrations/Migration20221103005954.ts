@@ -1,6 +1,6 @@
 import { Migration } from '@mikro-orm/migrations';
 
-export class Migration20221103004933 extends Migration {
+export class Migration20221103005954 extends Migration {
 
   async up(): Promise<void> {
     this.addSql('create table "user" ("id" bigserial primary key, "created_at" timestamptz(0) not null, "username" text not null, "email" text null, "last_login_at" timestamptz(0) null, "avatar_url" text null, "online_status" text check ("online_status" in (\'Online\', \'Away\', \'DoNotDisturb\', \'Offline\')) not null default \'Online\', "is_admin" boolean not null default false, "color" text check ("color" in (\'Red\', \'Yellow\', \'Green\', \'Blue\', \'Indigo\', \'Purple\', \'Pink\')) not null, "password_hash" text not null, "is_deleted" boolean not null default false, "is_banned" boolean not null default false, "ban_reason" text null, "is_og" boolean not null default false, "is_staff" boolean not null default false);');
@@ -38,7 +38,9 @@ export class Migration20221103004933 extends Migration {
 
     this.addSql('create table "comment" ("id" bigserial primary key, "created_at" timestamptz(0) not null, "author_id" bigint not null, "post_id" bigint not null, "text" text not null, "parent_comment_id" bigint null, "vote_count" int not null default 0, "is_pinned" boolean not null default false, "pinned_at" timestamptz(0) null, "updated_at" timestamptz(0) null, "is_deleted" boolean not null default false, "link_metadatas" jsonb not null);');
 
-    this.addSql('create table "comment_vote" ("comment_id" bigint not null, constraint "comment_vote_pkey" primary key ("comment_id"));');
+    this.addSql('create table "reply" ("id" bigserial primary key, "created_at" timestamptz(0) not null, "user_id" bigint not null, "comment_id" bigint not null, "is_read" boolean not null default false);');
+
+    this.addSql('create table "comment_vote" ("user_id" bigint not null, "comment_id" bigint not null, "created_at" timestamptz(0) not null, "type" text check ("type" in (\'Up\', \'None\', \'Down\')) not null default \'None\', constraint "comment_vote_pkey" primary key ("user_id", "comment_id"));');
 
     this.addSql('create table "user_folder" ("user_id" bigint not null, "folder_id" bigint not null, "position" text not null default \'U\', constraint "user_folder_pkey" primary key ("user_id", "folder_id"));');
 
@@ -91,7 +93,11 @@ export class Migration20221103004933 extends Migration {
     this.addSql('alter table "comment" add constraint "comment_post_id_foreign" foreign key ("post_id") references "post" ("id") on update cascade;');
     this.addSql('alter table "comment" add constraint "comment_parent_comment_id_foreign" foreign key ("parent_comment_id") references "comment" ("id") on update cascade on delete set null;');
 
-    this.addSql('alter table "comment_vote" add constraint "comment_vote_comment_id_foreign" foreign key ("comment_id") references "comment" ("id") on update cascade on delete cascade;');
+    this.addSql('alter table "reply" add constraint "reply_user_id_foreign" foreign key ("user_id") references "user" ("id") on update cascade;');
+    this.addSql('alter table "reply" add constraint "reply_comment_id_foreign" foreign key ("comment_id") references "comment" ("id") on update cascade;');
+
+    this.addSql('alter table "comment_vote" add constraint "comment_vote_user_id_foreign" foreign key ("user_id") references "user" ("id") on update cascade;');
+    this.addSql('alter table "comment_vote" add constraint "comment_vote_comment_id_foreign" foreign key ("comment_id") references "comment" ("id") on update cascade;');
 
     this.addSql('alter table "user_folder" add constraint "user_folder_user_id_foreign" foreign key ("user_id") references "user" ("id") on update cascade;');
     this.addSql('alter table "user_folder" add constraint "user_folder_folder_id_foreign" foreign key ("folder_id") references "folder" ("id") on update cascade;');

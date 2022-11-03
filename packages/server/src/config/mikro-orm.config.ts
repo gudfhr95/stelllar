@@ -3,11 +3,12 @@ import { ConfigService } from '@nestjs/config';
 import { User } from '../user/entity/user.entity';
 import { Relationship } from '../user/entity/relationship.entity';
 import { Folder } from '../folder/entity/folder.entity';
+import { Reply } from '../comment/entity/reply.entity';
 
 const configService = new ConfigService();
 
 const MikroOrmConfig: Options = {
-  entities: [User, Relationship, Folder],
+  entities: [User, Relationship, Folder, Reply],
   type: 'postgresql',
   host: configService.get('POSTGRES_HOST'),
   port: configService.get('POSTGRES_PORT'),
