@@ -2,6 +2,51 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type ServerUser {
+  user: User!
+  role: Role!
+}
+
+type Role implements BaseEntity {
+  id: ID!
+  createdAt: DateTime!
+  name: String!
+  isDefault: Boolean!
+  color: HexColorCode
+  permissions: [ServerPermission!]!
+}
+
+interface BaseEntity {
+  id: ID!
+  createdAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+"""
+A field whose value is a hex color code: https://en.wikipedia.org/wiki/Web_colors.
+"""
+scalar HexColorCode @specifiedBy(url: "https://en.wikipedia.org/wiki/Web_colors")
+
+enum ServerPermission {
+  ManageChannels
+  PrivateChannels
+  RestrictedChannels
+  ManageServer
+  ManageUsers
+  SendMessages
+  ManageMessages
+  ManagePosts
+  ManageComments
+  ManageFolders
+  AddPostToFolder
+  DisplayRoleSeparately
+  Admin
+}
+
 type Image {
   originalUrl: String!
   originalWidth: PositiveInt!
@@ -28,45 +73,10 @@ type LinkMetadata {
   themeColor: String
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type PostImage {
   image: Image!
   linkUrl: String
   caption: String
-}
-
-type Folder implements BaseEntity {
-  id: ID!
-  createdAt: DateTime!
-  name: String!
-  description: String
-  avatarUrl: String
-  owner: User
-  server: Server
-  postCount: NonNegativeInt!
-  followerCount: NonNegativeInt!
-  isFollowing: Boolean!
-  isCollaborative: Boolean!
-  visibility: FolderVisibility!
-}
-
-interface BaseEntity {
-  id: ID!
-  createdAt: DateTime!
-}
-
-"""Integers that will have a value of 0 or more."""
-scalar NonNegativeInt
-
-enum FolderVisibility {
-  Public
-  Friends
-  Private
-  Unlisted
 }
 
 type Post implements BaseEntity {
@@ -96,6 +106,9 @@ enum VoteType {
   None
   Down
 }
+
+"""Integers that will have a value of 0 or more."""
+scalar NonNegativeInt
 
 type Channel implements BaseEntity {
   id: ID!
@@ -149,39 +162,26 @@ enum ServerCategory {
   Other
 }
 
-enum ServerPermission {
-  ManageChannels
-  PrivateChannels
-  RestrictedChannels
-  ManageServer
-  ManageUsers
-  SendMessages
-  ManageMessages
-  ManagePosts
-  ManageComments
-  ManageFolders
-  AddPostToFolder
-  DisplayRoleSeparately
-  Admin
-}
-
-type Role implements BaseEntity {
+type Folder implements BaseEntity {
   id: ID!
   createdAt: DateTime!
   name: String!
-  isDefault: Boolean!
-  color: HexColorCode
-  permissions: [ServerPermission!]!
+  description: String
+  avatarUrl: String
+  owner: User
+  server: Server
+  postCount: NonNegativeInt!
+  followerCount: NonNegativeInt!
+  isFollowing: Boolean!
+  isCollaborative: Boolean!
+  visibility: FolderVisibility!
 }
 
-"""
-A field whose value is a hex color code: https://en.wikipedia.org/wiki/Web_colors.
-"""
-scalar HexColorCode @specifiedBy(url: "https://en.wikipedia.org/wiki/Web_colors")
-
-type ServerUser {
-  user: User!
-  role: Role!
+enum FolderVisibility {
+  Public
+  Friends
+  Private
+  Unlisted
 }
 
 type File {

@@ -2066,6 +2066,15 @@
           "nullable": false,
           "mappedType": "bigint"
         },
+        "folder_id": {
+          "name": "folder_id",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "bigint"
+        },
         "position": {
           "name": "position",
           "type": "text",
@@ -2083,9 +2092,10 @@
         {
           "keyName": "user_folder_pkey",
           "columnNames": [
-            "user_id"
+            "user_id",
+            "folder_id"
           ],
-          "composite": false,
+          "composite": true,
           "primary": true,
           "unique": true
         }
@@ -2102,7 +2112,18 @@
             "id"
           ],
           "referencedTableName": "public.user",
-          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "user_folder_folder_id_foreign": {
+          "constraintName": "user_folder_folder_id_foreign",
+          "columnNames": [
+            "folder_id"
+          ],
+          "localTableName": "public.user_folder",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.folder",
           "updateRule": "cascade"
         }
       }
