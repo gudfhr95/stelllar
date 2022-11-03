@@ -1,6 +1,6 @@
 import { Migration } from '@mikro-orm/migrations';
 
-export class Migration20221102153513 extends Migration {
+export class Migration20221103001123 extends Migration {
 
   async up(): Promise<void> {
     this.addSql('create table "group" ("id" bigserial primary key, "created_at" timestamptz(0) not null);');
@@ -21,11 +21,15 @@ export class Migration20221102153513 extends Migration {
 
     this.addSql('create table "post" ("id" bigserial primary key, "created_at" timestamptz(0) not null, "title" text not null, "text" text null, "link_url" text null, "link_metadata" jsonb null, "link_metadatas" jsonb not null, "images" jsonb not null, "author_id" bigint not null, "is_pinned" boolean not null default false, "pinned_at" timestamptz(0) null, "server_id" bigint not null, "vote_count" int not null default 0, "comment_count" int not null default 0, "updated_at" timestamptz(0) null, "is_deleted" boolean not null default false);');
 
-    this.addSql('create table "post_vote" ("post_id" bigint not null, constraint "post_vote_pkey" primary key ("post_id"));');
+    this.addSql('create table "post_vote" ("user_id" bigint not null, "post_id" bigint not null, "created_at" timestamptz(0) not null, "type" text check ("type" in (\'Up\', \'None\', \'Down\')) not null default \'None\', constraint "post_vote_pkey" primary key ("user_id", "post_id"));');
 
     this.addSql('create table "folder_post" ("post_id" bigint not null, "added_at" timestamptz(0) not null, constraint "folder_post_pkey" primary key ("post_id"));');
 
     this.addSql('create table "comment" ("id" bigserial primary key, "created_at" timestamptz(0) not null, "post_id" bigint not null);');
+
+    this.addSql('create table "message" ("id" bigserial primary key, "created_at" timestamptz(0) not null, "author_id" bigint not null, "channel_id" bigint null, "group_id" bigint null, "to_user_id" bigint null, "text" text null, "images" jsonb not null, "file" jsonb null, "link_metadatas" jsonb not null, "is_everyone_mentioned" boolean not null default false, "is_pinned" boolean not null default false, "updated_at" timestamptz(0) null, "pinned_at" timestamptz(0) null, "is_deleted" boolean not null default false, "type" text check ("type" in (\'Normal\', \'Join\', \'Left\', \'FriendRequestReceived\', \'Initial\')) not null default \'Normal\');');
+
+    this.addSql('create table "message_mentioned_users" ("message_id" bigint not null, "user_id" bigint not null, constraint "message_mentioned_users_pkey" primary key ("message_id", "user_id"));');
 
     this.addSql('create table "group_user" ("user_id" bigint not null, "last_message_at" timestamptz(0) not null, constraint "group_user_pkey" primary key ("user_id"));');
 
@@ -53,11 +57,20 @@ export class Migration20221102153513 extends Migration {
     this.addSql('alter table "post" add constraint "post_author_id_foreign" foreign key ("author_id") references "user" ("id") on update cascade;');
     this.addSql('alter table "post" add constraint "post_server_id_foreign" foreign key ("server_id") references "server" ("id") on update cascade;');
 
-    this.addSql('alter table "post_vote" add constraint "post_vote_post_id_foreign" foreign key ("post_id") references "post" ("id") on update cascade on delete cascade;');
+    this.addSql('alter table "post_vote" add constraint "post_vote_user_id_foreign" foreign key ("user_id") references "user" ("id") on update cascade;');
+    this.addSql('alter table "post_vote" add constraint "post_vote_post_id_foreign" foreign key ("post_id") references "post" ("id") on update cascade;');
 
     this.addSql('alter table "folder_post" add constraint "folder_post_post_id_foreign" foreign key ("post_id") references "post" ("id") on update cascade on delete cascade;');
 
     this.addSql('alter table "comment" add constraint "comment_post_id_foreign" foreign key ("post_id") references "post" ("id") on update cascade;');
+
+    this.addSql('alter table "message" add constraint "message_author_id_foreign" foreign key ("author_id") references "user" ("id") on update cascade;');
+    this.addSql('alter table "message" add constraint "message_channel_id_foreign" foreign key ("channel_id") references "channel" ("id") on update cascade on delete set null;');
+    this.addSql('alter table "message" add constraint "message_group_id_foreign" foreign key ("group_id") references "group" ("id") on update cascade on delete set null;');
+    this.addSql('alter table "message" add constraint "message_to_user_id_foreign" foreign key ("to_user_id") references "user" ("id") on update cascade on delete set null;');
+
+    this.addSql('alter table "message_mentioned_users" add constraint "message_mentioned_users_message_id_foreign" foreign key ("message_id") references "message" ("id") on update cascade on delete cascade;');
+    this.addSql('alter table "message_mentioned_users" add constraint "message_mentioned_users_user_id_foreign" foreign key ("user_id") references "user" ("id") on update cascade on delete cascade;');
 
     this.addSql('alter table "group_user" add constraint "group_user_user_id_foreign" foreign key ("user_id") references "user" ("id") on update cascade on delete cascade;');
 

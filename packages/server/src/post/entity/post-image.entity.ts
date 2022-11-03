@@ -1,6 +1,6 @@
 import { Embeddable, Embedded, Property } from '@mikro-orm/core';
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Image } from './image.entity';
+import { Image } from '../../common/entity/image.entity';
 
 @Embeddable()
 @ObjectType()
