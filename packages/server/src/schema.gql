@@ -193,7 +193,12 @@ type File {
 type Group implements BaseEntity {
   id: ID!
   createdAt: DateTime!
+  owner: User!
+  name: String!
+  avatarUrl: String
+  lastMessageAt: DateTime!
   users: [User!]!
+  unreadCount: NonNegativeInt!
 }
 
 type User implements BaseEntity {
