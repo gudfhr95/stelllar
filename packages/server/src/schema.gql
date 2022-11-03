@@ -46,6 +46,7 @@ type Folder implements BaseEntity {
   description: String
   avatarUrl: String
   owner: User
+  server: Server
   postCount: NonNegativeInt!
   followerCount: NonNegativeInt!
   isFollowing: Boolean!
