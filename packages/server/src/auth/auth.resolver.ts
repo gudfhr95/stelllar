@@ -11,6 +11,7 @@ import { GqlRes } from './decorator/gql-res.decorator';
 import { GqlJwtAuthGuard } from './guard/gql-jwt-auth.guard';
 import { GraphQLBoolean } from 'graphql/type';
 import UserService from '../user/user.service';
+import { GqlJwtRefreshGuard } from './guard/gql-jwt-refresh.guard';
 
 @Resolver()
 export class AuthResolver {
@@ -49,8 +50,19 @@ export class AuthResolver {
 
   @UseGuards(GqlJwtAuthGuard)
   @Mutation(() => GraphQLBoolean)
-  async logout(@GqlRes() response: Response) {
+  logout(@GqlRes() response: Response) {
     response.setHeader('Set-Cookie', this.authService.getCookieForLogOut());
+    return true;
+  }
+
+  @UseGuards(GqlJwtRefreshGuard)
+  @Mutation(() => GraphQLBoolean)
+  async refresh(@CurrentUser() user: User, @GqlRes() response: Response) {
+    const accessTokenCookie = this.authService.getCookieWithJwtAccessToken(
+      user.id
+    );
+
+    response.setHeader('Set-Cookie', accessTokenCookie);
     return true;
   }
 }
