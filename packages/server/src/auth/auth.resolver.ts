@@ -12,6 +12,7 @@ import { GqlJwtAuthGuard } from './guard/gql-jwt-auth.guard';
 import { GraphQLBoolean } from 'graphql/type';
 import UserService from '../user/user.service';
 import { GqlJwtRefreshGuard } from './guard/gql-jwt-refresh.guard';
+import { ChangePasswordInput } from './input/change-password.input';
 
 @Resolver()
 export class AuthResolver {
@@ -66,5 +67,18 @@ export class AuthResolver {
 
     response.setHeader('Set-Cookie', accessTokenCookie);
     return true;
+  }
+
+  @UseGuards(GqlJwtAuthGuard)
+  @Mutation(() => User)
+  async changePassword(
+    @Args('input') input: ChangePasswordInput,
+    @CurrentUser() user: User
+  ) {
+    return await this.authService.changePassword(
+      user.id,
+      input.currentPassword,
+      input.newPassword
+    );
   }
 }

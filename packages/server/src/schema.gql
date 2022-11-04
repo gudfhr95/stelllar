@@ -295,6 +295,7 @@ type Mutation {
   login(input: LoginInput!): User!
   logout: Boolean!
   refresh: Boolean!
+  changePassword(input: ChangePasswordInput!): User!
 }
 
 input RegisterInput {
@@ -306,4 +307,9 @@ input RegisterInput {
 input LoginInput {
   email: EmailAddress!
   password: String!
+}
+
+input ChangePasswordInput {
+  currentPassword: String!
+  newPassword: String!
 }
