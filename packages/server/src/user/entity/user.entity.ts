@@ -34,6 +34,9 @@ export class User extends BaseEntity {
   @Property({ columnType: 'text', unique: true })
   username: string;
 
+  @Property({ nullable: true })
+  currentHashedRefreshToken?: string;
+
   @Field({ nullable: true })
   @Property({ nullable: true })
   lastLoginAt?: Date;

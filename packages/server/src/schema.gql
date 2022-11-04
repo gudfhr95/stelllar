@@ -287,7 +287,7 @@ enum RelationshipStatus {
 }
 
 type Query {
-  getUser(id: ID, username: String): User
+  getUser: User
 }
 
 type Mutation {

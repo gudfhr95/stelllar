@@ -6,7 +6,10 @@ import { Request } from 'express';
 import UserService from '../../user/user.service';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtRefreshTokenStrategy extends PassportStrategy(
+  Strategy,
+  'jwt-refresh-token'
+) {
   constructor(
     private readonly configService: ConfigService,
     private readonly userService: UserService
@@ -14,14 +17,19 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         (request: Request) => {
-          return request?.cookies?.Authentication;
+          return request?.cookies?.Refresh;
         },
       ]),
-      secretOrKey: configService.get('JWT_ACCESS_TOKEN_SECRET'),
+      secretOrKey: configService.get('JWT_REFRESH_TOKEN_SECRET'),
+      passReqToCallback: true,
     });
   }
 
-  async validate(payload: TokenPayload) {
-    return this.userService.getUserById(payload.userId);
+  async validate(request: Request, payload: TokenPayload) {
+    const refreshToken = request.cookies?.Refresh;
+    return this.userService.getUserIfRefreshTokenMatches(
+      refreshToken,
+      payload.userId
+    );
   }
 }

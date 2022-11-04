@@ -10,10 +10,14 @@ import { Response } from 'express';
 import { GqlRes } from './decorator/gql-res.decorator';
 import { GqlJwtAuthGuard } from './guard/gql-jwt-auth.guard';
 import { GraphQLBoolean } from 'graphql/type';
+import UserService from '../user/user.service';
 
 @Resolver()
 export class AuthResolver {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UserService
+  ) {}
 
   @Mutation(() => User)
   async register(@Args('input') input: RegisterInput) {
@@ -31,9 +35,15 @@ export class AuthResolver {
     @CurrentUser() user: User,
     @GqlRes() response: Response
   ) {
-    const cookie = this.authService.getCookieWithJwtToken(user.id);
-    response.setHeader('Set-Cookie', cookie);
+    const accessTokenCookie = this.authService.getCookieWithJwtAccessToken(
+      user.id
+    );
+    const { cookie: refreshTokenCookie, token: refreshToken } =
+      this.authService.getCookieWithJwtRefreshToken(user.id);
 
+    await this.userService.setCurrentRefreshToken(refreshToken, user.id);
+
+    response.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie]);
     return user;
   }
 
