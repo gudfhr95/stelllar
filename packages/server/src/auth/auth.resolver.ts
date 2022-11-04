@@ -50,8 +50,10 @@ export class AuthResolver {
 
   @UseGuards(GqlJwtAuthGuard)
   @Mutation(() => GraphQLBoolean)
-  logout(@GqlRes() response: Response) {
-    response.setHeader('Set-Cookie', this.authService.getCookieForLogOut());
+  async logout(@CurrentUser() user: User, @GqlRes() response: Response) {
+    await this.userService.removeRefreshToken(user.id);
+    response.setHeader('Set-Cookie', this.authService.getCookiesForLogOut());
+
     return true;
   }
 

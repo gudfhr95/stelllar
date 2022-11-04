@@ -68,4 +68,12 @@ export default class UserService {
     await this.userRepository.persistAndFlush(user);
     return user;
   }
+
+  async removeRefreshToken(userId: string) {
+    const user = await this.userRepository.findOne({ id: userId });
+    user.currentHashedRefreshToken = null;
+
+    await this.userRepository.persistAndFlush(user);
+    return user;
+  }
 }
