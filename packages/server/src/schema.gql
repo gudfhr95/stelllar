@@ -234,8 +234,8 @@ enum FolderVisibility {
 type User implements BaseEntity {
   id: ID!
   createdAt: DateTime!
+  email: EmailAddress!
   username: String!
-  email: EmailAddress
   lastLoginAt: DateTime
   lastMessageAt: DateTime
   avatarUrl: String
@@ -287,15 +287,23 @@ enum RelationshipStatus {
 }
 
 type Query {
-  sayHello: String!
+  getUser: User
 }
 
 type Mutation {
-  createAccount(input: CreateAccountInput!): User!
+  register(input: RegisterInput!): User!
+  login(input: LoginInput!): User!
+  logout: Boolean!
+  refresh: Boolean!
 }
 
-input CreateAccountInput {
+input RegisterInput {
+  email: EmailAddress!
   username: String!
-  email: EmailAddress
+  password: String!
+}
+
+input LoginInput {
+  email: EmailAddress!
   password: String!
 }

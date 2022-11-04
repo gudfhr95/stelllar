@@ -26,13 +26,16 @@ import { Server } from '../../server/entity/server.entity';
 @ObjectType({ implements: BaseEntity })
 @Entity()
 export class User extends BaseEntity {
+  @Field(() => GraphQLEmailAddress)
+  @Property({ columnType: 'text', unique: true })
+  email: string;
+
   @Field()
-  @Property({ columnType: 'text' })
+  @Property({ columnType: 'text', unique: true })
   username: string;
 
-  @Field(() => GraphQLEmailAddress, { nullable: true })
-  @Property({ columnType: 'text', nullable: true })
-  email: string;
+  @Property({ nullable: true })
+  currentHashedRefreshToken?: string;
 
   @Field({ nullable: true })
   @Property({ nullable: true })
@@ -61,7 +64,7 @@ export class User extends BaseEntity {
   isCurrentUser: boolean;
 
   @Property({ columnType: 'text' })
-  passwordHash: string;
+  password: string;
 
   @Property({ columnType: 'boolean' })
   isDeleted = false;

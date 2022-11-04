@@ -3,14 +3,14 @@ import { IsEmail, Length } from 'class-validator';
 import { GraphQLEmailAddress } from 'graphql-scalars';
 
 @InputType()
-export class CreateAccountInput {
+export class RegisterInput {
+  @Field(() => GraphQLEmailAddress)
+  @IsEmail()
+  email: string;
+
   @Field()
   @Length(3, 20)
   username: string;
-
-  @Field(() => GraphQLEmailAddress, { nullable: true })
-  @IsEmail()
-  email?: string;
 
   @Field()
   @Length(6)
