@@ -59,6 +59,15 @@ export default class UserService {
     return user;
   }
 
+  async updatePassword(userId: string, newHashedPassword: string) {
+    const user = await this.userRepository.findOne({ id: userId });
+
+    user.password = newHashedPassword;
+
+    await this.userRepository.persistAndFlush(user);
+    return user;
+  }
+
   async setCurrentRefreshToken(refreshToken: string, userId: string) {
     const currentHashedRefreshToken = await argon2.hash(refreshToken);
 

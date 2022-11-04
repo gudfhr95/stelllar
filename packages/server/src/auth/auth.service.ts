@@ -3,6 +3,7 @@ import * as argon2 from 'argon2';
 import UserService from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import PostgresErrorCode from '../database/enum/postgres-error-code.enum';
 
 @Injectable()
 export class AuthService {
@@ -15,12 +16,7 @@ export class AuthService {
   public async register(email: string, username: string, password: string) {
     const hashedPassword = await argon2.hash(password);
     try {
-      const createdUser = await this.userService.createUser(
-        email,
-        username,
-        hashedPassword
-      );
-      return createdUser;
+      return await this.userService.createUser(email, username, hashedPassword);
     } catch (error) {
       if (error?.code === PostgresErrorCode.UniqueViolation) {
         throw new HttpException(
@@ -100,5 +96,24 @@ export class AuthService {
       'Authentication=; HttpOnly; Path=/; Max-Age=0',
       'Refresh=; HttpOnly; Path=/; Max-Age=0',
     ];
+  }
+
+  public async changePassword(
+    userId: string,
+    currentPassword: string,
+    newPassword: string
+  ) {
+    try {
+      const user = await this.userService.getUserById(userId);
+      await this.verifyPassword(currentPassword, user.password);
+
+      const newHashedPassword = await argon2.hash(newPassword);
+      return await this.userService.updatePassword(userId, newHashedPassword);
+    } catch (error) {
+      throw new HttpException(
+        'Wrong credentials provided',
+        HttpStatus.BAD_REQUEST
+      );
+    }
   }
 }
