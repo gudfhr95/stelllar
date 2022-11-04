@@ -3,6 +3,7 @@ import * as argon2 from 'argon2';
 import UserService from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import PostgresErrorCode from '../database/enum/postgres-error-code.enum';
 
 @Injectable()
 export class AuthService {
