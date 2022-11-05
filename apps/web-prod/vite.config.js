@@ -4,7 +4,7 @@ import stringHash from "string-hash";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 
-export default defineConfig(({ command }) => ({
+export default defineConfig(({ command, mode }) => ({
   base: process.env.ELECTRON === "true" ? "./" : "/",
   plugins: [
     reactRefresh(),
@@ -73,5 +73,8 @@ export default defineConfig(({ command }) => ({
   build: {
     target: "es2018",
     outDir: process.env.ELECTRON === "true" ? "../electron/dist" : "dist",
+  },
+  define: {
+    __DEV__: (mode === "development").toString(),
   },
 }));
