@@ -1,0 +1,213 @@
+html, body, #root {
+  position: relative;
+  height: 100%;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+html {
+  @apply text-black bg-gray-100;
+}
+
+html.dark {
+  @apply text-white bg-gray-900;
+}
+
+body {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.text-tertiary {
+  @apply text-gray-600 dark:text-gray-400;
+}
+
+.text-secondary {
+  @apply text-gray-700 dark:text-gray-300;
+}
+
+.text-primary {
+  @apply text-gray-900 dark:text-gray-100;
+}
+
+.text-mid {
+  @apply text-gray-500;
+}
+
+.text-disabled {
+  @apply text-gray-400 dark:text-gray-600
+}
+
+.text-accent {
+  @apply text-blue-500;
+}
+
+.placeholder-mid {
+  @apply placeholder-gray-500 dark:placeholder-gray-500;
+}
+
+.placeholder-tertiary {
+  @apply placeholder-gray-600 dark:placeholder-gray-400;
+}
+
+.placeholder-secondary {
+  @apply placeholder-gray-700 dark:placeholder-gray-300;
+}
+
+.placeholder-primary {
+  @apply placeholder-gray-900 dark:placeholder-gray-100;
+}
+
+.menu-items {
+  @apply absolute bg-white border border-gray-200 dark:border-transparent dark:bg-gray-800 rounded-md shadow-lg outline-none;
+}
+
+.menu-item {
+  @apply cursor-pointer transition flex items-center w-full px-4 py-2.5 text-sm font-medium text-left focus:outline-none select-none;
+}
+
+.hidescroll {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+.hidescroll::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
+}
+
+.action-chip {
+  @apply text-xs font-medium inline-flex items-center cursor-pointer h-7 px-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition;
+}
+
+.react-player {
+  @apply absolute top-0 left-0;
+}
+
+.toast {
+  @apply bg-white dark:bg-gray-900 text-sm font-normal text-black dark:text-white !important;
+}
+
+.twemoji {
+  @apply w-4.5 h-4.5 inline-block object-contain;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.textbox {
+  @apply disabled:opacity-50 px-3 rounded dark:bg-gray-775 border dark:border-gray-850 duration-300 dark:focus:border-blue-500 h-10 placeholder-gray-600 dark:placeholder-gray-400 block focus:outline-none transition w-full text-base;
+}
+
+.label {
+  @apply text-left block pb-2 uppercase text-11 font-semibold tracking-widest text-gray-600 dark:text-gray-400;
+}
+
+.card {
+  @apply rounded shadow-lg dark:bg-gray-750 max-w-md w-full p-4 z-20;
+}
+
+.title {
+  @apply text-2xl font-bold text-center;
+}
+
+.highlightable {
+  @apply cursor-pointer text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300;
+}
+
+.scrollbar-custom {
+  @apply scrollbar-thin dark:scrollbar-thumb-gray-850 dark:scrollbar-track-gray-775 scrollbar-track-gray-200 scrollbar-thumb-gray-300 scrollbar-thumb-rounded-md;
+}
+
+.scrollbar-light {
+  @apply scrollbar-thin dark:scrollbar-thumb-gray-800 dark:scrollbar-track-gray-725 scrollbar-track-gray-200 scrollbar-thumb-gray-300 scrollbar-thumb-rounded-md;
+}
+
+.scrollbar-dark {
+  @apply scrollbar-thin dark:scrollbar-thumb-gray-850 dark:scrollbar-track-gray-800 scrollbar-track-gray-200 scrollbar-thumb-gray-300 scrollbar-thumb-rounded-md;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  @apply text-gray-500 dark:text-gray-500;
+  float: left;
+  pointer-events: none;
+  height: 0;
+}
+
+.cancel-button {
+  @apply text-gray-600 dark:text-gray-400 px-2 h-10 text-sm font-medium focus:outline-none;
+}
+
+span[data-mention] {
+  @apply text-blue-500 hover:underline cursor-pointer bg-blue-600 bg-opacity-10 rounded;
+}
+
+span[data-spoiler] {
+  @apply dark:bg-gray-100 bg-gray-900 dark:hover:bg-transparent hover:bg-transparent;
+}
+
+@keyframes float {
+  0% {
+    transform: translatey(6px);
+  }
+  50% {
+    transform: translatey(-6px);
+  }
+  100% {
+    transform: translatey(6px);
+  }
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+.form-input {
+  @apply disabled:opacity-50 border-0 border-b focus:ring-0 dark:border-gray-700 bg-transparent w-full h-10 text-sm rounded-none px-1.5 focus:outline-none transition dark:focus:border-blue-500 text-gray-900 dark:text-gray-100;
+}
+
+.form-input-password {
+  @apply border-0 border-b focus:ring-0 dark:border-gray-700 bg-transparent w-full h-10 text-sm rounded-none pl-1.5 pr-9 focus:outline-none transition dark:focus:border-blue-500 text-gray-900 dark:text-gray-100;
+}
+
+
+.form-input-icon {
+  @apply disabled:opacity-50 border-0 border-b focus:ring-0 dark:border-gray-700 bg-transparent w-full h-10 text-sm pr-1.5 pl-9 focus:outline-none transition dark:focus:border-blue-500 text-gray-900 dark:text-gray-100;
+}
+
+.form-input-icon-icon {
+  @apply absolute left-1.5 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-600 dark:text-gray-400;
+}
+
+.form-input-lg {
+  @apply h-9 px-1.5 rounded-none w-full text-gray-900 dark:text-gray-100 font-medium bg-transparent focus:outline-none border-b dark:border-gray-700 dark:focus:border-blue-500 transition;
+}
+
+.form-textarea {
+  @apply resize-none bg-transparent dark:border-gray-700 transition dark:focus:border-blue-500 border-b border-r-0 border-l-0 border-t-0 text-sm w-full focus:ring-0 px-1.5 scrollbar-thin dark:scrollbar-thumb-gray-850 dark:scrollbar-track-gray-775 scrollbar-thumb-rounded-md text-gray-900 dark:text-gray-100;
+}
+
+.form-error {
+  @apply text-red-400 text-xs pt-2.5 pl-1.5;
+}
+
+.form-button-submit {
+  @apply disabled:opacity-50 focus:outline-none shadow rounded bg-green-600 min-w-[5rem] px-4 h-9 flex items-center justify-center disabled:cursor-not-allowed text-gray-900 dark:text-gray-100 text-sm;
+}
+
+.form-button-delete {
+  @apply disabled:opacity-50 focus:outline-none shadow rounded bg-red-500 min-w-[5rem] px-4 h-9 flex items-center justify-center disabled:cursor-not-allowed text-gray-900 dark:text-gray-100 text-sm;
+}
+
+.form-button-cancel {
+  @apply disabled:opacity-50 focus:outline-none shadow rounded bg-gray-500 min-w-[5rem] px-4 h-9 flex items-center justify-center disabled:cursor-not-allowed text-gray-900 dark:text-gray-100 text-sm;
+}
+
+.form-show-password-button {
+  @apply w-5 h-5 cursor-pointer text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 absolute right-1.5 top-1/2 transform -translate-y-1/2;
+}
+
+.youtube iframe {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}

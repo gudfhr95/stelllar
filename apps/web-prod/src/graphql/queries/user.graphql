@@ -1,0 +1,13 @@
+query user($id: ID, $username: String) @live {
+  user(id: $id, username: $username) {
+    ...User
+    relatedUsers {
+      ...User
+    }
+    servers {
+      id
+      avatarUrl
+      name
+    }
+  }
+}

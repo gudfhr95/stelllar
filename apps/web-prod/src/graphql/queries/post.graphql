@@ -1,0 +1,19 @@
+query post($id: ID!) {
+  post(id: $id) {
+    ...Post
+    author {
+      ...User
+    }
+    serverUser {
+      ...ServerUser
+    }
+    server {
+      id
+      name
+      avatarUrl
+      isDownvotesEnabled
+      displayName
+      permissions
+    }
+  }
+}

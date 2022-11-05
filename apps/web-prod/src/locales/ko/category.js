@@ -1,0 +1,21 @@
+export const category = {
+  Featured: '추천',
+  Arts: '예술',
+  Business: '비즈니스',
+  Culture: '문화',
+  Discussion: '토론',
+  Entertainment: '엔터테인먼트',
+  Gaming: '게임',
+  Health: '건강',
+  Hobbies: '취미',
+  Lifestyle: '라이프스타일',
+  Memes: '짤',
+  Meta: '메타',
+  News: '뉴스',
+  Politics: '정치',
+  Programming: '프로그래밍',
+  Science: '과학',
+  Sports: '스포츠',
+  Technology: '기술',
+  Other: '기타'
+}

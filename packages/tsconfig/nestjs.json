@@ -19,5 +19,7 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
-  }
+  },
+  "include": ["../../apps/server/src", "../../apps/server/test"],
+  "exclude": ["../../apps/server/migrations"]
 }
