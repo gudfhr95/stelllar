@@ -1,45 +1,45 @@
-import { useLoginDialog } from '@/hooks/useLoginDialog'
-import { useForm } from 'react-hook-form'
-import { useCreateAccountMutation, useLoginMutation } from '@/graphql/hooks'
+import StyledDialog from "@/components/ui/dialog/StyledDialog";
 import {
   IconEmail,
   IconSpinner,
   IconUser,
   IconUserToServerArrow,
-  IconX
-} from '@/components/ui/icons/Icons'
-import { useState } from 'react'
-import { VectorLogo } from '@/components/ui/vectors'
-import isEmail from 'validator/es/lib/isEmail'
-import StyledDialog from '@/components/ui/dialog/StyledDialog'
-import ShowPasswordButton from '@/components/ui/ShowPasswordButton'
-import { useTranslation } from 'react-i18next'
+  IconX,
+} from "@/components/ui/icons/Icons";
+import ShowPasswordButton from "@/components/ui/ShowPasswordButton";
+import { VectorLogo } from "@/components/ui/vectors";
+import { useCreateAccountMutation, useLoginMutation } from "@/graphql/hooks";
+import { useLoginDialog } from "@/hooks/useLoginDialog";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import isEmail from "validator/es/lib/isEmail";
 
-const usernameRegex = /^[A-Za-z0-9-_]+$/gi
+const usernameRegex = /^[A-Za-z0-9-_]+$/gi;
 
 export default function LoginDialog() {
-  const { t } = useTranslation()
-  const [open, setOpen, isCreateAccount, setCreateAccount] = useLoginDialog()
-  const [showPassword, setShowPassword] = useState(false)
+  const { t } = useTranslation();
+  const [open, setOpen, isCreateAccount, setCreateAccount] = useLoginDialog();
+  const [showPassword, setShowPassword] = useState(false);
   const {
     handleSubmit,
     register,
     watch,
     reset,
     getValues,
-    formState: { errors }
+    formState: { errors },
   } = useForm({
-    mode: 'onChange',
-    shouldUnregister: true
-  })
-  const email = watch('email')
-  const username = watch('username')
-  const usernameOrEmail = watch('usernameOrEmail')
-  const password = watch('password')
-  const confirmPassword = watch('confirmPassword')
+    mode: "onChange",
+    shouldUnregister: true,
+  });
+  const email = watch("email");
+  const username = watch("username");
+  const usernameOrEmail = watch("usernameOrEmail");
+  const password = watch("password");
+  const confirmPassword = watch("confirmPassword");
   const [createAccount, { loading: createAccountLoading }] =
-    useCreateAccountMutation()
-  const [login, { loading: loginLoading }] = useLoginMutation()
+    useCreateAccountMutation();
+  const [login, { loading: loginLoading }] = useLoginMutation();
   const onSubmit = ({ usernameOrEmail, email, username, password }) => {
     if (isCreateAccount) {
       createAccount({
@@ -47,39 +47,39 @@ export default function LoginDialog() {
           input: {
             username,
             password,
-            email: email ? email : null
-          }
-        }
+            email: email ? email : null,
+          },
+        },
       }).then(
         ({
           data: {
-            createAccount: { accessToken, user }
-          }
+            createAccount: { accessToken, user },
+          },
         }) => {
-          localStorage.setItem('token', accessToken)
-          location.reload()
+          localStorage.setItem("token", accessToken);
+          location.reload();
         }
-      )
+      );
     } else {
       const input = isEmail(usernameOrEmail)
         ? { email: usernameOrEmail }
-        : { username: usernameOrEmail }
+        : { username: usernameOrEmail };
       login({ variables: { input: { ...input, password } } }).then(
         ({
           data: {
-            login: { accessToken, user }
-          }
+            login: { accessToken, user },
+          },
         }) => {
-          localStorage.setItem('token', accessToken)
-          location.reload()
+          localStorage.setItem("token", accessToken);
+          location.reload();
         }
-      )
+      );
     }
-  }
+  };
   const close = () => {
-    reset()
-    setOpen(false)
-  }
+    reset();
+    setOpen(false);
+  };
   const disabled = !(isCreateAccount
     ? !!username &&
       username.length >= 3 &&
@@ -90,7 +90,7 @@ export default function LoginDialog() {
       password.length >= 6 &&
       !!confirmPassword &&
       confirmPassword === password
-    : !!usernameOrEmail && !!password)
+    : !!usernameOrEmail && !!password);
 
   return (
     <StyledDialog
@@ -118,37 +118,37 @@ export default function LoginDialog() {
           <div
             onClick={() => {
               if (isCreateAccount) {
-                setCreateAccount(false)
-                reset()
+                setCreateAccount(false);
+                reset();
               }
             }}
             className={`text-sm cursor-pointer mr-3 py-3 border-b-2 inline-flex items-center justify-center px-3 ${
               isCreateAccount
-                ? 'border-transparent text-secondary'
-                : 'dark:border-gray-300 text-primary'
+                ? "border-transparent text-secondary"
+                : "dark:border-gray-300 text-primary"
             }`}
           >
-            {t('auth.login.label')}
+            {t("auth.login.label")}
           </div>
 
           <div
             onClick={() => {
               if (!isCreateAccount) {
-                setCreateAccount(true)
-                reset()
+                setCreateAccount(true);
+                reset();
               }
             }}
             className={`text-sm cursor-pointer py-3 border-b-2 inline-flex items-center justify-center px-3 ${
               isCreateAccount
-                ? 'dark:border-gray-300 text-primary'
-                : 'border-transparent text-secondary'
+                ? "dark:border-gray-300 text-primary"
+                : "border-transparent text-secondary"
             }`}
           >
-            {t('auth.createAccount.label')}            
+            {t("auth.createAccount.label")}
           </div>
 
-          <div className="h-4 ml-auto">
-            <VectorLogo className="-mt-10 -mr-14 h-24 text-secondary" />
+          <div className="ml-auto">
+            <VectorLogo className="h-8 text-secondary" />
           </div>
           <IconX
             className="ml-5 w-5 h-5 text-tertiary highlightable"
@@ -163,25 +163,25 @@ export default function LoginDialog() {
                 <div className="relative">
                   <input
                     id="username"
-                    {...register('username', {
+                    {...register("username", {
                       required: true,
                       pattern: usernameRegex,
                       maxLength: 20,
-                      minLength: 3
+                      minLength: 3,
                     })}
                     className={`form-input-icon`}
-                    placeholder={t('auth.createAccount.name')}
+                    placeholder={t("auth.createAccount.name")}
                     minLength={3}
                     maxLength={20}
                   />
                   <IconUser className={`form-input-icon-icon`} />
                 </div>
-                {errors.username?.type === 'minLength' && (
+                {errors.username?.type === "minLength" && (
                   <div className={`form-error`}>
                     Username must be between 3 and 20 characters
                   </div>
                 )}
-                {errors.username?.type === 'pattern' && (
+                {errors.username?.type === "pattern" && (
                   <div className={`form-error`}>
                     Letters, numbers, dashes, and underscores only
                   </div>
@@ -192,19 +192,19 @@ export default function LoginDialog() {
                 <div className="relative">
                   <input
                     id="email"
-                    {...register('email', {
+                    {...register("email", {
                       validate: {
-                        email: value =>
-                          !value || isEmail(value) || 'Invalid email'
-                      }
+                        email: (value) =>
+                          !value || isEmail(value) || "Invalid email",
+                      },
                     })}
                     className={`form-input-icon`}
-                    placeholder={t('auth.createAccount.email')}
+                    placeholder={t("auth.createAccount.email")}
                     type="email"
                   />
                   <IconEmail className={`form-input-icon-icon`} />
                 </div>
-                {errors.email?.type === 'email' && (
+                {errors.email?.type === "email" && (
                   <div className={`form-error`}>{errors.email.message}</div>
                 )}
               </div>
@@ -212,11 +212,11 @@ export default function LoginDialog() {
           ) : (
             <input
               id="usernameOrEmail"
-              {...register('usernameOrEmail', {
-                shouldUnregister: true
+              {...register("usernameOrEmail", {
+                shouldUnregister: true,
               })}
               className={`form-input`}
-              placeholder={t('auth.login.name')}
+              placeholder={t("auth.login.name")}
             />
           )}
 
@@ -226,13 +226,13 @@ export default function LoginDialog() {
                 <div className="relative">
                   <input
                     id="password"
-                    {...register('password', {
+                    {...register("password", {
                       required: true,
-                      minLength: 6
+                      minLength: 6,
                     })}
                     className={`form-input-password`}
-                    placeholder={t('auth.createAccount.password')}
-                    type={showPassword ? 'text' : 'password'}
+                    placeholder={t("auth.createAccount.password")}
+                    type={showPassword ? "text" : "password"}
                     minLength={6}
                   />
                   <ShowPasswordButton
@@ -240,7 +240,7 @@ export default function LoginDialog() {
                     setShowPassword={setShowPassword}
                   />
                 </div>
-                {errors.password?.type === 'minLength' && (
+                {errors.password?.type === "minLength" && (
                   <div className={`form-error`}>
                     Password must be at least 6 characters
                   </div>
@@ -251,18 +251,18 @@ export default function LoginDialog() {
                 <div className="relative">
                   <input
                     id="confirmPassword"
-                    {...register('confirmPassword', {
+                    {...register("confirmPassword", {
                       required: true,
                       validate: {
-                        matchesPreviousPassword: value => {
-                          const { password } = getValues()
-                          return password === value || 'Passwords do not match'
-                        }
-                      }
+                        matchesPreviousPassword: (value) => {
+                          const { password } = getValues();
+                          return password === value || "Passwords do not match";
+                        },
+                      },
                     })}
                     className={`form-input-password`}
-                    placeholder={t('auth.createAccount.passwordConfirm')}
-                    type={showPassword ? 'text' : 'password'}
+                    placeholder={t("auth.createAccount.passwordConfirm")}
+                    type={showPassword ? "text" : "password"}
                   />
                   <ShowPasswordButton
                     showPassword={showPassword}
@@ -280,10 +280,10 @@ export default function LoginDialog() {
             <div className="relative">
               <input
                 id="password"
-                {...register('password', { required: true })}
+                {...register("password", { required: true })}
                 className={`form-input`}
-                placeholder={t('auth.login.password')}
-                type={showPassword ? 'text' : 'password'}
+                placeholder={t("auth.login.password")}
+                type={showPassword ? "text" : "password"}
               />
               <ShowPasswordButton
                 showPassword={showPassword}
@@ -294,5 +294,5 @@ export default function LoginDialog() {
         </div>
       </div>
     </StyledDialog>
-  )
+  );
 }
