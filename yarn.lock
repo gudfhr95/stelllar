@@ -3251,6 +3251,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"eslint-config-nestjs@*, eslint-config-nestjs@workspace:packages/eslint-config-nestjs":
+  version: 0.0.0-use.local
+  resolution: "eslint-config-nestjs@workspace:packages/eslint-config-nestjs"
+  dependencies:
+    "@typescript-eslint/eslint-plugin": ^5.42.0
+    "@typescript-eslint/parser": ^5.42.0
+    eslint: ^8.26.0
+    eslint-config-prettier: ^8.5.0
+    eslint-plugin-prettier: ^4.2.1
+    typescript: ^4.8.4
+  languageName: unknown
+  linkType: soft
+
 "eslint-config-next@npm:13.0.2":
   version: 13.0.2
   resolution: "eslint-config-next@npm:13.0.2"
@@ -5793,6 +5806,7 @@ __metadata:
   resolution: "my-turborepo@workspace:."
   dependencies:
     eslint-config-custom: "*"
+    eslint-config-nestjs: "*"
     prettier: ^2.7.1
     turbo: ^1.6.3
   languageName: unknown
@@ -6905,11 +6919,8 @@ __metadata:
     "@types/jest": 29.2.2
     "@types/node": ^18.11.9
     "@types/supertest": ^2.0.12
-    "@typescript-eslint/eslint-plugin": ^5.42.0
-    "@typescript-eslint/parser": ^5.42.0
-    eslint: ^8.26.0
-    eslint-config-prettier: ^8.5.0
-    eslint-plugin-prettier: ^4.2.1
+    eslint: 8.26.0
+    eslint-config-nestjs: "*"
     jest: 29.2.2
     prettier: ^2.7.1
     reflect-metadata: ^0.1.13
