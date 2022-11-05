@@ -1,43 +1,43 @@
-import { useCurrentUser } from '@/hooks/graphql/useCurrentUser'
-import UserAvatar from '@/components/user/UserAvatar'
 import {
   IconBell,
   IconDark,
   IconDownload,
   IconLight,
-  IconSettings
-} from '@/components/ui/icons/Icons'
-import Tippy from '@tippyjs/react'
-import { useEffect, useState } from 'react'
-import UserSettingsDialog from '@/components/user/UserSettingsDialog'
-import { version } from '../../package.json'
-import { useStore } from '@/hooks/useStore'
-import { OnlineStatus, useChangeOnlineStatusMutation } from '@/graphql/hooks'
-import { Link } from 'react-router-dom'
-import { getDownloadLink } from '@/hooks/getDownloadLink'
-import { useLoginDialog } from '@/hooks/useLoginDialog'
-import { getOS } from '@/utils/getOS'
-import { useDarkMode } from '@/hooks/useDarkMode'
-import { useTranslation } from 'react-i18next'
+  IconSettings,
+} from "@/components/ui/icons/Icons";
+import UserAvatar from "@/components/user/UserAvatar";
+import UserSettingsDialog from "@/components/user/UserSettingsDialog";
+import { OnlineStatus, useChangeOnlineStatusMutation } from "@/graphql/hooks";
+import { getDownloadLink } from "@/hooks/getDownloadLink";
+import { useCurrentUser } from "@/hooks/graphql/useCurrentUser";
+import { useDarkMode } from "@/hooks/useDarkMode";
+import { useLoginDialog } from "@/hooks/useLoginDialog";
+import { useStore } from "@/hooks/useStore";
+import { getOS } from "@/utils/getOS";
+import Tippy from "@tippyjs/react";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import { version } from "../../package.json";
 
 export default function BottomBar() {
-  const { t } = useTranslation()
-  const [currentUser] = useCurrentUser()
-  const offset = [0, 14]
-  const [open, setOpen] = useState(false)
-  const [updateAvailable, setUpdateAvailable] = useStore(s => [
+  const { t } = useTranslation();
+  const [currentUser] = useCurrentUser();
+  const offset = [0, 14];
+  const [open, setOpen] = useState(false);
+  const [updateAvailable, setUpdateAvailable] = useStore((s) => [
     s.updateAvailable,
-    s.setUpdateAvailable
-  ])
+    s.setUpdateAvailable,
+  ]);
   useEffect(() => {
     if (window.electron) {
-      window.electron.on('updateAvailable', () => {
-        setUpdateAvailable(true)
-      })
+      window.electron.on("updateAvailable", () => {
+        setUpdateAvailable(true);
+      });
     }
-  }, [])
+  }, []);
 
-  const [changeOnlineStatus] = useChangeOnlineStatusMutation()
+  const [changeOnlineStatus] = useChangeOnlineStatusMutation();
 
   // Update online status every 15 seconds
   useEffect(() => {
@@ -45,20 +45,20 @@ export default function BottomBar() {
       const id = setInterval(() => {
         changeOnlineStatus({
           variables: {
-            input: { onlineStatus: OnlineStatus.Online }
-          }
-        })
-      }, 15000)
-      return () => clearInterval(id)
+            input: { onlineStatus: OnlineStatus.Online },
+          },
+        });
+      }, 15000);
+      return () => clearInterval(id);
     }
-  }, [currentUser])
+  }, [currentUser]);
 
-  const { toggle: toggleDark, value: isDark } = useDarkMode()
+  const { toggle: toggleDark, value: isDark } = useDarkMode();
 
-  const downloadLink = getDownloadLink()
-  const os = getOS()
+  const downloadLink = getDownloadLink();
+  const os = getOS();
   const [loginOpen, setLoginOpen, isCreateAccount, setCreateAccount] =
-    useLoginDialog()
+    useLoginDialog();
   return (
     <>
       {!!currentUser && <UserSettingsDialog open={open} setOpen={setOpen} />}
@@ -77,21 +77,21 @@ export default function BottomBar() {
             <div
               className="cursor-pointer hover:underline"
               onClick={() => {
-                setCreateAccount(false)
-                setLoginOpen(true)
+                setCreateAccount(false);
+                setLoginOpen(true);
               }}
             >
-              {t('auth.login.label')}
+              {t("auth.login.label")}
             </div>
             &nbsp;&nbsp;&middot;&nbsp;&nbsp;
             <div
               className="cursor-pointer hover:underline"
               onClick={() => {
-                setCreateAccount(true)
-                setLoginOpen(true)
+                setCreateAccount(true);
+                setLoginOpen(true);
               }}
             >
-              {t('auth.createAccount.label')}
+              {t("auth.createAccount.label")}
             </div>
           </div>
         )}
@@ -110,7 +110,11 @@ export default function BottomBar() {
             </Tippy>
           )} */}
 
-          <Tippy content={isDark ? t('settings.theme.light') : t('settings.theme.dark')}>
+          <Tippy
+            content={
+              isDark ? t("settings.theme.light") : t("settings.theme.dark")
+            }
+          >
             <button
               className="text-tertiary cursor-pointer"
               onClick={() => toggleDark()}
@@ -126,28 +130,28 @@ export default function BottomBar() {
           <Tippy
             content={`${
               window.electron && updateAvailable
-                ? t('settings.update.available')
-                : t('settings.update.latest')
+                ? t("settings.update.available")
+                : t("settings.update.latest")
             }`}
           >
             <div
               className={`flex items-center ${
-                window.electron && updateAvailable ? 'cursor-pointer' : ''
+                window.electron && updateAvailable ? "cursor-pointer" : ""
               }`}
               onClick={() => {
                 if (window.electron && updateAvailable) {
-                  window.electron.restart()
+                  window.electron.restart();
                 }
               }}
             >
               <div
                 className={`text-xs font-medium ${
                   updateAvailable && window.electron
-                    ? 'text-green-500'
-                    : 'text-tertiary'
+                    ? "text-green-500"
+                    : "text-tertiary"
                 }`}
               >
-                Agoora v{version}
+                Stelllar v{version}
               </div>
 
               {window.electron && updateAvailable && (
@@ -172,13 +176,13 @@ export default function BottomBar() {
 
           {!!currentUser && (
             <>
-              <Tippy content={t('message.notifications')} offset={offset}>
+              <Tippy content={t("message.notifications")} offset={offset}>
                 <Link to="/inbox">
                   <IconBell className="w-4.5 h-4.5 cursor-pointer text-tertiary" />
                 </Link>
               </Tippy>
 
-              <Tippy content={t('settings.title')} offset={offset}>
+              <Tippy content={t("settings.title")} offset={offset}>
                 <div onClick={() => setOpen(true)}>
                   <IconSettings className="w-4.5 h-4.5 cursor-pointer text-tertiary" />
                 </div>
@@ -188,5 +192,5 @@ export default function BottomBar() {
         </div>
       </div>
     </>
-  )
+  );
 }

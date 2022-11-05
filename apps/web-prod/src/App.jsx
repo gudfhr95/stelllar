@@ -1,22 +1,22 @@
-import { DndProvider } from 'react-dnd'
-import { TouchBackend } from 'react-dnd-touch-backend'
-import Routes from '@/pages/Routes'
-import { ApolloProvider } from '@apollo/client/react'
-import ResponsiveToaster from '@/components/ui/ResponsiveToaster'
-import CustomDragLayer from '@/components/ui/CustomDragLayer'
-import { BrowserRouter, HashRouter } from 'react-router-dom'
-import { Helmet, HelmetProvider } from 'react-helmet-async'
-import TitleBar from '@/components/ui/electron/titlebar/TitleBar'
-import { getOS } from '@/utils/getOS'
-import { apolloClient } from '@/graphql/apolloClient'
-import ContextMenuProvider from '@/providers/ContextMenuProvider'
-import LoginDialog from '@/components/LoginDialog'
-import UserDialog from '@/components/user/UserDialog'
-import UserProvider from '@/providers/UserProvider'
+import LoginDialog from "@/components/LoginDialog";
+import CustomDragLayer from "@/components/ui/CustomDragLayer";
+import TitleBar from "@/components/ui/electron/titlebar/TitleBar";
+import ResponsiveToaster from "@/components/ui/ResponsiveToaster";
+import UserDialog from "@/components/user/UserDialog";
+import { apolloClient } from "@/graphql/apolloClient";
+import Routes from "@/pages/Routes";
+import ContextMenuProvider from "@/providers/ContextMenuProvider";
+import UserProvider from "@/providers/UserProvider";
+import { getOS } from "@/utils/getOS";
+import { ApolloProvider } from "@apollo/client/react";
+import { DndProvider } from "react-dnd";
+import { TouchBackend } from "react-dnd-touch-backend";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 
 export default function App() {
-  const isMac = getOS() === 'Mac OS'
-  const Router = window.electron ? HashRouter : BrowserRouter
+  const isMac = getOS() === "Mac OS";
+  const Router = window.electron ? HashRouter : BrowserRouter;
 
   return (
     <ApolloProvider client={apolloClient}>
@@ -28,7 +28,7 @@ export default function App() {
             name="viewport"
             content="width=device-width, initial-scale=1.0"
           />
-          <title>Comet – All-in-one chat & forums for communities</title>
+          <title>Stelllar – Forum & Chat for Communities</title>
         </Helmet>
 
         <UserProvider>
@@ -46,8 +46,8 @@ export default function App() {
                 <div
                   style={
                     window.electron
-                      ? { height: isMac ? '100%' : 'calc(100% - 1.375rem)' }
-                      : { height: '100%' }
+                      ? { height: isMac ? "100%" : "calc(100% - 1.375rem)" }
+                      : { height: "100%" }
                   }
                   className="flex"
                 >
@@ -59,5 +59,5 @@ export default function App() {
         </UserProvider>
       </HelmetProvider>
     </ApolloProvider>
-  )
+  );
 }
