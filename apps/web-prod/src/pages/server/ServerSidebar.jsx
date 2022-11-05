@@ -1,31 +1,31 @@
-import Sidebar from '@/components/ui/sidebar/Sidebar'
-import SidebarSortButtons from '@/components/ui/sidebar/SidebarSortButtons'
+import CreateChannel from "@/components/channel/CreateChannel";
+import SidebarChannel from "@/components/channel/SidebarChannel";
+import CreateServerDialog from "@/components/server/create/CreateServerDialog";
+import ServerAvatar from "@/components/server/ServerAvatar";
+import ManageRolesDialog from "@/components/server/settings/ManageRolesDialog";
 import {
   IconSettings,
   IconShield,
-  IconUsers
-} from '@/components/ui/icons/Icons'
-import SidebarLabel from '@/components/ui/sidebar/SidebarLabel'
-import SidebarItem from '@/components/ui/sidebar/SidebarItem'
-import SidebarChannel from '@/components/channel/SidebarChannel'
-import CreateChannel from '@/components/channel/CreateChannel'
+  IconUsers,
+} from "@/components/ui/icons/Icons";
+import Sidebar from "@/components/ui/sidebar/Sidebar";
+import SidebarItem from "@/components/ui/sidebar/SidebarItem";
+import SidebarLabel from "@/components/ui/sidebar/SidebarLabel";
+import SidebarSortButtons from "@/components/ui/sidebar/SidebarSortButtons";
+import { VectorLogo } from "@/components/ui/vectors";
 import {
-  ServerPermission,
   ChannelType,
+  ServerPermission,
   useJoinServerMutation,
-  useLeaveServerMutation
-} from '@/graphql/hooks'
-import { useState } from 'react'
-import { useHasServerPermissions } from '@/hooks/useHasServerPermissions'
-import CreateServerDialog from '@/components/server/create/CreateServerDialog'
-import { VectorLogo } from '@/components/ui/vectors'
-import ServerAvatar from '@/components/server/ServerAvatar'
-import { getCategoryIcon } from '@/hooks/getCategoryIcon'
-import ctl from '@netlify/classnames-template-literals'
-import { useCurrentUser } from '@/hooks/graphql/useCurrentUser'
-import { useCurrentServer } from '@/hooks/graphql/useCurrentServer'
-import ManageRolesDialog from '@/components/server/settings/ManageRolesDialog'
-import { useTranslation } from 'react-i18next'
+  useLeaveServerMutation,
+} from "@/graphql/hooks";
+import { getCategoryIcon } from "@/hooks/getCategoryIcon";
+import { useCurrentServer } from "@/hooks/graphql/useCurrentServer";
+import { useCurrentUser } from "@/hooks/graphql/useCurrentUser";
+import { useHasServerPermissions } from "@/hooks/useHasServerPermissions";
+import ctl from "@netlify/classnames-template-literals";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const joinButtonClass = (isJoined, loading) =>
   ctl(`
@@ -38,31 +38,31 @@ const joinButtonClass = (isJoined, loading) =>
   focus:outline-none
   ${
     isJoined
-      ? 'border border-gray-700 text-blue-500'
-      : 'bg-blue-500 text-primary'
+      ? "border border-gray-700 text-blue-500"
+      : "bg-blue-500 text-primary"
   }
-  ${loading ? 'opacity-50' : 'opacity-100'}
-`)
+  ${loading ? "opacity-50" : "opacity-100"}
+`);
 
 export default function ServerSidebar() {
-  const { t } = useTranslation()
-  const { server } = useCurrentServer()
-  const [currentUser] = useCurrentUser()
-  const [editOpen, setEditOpen] = useState(false)
-  const [rolesOpen, setRolesOpen] = useState(false)
+  const { t } = useTranslation();
+  const { server } = useCurrentServer();
+  const [currentUser] = useCurrentUser();
+  const [editOpen, setEditOpen] = useState(false);
+  const [rolesOpen, setRolesOpen] = useState(false);
   const [canManageServer, canViewPrivateChannels] = useHasServerPermissions({
     server,
     permissions: [
       ServerPermission.ManageServer,
-      ServerPermission.PrivateChannels
-    ]
-  })
-  const [joinServer, { loading: joinLoading }] = useJoinServerMutation()
-  const [leaveServer, { loading: leaveLoading }] = useLeaveServerMutation()
+      ServerPermission.PrivateChannels,
+    ],
+  });
+  const [joinServer, { loading: joinLoading }] = useJoinServerMutation();
+  const [leaveServer, { loading: leaveLoading }] = useLeaveServerMutation();
 
-  const CategoryIcon = getCategoryIcon(server?.category)
+  const CategoryIcon = getCategoryIcon(server?.category);
 
-  if (!server) return null
+  if (!server) return null;
   return (
     <>
       <CreateServerDialog
@@ -83,8 +83,8 @@ export default function ServerSidebar() {
           <div
             className={`h-20 relative bg-center bg-cover bg-no-repeat ${
               server.bannerUrl
-                ? ''
-                : 'bg-gradient-to-br from-red-400 to-indigo-600'
+                ? ""
+                : "bg-gradient-to-br from-red-400 to-indigo-600"
             }`}
             style={
               server.bannerUrl
@@ -94,7 +94,7 @@ export default function ServerSidebar() {
           />
         ) : (
           <div className="h-12 border-b dark:border-gray-850 shadow flex items-center px-5 text-base font-medium">
-            <VectorLogo className="-ml-10 h-24" />
+            <VectorLogo className="h-10" />
           </div>
         )}
 
@@ -118,29 +118,30 @@ export default function ServerSidebar() {
                   )}
                   type="button"
                   onClick={() => {
-                    if (joinLoading || leaveLoading) return
+                    if (joinLoading || leaveLoading) return;
                     if (server.isJoined) {
                       leaveServer({
-                        variables: { input: { serverId: server.id } }
-                      })
+                        variables: { input: { serverId: server.id } },
+                      });
                     } else {
                       joinServer({
-                        variables: { input: { serverId: server.id } }
-                      })
+                        variables: { input: { serverId: server.id } },
+                      });
                     }
                   }}
                 >
-                  {server.isJoined ? 'Leave' : 'Join'}
+                  {server.isJoined ? "Leave" : "Join"}
                 </button>
               )}
             </div>
             <div className="text-13 text-secondary pb-1.5">
-              {server.description || 'No description'}
+              {server.description || "No description"}
             </div>
             <div className="flex items-center justify-between">
               <div className="text-xs font-medium flex items-center text-tertiary">
                 <IconUsers className="w-4 h-4 mr-2.5" />
-                {t('server.memberCount', { count: server.userCount})} {server.userCount === 1 ? '' : 's'}
+                {t("server.memberCount", { count: server.userCount })}{" "}
+                {server.userCount === 1 ? "" : "s"}
               </div>
               <div className="text-xs font-medium flex items-center text-tertiary">
                 <CategoryIcon className="w-4 h-4 mr-2.5" />
@@ -157,12 +158,12 @@ export default function ServerSidebar() {
 
           <div className="space-y-0.5">
             {server.channels
-              .filter(channel =>
+              .filter((channel) =>
                 channel.type === ChannelType.Private
                   ? canViewPrivateChannels
                   : true
               )
-              .map(channel => (
+              .map((channel) => (
                 <SidebarChannel
                   key={channel.id}
                   channel={channel}
@@ -173,15 +174,15 @@ export default function ServerSidebar() {
 
           {canManageServer && (
             <>
-              <SidebarLabel>{t('server.sidebar.admin')}</SidebarLabel>
+              <SidebarLabel>{t("server.sidebar.admin")}</SidebarLabel>
               <div className="space-y-0.5">
                 <SidebarItem onClick={() => setEditOpen(true)}>
                   <IconSettings className="mr-3 w-5 h-5" />
-                  {t('server.sidebar.edit')}
+                  {t("server.sidebar.edit")}
                 </SidebarItem>
                 <SidebarItem onClick={() => setRolesOpen(true)}>
                   <IconShield className="mr-3 w-5 h-5" />
-                  {t('server.sidebar.manageRoles')}
+                  {t("server.sidebar.manageRoles")}
                 </SidebarItem>
               </div>
             </>
@@ -189,5 +190,5 @@ export default function ServerSidebar() {
         </div>
       </Sidebar>
     </>
-  )
+  );
 }

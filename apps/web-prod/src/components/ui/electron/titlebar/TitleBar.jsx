@@ -1,27 +1,28 @@
-import { useState } from 'react'
+import { VectorLogo } from "@/components/ui/vectors";
+import { useState } from "react";
 import {
   closeButton,
-  windowButtonIcon,
+  titlebar,
   windowButton,
+  windowButtonIcon,
   windowControls,
-  titlebar
-} from './TitleBar.module.css'
-import { VectorLogo } from '@/components/ui/vectors'
+} from "./TitleBar.module.css";
 
 export default function TitleBar() {
-  const { close, minimize, maximize, unmaximize, isMaximized } = window.electron
-  const [maximized, setMaximized] = useState(isMaximized())
-  const updateMaximized = () => setMaximized(isMaximized())
+  const { close, minimize, maximize, unmaximize, isMaximized } =
+    window.electron;
+  const [maximized, setMaximized] = useState(isMaximized());
+  const updateMaximized = () => setMaximized(isMaximized());
   return (
     <header className={titlebar}>
-      <VectorLogo className="h-3 text-tertiary" />
+      <VectorLogo className="m-6 text-tertiary" />
 
       <div className={windowControls}>
         <div
           className={`${windowButton} flex`}
           onClick={() => {
-            minimize()
-            updateMaximized()
+            minimize();
+            updateMaximized();
           }}
         >
           <img
@@ -36,10 +37,10 @@ export default function TitleBar() {
           />
         </div>
         <div
-          className={`${windowButton} ${maximized ? 'hidden' : 'flex'}`}
+          className={`${windowButton} ${maximized ? "hidden" : "flex"}`}
           onClick={() => {
-            maximize()
-            updateMaximized()
+            maximize();
+            updateMaximized();
           }}
         >
           <img
@@ -54,10 +55,10 @@ export default function TitleBar() {
           />
         </div>
         <div
-          className={`${windowButton} ${maximized ? 'flex' : 'hidden'}`}
+          className={`${windowButton} ${maximized ? "flex" : "hidden"}`}
           onClick={() => {
-            unmaximize()
-            updateMaximized()
+            unmaximize();
+            updateMaximized();
           }}
         >
           <img
@@ -74,8 +75,8 @@ export default function TitleBar() {
         <div
           className={`${windowButton} ${closeButton} flex`}
           onClick={() => {
-            close()
-            updateMaximized()
+            close();
+            updateMaximized();
           }}
         >
           <img
@@ -91,5 +92,5 @@ export default function TitleBar() {
         </div>
       </div>
     </header>
-  )
+  );
 }

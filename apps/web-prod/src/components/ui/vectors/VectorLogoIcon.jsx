@@ -27,5 +27,5 @@ export function VectorLogoIcon({ className }) {
         />
       </g>
     </svg>
-  )
+  );
 }
