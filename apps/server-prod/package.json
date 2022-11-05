@@ -14,7 +14,7 @@
   "scripts": {
     "start": "env-cmd -f .env.production ts-node -r tsconfig-paths/register --transpile-only src/index.ts",
     "dev": "env-cmd -f .env.development ts-node-dev -r tsconfig-paths/register src/index.ts",
-    "migrate": "env-cmd -f .env.production ts-node -r tsconfig-paths/register --transpile-only src/migrate.ts"
+    "migrate": "env-cmd -f .env.development ts-node -r tsconfig-paths/register --transpile-only src/migrate.ts"
   },
   "dependencies": {
     "@mikro-orm/core": "^4.5.7",
