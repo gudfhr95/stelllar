@@ -33,7 +33,7 @@ export async function seed(em: EntityManager) {
       name: "Stelllar",
       displayName: "Stelllar",
       description:
-        "Stelllar 관련 소식, 업데이트, 토론, 버그 제보를 하는 행성입니다.",
+        "Stelllar 관련 소식, 업데이트, 토론, 버그 제보, 기능 건의를 하는 행성입니다.",
       category: ServerCategory.Meta,
       avatarUrl:
         "https://user-images.githubusercontent.com/20228830/200124190-e0dd453e-606f-4c43-9b5e-b6a48894df30.png",
