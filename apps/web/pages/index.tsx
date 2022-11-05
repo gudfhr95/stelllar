@@ -1,10 +1,23 @@
-import { Button } from "ui";
+import { BottomBar } from "ui/layout";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-export default function Web() {
+export default function Index() {
   return (
-    <div>
-      <h1>Web</h1>
-      <Button />
+    <div className="flex-grow">
+      <div
+        className="flex items-stretch"
+        style={{ height: "calc(100% - 1.375rem)" }}
+      >
+        <BottomBar />
+      </div>
     </div>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["auth"])),
+    },
+  };
 }

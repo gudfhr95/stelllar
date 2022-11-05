@@ -9,9 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "i18next": "^22.0.4",
     "next": "13.0.2",
+    "next-i18next": "^12.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-i18next": "^12.0.0",
     "ui": "*"
   },
   "devDependencies": {
