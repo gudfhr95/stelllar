@@ -2,6 +2,10 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import { appWithTranslation } from "next-i18next";
 
+import { BottomBar } from "../src/components/BottomBar";
+
+import "../src/styles/global.css";
+
 function App({ Component, pageProps }: AppProps) {
   return (
     <>
@@ -12,7 +16,16 @@ function App({ Component, pageProps }: AppProps) {
         <title>Stelllar – Forum & Chat for Communities</title>
       </Head>
       <main className="app">
-        <Component {...pageProps} />
+        <div className="flex-grow">
+          <div
+            className="flex items-stretch"
+            style={{ height: "calc(100% - 1.375rem)" }}
+          >
+            <Component {...pageProps} />
+          </div>
+
+          <BottomBar />
+        </div>
       </main>
     </>
   );
