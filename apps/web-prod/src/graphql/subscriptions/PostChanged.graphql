@@ -1,0 +1,13 @@
+subscription PostChanged {
+  postChanged {
+    added {
+      ...Post
+    }
+    updated {
+      ...Post
+    }
+    deleted {
+      ...Post
+    }
+  }
+}

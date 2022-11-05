@@ -1,0 +1,12 @@
+fragment User on User {
+  id
+  username
+  avatarUrl
+  isOnline
+  onlineStatus
+  isCurrentUser
+  color
+  isOg
+  isStaff
+  showChat
+}

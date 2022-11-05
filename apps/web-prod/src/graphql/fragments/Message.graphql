@@ -1,0 +1,24 @@
+fragment Message on Message {
+  id
+  text
+  createdAt
+  updatedAt
+  type
+  images {
+    ...Image
+  }
+  file {
+    url
+    mime
+    filename
+    size
+  }
+  linkMetadatas {
+    ...Metadata
+  }
+  mentionedUsers {
+    id
+  }
+  isEveryoneMentioned
+  isPinned
+}
