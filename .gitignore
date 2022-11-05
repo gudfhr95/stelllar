@@ -1,13 +1,9 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
-# compiled output
-dist
-tmp
-/out-tsc
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
 node_modules
-.pnp.*
+.pnp
+.pnp.js
 .yarn/*
 !.yarn/patches
 !.yarn/plugins
@@ -15,9 +11,40 @@ node_modules
 !.yarn/sdks
 !.yarn/versions
 
-# env files
-.env
+# testing
+coverage
+.nyc_output
+
+# next.js
+.next/
+out/
+build
+
+# NestJS
+dist
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log**
+
+# local env files
+.env.local
 .env.development
+.env.development.local
+.env.test.local
+.env.production.local
+
+# turbo
+.turbo
 
 # IDEs and editors
 /.idea
@@ -34,20 +61,3 @@ node_modules
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-yarn-error.log
-testem.log
-/typings
-
-# System Files
-.DS_Store
-Thumbs.db
-
-# Next.js
-.next
