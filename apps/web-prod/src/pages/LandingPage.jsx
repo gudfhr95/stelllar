@@ -3,19 +3,19 @@ import {
   IconDownload,
   IconGithub,
   IconTwitter
-} from '@/components/ui/icons/Icons'
-import Tippy from '@tippyjs/react'
-import { Link } from 'react-router-dom'
+} from "@/components/ui/icons/Icons";
+import { Meteors } from "@/components/ui/meteors";
+import Page from "@/components/ui/page/Page";
 import {
   VectorGrass,
   VectorLogo,
   VectorTelescopeMan
-} from '@/components/ui/vectors'
-import { Meteors } from '@/components/ui/meteors'
-import { getOS } from '@/utils/getOS'
-import Page from '@/components/ui/page/Page'
-import { useCurrentUser } from '@/hooks/graphql/useCurrentUser'
-import { getDownloadLink } from '@/hooks/getDownloadLink'
+} from "@/components/ui/vectors";
+import { getDownloadLink } from "@/hooks/getDownloadLink";
+import { useCurrentUser } from "@/hooks/graphql/useCurrentUser";
+import { getOS } from "@/utils/getOS";
+import Tippy from "@tippyjs/react";
+import { Link } from "react-router-dom";
 
 const container = 'relative z-10 max-w-screen-lg xl:max-w-screen-xl mx-auto'
 const iconButton =
@@ -37,7 +37,7 @@ export default function LandingPage() {
             <VectorLogo className="h-6 text-secondary" />
 
             <div className="ml-auto space-x-3 inline-flex items-center">
-              <Tippy content="Comet Discord Server">
+              <Tippy content="Stelllar Discord Server">
                 <a
                   href="https://discord.gg/NPCMGSm"
                   target="_blank"
@@ -48,9 +48,9 @@ export default function LandingPage() {
                 </a>
               </Tippy>
 
-              <Tippy content="@joincometapp on Twitter">
+              <Tippy content="@Stelllar on Twitter">
                 <a
-                  href="https://twitter.com/joincometapp"
+                  href="https://twitter.com/Stelllar"
                   target="_blank"
                   rel="noreferrer noopener"
                   className={iconButton}
@@ -59,9 +59,9 @@ export default function LandingPage() {
                 </a>
               </Tippy>
 
-              <Tippy content="Comet on GitHub">
+              <Tippy content="Stelllar on GitHub">
                 <a
-                  href="https://github.com/joincomet/comet"
+                  href="https://github.com/gudfhr95/stelllar"
                   target="_blank"
                   rel="noreferrer noopener"
                   className={iconButton}
@@ -96,7 +96,7 @@ export default function LandingPage() {
               </h1>
               <p className="text-white text-xl max-w-screen-md">
                 The age of fragmented communities is over. Say goodbye to Reddit
-                and Discord, and run your entire community on Comet.
+                and Discord, and run your entire community on Stelllar.
               </p>
               <div className="inline-flex items-center space-x-6">
                 <a

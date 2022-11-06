@@ -1,14 +1,14 @@
-import { useStore } from '@/hooks/useStore'
-import InboxHeader from '@/pages/inbox/InboxHeader'
-import { useSetHomePage } from '@/hooks/useSetHomePage'
-import Page from '@/components/ui/page/Page'
-import PageView from '@/components/ui/page/PageView'
-import { useRepliesQuery } from '@/graphql/hooks'
-import { useCurrentUser } from '@/hooks/graphql/useCurrentUser'
-import Reply from '@/components/reply/Reply'
-import EndReached from '@/components/ui/EndReached'
-import { Helmet } from 'react-helmet-async'
-import { useTranslation } from 'react-i18next';
+import Reply from "@/components/reply/Reply";
+import EndReached from "@/components/ui/EndReached";
+import Page from "@/components/ui/page/Page";
+import PageView from "@/components/ui/page/PageView";
+import { useRepliesQuery } from "@/graphql/hooks";
+import { useCurrentUser } from "@/hooks/graphql/useCurrentUser";
+import { useSetHomePage } from "@/hooks/useSetHomePage";
+import { useStore } from "@/hooks/useStore";
+import InboxHeader from "@/pages/inbox/InboxHeader";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 
 const label =
   'px-2 pb-2 text-11 text-tertiary uppercase tracking-widest font-semibold'
@@ -26,7 +26,7 @@ export default function InboxPage() {
   return (
     <Page header={<InboxHeader />}>
       <Helmet>
-        <title>{`(${replies.length}) Inbox – Comet`}</title>
+        <title>{`(${replies.length}) Inbox – Stelllar`}</title>
       </Helmet>
 
       <PageView>

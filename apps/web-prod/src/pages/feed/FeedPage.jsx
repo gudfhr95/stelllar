@@ -1,13 +1,12 @@
 import CreatePostHeader from "@/components/post/create/CreatePostHeader";
 import Posts from "@/components/post/Posts";
 import PostsHeader from "@/components/post/PostsHeader";
-import InfoSidebar from "@/components/ui/InfoSidebar";
 import Page from "@/components/ui/page/Page";
 import { useCurrentUser } from "@/hooks/graphql/useCurrentUser";
 import { useSetHomePage } from "@/hooks/useSetHomePage";
 import {
   createNotification,
-  isNotificationsSupported,
+  isNotificationsSupported
 } from "@/utils/createNotification";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
@@ -37,7 +36,7 @@ export default function FeedPage() {
         <title>피드 – Stelllar</title>
       </Helmet>
 
-      <Page header={<PostsHeader />} rightSidebar={<InfoSidebar />}>
+      <Page header={<PostsHeader />}>
         <Posts
           showServerName
           header={currentUser ? <CreatePostHeader /> : <div className="h-4" />}

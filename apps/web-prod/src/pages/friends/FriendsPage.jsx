@@ -1,16 +1,16 @@
-import { useState } from 'react'
-import { useStore } from '@/hooks/useStore'
-import FriendListItem from '@/pages/friends/FriendListItem'
-import FriendsHeader from '@/pages/friends/FriendsHeader'
-import ctl from '@netlify/classnames-template-literals'
-import FriendRequestListItem from '@/pages/friends/FriendRequestListItem'
-import { useSetHomePage } from '@/hooks/useSetHomePage'
-import Page from '@/components/ui/page/Page'
-import PageView from '@/components/ui/page/PageView'
-import { useUserRelationships } from '@/hooks/useUserRelationships'
-import { RelationshipStatus } from '@/graphql/hooks'
-import { Helmet } from 'react-helmet-async'
-import { useTranslation } from 'react-i18next';
+import Page from "@/components/ui/page/Page";
+import PageView from "@/components/ui/page/PageView";
+import { RelationshipStatus } from "@/graphql/hooks";
+import { useSetHomePage } from "@/hooks/useSetHomePage";
+import { useStore } from "@/hooks/useStore";
+import { useUserRelationships } from "@/hooks/useUserRelationships";
+import FriendListItem from "@/pages/friends/FriendListItem";
+import FriendRequestListItem from "@/pages/friends/FriendRequestListItem";
+import FriendsHeader from "@/pages/friends/FriendsHeader";
+import ctl from "@netlify/classnames-template-literals";
+import { useState } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 
 const label = ctl(`
   px-2
@@ -38,7 +38,7 @@ export default function FriendsPage() {
       header={<FriendsHeader pendingCount={incomingFriendRequests.length} />}
     >
       <Helmet>
-        <title>Friends – Comet</title>
+        <title>친구 목록 – Stelllar</title>
       </Helmet>
 
       <PageView>
@@ -89,7 +89,7 @@ export default function FriendsPage() {
             </div>
 
             <div className="text-secondary text-sm mt-3 mb-4">
-              You can add a friend with their Comet Tag. It's cAsE sEnSitIvE!
+              You can add a friend with their Stelllar Tag. It's cAsE sEnSitIvE!
             </div>
 
             <div className="relative">

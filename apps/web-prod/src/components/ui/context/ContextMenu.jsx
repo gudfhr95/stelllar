@@ -1,17 +1,17 @@
-import ctl from '@netlify/classnames-template-literals'
-import { useContextMenuItem } from '@/components/ui/context/useContextMenuItem'
-import { ContextMenuType } from '@/types/ContextMenuType'
-import PostContextMenu from '@/components/post/PostContextMenu'
-import UserContextMenu from '@/components/user/UserContextMenu'
-import MessageContextMenu from '@/components/message/MessageContextMenu'
-import CommentContextMenu from '@/components/comment/CommentContextMenu'
-import ServerContextMenu from '@/components/server/ServerContextMenu'
-import ChannelContextMenu from '@/components/channel/ChannelContextMenu'
-import FolderContextMenu from '@/components/folder/FolderContextMenu'
-import { getOS } from '@/utils/getOS'
-import ContextMenuSection from '@/components/ui/context/ContextMenuSection'
-import ContextMenuDivider from '@/components/ui/context/ContextMenuDivider'
-import { useCopyToClipboard } from 'react-use'
+import ChannelContextMenu from "@/components/channel/ChannelContextMenu";
+import CommentContextMenu from "@/components/comment/CommentContextMenu";
+import FolderContextMenu from "@/components/folder/FolderContextMenu";
+import MessageContextMenu from "@/components/message/MessageContextMenu";
+import PostContextMenu from "@/components/post/PostContextMenu";
+import ServerContextMenu from "@/components/server/ServerContextMenu";
+import ContextMenuDivider from "@/components/ui/context/ContextMenuDivider";
+import ContextMenuSection from "@/components/ui/context/ContextMenuSection";
+import { useContextMenuItem } from "@/components/ui/context/useContextMenuItem";
+import UserContextMenu from "@/components/user/UserContextMenu";
+import { ContextMenuType } from "@/types/ContextMenuType";
+import { getOS } from "@/utils/getOS";
+import ctl from "@netlify/classnames-template-literals";
+import { useCopyToClipboard } from "react-use";
 
 const className = ctl(`
   p-2
@@ -39,7 +39,7 @@ export default function ContextMenu({
   const copyToClipboard = useCopyToClipboard()[1]
 
   const url = data?.href ? new URL(data.href) : null
-  const isCometLink = url && url.origin === window.location.origin
+  const  isStellarLink = url && url.origin === window.location.origin
 
   const os = getOS()
   const isMac = os === 'Mac OS'
@@ -91,7 +91,7 @@ export default function ContextMenu({
         <FolderContextMenu {...props} />
       )}
 
-      {!!data?.href && !isCometLink && (
+      {!!data?.href && ! isStellarLink && (
         <>
           <ContextMenuDivider />
           <ContextMenuSection>

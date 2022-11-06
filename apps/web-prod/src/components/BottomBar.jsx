@@ -3,7 +3,7 @@ import {
   IconDark,
   IconDownload,
   IconLight,
-  IconSettings,
+  IconSettings
 } from "@/components/ui/icons/Icons";
 import UserAvatar from "@/components/user/UserAvatar";
 import UserSettingsDialog from "@/components/user/UserSettingsDialog";
@@ -98,7 +98,7 @@ export default function BottomBar() {
 
         <div className="ml-auto flex items-center space-x-4 text-primary">
           {/* {os === 'Windows' && !window.electron && (
-            <Tippy content="Download Comet for Desktop">
+            <Tippy content="Download Stelllar for Desktop">
               <a
                 className="block"
                 target="_blank"
