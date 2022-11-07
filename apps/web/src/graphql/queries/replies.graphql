@@ -1,0 +1,5 @@
+query replies {
+  replies {
+    ...Reply
+  }
+}

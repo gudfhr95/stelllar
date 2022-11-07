@@ -9,7 +9,7 @@ const scrollbarPlugin = require("tailwind-scrollbar");
 
 module.exports = {
   mode: "jit",
-  purge: ["./pages/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  content: ["./pages/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
       borderWidth: {

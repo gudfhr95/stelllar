@@ -1,0 +1,64 @@
+mutation createServer($input: CreateServerInput!) {
+  createServer(input: $input) {
+    ...Server
+    roles {
+      ...Role
+    }
+  }
+}
+
+mutation updateServer($input: UpdateServerInput!) {
+  updateServer(input: $input) {
+    ...Server
+  }
+}
+
+mutation deleteServer($input: DeleteServerInput!) {
+  deleteServer(input: $input)
+}
+
+mutation moveServer($input: MoveServerInput!) {
+  moveServer(input: $input)
+}
+
+mutation joinServer($input: JoinServerInput!) {
+  joinServer(input: $input) {
+    ...Server
+  }
+}
+
+mutation leaveServer($input: LeaveServerInput!) {
+  leaveServer(input: $input) {
+    ...Server
+  }
+}
+
+mutation readServer($input: ReadServerInput!) {
+  readServer(input: $input) {
+    ...Server
+  }
+}
+
+mutation banUserFromServer($input: BanUserFromServerInput!) {
+  banUserFromServer(input: $input)
+}
+
+mutation unbanUserFromServer($input: UnbanUserFromServerInput!) {
+  unbanUserFromServer(input: $input)
+}
+
+mutation kickUserFromServer($input: KickUserFromServerInput!) {
+  kickUserFromServer(input: $input)
+}
+
+mutation featureServer($input: FeatureServerInput!) {
+  featureServer(input: $input) {
+    ...Server
+  }
+}
+
+mutation unfeatureServer($input: UnfeatureServerInput!) {
+  unfeatureServer(input: $input) {
+    ...Server
+  }
+}

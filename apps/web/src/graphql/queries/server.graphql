@@ -1,0 +1,12 @@
+query server($id: ID, $name: String) @live {
+  server(id: $id, name: $name) {
+    ...Server
+    permissions
+    channels {
+      ...Channel
+    }
+    roles {
+      ...Role
+    }
+  }
+}

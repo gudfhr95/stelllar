@@ -1,0 +1,34 @@
+fragment CurrentUser on User {
+  ...User
+  isAdmin
+  email
+  servers {
+    id
+    name
+    displayName
+    avatarUrl
+    owner {
+      id
+    }
+    permissions
+    channels {
+      id
+      isUnread
+      mentionCount
+    }
+  }
+  relatedUsers {
+    ...User
+    showChat
+    unreadCount
+  }
+  groups {
+    ...Group
+    owner {
+      id
+    }
+    users {
+      ...User
+    }
+  }
+}

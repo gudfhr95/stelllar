@@ -1,0 +1,14 @@
+fragment Metadata on LinkMetadata {
+  author
+  date
+  description
+  image {
+    ...Image
+  }
+  publisher
+  title
+  twitterCard
+  url
+  domain
+  themeColor
+}
