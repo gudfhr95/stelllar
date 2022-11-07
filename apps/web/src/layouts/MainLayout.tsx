@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 
-import ServerList from "../components/server/ServerList";
+import BottomBar from "../components/BottomBar";
 
 export default function MainLayout({ children }: PropsWithChildren) {
   return (
@@ -9,9 +9,9 @@ export default function MainLayout({ children }: PropsWithChildren) {
         className="flex items-stretch"
         style={{ height: "calc(100% - 1.375rem)" }}
       >
-        <ServerList hide />
         {children}
       </div>
+      <BottomBar />
     </div>
   );
 }
