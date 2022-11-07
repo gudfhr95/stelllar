@@ -1,4 +1,8 @@
 {
   "login": "Login",
-  "createAccount": "Create an Account"
+  "createAccount": "Create an Account",
+  "theme": {
+    "dark": "Dark Mode",
+    "light": "Light Mode"
+  }
 }

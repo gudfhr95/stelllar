@@ -4375,7 +4375,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tippyjs/react@npm:^4.2.5":
+"@tippyjs/react@npm:^4.2.5, @tippyjs/react@npm:^4.2.6":
   version: 4.2.6
   resolution: "@tippyjs/react@npm:4.2.6"
   dependencies:
@@ -18930,6 +18930,7 @@ __metadata:
     "@tailwindcss/forms": ^0.5.3
     "@tailwindcss/line-clamp": ^0.4.2
     "@tailwindcss/typography": ^0.5.7
+    "@tippyjs/react": ^4.2.6
     "@types/node": ^18.11.9
     "@types/react": ^18.0.25
     "@types/react-dom": ^18.0.8
@@ -18945,6 +18946,7 @@ __metadata:
     react-i18next: ^12.0.0
     tailwind-scrollbar: ^2.0.1
     tailwindcss: ^3.2.2
+    tippy.js: ^6.3.7
     tsconfig: "*"
     typescript: ^4.8.4
     ui: "*"
