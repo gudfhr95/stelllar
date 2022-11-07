@@ -1,0 +1,14 @@
+{
+  "login": {
+    "label": "Login",
+    "name": "Username or email",
+    "password": "Password"
+  },
+  "createAccount": {
+    "label": "Create an Account",
+    "name": "Username",
+    "email": "Email",
+    "password": "Password",
+    "passwordConfirm": "Confirm Password"
+  }
+}

@@ -1,17 +1,17 @@
 import { PropsWithChildren } from "react";
-
 import BottomBar from "../components/BottomBar";
+import LoginDialog from "../components/LoginDialog";
 
 export default function MainLayout({ children }: PropsWithChildren) {
   return (
-    <div className="flex-grow">
-      <div
-        className="flex items-stretch"
-        style={{ height: "calc(100% - 1.375rem)" }}
-      >
-        {children}
+    <>
+      <LoginDialog />
+      <div className="flex-grow">
+        <div className="flex items-stretch" style={{ height: "100%" }}>
+          {children}
+        </div>
+        <BottomBar />
       </div>
-      <BottomBar />
-    </div>
+    </>
   );
 }

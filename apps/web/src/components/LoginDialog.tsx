@@ -1,26 +1,24 @@
-import StyledDialog from "@/components/ui/dialog/StyledDialog";
-import {
-  IconEmail,
-  IconSpinner,
-  IconUser,
-  IconUserToServerArrow,
-  IconX,
-} from "@/components/ui/icons/Icons";
-import ShowPasswordButton from "@/components/ui/ShowPasswordButton";
-import { VectorLogo } from "@/components/ui/vectors";
-import { useCreateAccountMutation, useLoginMutation } from "@/graphql/hooks";
-import { useLoginDialog } from "@/hooks/useLoginDialog";
+import { useTranslation } from "next-i18next";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
-import isEmail from "validator/es/lib/isEmail";
-
-const usernameRegex = /^[A-Za-z0-9-_]+$/gi;
+import { usernameRegex } from "server-prod/src/util/text/usernameRegex";
+import { useLoginDialog } from "../hooks/useLoginDialog";
+import StyledDialog from "./ui/dialog/StyledDialog";
+import { IconEmail, IconUser, IconX } from "./ui/icons/Icons";
+import ShowPasswordButton from "./ui/ShowPasswordButton";
+import { VectorLogo } from "./ui/vectors/VectorLogo";
 
 export default function LoginDialog() {
-  const { t } = useTranslation();
-  const [open, setOpen, isCreateAccount, setCreateAccount] = useLoginDialog();
+  const { t } = useTranslation("login-dialog");
+
+  const {
+    loginDialog: open,
+    setLoginDialog: setOpen,
+    createAccount: isCreateAccount,
+    setCreateAccount: setCreateAccount,
+  } = useLoginDialog();
   const [showPassword, setShowPassword] = useState(false);
+
   const {
     handleSubmit,
     register,
@@ -32,85 +30,25 @@ export default function LoginDialog() {
     mode: "onChange",
     shouldUnregister: true,
   });
+
   const email = watch("email");
   const username = watch("username");
   const usernameOrEmail = watch("usernameOrEmail");
   const password = watch("password");
   const confirmPassword = watch("confirmPassword");
-  const [createAccount, { loading: createAccountLoading }] =
-    useCreateAccountMutation();
-  const [login, { loading: loginLoading }] = useLoginMutation();
-  const onSubmit = ({ usernameOrEmail, email, username, password }) => {
-    if (isCreateAccount) {
-      createAccount({
-        variables: {
-          input: {
-            username,
-            password,
-            email: email ? email : null,
-          },
-        },
-      }).then(
-        ({
-          data: {
-            createAccount: { accessToken, user },
-          },
-        }) => {
-          localStorage.setItem("token", accessToken);
-          location.reload();
-        }
-      );
-    } else {
-      const input = isEmail(usernameOrEmail)
-        ? { email: usernameOrEmail }
-        : { username: usernameOrEmail };
-      login({ variables: { input: { ...input, password } } }).then(
-        ({
-          data: {
-            login: { accessToken, user },
-          },
-        }) => {
-          localStorage.setItem("token", accessToken);
-          location.reload();
-        }
-      );
-    }
-  };
+
   const close = () => {
     reset();
     setOpen(false);
   };
-  const disabled = !(isCreateAccount
-    ? !!username &&
-      username.length >= 3 &&
-      username.length <= 20 &&
-      usernameRegex.test(username) &&
-      (!email || (!!email && isEmail(email))) &&
-      !!password &&
-      password.length >= 6 &&
-      !!confirmPassword &&
-      confirmPassword === password
-    : !!usernameOrEmail && !!password);
 
   return (
     <StyledDialog
-      close={close}
-      open={open}
-      onSubmit={handleSubmit(onSubmit)}
-      buttons={
-        <button
-          type="submit"
-          className={`form-button-submit`}
-          disabled={disabled}
-        >
-          {(isCreateAccount && createAccountLoading) ||
-          (!isCreateAccount && loginLoading) ? (
-            <IconSpinner className="w-5 h-5" />
-          ) : (
-            <IconUserToServerArrow className="w-5 h-5" />
-          )}
-        </button>
-      }
+      buttons={<button type="submit" className={`form-button-submit`}></button>}
+      isOpen={open}
+      onClose={close}
+      closeOnOverlayClick={false}
+      onSubmit={() => {}}
     >
       <div className="rounded-t-lg bg-gradient-to-r from-red-400 to-indigo-600 h-2" />
       <div className="px-5 pt-2 pb-9 text-left">
@@ -128,7 +66,7 @@ export default function LoginDialog() {
                 : "dark:border-gray-300 text-primary"
             }`}
           >
-            {t("auth.login.label")}
+            {t("login.label")}
           </div>
 
           <div
@@ -144,7 +82,7 @@ export default function LoginDialog() {
                 : "border-transparent text-secondary"
             }`}
           >
-            {t("auth.createAccount.label")}
+            {t("createAccount.label")}
           </div>
 
           <div className="ml-auto">
@@ -170,7 +108,7 @@ export default function LoginDialog() {
                       minLength: 3,
                     })}
                     className={`form-input-icon`}
-                    placeholder={t("auth.createAccount.name")}
+                    placeholder={t("createAccount.name")}
                     minLength={3}
                     maxLength={20}
                   />
@@ -199,7 +137,7 @@ export default function LoginDialog() {
                       },
                     })}
                     className={`form-input-icon`}
-                    placeholder={t("auth.createAccount.email")}
+                    placeholder={t("createAccount.email")}
                     type="email"
                   />
                   <IconEmail className={`form-input-icon-icon`} />
@@ -216,7 +154,7 @@ export default function LoginDialog() {
                 shouldUnregister: true,
               })}
               className={`form-input`}
-              placeholder={t("auth.login.name")}
+              placeholder={t("login.name")}
             />
           )}
 
@@ -231,7 +169,7 @@ export default function LoginDialog() {
                       minLength: 6,
                     })}
                     className={`form-input-password`}
-                    placeholder={t("auth.createAccount.password")}
+                    placeholder={t("createAccount.password")}
                     type={showPassword ? "text" : "password"}
                     minLength={6}
                   />
@@ -261,7 +199,7 @@ export default function LoginDialog() {
                       },
                     })}
                     className={`form-input-password`}
-                    placeholder={t("auth.createAccount.passwordConfirm")}
+                    placeholder={t("createAccount.passwordConfirm")}
                     type={showPassword ? "text" : "password"}
                   />
                   <ShowPasswordButton
@@ -282,7 +220,7 @@ export default function LoginDialog() {
                 id="password"
                 {...register("password", { required: true })}
                 className={`form-input`}
-                placeholder={t("auth.login.password")}
+                placeholder={t("login.password")}
                 type={showPassword ? "text" : "password"}
               />
               <ShowPasswordButton

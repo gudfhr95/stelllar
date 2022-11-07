@@ -2,8 +2,9 @@ import { appWithTranslation } from "next-i18next";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import MainLayout from "../src/layouts/MainLayout";
-import "../src/styles/app.css";
+
 import "../src/styles/index.css";
+import "../src/styles/app.css";
 import "../src/styles/tippy.css";
 
 function App({ Component, pageProps }: AppProps) {
