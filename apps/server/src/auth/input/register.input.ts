@@ -9,10 +9,10 @@ export class RegisterInput {
   email: string;
 
   @Field()
-  @Length(3, 20)
-  username: string;
+  @Length(2, 16)
+  nickname: string;
 
   @Field()
-  @Length(6)
+  @Length(8)
   password: string;
 }

@@ -1,8 +1,8 @@
+import { InjectRepository } from "@mikro-orm/nestjs";
+import { EntityRepository } from "@mikro-orm/postgresql";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import * as argon2 from "argon2";
 import { User } from "./entity/user.entity";
-import { InjectRepository } from "@mikro-orm/nestjs";
-import { EntityRepository } from "@mikro-orm/postgresql";
 
 @Injectable()
 export default class UserService {
@@ -47,10 +47,10 @@ export default class UserService {
     }
   }
 
-  async createUser(email: string, username: string, password: string) {
+  async createUser(email: string, nickname: string, password: string) {
     const user = await this.userRepository.create({
-      username,
       email,
+      nickname,
       password,
     });
 

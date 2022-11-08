@@ -235,7 +235,7 @@ type User implements BaseEntity {
   id: ID!
   createdAt: DateTime!
   email: EmailAddress!
-  username: String!
+  nickname: String!
   lastLoginAt: DateTime
   lastMessageAt: DateTime
   avatarUrl: String
@@ -300,7 +300,7 @@ type Mutation {
 
 input RegisterInput {
   email: EmailAddress!
-  username: String!
+  nickname: String!
   password: String!
 }
 

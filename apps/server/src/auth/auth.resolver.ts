@@ -1,18 +1,18 @@
-import { Args, Mutation, Resolver } from "@nestjs/graphql";
-import { User } from "../user/entity/user.entity";
-import { RegisterInput } from "./input/register.input";
-import { AuthService } from "./auth.service";
-import { LoginInput } from "./input/login.input";
-import { GqlLocalAuthGuard } from "./guard/gql-local-auth.guard";
 import { UseGuards } from "@nestjs/common";
-import { CurrentUser } from "./decorator/current-user.decorator";
+import { Args, Mutation, Resolver } from "@nestjs/graphql";
 import { Response } from "express";
+import { GraphQLBoolean } from "graphql/type";
+import { User } from "../user/entity/user.entity";
+import UserService from "../user/user.service";
+import { AuthService } from "./auth.service";
+import { CurrentUser } from "./decorator/current-user.decorator";
 import { GqlRes } from "./decorator/gql-res.decorator";
 import { GqlJwtAuthGuard } from "./guard/gql-jwt-auth.guard";
-import { GraphQLBoolean } from "graphql/type";
-import UserService from "../user/user.service";
 import { GqlJwtRefreshGuard } from "./guard/gql-jwt-refresh.guard";
+import { GqlLocalAuthGuard } from "./guard/gql-local-auth.guard";
 import { ChangePasswordInput } from "./input/change-password.input";
+import { LoginInput } from "./input/login.input";
+import { RegisterInput } from "./input/register.input";
 
 @Resolver()
 export class AuthResolver {
@@ -25,7 +25,7 @@ export class AuthResolver {
   async register(@Args("input") input: RegisterInput) {
     return this.authService.register(
       input.email,
-      input.username,
+      input.nickname,
       input.password
     );
   }

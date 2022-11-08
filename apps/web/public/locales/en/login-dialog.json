@@ -1,12 +1,12 @@
 {
   "login": {
     "label": "Login",
-    "name": "Username or email",
+    "email": "Email",
     "password": "Password"
   },
-  "createAccount": {
-    "label": "Create an Account",
-    "name": "Username",
+  "register": {
+    "label": "Register",
+    "nickname": "Nickname",
     "email": "Email",
     "password": "Password",
     "passwordConfirm": "Confirm Password"

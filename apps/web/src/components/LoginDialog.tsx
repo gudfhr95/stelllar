@@ -1,7 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { usernameRegex } from "server-prod/src/util/text/usernameRegex";
 import { useLoginDialog } from "../hooks/useLoginDialog";
 import StyledDialog from "./ui/dialog/StyledDialog";
 import {
@@ -12,6 +11,10 @@ import {
 } from "./ui/icons/Icons";
 import ShowPasswordButton from "./ui/ShowPasswordButton";
 import { VectorLogo } from "./ui/vectors/VectorLogo";
+
+const EMAIL_REGEX =
+  /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+const NICKNAME_REGEX = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/;
 
 export default function LoginDialog() {
   const { t } = useTranslation("login-dialog");
@@ -37,8 +40,7 @@ export default function LoginDialog() {
   });
 
   const email = watch("email");
-  const username = watch("username");
-  const usernameOrEmail = watch("usernameOrEmail");
+  const nickname = watch("nickname");
   const password = watch("password");
   const confirmPassword = watch("confirmPassword");
 
@@ -47,10 +49,28 @@ export default function LoginDialog() {
     setOpen(false);
   };
 
+  const disabled = !(isCreateAccount
+    ? !!nickname &&
+      nickname.length >= 2 &&
+      nickname.length <= 16 &&
+      NICKNAME_REGEX.test(nickname) &&
+      (!email || (!!email && EMAIL_REGEX.test(email))) &&
+      !!password &&
+      password.length >= 8 &&
+      !!confirmPassword &&
+      confirmPassword === password
+    : (!email || (!!email && EMAIL_REGEX.test(email))) &&
+      !!password &&
+      password.length >= 8);
+
   return (
     <StyledDialog
       buttons={
-        <button type="submit" className={`form-button-submit`}>
+        <button
+          type="submit"
+          className={`form-button-submit`}
+          disabled={disabled}
+        >
           <IconUserToServerArrow className="w-5 h-5" />
         </button>
       }
@@ -91,7 +111,7 @@ export default function LoginDialog() {
                 : "border-transparent text-secondary"
             }`}
           >
-            {t("createAccount.label")}
+            {t("register.label")}
           </div>
 
           <div className="ml-auto">
@@ -109,62 +129,70 @@ export default function LoginDialog() {
               <div>
                 <div className="relative">
                   <input
-                    id="username"
-                    {...register("username", {
+                    id="email"
+                    {...register("email", {
                       required: true,
-                      pattern: usernameRegex,
-                      maxLength: 20,
-                      minLength: 3,
+                      pattern: EMAIL_REGEX,
                     })}
                     className={`form-input-icon`}
-                    placeholder={t("createAccount.name")}
-                    minLength={3}
-                    maxLength={20}
+                    placeholder={t("register.email")}
+                    type="email"
                   />
-                  <IconUser className={`form-input-icon-icon`} />
+                  <IconEmail className={`form-input-icon-icon`} />
                 </div>
-                {errors.username?.type === "minLength" && (
-                  <div className={`form-error`}>
-                    Username must be between 3 and 20 characters
-                  </div>
-                )}
-                {errors.username?.type === "pattern" && (
-                  <div className={`form-error`}>
-                    Letters, numbers, dashes, and underscores only
-                  </div>
+                {errors.email?.type === "pattern" && (
+                  <div className={`form-error`}>Email is not valid</div>
                 )}
               </div>
 
               <div>
                 <div className="relative">
                   <input
-                    id="email"
-                    {...register("email", {
-                      validate: {
-                        email: (value) =>
-                          !value || isEmail(value) || "Invalid email",
-                      },
+                    id="nickname"
+                    {...register("nickname", {
+                      required: true,
+                      pattern: NICKNAME_REGEX,
+                      maxLength: 20,
+                      minLength: 2,
                     })}
                     className={`form-input-icon`}
-                    placeholder={t("createAccount.email")}
-                    type="email"
+                    placeholder={t("register.nickname")}
+                    minLength={2}
+                    maxLength={16}
                   />
-                  <IconEmail className={`form-input-icon-icon`} />
+                  <IconUser className={`form-input-icon-icon`} />
                 </div>
-                {errors.email?.type === "email" && (
-                  <div className={`form-error`}>{errors.email.message}</div>
+                {errors.nickname?.type === "minLength" && (
+                  <div className={`form-error`}>
+                    Username must be between 2 and 16 characters
+                  </div>
+                )}
+                {errors.nickname?.type === "pattern" && (
+                  <div className={`form-error`}>
+                    Letters, numbers, dashes, and underscores only
+                  </div>
                 )}
               </div>
             </>
           ) : (
-            <input
-              id="usernameOrEmail"
-              {...register("usernameOrEmail", {
-                shouldUnregister: true,
-              })}
-              className={`form-input`}
-              placeholder={t("login.name")}
-            />
+            <div>
+              <div className="relative">
+                <input
+                  id="email"
+                  {...register("email", {
+                    required: true,
+                    pattern: EMAIL_REGEX,
+                  })}
+                  className={`form-input-icon`}
+                  placeholder={t("login.email")}
+                  type="email"
+                />
+                <IconEmail className={`form-input-icon-icon`} />
+              </div>
+              {errors.email?.type === "pattern" && (
+                <div className={`form-error`}>Email is not valid</div>
+              )}
+            </div>
           )}
 
           {isCreateAccount ? (
@@ -175,12 +203,12 @@ export default function LoginDialog() {
                     id="password"
                     {...register("password", {
                       required: true,
-                      minLength: 6,
+                      minLength: 8,
                     })}
                     className={`form-input-password`}
-                    placeholder={t("createAccount.password")}
+                    placeholder={t("register.password")}
                     type={showPassword ? "text" : "password"}
-                    minLength={6}
+                    minLength={8}
                   />
                   <ShowPasswordButton
                     showPassword={showPassword}
@@ -189,7 +217,7 @@ export default function LoginDialog() {
                 </div>
                 {errors.password?.type === "minLength" && (
                   <div className={`form-error`}>
-                    Password must be at least 6 characters
+                    Password must be at least 8 characters
                   </div>
                 )}
               </div>
@@ -208,7 +236,7 @@ export default function LoginDialog() {
                       },
                     })}
                     className={`form-input-password`}
-                    placeholder={t("createAccount.passwordConfirm")}
+                    placeholder={t("register.passwordConfirm")}
                     type={showPassword ? "text" : "password"}
                   />
                   <ShowPasswordButton

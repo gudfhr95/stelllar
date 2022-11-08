@@ -8,20 +8,20 @@ import {
   QueryOrder,
 } from "@mikro-orm/core";
 import { Field, ObjectType } from "@nestjs/graphql";
-import { BaseEntity } from "../../common/entity/base.entity";
 import { GraphQLEmailAddress, GraphQLNonNegativeInt } from "graphql-scalars";
 import { GraphQLBoolean } from "graphql/type";
-import { OnlineStatus } from "./online-status.enum";
-import { Relationship } from "./relationship.entity";
-import { RelationshipStatus } from "./relationship-status.enum";
+import { BaseEntity } from "../../common/entity/base.entity";
 import { Color } from "../../common/entity/color.enum";
 import { randomEnum } from "../../common/util/random-enum";
+import { Folder } from "../../folder/entity/folder.entity";
 import { UserFolder } from "../../folder/entity/user-folder.entity";
-import { ServerUser } from "../../server/entity/server-user.entity";
 import { GroupUser } from "../../group/entity/group-user.entity";
 import { Group } from "../../group/entity/group.entity";
-import { Folder } from "../../folder/entity/folder.entity";
+import { ServerUser } from "../../server/entity/server-user.entity";
 import { Server } from "../../server/entity/server.entity";
+import { OnlineStatus } from "./online-status.enum";
+import { RelationshipStatus } from "./relationship-status.enum";
+import { Relationship } from "./relationship.entity";
 
 @ObjectType({ implements: BaseEntity })
 @Entity()
@@ -32,7 +32,7 @@ export class User extends BaseEntity {
 
   @Field()
   @Property({ columnType: "text", unique: true })
-  username: string;
+  nickname: string;
 
   @Property({ nullable: true })
   currentHashedRefreshToken?: string;

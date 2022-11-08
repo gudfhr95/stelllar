@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import * as argon2 from "argon2";
-import UserService from "../user/user.service";
-import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
+import { JwtService } from "@nestjs/jwt";
+import * as argon2 from "argon2";
 import PostgresErrorCode from "../database/enum/postgres-error-code.enum";
+import UserService from "../user/user.service";
 
 @Injectable()
 export class AuthService {
@@ -13,10 +13,10 @@ export class AuthService {
     private readonly configService: ConfigService
   ) {}
 
-  public async register(email: string, username: string, password: string) {
+  public async register(email: string, nickname: string, password: string) {
     const hashedPassword = await argon2.hash(password);
     try {
-      return await this.userService.createUser(email, username, hashedPassword);
+      return await this.userService.createUser(email, nickname, hashedPassword);
     } catch (error: any) {
       if (error?.code === PostgresErrorCode.UniqueViolation) {
         throw new HttpException(
