@@ -1,10 +1,11 @@
+import { ApolloProvider } from "@apollo/client";
 import { appWithTranslation } from "next-i18next";
 import { AppProps } from "next/app";
 import Head from "next/head";
+import apolloClient from "../apollo-client";
 import MainLayout from "../src/layouts/MainLayout";
-
+import "../src/styles/global.css";
 import "../src/styles/index.css";
-import "../src/styles/app.css";
 import "../src/styles/tippy.css";
 
 function App({ Component, pageProps }: AppProps) {
@@ -17,11 +18,13 @@ function App({ Component, pageProps }: AppProps) {
         <title>Stelllar – Forum & Chat for Communities</title>
       </Head>
       <main className="app">
-        <div style={{ height: "100%" }} className="flex">
-          <MainLayout>
-            <Component {...pageProps} />
-          </MainLayout>
-        </div>
+        <ApolloProvider client={apolloClient}>
+          <div style={{ height: "100%" }} className="flex">
+            <MainLayout>
+              <Component {...pageProps} />
+            </MainLayout>
+          </div>
+        </ApolloProvider>
       </main>
     </>
   );

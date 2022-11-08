@@ -7,3 +7,5 @@ export {
   HiEyeOff as IconHide,
   HiMail as IconEmail,
 } from "react-icons/hi";
+
+export { CgArrowRight as IconUserToServerArrow } from "react-icons/cg";

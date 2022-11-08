@@ -4,7 +4,12 @@ import { useForm } from "react-hook-form";
 import { usernameRegex } from "server-prod/src/util/text/usernameRegex";
 import { useLoginDialog } from "../hooks/useLoginDialog";
 import StyledDialog from "./ui/dialog/StyledDialog";
-import { IconEmail, IconUser, IconX } from "./ui/icons/Icons";
+import {
+  IconEmail,
+  IconUser,
+  IconUserToServerArrow,
+  IconX,
+} from "./ui/icons/Icons";
 import ShowPasswordButton from "./ui/ShowPasswordButton";
 import { VectorLogo } from "./ui/vectors/VectorLogo";
 
@@ -44,7 +49,11 @@ export default function LoginDialog() {
 
   return (
     <StyledDialog
-      buttons={<button type="submit" className={`form-button-submit`}></button>}
+      buttons={
+        <button type="submit" className={`form-button-submit`}>
+          <IconUserToServerArrow className="w-5 h-5" />
+        </button>
+      }
       isOpen={open}
       onClose={close}
       closeOnOverlayClick={false}
