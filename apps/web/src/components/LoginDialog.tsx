@@ -2,11 +2,12 @@ import { useTranslation } from "next-i18next";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useRegisterMutation } from "../graphql/hooks";
+import { useLoginMutation, useRegisterMutation } from "../graphql/hooks";
 import { useLoginDialog } from "../hooks/useLoginDialog";
 import StyledDialog from "./ui/dialog/StyledDialog";
 import {
   IconEmail,
+  IconSpinner,
   IconUser,
   IconUserToServerArrow,
   IconX,
@@ -67,6 +68,7 @@ export default function LoginDialog() {
 
   const [registerAccount, { loading: registerAccountLoading }] =
     useRegisterMutation();
+  const [login, { loading: loginLoading }] = useLoginMutation();
 
   const onSubmit = ({ email, nickname, password }: any) => {
     if (isRegister) {
@@ -81,12 +83,27 @@ export default function LoginDialog() {
       })
         .then(() => {
           toast.success("Register Success!");
+
+          reset();
+          setRegister(false);
+        })
+        .catch((e) => {
+          toast.error("Something went wrong");
+        });
+    } else {
+      login({
+        variables: {
+          input: { email, password },
+        },
+      })
+        .then(() => {
+          toast.success("Login Success!");
+
           close();
         })
         .catch(() => {
           toast.error("Something went wrong");
         });
-    } else {
     }
   };
 
@@ -99,7 +116,7 @@ export default function LoginDialog() {
           disabled={disabled}
         >
           {(isRegister && registerAccountLoading) ||
-          (!isCreateAccount && loginLoading) ? (
+          (!isRegister && loginLoading) ? (
             <IconSpinner className="w-5 h-5" />
           ) : (
             <IconUserToServerArrow className="w-5 h-5" />

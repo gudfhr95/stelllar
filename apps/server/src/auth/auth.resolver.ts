@@ -39,6 +39,7 @@ export class AuthResolver {
     @CurrentUser() user: User,
     @GqlRes() response: Response
   ) {
+    logger.log("login", input);
     const accessTokenCookie = this.authService.getCookieWithJwtAccessToken(
       user.id
     );
@@ -48,6 +49,7 @@ export class AuthResolver {
     await this.userService.setCurrentRefreshToken(refreshToken, user.id);
 
     response.setHeader("Set-Cookie", [accessTokenCookie, refreshTokenCookie]);
+
     return user;
   }
 

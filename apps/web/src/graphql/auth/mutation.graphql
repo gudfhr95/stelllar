@@ -1,5 +1,11 @@
 mutation register($input: RegisterInput!) {
   register (input: $input) {
-    id
+    ...User
+  }
+}
+
+mutation login($input: LoginInput!){
+  login(input: $input){
+    ...User
   }
 }

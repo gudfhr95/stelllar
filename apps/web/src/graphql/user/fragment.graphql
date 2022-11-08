@@ -1,13 +1,5 @@
 fragment User on User {
   id
   email
-  username
-  avatarUrl
-  isOnline
-  onlineStatus
-  isCurrentUser
-  color
-  isOg
-  isStaff
-  showChat
+  nickname
 }

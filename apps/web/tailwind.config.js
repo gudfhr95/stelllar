@@ -238,7 +238,7 @@ module.exports = {
     aspectRatioPlugin,
     typographyPlugin,
     lineClampPlugin,
-    scrollbarPlugin,
+    scrollbarPlugin({ nocompatible: true }),
     plugin(function ({ addVariant, e }) {
       addVariant("electron", ({ modifySelectors, separator }) => {
         const modified = modifySelectors(({ className }) => {

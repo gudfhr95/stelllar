@@ -9,3 +9,5 @@ export {
 } from "react-icons/hi";
 
 export { CgArrowRight as IconUserToServerArrow } from "react-icons/cg";
+
+export * from "./IconSpinner";
