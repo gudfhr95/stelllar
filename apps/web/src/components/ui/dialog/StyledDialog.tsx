@@ -2,11 +2,11 @@ import { Fragment, PropsWithChildren } from "react";
 import Dialog from "./Dialog";
 
 interface StyledDialog {
-  buttons: any;
   isOpen: boolean;
   onClose: () => void;
   closeOnOverlayClick: boolean;
-  onSubmit: () => void;
+  buttons?: any;
+  onSubmit?: () => void;
   small?: boolean;
   large?: boolean;
 }

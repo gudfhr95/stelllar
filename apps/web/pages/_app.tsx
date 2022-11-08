@@ -1,4 +1,5 @@
 import { ApolloProvider } from "@apollo/client";
+import { SessionProvider } from "next-auth/react";
 import { appWithTranslation } from "next-i18next";
 import { AppProps } from "next/app";
 import Head from "next/head";
@@ -8,7 +9,7 @@ import "../src/styles/global.css";
 import "../src/styles/index.css";
 import "../src/styles/tippy.css";
 
-function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <>
       <Head>
@@ -19,11 +20,13 @@ function App({ Component, pageProps }: AppProps) {
       </Head>
       <main className="app">
         <ApolloProvider client={apolloClient}>
-          <div style={{ height: "100%" }} className="flex">
-            <MainLayout>
-              <Component {...pageProps} />
-            </MainLayout>
-          </div>
+          <SessionProvider session={session}>
+            <div style={{ height: "100%" }} className="flex">
+              <MainLayout>
+                <Component {...pageProps} />
+              </MainLayout>
+            </div>
+          </SessionProvider>
         </ApolloProvider>
       </main>
     </>

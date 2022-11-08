@@ -1,4 +1,5 @@
 import Tippy from "@tippyjs/react";
+import { useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { useLoginDialog } from "../hooks/useLoginDialog";
@@ -7,8 +8,11 @@ import { IconDark, IconLight } from "./ui/icons/Icons";
 export default function BottomBar() {
   const { t } = useTranslation("bottom-bar");
 
-  const { setLoginDialog, setRegister } = useLoginDialog();
+  const { setLoginDialog } = useLoginDialog();
   const { toggle: toggleDark, value: isDark } = useDarkMode();
+
+  const { data } = useSession();
+  console.log(data);
 
   return (
     <>
@@ -18,19 +22,10 @@ export default function BottomBar() {
             className="cursor-pointer hover:underline"
             onClick={() => {
               setLoginDialog(true);
-              setRegister(false);
             }}
           >
             {t("login")}
-          </div>
-          &nbsp;&nbsp;&middot;&nbsp;&nbsp;
-          <div
-            className="cursor-pointer hover:underline"
-            onClick={() => {
-              setLoginDialog(true);
-              setRegister(true);
-            }}
-          >
+            &nbsp;&nbsp;&middot;&nbsp;&nbsp;
             {t("register")}
           </div>
         </div>
