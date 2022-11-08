@@ -4,7 +4,7 @@ export const auth = {
     name: '유저 이름 또는 이메일',
     password: '비밀번호',
   },
-  createAccount: {
+  register: {
     label: '가입하기',
     name: '유저 이름',
     email: '이메일 (선택)',

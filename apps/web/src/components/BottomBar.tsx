@@ -7,7 +7,7 @@ import { IconDark, IconLight } from "./ui/icons/Icons";
 export default function BottomBar() {
   const { t } = useTranslation("bottom-bar");
 
-  const { setLoginDialog, setCreateAccount } = useLoginDialog();
+  const { setLoginDialog, setRegister } = useLoginDialog();
   const { toggle: toggleDark, value: isDark } = useDarkMode();
 
   return (
@@ -18,7 +18,7 @@ export default function BottomBar() {
             className="cursor-pointer hover:underline"
             onClick={() => {
               setLoginDialog(true);
-              setCreateAccount(false);
+              setRegister(false);
             }}
           >
             {t("login")}
@@ -28,10 +28,10 @@ export default function BottomBar() {
             className="cursor-pointer hover:underline"
             onClick={() => {
               setLoginDialog(true);
-              setCreateAccount(true);
+              setRegister(true);
             }}
           >
-            {t("createAccount")}
+            {t("register")}
           </div>
         </div>
 

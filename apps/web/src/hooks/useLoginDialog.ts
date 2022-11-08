@@ -5,7 +5,7 @@ export const useLoginDialog = () =>
     return {
       loginDialog: s.loginDialog,
       setLoginDialog: s.setLoginDialog,
-      createAccount: s.createAccount,
-      setCreateAccount: s.setCreateAccount,
+      register: s.register,
+      setRegister: s.setRegister,
     };
   });

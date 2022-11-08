@@ -1,6 +1,8 @@
 import { useTranslation } from "next-i18next";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useRegisterMutation } from "../graphql/hooks";
 import { useLoginDialog } from "../hooks/useLoginDialog";
 import StyledDialog from "./ui/dialog/StyledDialog";
 import {
@@ -22,8 +24,8 @@ export default function LoginDialog() {
   const {
     loginDialog: open,
     setLoginDialog: setOpen,
-    createAccount: isCreateAccount,
-    setCreateAccount: setCreateAccount,
+    register: isRegister,
+    setRegister: setRegister,
   } = useLoginDialog();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -44,12 +46,7 @@ export default function LoginDialog() {
   const password = watch("password");
   const confirmPassword = watch("confirmPassword");
 
-  const close = () => {
-    reset();
-    setOpen(false);
-  };
-
-  const disabled = !(isCreateAccount
+  const disabled = !(isRegister
     ? !!nickname &&
       nickname.length >= 2 &&
       nickname.length <= 16 &&
@@ -63,6 +60,36 @@ export default function LoginDialog() {
       !!password &&
       password.length >= 8);
 
+  const close = () => {
+    reset();
+    setOpen(false);
+  };
+
+  const [registerAccount, { loading: registerAccountLoading }] =
+    useRegisterMutation();
+
+  const onSubmit = ({ email, nickname, password }: any) => {
+    if (isRegister) {
+      registerAccount({
+        variables: {
+          input: {
+            email,
+            nickname,
+            password,
+          },
+        },
+      })
+        .then(() => {
+          toast.success("Register Success!");
+          close();
+        })
+        .catch(() => {
+          toast.error("Something went wrong");
+        });
+    } else {
+    }
+  };
+
   return (
     <StyledDialog
       buttons={
@@ -71,26 +98,31 @@ export default function LoginDialog() {
           className={`form-button-submit`}
           disabled={disabled}
         >
-          <IconUserToServerArrow className="w-5 h-5" />
+          {(isRegister && registerAccountLoading) ||
+          (!isCreateAccount && loginLoading) ? (
+            <IconSpinner className="w-5 h-5" />
+          ) : (
+            <IconUserToServerArrow className="w-5 h-5" />
+          )}
         </button>
       }
       isOpen={open}
       onClose={close}
       closeOnOverlayClick={false}
-      onSubmit={() => {}}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <div className="rounded-t-lg bg-gradient-to-r from-red-400 to-indigo-600 h-2" />
       <div className="px-5 pt-2 pb-9 text-left">
         <div className="pb-4 flex items-center">
           <div
             onClick={() => {
-              if (isCreateAccount) {
-                setCreateAccount(false);
+              if (isRegister) {
+                setRegister(false);
                 reset();
               }
             }}
             className={`text-sm cursor-pointer mr-3 py-3 border-b-2 inline-flex items-center justify-center px-3 ${
-              isCreateAccount
+              isRegister
                 ? "border-transparent text-secondary"
                 : "dark:border-gray-300 text-primary"
             }`}
@@ -100,13 +132,13 @@ export default function LoginDialog() {
 
           <div
             onClick={() => {
-              if (!isCreateAccount) {
-                setCreateAccount(true);
+              if (!isRegister) {
+                setRegister(true);
                 reset();
               }
             }}
             className={`text-sm cursor-pointer py-3 border-b-2 inline-flex items-center justify-center px-3 ${
-              isCreateAccount
+              isRegister
                 ? "dark:border-gray-300 text-primary"
                 : "border-transparent text-secondary"
             }`}
@@ -124,7 +156,7 @@ export default function LoginDialog() {
         </div>
 
         <div className="space-y-4">
-          {isCreateAccount ? (
+          {isRegister ? (
             <>
               <div>
                 <div className="relative">
@@ -195,7 +227,7 @@ export default function LoginDialog() {
             </div>
           )}
 
-          {isCreateAccount ? (
+          {isRegister ? (
             <>
               <div>
                 <div className="relative">

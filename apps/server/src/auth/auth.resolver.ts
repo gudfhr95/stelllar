@@ -1,3 +1,4 @@
+import { logger } from "@mikro-orm/nestjs";
 import { UseGuards } from "@nestjs/common";
 import { Args, Mutation, Resolver } from "@nestjs/graphql";
 import { Response } from "express";
@@ -23,6 +24,7 @@ export class AuthResolver {
 
   @Mutation(() => User)
   async register(@Args("input") input: RegisterInput) {
+    logger.log("register", input);
     return this.authService.register(
       input.email,
       input.nickname,

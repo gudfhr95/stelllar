@@ -4028,6 +4028,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mikro-orm/migrations@npm:5.5.0":
+  version: 5.5.0
+  resolution: "@mikro-orm/migrations@npm:5.5.0"
+  dependencies:
+    "@mikro-orm/knex": ~5.5.0
+    fs-extra: 10.1.0
+    knex: 2.3.0
+    umzug: 3.2.1
+  peerDependencies:
+    "@mikro-orm/core": ^5.0.0
+  checksum: 8381a804702deb81abdeb2feaa62f573d282ff1052176683e3965f359238a8f220a21cc1d57b378766fbb94df1b33bbead36bc19ff397ba1e3e81b8420d25b29
+  languageName: node
+  linkType: hard
+
 "@mikro-orm/migrations@npm:^4.5.7":
   version: 4.5.10
   resolution: "@mikro-orm/migrations@npm:4.5.10"
@@ -4840,6 +4854,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rushstack/ts-command-line@npm:^4.12.2":
+  version: 4.13.1
+  resolution: "@rushstack/ts-command-line@npm:4.13.1"
+  dependencies:
+    "@types/argparse": 1.0.38
+    argparse: ~1.0.9
+    colors: ~1.2.1
+    string-argv: ~0.3.1
+  checksum: fea24b2549ecb7d3409b6b485d7c58bf8af8f8d1dd19c43a6b3532c45579ffc546bc4533b5db29c91ae1716581fdee4cb725f6a81ecb300e902ef06600e59f1d
+  languageName: node
+  linkType: hard
+
 "@sinclair/typebox@npm:^0.24.1":
   version: 0.24.51
   resolution: "@sinclair/typebox@npm:0.24.51"
@@ -5364,6 +5390,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: 590b7580570534a640510c071e09074cf63b5958b237a728f94322567350aea4d239f8a9d897a12b15c856b992ee4d7907e9812bb079886af2c00714e7fb3f60
+  languageName: node
+  linkType: hard
+
+"@types/argparse@npm:1.0.38":
+  version: 1.0.38
+  resolution: "@types/argparse@npm:1.0.38"
+  checksum: 26ed7e3f1e3595efdb883a852f5205f971b798e4c28b7e30a32c5298eee596e8b45834ce831f014d250b9730819ab05acff5b31229666d3af4ba465b4697d0eb
   languageName: node
   linkType: hard
 
@@ -7023,7 +7056,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"argparse@npm:^1.0.7":
+"argparse@npm:^1.0.7, argparse@npm:~1.0.9":
   version: 1.0.10
   resolution: "argparse@npm:1.0.10"
   dependencies:
@@ -8317,6 +8350,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"colors@npm:~1.2.1":
+  version: 1.2.5
+  resolution: "colors@npm:1.2.5"
+  checksum: b6e23de735f68b72d5cdf6fd854ca43d1b66d82dcf54bda0b788083b910164a040f2c4edf23c670d36a7a2d8f1b7d6e62e3292703e4642691e6ccaa1c62d8f74
+  languageName: node
+  linkType: hard
+
 "combined-stream@npm:^1.0.8":
   version: 1.0.8
   resolution: "combined-stream@npm:1.0.8"
@@ -9354,6 +9394,13 @@ __metadata:
   version: 1.4.284
   resolution: "electron-to-chromium@npm:1.4.284"
   checksum: be496e9dca6509dbdbb54dc32146fc99f8eb716d28a7ee8ccd3eba0066561df36fc51418d8bd7cf5a5891810bf56c0def3418e74248f51ea4a843d423603d10a
+  languageName: node
+  linkType: hard
+
+"emittery@npm:^0.12.1":
+  version: 0.12.1
+  resolution: "emittery@npm:0.12.1"
+  checksum: 64ad8f2c498be09449b232730d07044976ef2662aa891e9ecfb956d70fc1c39a46aa66adb70f2d2a097059c5f923408723f2ec1778b86360268591b403348c1c
   languageName: node
   linkType: hard
 
@@ -10942,6 +10989,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fs-jetpack@npm:^4.3.1":
+  version: 4.3.1
+  resolution: "fs-jetpack@npm:4.3.1"
+  dependencies:
+    minimatch: ^3.0.2
+    rimraf: ^2.6.3
+  checksum: ffe90946ec250c6042569faa2ec7753594779ca0e8a72eea0b76b82574542c50d580974f54c5d6885f44f5719ece173be778cf82dc50ad90f43dab043f4061c9
+  languageName: node
+  linkType: hard
+
 "fs-minipass@npm:^2.0.0, fs-minipass@npm:^2.1.0":
   version: 2.1.0
   resolution: "fs-minipass@npm:2.1.0"
@@ -11219,7 +11276,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:^8.0.1":
+"glob@npm:^8.0.1, glob@npm:^8.0.3":
   version: 8.0.3
   resolution: "glob@npm:8.0.3"
   dependencies:
@@ -14629,7 +14686,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^3.0.4, minimatch@npm:^3.0.5, minimatch@npm:^3.1.1, minimatch@npm:^3.1.2":
+"minimatch@npm:^3.0.2, minimatch@npm:^3.0.4, minimatch@npm:^3.0.5, minimatch@npm:^3.1.1, minimatch@npm:^3.1.2":
   version: 3.1.2
   resolution: "minimatch@npm:3.1.2"
   dependencies:
@@ -16007,6 +16064,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pony-cause@npm:^2.1.2":
+  version: 2.1.4
+  resolution: "pony-cause@npm:2.1.4"
+  checksum: 390b182b89421f642de2b60224c136db8aa494a9067c5c66f05308d2088c1fc51883e7d5033adafbc712db99dcdc1d297f144d7a660f334d399a4e4e5724b180
+  languageName: node
+  linkType: hard
+
 "popmotion@npm:9.3.6":
   version: 9.3.6
   resolution: "popmotion@npm:9.3.6"
@@ -16748,7 +16812,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hot-toast@npm:^2.0.0":
+"react-hot-toast@npm:^2.0.0, react-hot-toast@npm:^2.4.0":
   version: 2.4.0
   resolution: "react-hot-toast@npm:2.4.0"
   dependencies:
@@ -17513,7 +17577,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rimraf@npm:^2.6.1":
+"rimraf@npm:^2.6.1, rimraf@npm:^2.6.3":
   version: 2.7.1
   resolution: "rimraf@npm:2.7.1"
   dependencies:
@@ -17931,6 +17995,7 @@ __metadata:
     "@hapi/joi": ^17.1.1
     "@mikro-orm/cli": ^5.5.0
     "@mikro-orm/core": ^5.5.0
+    "@mikro-orm/migrations": 5.5.0
     "@mikro-orm/nestjs": ^5.1.2
     "@mikro-orm/postgresql": ^5.5.0
     "@nestjs/apollo": ^10.1.4
@@ -18516,6 +18581,13 @@ __metadata:
   version: 1.1.0
   resolution: "streamsearch@npm:1.1.0"
   checksum: 1cce16cea8405d7a233d32ca5e00a00169cc0e19fbc02aa839959985f267335d435c07f96e5e0edd0eadc6d39c98d5435fb5bbbdefc62c41834eadc5622ad942
+  languageName: node
+  linkType: hard
+
+"string-argv@npm:~0.3.1":
+  version: 0.3.1
+  resolution: "string-argv@npm:0.3.1"
+  checksum: efbd0289b599bee808ce80820dfe49c9635610715429c6b7cc50750f0437e3c2f697c81e5c390208c13b5d5d12d904a1546172a88579f6ee5cbaaaa4dc9ec5cf
   languageName: node
   linkType: hard
 
@@ -19669,6 +19741,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"type-fest@npm:^2.18.0":
+  version: 2.19.0
+  resolution: "type-fest@npm:2.19.0"
+  checksum: a4ef07ece297c9fba78fc1bd6d85dff4472fe043ede98bd4710d2615d15776902b595abf62bd78339ed6278f021235fb28a96361f8be86ed754f778973a0d278
+  languageName: node
+  linkType: hard
+
 "type-graphql@npm:^1.1.1":
   version: 1.1.1
   resolution: "type-graphql@npm:1.1.1"
@@ -19759,6 +19838,20 @@ __metadata:
   dependencies:
     bluebird: ^3.7.2
   checksum: 8cc2d5e373ad3f8bcb5021715df3ea7a67a10526b5fb97dd4783e3bda1f57e7f44f89c7d4f979b20fc17d3600538a5b070505cd675093720e4309034bfca0cd5
+  languageName: node
+  linkType: hard
+
+"umzug@npm:3.2.1":
+  version: 3.2.1
+  resolution: "umzug@npm:3.2.1"
+  dependencies:
+    "@rushstack/ts-command-line": ^4.12.2
+    emittery: ^0.12.1
+    fs-jetpack: ^4.3.1
+    glob: ^8.0.3
+    pony-cause: ^2.1.2
+    type-fest: ^2.18.0
+  checksum: 8b118345cf4a9faedfaf2d169deb9a630ff630719c684070d02d0f55b8eb4b8f4b03648d6ff7ff03de03ce2650f05b7dde88c2b4f564b279af153c92e1739f38
   languageName: node
   linkType: hard
 
@@ -20422,6 +20515,7 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     react-hook-form: ^7.39.1
+    react-hot-toast: ^2.4.0
     react-i18next: ^12.0.0
     tailwind-scrollbar: ^2.0.1
     tailwindcss: ^3.2.2

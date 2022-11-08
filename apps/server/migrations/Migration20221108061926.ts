@@ -1,11 +1,11 @@
 import { Migration } from '@mikro-orm/migrations';
 
-export class Migration20221105081919 extends Migration {
+export class Migration20221108061926 extends Migration {
 
   async up(): Promise<void> {
-    this.addSql('create table "user" ("id" bigserial primary key, "created_at" timestamptz(0) not null, "email" text not null, "username" text not null, "current_hashed_refresh_token" varchar(255) null, "last_login_at" timestamptz(0) null, "avatar_url" text null, "online_status" text check ("online_status" in (\'Online\', \'Away\', \'DoNotDisturb\', \'Offline\')) not null default \'Online\', "is_admin" boolean not null default false, "color" text check ("color" in (\'Red\', \'Yellow\', \'Green\', \'Blue\', \'Indigo\', \'Purple\', \'Pink\')) not null default \'Indigo\', "password" text not null, "is_deleted" boolean not null default false, "is_banned" boolean not null default false, "ban_reason" text null, "is_og" boolean not null default false, "is_staff" boolean not null default false);');
+    this.addSql('create table "user" ("id" bigserial primary key, "created_at" timestamptz(0) not null, "email" text not null, "nickname" text not null, "current_hashed_refresh_token" varchar(255) null, "last_login_at" timestamptz(0) null, "avatar_url" text null, "online_status" text check ("online_status" in (\'Online\', \'Away\', \'DoNotDisturb\', \'Offline\')) not null default \'Online\', "is_admin" boolean not null default false, "color" text check ("color" in (\'Red\', \'Yellow\', \'Green\', \'Blue\', \'Indigo\', \'Purple\', \'Pink\')) not null, "password" text not null, "is_deleted" boolean not null default false, "is_banned" boolean not null default false, "ban_reason" text null, "is_og" boolean not null default false, "is_staff" boolean not null default false);');
     this.addSql('alter table "user" add constraint "user_email_unique" unique ("email");');
-    this.addSql('alter table "user" add constraint "user_username_unique" unique ("username");');
+    this.addSql('alter table "user" add constraint "user_nickname_unique" unique ("nickname");');
 
     this.addSql('create table "server" ("id" bigserial primary key, "created_at" timestamptz(0) not null, "name" text not null, "display_name" text not null, "description" text null, "owner_id" bigint not null, "category" text check ("category" in (\'Arts\', \'Business\', \'Culture\', \'Discussion\', \'Entertainment\', \'Gaming\', \'Health\', \'Hobbies\', \'Lifestyle\', \'Memes\', \'Meta\', \'News\', \'Politics\', \'Programming\', \'Science\', \'Sports\', \'Technology\', \'Other\')) not null default \'Other\', "user_count" int not null default 0, "avatar_url" text null, "banner_url" text null, "is_banned" boolean not null default false, "is_deleted" boolean not null default false, "is_public" boolean not null default true, "is_chat_enabled" boolean not null default true, "is_downvotes_enabled" boolean not null default false, "is_featured" boolean not null default false);');
 
@@ -108,132 +108,6 @@ export class Migration20221105081919 extends Migration {
 
     this.addSql('alter table "user_folder" add constraint "user_folder_user_id_foreign" foreign key ("user_id") references "user" ("id") on update cascade;');
     this.addSql('alter table "user_folder" add constraint "user_folder_folder_id_foreign" foreign key ("folder_id") references "folder" ("id") on update cascade;');
-  }
-
-  async down(): Promise<void> {
-    this.addSql('alter table "server" drop constraint "server_owner_id_foreign";');
-
-    this.addSql('alter table "server_user" drop constraint "server_user_user_id_foreign";');
-
-    this.addSql('alter table "relationship" drop constraint "relationship_owner_id_foreign";');
-
-    this.addSql('alter table "relationship" drop constraint "relationship_user_id_foreign";');
-
-    this.addSql('alter table "post" drop constraint "post_author_id_foreign";');
-
-    this.addSql('alter table "post_vote" drop constraint "post_vote_user_id_foreign";');
-
-    this.addSql('alter table "group" drop constraint "group_owner_id_foreign";');
-
-    this.addSql('alter table "message" drop constraint "message_author_id_foreign";');
-
-    this.addSql('alter table "message" drop constraint "message_to_user_id_foreign";');
-
-    this.addSql('alter table "message_mentioned_users" drop constraint "message_mentioned_users_user_id_foreign";');
-
-    this.addSql('alter table "group_user" drop constraint "group_user_user_id_foreign";');
-
-    this.addSql('alter table "group_users" drop constraint "group_users_user_id_foreign";');
-
-    this.addSql('alter table "folder" drop constraint "folder_owner_id_foreign";');
-
-    this.addSql('alter table "folder_post" drop constraint "folder_post_added_by_user_id_foreign";');
-
-    this.addSql('alter table "comment" drop constraint "comment_author_id_foreign";');
-
-    this.addSql('alter table "reply" drop constraint "reply_user_id_foreign";');
-
-    this.addSql('alter table "comment_vote" drop constraint "comment_vote_user_id_foreign";');
-
-    this.addSql('alter table "channel_user" drop constraint "channel_user_user_id_foreign";');
-
-    this.addSql('alter table "user_folder" drop constraint "user_folder_user_id_foreign";');
-
-    this.addSql('alter table "role" drop constraint "role_server_id_foreign";');
-
-    this.addSql('alter table "server_user" drop constraint "server_user_server_id_foreign";');
-
-    this.addSql('alter table "channel" drop constraint "channel_server_id_foreign";');
-
-    this.addSql('alter table "post" drop constraint "post_server_id_foreign";');
-
-    this.addSql('alter table "folder" drop constraint "folder_server_id_foreign";');
-
-    this.addSql('alter table "server_folder" drop constraint "server_folder_server_id_foreign";');
-
-    this.addSql('alter table "server_user" drop constraint "server_user_role_id_foreign";');
-
-    this.addSql('alter table "message" drop constraint "message_channel_id_foreign";');
-
-    this.addSql('alter table "channel_user" drop constraint "channel_user_channel_id_foreign";');
-
-    this.addSql('alter table "post_vote" drop constraint "post_vote_post_id_foreign";');
-
-    this.addSql('alter table "folder_post" drop constraint "folder_post_post_id_foreign";');
-
-    this.addSql('alter table "comment" drop constraint "comment_post_id_foreign";');
-
-    this.addSql('alter table "message" drop constraint "message_group_id_foreign";');
-
-    this.addSql('alter table "group_user" drop constraint "group_user_group_id_foreign";');
-
-    this.addSql('alter table "group_users" drop constraint "group_users_group_id_foreign";');
-
-    this.addSql('alter table "message_mentioned_users" drop constraint "message_mentioned_users_message_id_foreign";');
-
-    this.addSql('alter table "server_folder" drop constraint "server_folder_folder_id_foreign";');
-
-    this.addSql('alter table "folder_post" drop constraint "folder_post_folder_id_foreign";');
-
-    this.addSql('alter table "user_folder" drop constraint "user_folder_folder_id_foreign";');
-
-    this.addSql('alter table "comment" drop constraint "comment_parent_comment_id_foreign";');
-
-    this.addSql('alter table "reply" drop constraint "reply_comment_id_foreign";');
-
-    this.addSql('alter table "comment_vote" drop constraint "comment_vote_comment_id_foreign";');
-
-    this.addSql('drop table if exists "user" cascade;');
-
-    this.addSql('drop table if exists "server" cascade;');
-
-    this.addSql('drop table if exists "role" cascade;');
-
-    this.addSql('drop table if exists "server_user" cascade;');
-
-    this.addSql('drop table if exists "channel" cascade;');
-
-    this.addSql('drop table if exists "relationship" cascade;');
-
-    this.addSql('drop table if exists "post" cascade;');
-
-    this.addSql('drop table if exists "post_vote" cascade;');
-
-    this.addSql('drop table if exists "group" cascade;');
-
-    this.addSql('drop table if exists "message" cascade;');
-
-    this.addSql('drop table if exists "message_mentioned_users" cascade;');
-
-    this.addSql('drop table if exists "group_user" cascade;');
-
-    this.addSql('drop table if exists "group_users" cascade;');
-
-    this.addSql('drop table if exists "folder" cascade;');
-
-    this.addSql('drop table if exists "server_folder" cascade;');
-
-    this.addSql('drop table if exists "folder_post" cascade;');
-
-    this.addSql('drop table if exists "comment" cascade;');
-
-    this.addSql('drop table if exists "reply" cascade;');
-
-    this.addSql('drop table if exists "comment_vote" cascade;');
-
-    this.addSql('drop table if exists "channel_user" cascade;');
-
-    this.addSql('drop table if exists "user_folder" cascade;');
   }
 
 }

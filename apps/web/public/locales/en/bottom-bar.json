@@ -1,6 +1,6 @@
 {
   "login": "Login",
-  "createAccount": "Create an Account",
+  "register": "Register",
   "theme": {
     "dark": "Dark Mode",
     "light": "Light Mode"
