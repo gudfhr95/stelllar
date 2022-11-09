@@ -241,7 +241,6 @@ type User {
   lastMessageAt: DateTime
   onlineStatus: OnlineStatus!
   isAdmin: Boolean!
-  color: Color!
   isCurrentUser: Boolean!
   groups: [Group!]!
   relatedUsers: [User!]!
@@ -265,16 +264,6 @@ enum OnlineStatus {
   Away
   DoNotDisturb
   Offline
-}
-
-enum Color {
-  Red
-  Yellow
-  Green
-  Blue
-  Indigo
-  Purple
-  Pink
 }
 
 enum RelationshipStatus {

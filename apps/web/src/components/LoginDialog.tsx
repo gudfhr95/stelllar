@@ -44,6 +44,7 @@ export default function LoginDialog() {
 
   const onClickGoogleLogin = () => {
     popupCenter("/login/google", "Google Auth");
+    close();
   };
 
   return (

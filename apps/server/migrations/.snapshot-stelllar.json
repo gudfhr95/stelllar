@@ -99,25 +99,6 @@
           "default": "false",
           "mappedType": "boolean"
         },
-        "color": {
-          "name": "color",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "default": "'Blue'",
-          "enumItems": [
-            "Red",
-            "Yellow",
-            "Green",
-            "Blue",
-            "Indigo",
-            "Purple",
-            "Pink"
-          ],
-          "mappedType": "enum"
-        },
         "is_deleted": {
           "name": "is_deleted",
           "type": "boolean",

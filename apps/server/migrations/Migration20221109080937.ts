@@ -1,9 +1,9 @@
 import { Migration } from '@mikro-orm/migrations';
 
-export class Migration20221109010757 extends Migration {
+export class Migration20221109080937 extends Migration {
 
   async up(): Promise<void> {
-    this.addSql('create table "user" ("id" varchar(255) not null, "created_at" timestamptz(0) null default \'now\', "name" text not null, "email" text not null, "email_verified" timestamptz(0) null, "image" varchar(255) null, "last_login_at" timestamptz(0) null, "online_status" text check ("online_status" in (\'Online\', \'Away\', \'DoNotDisturb\', \'Offline\')) not null default \'Online\', "is_admin" boolean not null default false, "color" text check ("color" in (\'Red\', \'Yellow\', \'Green\', \'Blue\', \'Indigo\', \'Purple\', \'Pink\')) null default \'Blue\', "is_deleted" boolean not null default false, "is_banned" boolean not null default false, "ban_reason" text null, "is_og" boolean not null default false, "is_staff" boolean not null default false, constraint "user_pkey" primary key ("id"));');
+    this.addSql('create table "user" ("id" varchar(255) not null, "created_at" timestamptz(0) null default \'now\', "name" text not null, "email" text not null, "email_verified" timestamptz(0) null, "image" varchar(255) null, "last_login_at" timestamptz(0) null, "online_status" text check ("online_status" in (\'Online\', \'Away\', \'DoNotDisturb\', \'Offline\')) not null default \'Online\', "is_admin" boolean not null default false, "is_deleted" boolean not null default false, "is_banned" boolean not null default false, "ban_reason" text null, "is_og" boolean not null default false, "is_staff" boolean not null default false, constraint "user_pkey" primary key ("id"));');
     this.addSql('alter table "user" add constraint "user_name_unique" unique ("name");');
     this.addSql('alter table "user" add constraint "user_email_unique" unique ("email");');
 

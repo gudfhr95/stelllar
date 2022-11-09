@@ -14,8 +14,6 @@ import { defaultEntities } from "@next-auth/mikro-orm-adapter";
 import { GraphQLEmailAddress, GraphQLNonNegativeInt } from "graphql-scalars";
 import { GraphQLBoolean } from "graphql/type";
 import { BaseEntity } from "../../common/entity/base.entity";
-import { Color } from "../../common/entity/color.enum";
-import { randomEnum } from "../../common/util/random-enum";
 import { Folder } from "../../folder/entity/folder.entity";
 import { UserFolder } from "../../folder/entity/user-folder.entity";
 import { GroupUser } from "../../group/entity/group-user.entity";
@@ -84,10 +82,6 @@ export class User implements BaseEntity, defaultEntities.User {
   @Field(() => GraphQLBoolean)
   @Property({ columnType: "boolean" })
   isAdmin = false;
-
-  @Field(() => Color)
-  @Enum({ items: () => Color, nullable: true, default: Color.Purple })
-  color: Color = randomEnum(Color);
 
   @Field()
   isCurrentUser: boolean;
