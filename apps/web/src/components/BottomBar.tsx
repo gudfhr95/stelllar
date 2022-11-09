@@ -25,8 +25,6 @@ export default function BottomBar() {
             }}
           >
             {t("login")}
-            &nbsp;&nbsp;&middot;&nbsp;&nbsp;
-            {t("register")}
           </div>
         </div>
 

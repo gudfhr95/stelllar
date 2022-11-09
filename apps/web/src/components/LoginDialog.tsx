@@ -1,5 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { useLoginDialog } from "../hooks/useLoginDialog";
+import { GoogleSigninButton } from "./ui/buttons/GoogleSigninButton";
 import StyledDialog from "./ui/dialog/StyledDialog";
 import { IconX } from "./ui/icons/Icons";
 import { VectorLogo } from "./ui/vectors/VectorLogo";
@@ -46,7 +47,12 @@ export default function LoginDialog() {
   };
 
   return (
-    <StyledDialog isOpen={open} onClose={close} closeOnOverlayClick={false}>
+    <StyledDialog
+      small
+      isOpen={open}
+      onClose={close}
+      closeOnOverlayClick={true}
+    >
       <div className="rounded-t-lg bg-gradient-to-r from-red-400 to-indigo-600 h-2" />
       <div className="px-5 pt-2 pb-9 text-left">
         <div className="pb-4 flex items-center">
@@ -59,13 +65,8 @@ export default function LoginDialog() {
           />
         </div>
 
-        <div className="space-y-4 items-center">
-          <button
-            className="form-button-submit m-auto"
-            onClick={onClickGoogleLogin}
-          >
-            Register With Google
-          </button>
+        <div className="flex flex-col items-center">
+          <GoogleSigninButton onClick={onClickGoogleLogin} />
         </div>
       </div>
     </StyledDialog>

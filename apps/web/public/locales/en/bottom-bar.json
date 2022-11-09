@@ -1,6 +1,5 @@
 {
   "login": "Login",
-  "register": "Register",
   "theme": {
     "dark": "Dark Mode",
     "light": "Light Mode"
