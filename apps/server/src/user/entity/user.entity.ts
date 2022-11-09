@@ -1,13 +1,16 @@
 import {
+  Cascade,
   Collection,
   Entity,
   Enum,
   ManyToMany,
   OneToMany,
+  PrimaryKey,
   Property,
   QueryOrder,
 } from "@mikro-orm/core";
-import { Field, ObjectType } from "@nestjs/graphql";
+import { Field, ID, ObjectType } from "@nestjs/graphql";
+import { defaultEntities } from "@next-auth/mikro-orm-adapter";
 import { GraphQLEmailAddress, GraphQLNonNegativeInt } from "graphql-scalars";
 import { GraphQLBoolean } from "graphql/type";
 import { BaseEntity } from "../../common/entity/base.entity";
@@ -23,19 +26,49 @@ import { OnlineStatus } from "./online-status.enum";
 import { RelationshipStatus } from "./relationship-status.enum";
 import { Relationship } from "./relationship.entity";
 
-@ObjectType({ implements: BaseEntity })
+@ObjectType()
 @Entity()
-export class User extends BaseEntity {
+export class User implements BaseEntity, defaultEntities.User {
+  @Field(() => ID)
+  @PrimaryKey()
+  id!: string;
+
+  @Field()
+  @Property({ type: "Date", nullable: true, default: "now" })
+  createdAt: Date = new Date();
+
+  @Field()
+  @Property({ columnType: "text", unique: true })
+  name: string;
+
   @Field(() => GraphQLEmailAddress)
   @Property({ columnType: "text", unique: true })
   email: string;
 
-  @Field()
-  @Property({ columnType: "text", unique: true })
-  nickname: string;
+  @Property({ type: "Date", nullable: true })
+  emailVerified: Date | null = null;
 
+  @Field({ nullable: true })
   @Property({ nullable: true })
-  currentHashedRefreshToken?: string;
+  image?: string;
+
+  @OneToMany({
+    entity: () => defaultEntities.Session,
+    mappedBy: (session) => session.user,
+    hidden: true,
+    orphanRemoval: true,
+    cascade: [Cascade.ALL],
+  })
+  sessions = new Collection<defaultEntities.Session>(this);
+
+  @OneToMany({
+    entity: () => defaultEntities.Account,
+    mappedBy: (account) => account.user,
+    hidden: true,
+    orphanRemoval: true,
+    cascade: [Cascade.ALL],
+  })
+  accounts = new Collection<defaultEntities.Account>(this);
 
   @Field({ nullable: true })
   @Property({ nullable: true })
@@ -43,10 +76,6 @@ export class User extends BaseEntity {
 
   @Field({ nullable: true })
   lastMessageAt?: Date;
-
-  @Field({ nullable: true })
-  @Property({ nullable: true, columnType: "text" })
-  avatarUrl?: string;
 
   @Field(() => OnlineStatus)
   @Enum({ items: () => OnlineStatus })
@@ -57,14 +86,11 @@ export class User extends BaseEntity {
   isAdmin = false;
 
   @Field(() => Color)
-  @Enum({ items: () => Color })
+  @Enum({ items: () => Color, nullable: true, default: Color.Purple })
   color: Color = randomEnum(Color);
 
   @Field()
   isCurrentUser: boolean;
-
-  @Property({ columnType: "text" })
-  password: string;
 
   @Property({ columnType: "boolean" })
   isDeleted = false;

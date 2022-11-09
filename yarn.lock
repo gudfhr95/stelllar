@@ -3815,7 +3815,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mapbox/node-pre-gyp@npm:^1.0.10, @mapbox/node-pre-gyp@npm:^1.0.9":
+"@mapbox/node-pre-gyp@npm:^1.0.9":
   version: 1.0.10
   resolution: "@mapbox/node-pre-gyp@npm:1.0.10"
   dependencies:
@@ -3998,6 +3998,53 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mikro-orm/core@npm:^5.5.2":
+  version: 5.5.2
+  resolution: "@mikro-orm/core@npm:5.5.2"
+  dependencies:
+    acorn-loose: 8.3.0
+    acorn-walk: 8.2.0
+    dotenv: 16.0.3
+    fs-extra: 10.1.0
+    globby: 11.0.4
+    mikro-orm: ~5.5.2
+    reflect-metadata: 0.1.13
+  peerDependencies:
+    "@mikro-orm/better-sqlite": ^5.0.0
+    "@mikro-orm/entity-generator": ^5.0.0
+    "@mikro-orm/mariadb": ^5.0.0
+    "@mikro-orm/migrations": ^5.0.0
+    "@mikro-orm/migrations-mongodb": ^5.0.0
+    "@mikro-orm/mongodb": ^5.0.0
+    "@mikro-orm/mysql": ^5.0.0
+    "@mikro-orm/postgresql": ^5.0.0
+    "@mikro-orm/seeder": ^5.0.0
+    "@mikro-orm/sqlite": ^5.0.0
+  peerDependenciesMeta:
+    "@mikro-orm/better-sqlite":
+      optional: true
+    "@mikro-orm/entity-generator":
+      optional: true
+    "@mikro-orm/mariadb":
+      optional: true
+    "@mikro-orm/migrations":
+      optional: true
+    "@mikro-orm/migrations-mongodb":
+      optional: true
+    "@mikro-orm/mongodb":
+      optional: true
+    "@mikro-orm/mysql":
+      optional: true
+    "@mikro-orm/postgresql":
+      optional: true
+    "@mikro-orm/seeder":
+      optional: true
+    "@mikro-orm/sqlite":
+      optional: true
+  checksum: 070c1869b628c599f0c4d4f2427a026eaa6e18cc5e314674d78e867d3f623e832634c020fd74539f58eeeabb8c02af3e43a71cab73cf9f6d1395eaa2f35b75cd
+  languageName: node
+  linkType: hard
+
 "@mikro-orm/knex@npm:^4.5.10":
   version: 4.5.10
   resolution: "@mikro-orm/knex@npm:4.5.10"
@@ -4068,6 +4115,44 @@ __metadata:
     sqlite3:
       optional: true
   checksum: d9b34d87351b888a1b59a55528a9d9a5c4900ba8a2cd37455ca748f48c88ef87f8097372fcee118c149a698a855d16ad7edc9fa4cf4fc9af5de7f5005e4022df
+  languageName: node
+  linkType: hard
+
+"@mikro-orm/knex@npm:~5.5.2":
+  version: 5.5.2
+  resolution: "@mikro-orm/knex@npm:5.5.2"
+  dependencies:
+    fs-extra: 10.1.0
+    knex: 2.3.0
+    sqlstring: 2.3.3
+  peerDependencies:
+    "@mikro-orm/core": ^5.0.0
+    "@mikro-orm/entity-generator": ^5.0.0
+    "@mikro-orm/migrations": ^5.0.0
+    better-sqlite3: ^7.0.0
+    mssql: ^7.0.0
+    mysql: ^2.18.1
+    mysql2: ^2.1.0
+    pg: ^8.0.3
+    sqlite3: ^5.0.0
+  peerDependenciesMeta:
+    "@mikro-orm/entity-generator":
+      optional: true
+    "@mikro-orm/migrations":
+      optional: true
+    better-sqlite3:
+      optional: true
+    mssql:
+      optional: true
+    mysql:
+      optional: true
+    mysql2:
+      optional: true
+    pg:
+      optional: true
+    sqlite3:
+      optional: true
+  checksum: c339adecb82d25e5d2ec1c3cc710c48378572e3ef75a6a0e28e59536dd6bfd919cce76d1f73f95d79631efcc0a4afb7e5efe90731b1fec396b1667b2a4f512af
   languageName: node
   linkType: hard
 
@@ -4176,6 +4261,28 @@ __metadata:
     "@mikro-orm/seeder":
       optional: true
   checksum: b39bc8a84721e41afc7c486d23d51fec1e4b7460f5ad73fb6c87e9efbe8d0bcf3900c5aa0ab853e6f17289e2a09dd13adf044464ed863c9314678fb6ecbf6805
+  languageName: node
+  linkType: hard
+
+"@mikro-orm/postgresql@npm:^5.5.2":
+  version: 5.5.2
+  resolution: "@mikro-orm/postgresql@npm:5.5.2"
+  dependencies:
+    "@mikro-orm/knex": ~5.5.2
+    pg: 8.8.0
+  peerDependencies:
+    "@mikro-orm/core": ^5.0.0
+    "@mikro-orm/entity-generator": ^5.0.0
+    "@mikro-orm/migrations": ^5.0.0
+    "@mikro-orm/seeder": ^5.0.0
+  peerDependenciesMeta:
+    "@mikro-orm/entity-generator":
+      optional: true
+    "@mikro-orm/migrations":
+      optional: true
+    "@mikro-orm/seeder":
+      optional: true
+  checksum: ed5bde1315fcc95c974754a2cd33a524da94f406150124c7eabe2c4e207e6590592e57270b1ecb44843cfbbeb1d7f4ea4166317a184d21011af4b20df7d75f1e
   languageName: node
   linkType: hard
 
@@ -4404,18 +4511,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/jwt@npm:^9.0.0":
-  version: 9.0.0
-  resolution: "@nestjs/jwt@npm:9.0.0"
-  dependencies:
-    "@types/jsonwebtoken": 8.5.8
-    jsonwebtoken: 8.5.1
-  peerDependencies:
-    "@nestjs/common": ^8.0.0 || ^9.0.0
-  checksum: c623bc710ace6345efc63d0dccff8d9f10b721b39efd94f4880bf8585a6a6a20ec00cc95fab6b913889382a0ff9327b4db02c12359eccc9e837d902bc9ba3676
-  languageName: node
-  linkType: hard
-
 "@nestjs/mapped-types@npm:1.2.0":
   version: 1.2.0
   resolution: "@nestjs/mapped-types@npm:1.2.0"
@@ -4497,6 +4592,18 @@ __metadata:
   version: 1.0.3
   resolution: "@netlify/classnames-template-literals@npm:1.0.3"
   checksum: c64f66d9d34ae9cf65e951e10b45b9c2952cc157b56c1b57b56ff5cd874696770eb6f310ce3e2026e5b8376219579f53a87ddccf29259b9c55826bacfe99f3d1
+  languageName: node
+  linkType: hard
+
+"@next-auth/mikro-orm-adapter@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@next-auth/mikro-orm-adapter@npm:3.0.1"
+  dependencies:
+    uuid: ^9
+  peerDependencies:
+    "@mikro-orm/core": ^5
+    next-auth: ^4
+  checksum: 4b043837aa4e565e819f651b39f6592deb07d99ec959da93d71acd5e3ea59b58cf5315e588b318ee94b26f3cf259e3760d49eb7239c11bb0914cc9736225e001
   languageName: node
   linkType: hard
 
@@ -5806,15 +5913,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jsonwebtoken@npm:8.5.8":
-  version: 8.5.8
-  resolution: "@types/jsonwebtoken@npm:8.5.8"
-  dependencies:
-    "@types/node": "*"
-  checksum: 56738a918c543dba30786066959f801212e7fb5cd4ec53cf7b8d227711ed358834feb9e5141f7f88ec7c642bb39757330a5a8917e3b22e0ff9084940d35f0d70
-  languageName: node
-  linkType: hard
-
 "@types/jsonwebtoken@npm:^8.5.0, @types/jsonwebtoken@npm:^8.5.4":
   version: 8.5.9
   resolution: "@types/jsonwebtoken@npm:8.5.9"
@@ -7095,17 +7193,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"argon2@npm:^0.30.1":
-  version: 0.30.1
-  resolution: "argon2@npm:0.30.1"
-  dependencies:
-    "@mapbox/node-pre-gyp": ^1.0.10
-    "@phc/format": ^1.0.0
-    node-addon-api: ^5.0.0
-  checksum: 5e3de674b6da80d88eefd5eea4218a408b27754cd51a7186182de55556aa2199d8384047efcb7c3ed410f987670ea43a1bf3388a2f63e2a8b017e89b3d3f8cdb
-  languageName: node
-  linkType: hard
-
 "argparse@npm:^1.0.7, argparse@npm:~1.0.9":
   version: 1.0.10
   resolution: "argparse@npm:1.0.10"
@@ -7380,6 +7467,17 @@ __metadata:
   version: 4.5.1
   resolution: "axe-core@npm:4.5.1"
   checksum: db90c6b41483e9c3452393933072fe0b8c2221e6d9b96ae0e6a03a4ce1e4c35bec539c92e9b6fcd63c4acf6678ad3c3ca7f5ab1d884210d157867cc54acd4f6a
+  languageName: node
+  linkType: hard
+
+"axios@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "axios@npm:1.1.3"
+  dependencies:
+    follow-redirects: ^1.15.0
+    form-data: ^4.0.0
+    proxy-from-env: ^1.1.0
+  checksum: cab3b17bf6092c9387f7023d699db093cfa23650b56c4422cd474d124b78b2e3b5a520f932c330664a58ab85b867b1c25a95cace475ef72d236888c852b84e6d
   languageName: node
   linkType: hard
 
@@ -10822,6 +10920,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"follow-redirects@npm:^1.15.0":
+  version: 1.15.2
+  resolution: "follow-redirects@npm:1.15.2"
+  peerDependenciesMeta:
+    debug:
+      optional: true
+  checksum: faa66059b66358ba65c234c2f2a37fcec029dc22775f35d9ad6abac56003268baf41e55f9ee645957b32c7d9f62baf1f0b906e68267276f54ec4b4c597c2b190
+  languageName: node
+  linkType: hard
+
 "for-each@npm:^0.3.3":
   version: 0.3.3
   resolution: "for-each@npm:0.3.3"
@@ -13702,7 +13810,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsonwebtoken@npm:8.5.1, jsonwebtoken@npm:^8.2.0, jsonwebtoken@npm:^8.5.1":
+"jsonwebtoken@npm:^8.5.1":
   version: 8.5.1
   resolution: "jsonwebtoken@npm:8.5.1"
   dependencies:
@@ -14637,6 +14745,13 @@ __metadata:
   version: 5.5.0
   resolution: "mikro-orm@npm:5.5.0"
   checksum: 8b491e7b8be4589bb69c1c9397cdf15aed911530ea463380709285abfc973ce6ea1f1d22c4cbe22a30ac56915e74848d0789a8b03fb337d75a8b65a092aa196b
+  languageName: node
+  linkType: hard
+
+"mikro-orm@npm:~5.5.2":
+  version: 5.5.2
+  resolution: "mikro-orm@npm:5.5.2"
+  checksum: b2a5020458e44b1d91e7a01c3d294896c4936c6f289101a6aa3f002f1ede0cdd07ecabfe24b8a4cddeb678ef83fd44ca0d837f2e2ffa83f53a40848d61adbc8b
   languageName: node
   linkType: hard
 
@@ -15894,26 +16009,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"passport-jwt@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "passport-jwt@npm:4.0.0"
-  dependencies:
-    jsonwebtoken: ^8.2.0
-    passport-strategy: ^1.0.0
-  checksum: d0499ebb819c714d885a9c03a6c5d6dfae916c1a81ccb62357136d5bf477529327e9b8fc658f61f97c565651d2bd78eccec4543474a08e944132f0e2ec47cc3d
-  languageName: node
-  linkType: hard
-
-"passport-local@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "passport-local@npm:1.0.0"
+"passport-custom@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "passport-custom@npm:1.1.1"
   dependencies:
     passport-strategy: 1.x.x
-  checksum: 86dc08b12f05f0ce1bb109780ccb0377eff45bbba70aa9c0d65f092b3ef476d344c0443517db2e9f3e5ec0ca849171ab25fb622164e0f69a677173af42b9bba7
+  checksum: 245b265491c83186002a19db1c812565bb95fd2a7b842f8e8de58f3e22d669f680178b623db6a4be22aecacecd75097b96fa06f35c2b35fe3ef71e9ec77a538d
   languageName: node
   linkType: hard
 
-"passport-strategy@npm:1.x.x, passport-strategy@npm:^1.0.0":
+"passport-strategy@npm:1.x.x":
   version: 1.0.0
   resolution: "passport-strategy@npm:1.0.0"
   checksum: 5086693f2508e538dffa55a338c89fe8192fb5f4478c71f80cd5890b8573419a098f4fec88b505374f60bbe9049f6f24b9f3992678612528a3370b4dc73354a2
@@ -16641,6 +16746,13 @@ __metadata:
     forwarded: 0.2.0
     ipaddr.js: 1.9.1
   checksum: 29c6990ce9364648255454842f06f8c46fcd124d3e6d7c5066df44662de63cdc0bad032e9bf5a3d653ff72141cc7b6019873d685708ac8210c30458ad99f2b74
+  languageName: node
+  linkType: hard
+
+"proxy-from-env@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "proxy-from-env@npm:1.1.0"
+  checksum: ed7fcc2ba0a33404958e34d95d18638249a68c430e30fcb6c478497d72739ba64ce9810a24f53a7d921d0c065e5b78e3822759800698167256b04659366ca4d4
   languageName: node
   linkType: hard
 
@@ -18137,17 +18249,16 @@ __metadata:
     "@nestjs/config": ^2.2.0
     "@nestjs/core": ^9.1.6
     "@nestjs/graphql": ^10.1.5
-    "@nestjs/jwt": ^9.0.0
     "@nestjs/passport": ^9.0.0
     "@nestjs/platform-express": ^9.1.6
     "@nestjs/schematics": ^9.0.3
     "@nestjs/testing": ^9.1.6
+    "@next-auth/mikro-orm-adapter": ^3.0.1
     "@types/express": ^4.17.14
     "@types/jest": 29.2.2
     "@types/node": ^18.11.9
     "@types/supertest": ^2.0.12
     apollo-server-express: ^3.11.1
-    argon2: ^0.30.1
     class-validator: ^0.13.2
     cookie-parser: ^1.4.6
     eslint: 8.26.0
@@ -18157,8 +18268,7 @@ __metadata:
     jest: 29.2.2
     mudder: ^2.1.0
     passport: ^0.6.0
-    passport-jwt: ^4.0.0
-    passport-local: ^1.0.0
+    passport-custom: ^1.1.1
     prettier: ^2.7.1
     reflect-metadata: ^0.1.13
     rimraf: ^3.0.2
@@ -18170,6 +18280,7 @@ __metadata:
     ts-node: ^10.9.1
     tsconfig-paths: 4.1.0
     typescript: ^4.8.4
+    uuid: ^9.0.0
   languageName: unknown
   linkType: soft
 
@@ -20333,7 +20444,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:9.0.0, uuid@npm:^9.0.0":
+"uuid@npm:9.0.0, uuid@npm:^9, uuid@npm:^9.0.0":
   version: 9.0.0
   resolution: "uuid@npm:9.0.0"
   bin:
@@ -20630,6 +20741,9 @@ __metadata:
     "@graphql-codegen/typescript-operations": ^2.5.6
     "@graphql-codegen/typescript-react-apollo": ^3.3.6
     "@headlessui/react": ^1.7.4
+    "@mikro-orm/core": ^5.5.2
+    "@mikro-orm/postgresql": ^5.5.2
+    "@next-auth/mikro-orm-adapter": ^3.0.1
     "@tailwindcss/aspect-ratio": ^0.4.2
     "@tailwindcss/forms": ^0.5.3
     "@tailwindcss/line-clamp": ^0.4.2
@@ -20639,6 +20753,7 @@ __metadata:
     "@types/react": ^18.0.25
     "@types/react-dom": ^18.0.8
     autoprefixer: ^10.4.13
+    axios: ^1.1.3
     eslint: 8.26.0
     eslint-config-custom: "*"
     graphql: ^16.6.0
@@ -20658,6 +20773,7 @@ __metadata:
     tsconfig: "*"
     typescript: ^4.8.4
     ui: "*"
+    uuid: ^9.0.0
     zustand: ^4.1.4
   languageName: unknown
   linkType: soft

@@ -1250,7 +1250,7 @@ export type User = BaseEntity & {
   servers: Array<Server>;
   showChat: Scalars["Boolean"];
   unreadCount: Scalars["NonNegativeInt"];
-  nickname: Scalars["String"];
+  name: Scalars["String"];
 };
 
 export enum VoteType {
@@ -1463,7 +1463,7 @@ export type ServerUserFragment = { __typename?: "ServerUser" } & Pick<
 export type UserFragment = { __typename?: "User" } & Pick<
   User,
   | "id"
-  | "nickname"
+  | "name"
   | "avatarUrl"
   | "isOnline"
   | "onlineStatus"
@@ -2355,7 +2355,7 @@ export type MessageChangedSubscription = { __typename?: "Subscription" } & {
         group?: Maybe<
           { __typename?: "Group" } & Pick<Group, "displayName" | "id">
         >;
-        toUser?: Maybe<{ __typename?: "User" } & Pick<User, "nickname" | "id">>;
+        toUser?: Maybe<{ __typename?: "User" } & Pick<User, "name" | "id">>;
       } & MessageFragment
     >;
     updated?: Maybe<

@@ -35,7 +35,7 @@ export class Group extends BaseEntity {
   @Field(() => [User])
   @ManyToMany(() => User, "groups", {
     owner: true,
-    orderBy: { nickname: QueryOrder.ASC },
+    orderBy: { name: QueryOrder.ASC },
   })
   users = new Collection<User>(this);
 

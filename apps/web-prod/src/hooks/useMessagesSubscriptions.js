@@ -76,7 +76,7 @@ export const useMessagesSubscriptions = () => {
           }
 
           const isViewingUser =
-            username && message.toUser && username === message.toUser.nickname;
+            username && message.toUser && username === message.toUser.name;
           const isViewingGroup =
             groupId && message.group && groupId === message.group.id;
           const isViewingChannel =
