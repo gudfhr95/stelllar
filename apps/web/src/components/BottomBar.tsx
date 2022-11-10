@@ -3,8 +3,10 @@ import { useTranslation } from "next-i18next";
 import useAuth from "../hooks/useAuth";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { useLoginDialog } from "../hooks/useLoginDialog";
-import { IconDark, IconLight } from "./ui/icons/Icons";
+import { IconDark, IconLight, IconSettings } from "./ui/icons/Icons";
 import UserAvatar from "./user/UserAvatar";
+
+const offset = [0, 14] as [number, number];
 
 export default function BottomBar() {
   const { t } = useTranslation("bottom-bar");
@@ -56,6 +58,15 @@ export default function BottomBar() {
               )}
             </button>
           </Tippy>
+          {user && (
+            <>
+              <Tippy content={t("settings")} offset={offset}>
+                <div onClick={() => {}}>
+                  <IconSettings className="w-4.5 h-4.5 cursor-pointer text-tertiary" />
+                </div>
+              </Tippy>
+            </>
+          )}
         </div>
       </div>
     </>

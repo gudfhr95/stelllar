@@ -11,7 +11,6 @@ export default function useAuth() {
     const fetchUser = async () => {
       try {
         const result = await axios("http://localhost:4000/auth/me");
-        console.log("fetching...");
         setUser(result.data);
       } catch (e) {
         console.log("error", e);

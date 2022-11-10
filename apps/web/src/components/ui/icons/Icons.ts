@@ -5,9 +5,7 @@ export {
   HiUser as IconUser,
   HiEye as IconShow,
   HiEyeOff as IconHide,
-  HiMail as IconEmail,
+  HiCog as IconSettings,
 } from "react-icons/hi";
-
-export { CgArrowRight as IconUserToServerArrow } from "react-icons/cg";
 
 export * from "./IconSpinner";
