@@ -1,0 +1,7 @@
+{
+  "login": "Login",
+  "theme": {
+    "dark": "Dark Mode",
+    "light": "Light Mode"
+  }
+}

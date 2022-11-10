@@ -9,7 +9,7 @@ const scrollbarPlugin = require("tailwind-scrollbar");
 
 module.exports = {
   mode: "jit",
-  purge: ["./pages/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  content: ["./pages/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
       borderWidth: {
@@ -238,7 +238,7 @@ module.exports = {
     aspectRatioPlugin,
     typographyPlugin,
     lineClampPlugin,
-    scrollbarPlugin,
+    scrollbarPlugin({ nocompatible: true }),
     plugin(function ({ addVariant, e }) {
       addVariant("electron", ({ modifySelectors, separator }) => {
         const modified = modifySelectors(({ className }) => {

@@ -4,7 +4,7 @@ export const auth = {
     name: 'Username or email',
     password: 'Password',
   },
-  createAccount: {
+  register: {
     label: 'Create an Account',
     name: 'Username',
     email: 'Email (Optional)',

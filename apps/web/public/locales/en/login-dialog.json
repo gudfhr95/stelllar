@@ -1,0 +1,14 @@
+{
+  "login": {
+    "label": "Login",
+    "email": "Email",
+    "password": "Password"
+  },
+  "register": {
+    "label": "Register",
+    "nickname": "Nickname",
+    "email": "Email",
+    "password": "Password",
+    "passwordConfirm": "Confirm Password"
+  }
+}

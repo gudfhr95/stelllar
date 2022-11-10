@@ -7,11 +7,11 @@ import {
   Property,
   QueryOrder,
 } from "@mikro-orm/core";
-import { BaseEntity } from "../../common/entity/base.entity";
-import { User } from "../../user/entity/user.entity";
 import { Field, ObjectType } from "@nestjs/graphql";
-import { Message } from "../../message/entity/message.entity";
 import { GraphQLNonNegativeInt } from "graphql-scalars";
+import { BaseEntity } from "../../common/entity/base.entity";
+import { Message } from "../../message/entity/message.entity";
+import { User } from "../../user/entity/user.entity";
 
 @ObjectType({ implements: BaseEntity })
 @Entity()
@@ -35,7 +35,7 @@ export class Group extends BaseEntity {
   @Field(() => [User])
   @ManyToMany(() => User, "groups", {
     owner: true,
-    orderBy: { username: QueryOrder.ASC },
+    orderBy: { name: QueryOrder.ASC },
   })
   users = new Collection<User>(this);
 
