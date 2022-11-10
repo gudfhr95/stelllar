@@ -1,4 +1,7 @@
 import { useTranslation } from "next-i18next";
+import { ChangeEvent } from "react";
+import toast from "react-hot-toast";
+import { useUpdateAvatarMutation } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
 import { useSettingsDialog } from "../../hooks/useSettingsDialog";
 import StyledDialog from "../ui/dialog/StyledDialog";
@@ -12,8 +15,23 @@ export default function UserSettingsDialog() {
   const { settingsDialog: open, setSettingsDialog: setOpen } =
     useSettingsDialog();
 
+  const [updateAvatar] = useUpdateAvatarMutation();
+
   const close = () => {
     setOpen(false);
+  };
+  const onChangeAvatar = (event: ChangeEvent<HTMLInputElement>) => {
+    const avatarFile = event.target.files;
+    if (!avatarFile) {
+      return;
+    }
+
+    updateAvatar({ variables: { input: { avatarFile: avatarFile[0] } } }).then(
+      (result) => {
+        console.log(result);
+        toast.success("changed avatar");
+      }
+    );
   };
 
   return (
@@ -55,7 +73,7 @@ export default function UserSettingsDialog() {
                 name="avatarFile"
                 id="avatarFile"
                 hidden
-                onChange={() => {}}
+                onChange={onChangeAvatar}
               />
               <label
                 htmlFor="avatarFile"

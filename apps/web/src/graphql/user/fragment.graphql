@@ -1,5 +1,6 @@
 fragment User on User {
   id
   email
-  nickname
+  name
+  image
 }

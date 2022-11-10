@@ -31,6 +31,11 @@ import { UserModule } from "./user/user.module";
       driver: ApolloDriver,
       playground: true,
       autoSchemaFile: "../schema.graphql",
+      uploads: false,
+      cors: {
+        origin: "http://localhost:3000",
+        credentials: true,
+      },
       context: ({ req, res }) => ({ req, res }),
     }),
     UserModule,
@@ -43,7 +48,5 @@ import { UserModule } from "./user/user.module";
     MessageModule,
     AuthModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}

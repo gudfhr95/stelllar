@@ -24,16 +24,13 @@ export type Scalars = {
   NonNegativeInt: any;
   /** Integers that will have a value greater than 0. */
   PositiveInt: any;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: any;
 };
 
 export type BaseEntity = {
   createdAt: Scalars['DateTime'];
   id: Scalars['ID'];
-};
-
-export type ChangePasswordInput = {
-  currentPassword: Scalars['String'];
-  newPassword: Scalars['String'];
 };
 
 export type Channel = BaseEntity & {
@@ -53,16 +50,6 @@ export enum ChannelType {
   Private = 'Private',
   Public = 'Public',
   Restricted = 'Restricted'
-}
-
-export enum Color {
-  Blue = 'Blue',
-  Green = 'Green',
-  Indigo = 'Indigo',
-  Pink = 'Pink',
-  Purple = 'Purple',
-  Red = 'Red',
-  Yellow = 'Yellow'
 }
 
 export type Comment = BaseEntity & {
@@ -151,33 +138,14 @@ export type LinkMetadata = {
   url?: Maybe<Scalars['String']>;
 };
 
-export type LoginInput = {
-  email: Scalars['EmailAddress'];
-  password: Scalars['String'];
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
-  changePassword: User;
-  login: User;
-  logout: Scalars['Boolean'];
-  refresh: Scalars['Boolean'];
-  register: User;
+  updateAvatar?: Maybe<User>;
 };
 
 
-export type MutationChangePasswordArgs = {
-  input: ChangePasswordInput;
-};
-
-
-export type MutationLoginArgs = {
-  input: LoginInput;
-};
-
-
-export type MutationRegisterArgs = {
-  input: RegisterInput;
+export type MutationUpdateAvatarArgs = {
+  input: UpdateAvatarInput;
 };
 
 export enum OnlineStatus {
@@ -220,12 +188,6 @@ export type PostImage = {
 export type Query = {
   __typename?: 'Query';
   test?: Maybe<Scalars['String']>;
-};
-
-export type RegisterInput = {
-  email: Scalars['EmailAddress'];
-  nickname: Scalars['String'];
-  password: Scalars['String'];
 };
 
 export enum RelationshipStatus {
@@ -316,15 +278,18 @@ export type ServerUser = {
   user: User;
 };
 
-export type User = BaseEntity & {
+export type UpdateAvatarInput = {
+  avatarFile?: InputMaybe<Scalars['Upload']>;
+};
+
+export type User = {
   __typename?: 'User';
-  avatarUrl?: Maybe<Scalars['String']>;
-  color: Color;
   createdAt: Scalars['DateTime'];
   email: Scalars['EmailAddress'];
   folders: Array<Folder>;
   groups: Array<Group>;
   id: Scalars['ID'];
+  image?: Maybe<Scalars['String']>;
   isAdmin: Scalars['Boolean'];
   isCurrentUser: Scalars['Boolean'];
   isOg: Scalars['Boolean'];
@@ -332,7 +297,7 @@ export type User = BaseEntity & {
   isStaff: Scalars['Boolean'];
   lastLoginAt?: Maybe<Scalars['DateTime']>;
   lastMessageAt?: Maybe<Scalars['DateTime']>;
-  nickname: Scalars['String'];
+  name: Scalars['String'];
   onlineStatus: OnlineStatus;
   relatedUsers: Array<User>;
   relationshipStatus: RelationshipStatus;
@@ -347,92 +312,90 @@ export enum VoteType {
   Up = 'Up'
 }
 
-export type RegisterMutationVariables = Exact<{
-  input: RegisterInput;
+export type UserFragment = { __typename?: 'User', id: string, email: any, name: string, image?: string | null };
+
+export type UpdateAvatarMutationVariables = Exact<{
+  input: UpdateAvatarInput;
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', id: string, email: any, nickname: string } };
+export type UpdateAvatarMutation = { __typename?: 'Mutation', updateAvatar?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null };
 
-export type LoginMutationVariables = Exact<{
-  input: LoginInput;
-}>;
+export type TestQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'User', id: string, email: any, nickname: string } };
-
-export type UserFragment = { __typename?: 'User', id: string, email: any, nickname: string };
+export type TestQuery = { __typename?: 'Query', test?: string | null };
 
 export const UserFragmentDoc = gql`
     fragment User on User {
   id
   email
-  nickname
+  name
+  image
 }
     `;
-export const RegisterDocument = gql`
-    mutation register($input: RegisterInput!) {
-  register(input: $input) {
+export const UpdateAvatarDocument = gql`
+    mutation updateAvatar($input: UpdateAvatarInput!) {
+  updateAvatar(input: $input) {
     ...User
   }
 }
     ${UserFragmentDoc}`;
-export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
+export type UpdateAvatarMutationFn = Apollo.MutationFunction<UpdateAvatarMutation, UpdateAvatarMutationVariables>;
 
 /**
- * __useRegisterMutation__
+ * __useUpdateAvatarMutation__
  *
- * To run a mutation, you first call `useRegisterMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useRegisterMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateAvatarMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAvatarMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [registerMutation, { data, loading, error }] = useRegisterMutation({
+ * const [updateAvatarMutation, { data, loading, error }] = useUpdateAvatarMutation({
  *   variables: {
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useRegisterMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<RegisterMutation, RegisterMutationVariables>) {
+export function useUpdateAvatarMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateAvatarMutation, UpdateAvatarMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
+        return ApolloReactHooks.useMutation<UpdateAvatarMutation, UpdateAvatarMutationVariables>(UpdateAvatarDocument, options);
       }
-export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
-export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
-export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
-export const LoginDocument = gql`
-    mutation login($input: LoginInput!) {
-  login(input: $input) {
-    ...User
-  }
+export type UpdateAvatarMutationHookResult = ReturnType<typeof useUpdateAvatarMutation>;
+export type UpdateAvatarMutationResult = Apollo.MutationResult<UpdateAvatarMutation>;
+export type UpdateAvatarMutationOptions = Apollo.BaseMutationOptions<UpdateAvatarMutation, UpdateAvatarMutationVariables>;
+export const TestDocument = gql`
+    query test {
+  test
 }
-    ${UserFragmentDoc}`;
-export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
+    `;
 
 /**
- * __useLoginMutation__
+ * __useTestQuery__
  *
- * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useLoginMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
+ * To run a query within a React component, call `useTestQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTestQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const [loginMutation, { data, loading, error }] = useLoginMutation({
+ * const { data, loading, error } = useTestQuery({
  *   variables: {
- *      input: // value for 'input'
  *   },
  * });
  */
-export function useLoginMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+export function useTestQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<TestQuery, TestQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+        return ApolloReactHooks.useQuery<TestQuery, TestQueryVariables>(TestDocument, options);
       }
-export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
-export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
-export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export function useTestLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<TestQuery, TestQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<TestQuery, TestQueryVariables>(TestDocument, options);
+        }
+export type TestQueryHookResult = ReturnType<typeof useTestQuery>;
+export type TestLazyQueryHookResult = ReturnType<typeof useTestLazyQuery>;
+export type TestQueryResult = Apollo.QueryResult<TestQuery, TestQueryVariables>;
