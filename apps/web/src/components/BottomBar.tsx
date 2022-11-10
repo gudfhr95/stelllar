@@ -22,7 +22,7 @@ export default function BottomBar() {
   const { toggle: toggleDark, value: isDark } = useDarkMode();
   const { setSettingsDialog } = useSettingsDialog();
 
-  const user = useAuth() as any;
+  const user = useAuth();
 
   return (
     <>

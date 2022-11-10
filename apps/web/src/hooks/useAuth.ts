@@ -24,5 +24,5 @@ export default function useAuth() {
     }
   }, [data]);
 
-  return user;
+  return user as any;
 }

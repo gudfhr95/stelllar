@@ -2,7 +2,8 @@ import { useTranslation } from "next-i18next";
 import useAuth from "../../hooks/useAuth";
 import { useSettingsDialog } from "../../hooks/useSettingsDialog";
 import StyledDialog from "../ui/dialog/StyledDialog";
-import { IconCheck } from "../ui/icons/Icons";
+import { IconCheck, IconImage, IconX } from "../ui/icons/Icons";
+import UserAvatar from "../user/UserAvatar";
 
 export default function UserSettingsDialog() {
   const { t } = useTranslation("settings");
@@ -32,7 +33,38 @@ export default function UserSettingsDialog() {
           }
         >
           <div className="px-5 pt-5 pb-10">
-            <div className="flex items-center font-semibold text-primary"></div>
+            <div className="flex items-center font-semibold text-primary">
+              <UserAvatar
+                avatarUrl={user.image}
+                size={6}
+                className="rounded-md mr-2"
+              />
+              {t("title")}&nbsp;&nbsp;–&nbsp;&nbsp;
+              <div className="truncate">{user.name}</div>
+              <IconX
+                className="h-5 w-5 highlightable ml-auto"
+                onClick={close}
+              />
+            </div>
+
+            <div className="py-5 flex items-center">
+              <UserAvatar avatarUrl={user.image} size={20} />
+              <input
+                type="file"
+                accept="image/png,image/jpeg,image/webp,image/gif"
+                name="avatarFile"
+                id="avatarFile"
+                hidden
+                onChange={() => {}}
+              />
+              <label
+                htmlFor="avatarFile"
+                className="h-9 transition hover:bg-gray-200 cursor-pointer flex items-center justify-center text-sm font-medium border rounded dark:border-gray-600 px-3 bg-gray-300 text-gray-800 ml-3"
+              >
+                <IconImage className="w-5 h-5 mr-2" />
+                {t("uploadAvatar")}
+              </label>
+            </div>
           </div>
         </StyledDialog>
       )}

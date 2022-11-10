@@ -11,3 +11,4 @@ export {
 } from "react-icons/hi";
 
 export * from "./IconSpinner";
+export * from "./IconImage";
