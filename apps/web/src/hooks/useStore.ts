@@ -4,14 +4,14 @@ interface Store {
   loginDialog: boolean;
   setLoginDialog: (open: boolean) => void;
 
-  register: boolean;
-  setRegister: (register: boolean) => void;
+  settingsDialog: boolean;
+  setSettingsDialog: (open: boolean) => void;
 }
 
 export const useStore = create<Store>()((set, get) => ({
   loginDialog: false,
-  setLoginDialog: (open: boolean) => set({ loginDialog: open }),
+  setLoginDialog: (open) => set({ loginDialog: open }),
 
-  register: false,
-  setRegister: (register) => set({ register: register }),
+  settingsDialog: false,
+  setSettingsDialog: (open) => set({ settingsDialog: open }),
 }));

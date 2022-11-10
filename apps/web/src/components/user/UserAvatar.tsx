@@ -4,7 +4,7 @@ import { IconUser } from "../ui/icons/Icons";
 
 interface UserAvatar {
   avatarUrl?: string | null;
-  isOnline: boolean;
+  isOnline?: boolean;
   showOnline?: boolean;
   size: number;
   loading?: string;

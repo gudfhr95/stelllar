@@ -1,5 +1,6 @@
 {
   "login": "Login",
+  "logout": "Logout",
   "settings": "Settings",
   "theme": {
     "dark": "Dark Mode",

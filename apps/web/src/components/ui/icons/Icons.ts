@@ -6,6 +6,8 @@ export {
   HiEye as IconShow,
   HiEyeOff as IconHide,
   HiCog as IconSettings,
+  HiLogout as IconLogout,
+  HiCheck as IconCheck,
 } from "react-icons/hi";
 
 export * from "./IconSpinner";

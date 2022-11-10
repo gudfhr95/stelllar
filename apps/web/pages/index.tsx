@@ -14,7 +14,7 @@ export default function Index() {
 export async function getStaticProps({ locale }: { locale: string }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["login-dialog", "bottom-bar"])),
+      ...(await serverSideTranslations(locale, ["bottom-bar", "settings"])),
     },
   };
 }
