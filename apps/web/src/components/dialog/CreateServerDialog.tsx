@@ -2,8 +2,10 @@ import Tippy from "@tippyjs/react";
 import { useTranslation } from "next-i18next";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { ServerCategory } from "../../graphql/hooks";
 import { useCreateServerDialog } from "../../hooks/useCreateServerDialog";
 import { readURL } from "../../utils/readURL";
+import CategorySelect from "../server/CategorySelect";
 import StyledDialog from "../ui/dialog/StyledDialog";
 import { IconCheck, IconEdit } from "../ui/icons/Icons";
 
@@ -46,6 +48,7 @@ export default function CreateServerDialog() {
 
   const [bannerSrc, setBannerSrc] = useState(null as any);
   const [avatarSrc, setAvatarSrc] = useState(null as any);
+  const [category, setCategory] = useState(ServerCategory.Other);
 
   const close = () => {
     setOpen(false);
@@ -150,6 +153,13 @@ export default function CreateServerDialog() {
           className="form-textarea"
           maxLength={500}
         />
+
+        <div className="flex items-center">
+          <div className="text-13 font-medium text-tertiary pr-1.5">
+            {t("category.title")}
+          </div>
+          <CategorySelect category={category} setCategory={setCategory} />
+        </div>
       </div>
     </StyledDialog>
   );
