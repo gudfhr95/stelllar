@@ -31,10 +31,18 @@ export default function CreateServerDialog() {
       }
 
       readURL(bannerFile[0]).then((url) => setBannerSrc(url));
+    } else if (name === "avatarFile") {
+      const { avatarFile } = values;
+      if (!avatarFile || !avatarFile[0]) {
+        return;
+      }
+
+      readURL(avatarFile[0]).then((url) => setAvatarSrc(url));
     }
   });
 
   const [bannerSrc, setBannerSrc] = useState(null as any);
+  const [avatarSrc, setAvatarSrc] = useState(null as any);
 
   const close = () => {
     setOpen(false);
@@ -69,6 +77,27 @@ export default function CreateServerDialog() {
         style={bannerSrc ? { backgroundImage: `url(${bannerSrc})` } : {}}
       >
         <div className="rounded-t-lg absolute inset-0 transition bg-black opacity-0 group-hover:opacity-50 flex items-center justify-center">
+          <IconEdit className="w-10 h-10" />
+        </div>
+      </label>
+
+      <input
+        type="file"
+        {...register("avatarFile")}
+        className="hidden"
+        id="avatarFile"
+        accept="image/png,image/jpeg,image/webp,image/gif"
+      />
+
+      <label
+        htmlFor="avatarFile"
+        className="flex items-center justify-center cursor-pointer rounded-3xl h-24 w-24 absolute left-3 top-24 transform -translate-y-1/2 dark:bg-gray-700 shadow group bg-center bg-cover bg-white"
+        style={avatarSrc ? { backgroundImage: `url(${avatarSrc})` } : {}}
+      >
+        {!avatarSrc && (
+          <div className="text-tertiary text-3xl font-medium overflow-hidden"></div>
+        )}
+        <div className="absolute rounded-3xl inset-0 transition bg-black opacity-0 group-hover:opacity-50 flex items-center justify-center">
           <IconEdit className="w-10 h-10" />
         </div>
       </label>
