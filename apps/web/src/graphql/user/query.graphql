@@ -1,3 +1,5 @@
-query test {
-  test
+query me {
+  me {
+    ...User
+  }
 }

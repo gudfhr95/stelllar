@@ -1,7 +1,6 @@
 import { logger } from "@mikro-orm/nestjs";
 import { UseGuards } from "@nestjs/common";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
-import { GraphQLString } from "graphql/type";
 import { CurrentUser } from "../auth/decorator/current-user.decorator";
 import { GqlNextAuthSessionGuard } from "../auth/guard/gql-next-auth-session.guard";
 import { FileService } from "../file/file.service";
@@ -35,8 +34,9 @@ export class UserResolver {
     return await this.userService.updateAvatar(user, avatarUrl);
   }
 
-  @Query(() => GraphQLString, { nullable: true })
-  test() {
-    return "hello";
+  @UseGuards(GqlNextAuthSessionGuard)
+  @Query(() => User, { nullable: true })
+  me(@CurrentUser() user: User) {
+    return user;
   }
 }

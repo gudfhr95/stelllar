@@ -140,7 +140,7 @@ export type LinkMetadata = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  updateAvatar?: Maybe<User>;
+  updateAvatar: User;
 };
 
 
@@ -187,7 +187,7 @@ export type PostImage = {
 
 export type Query = {
   __typename?: 'Query';
-  test?: Maybe<Scalars['String']>;
+  me?: Maybe<User>;
 };
 
 export enum RelationshipStatus {
@@ -279,7 +279,7 @@ export type ServerUser = {
 };
 
 export type UpdateAvatarInput = {
-  avatarFile?: InputMaybe<Scalars['Upload']>;
+  avatarFile: Scalars['Upload'];
 };
 
 export type User = {
@@ -319,12 +319,12 @@ export type UpdateAvatarMutationVariables = Exact<{
 }>;
 
 
-export type UpdateAvatarMutation = { __typename?: 'Mutation', updateAvatar?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null };
+export type UpdateAvatarMutation = { __typename?: 'Mutation', updateAvatar: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } };
 
-export type TestQueryVariables = Exact<{ [key: string]: never; }>;
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TestQuery = { __typename?: 'Query', test?: string | null };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null };
 
 export const UserFragmentDoc = gql`
     fragment User on User {
@@ -367,35 +367,37 @@ export function useUpdateAvatarMutation(baseOptions?: ApolloReactHooks.MutationH
 export type UpdateAvatarMutationHookResult = ReturnType<typeof useUpdateAvatarMutation>;
 export type UpdateAvatarMutationResult = Apollo.MutationResult<UpdateAvatarMutation>;
 export type UpdateAvatarMutationOptions = Apollo.BaseMutationOptions<UpdateAvatarMutation, UpdateAvatarMutationVariables>;
-export const TestDocument = gql`
-    query test {
-  test
+export const MeDocument = gql`
+    query me {
+  me {
+    ...User
+  }
 }
-    `;
+    ${UserFragmentDoc}`;
 
 /**
- * __useTestQuery__
+ * __useMeQuery__
  *
- * To run a query within a React component, call `useTestQuery` and pass it any options that fit your needs.
- * When your component renders, `useTestQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useMeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useTestQuery({
+ * const { data, loading, error } = useMeQuery({
  *   variables: {
  *   },
  * });
  */
-export function useTestQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<TestQuery, TestQueryVariables>) {
+export function useMeQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MeQuery, MeQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useQuery<TestQuery, TestQueryVariables>(TestDocument, options);
+        return ApolloReactHooks.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
       }
-export function useTestLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<TestQuery, TestQueryVariables>) {
+export function useMeLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return ApolloReactHooks.useLazyQuery<TestQuery, TestQueryVariables>(TestDocument, options);
+          return ApolloReactHooks.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
         }
-export type TestQueryHookResult = ReturnType<typeof useTestQuery>;
-export type TestLazyQueryHookResult = ReturnType<typeof useTestLazyQuery>;
-export type TestQueryResult = Apollo.QueryResult<TestQuery, TestQueryVariables>;
+export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
+export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
+export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
