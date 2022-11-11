@@ -2,7 +2,6 @@ import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import * as cookieParser from "cookie-parser";
 import { graphqlUploadExpress } from "graphql-upload-minimal";
-
 import { AppModule } from "./app.module";
 
 async function bootstrap() {
@@ -14,8 +13,8 @@ async function bootstrap() {
     methods: ["GET", "POST", "PUT", "PATCH", "OPTIONS"],
     credentials: true,
   });
-  app.use(cookieParser());
 
+  app.use(cookieParser());
   app.use(graphqlUploadExpress({ maxFileSize: 1000000, maxFiles: 10 }));
 
   const port = process.env.PORT || 3333;

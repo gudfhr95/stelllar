@@ -9,3 +9,11 @@ services:
       - ./data/postgres:/data/postgres
     env_file:
       - .env.development
+
+  localstack:
+    image: localstack/localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - AWS_DEFAULT_REGION=ap-northeast-2
+      - SERVICES=s3

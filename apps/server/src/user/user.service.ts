@@ -20,4 +20,12 @@ export default class UserService {
       HttpStatus.NOT_FOUND
     );
   }
+
+  async updateAvatar(user: User, avatarUrl: string) {
+    user.image = avatarUrl;
+
+    await this.userRepository.persistAndFlush(user);
+
+    return user;
+  }
 }
