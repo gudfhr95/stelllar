@@ -73,4 +73,13 @@ export class FileService {
       "AWS_ENDPOINT"
     )}/${this.configService.get("AWS_PUBLIC_BUCKET_NAME")}/${uploadResult.Key}`;
   }
+
+  async deleteFileInS3(key: string) {
+    await this.s3
+      .deleteObject({
+        Bucket: this.configService.get("AWS_PUBLIC_BUCKET_NAME"),
+        Key: key,
+      })
+      .promise();
+  }
 }

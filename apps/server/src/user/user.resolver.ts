@@ -3,17 +3,13 @@ import { UseGuards } from "@nestjs/common";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { CurrentUser } from "../auth/decorator/current-user.decorator";
 import { GqlNextAuthSessionGuard } from "../auth/guard/gql-next-auth-session.guard";
-import { FileService } from "../file/file.service";
 import { User } from "./entity/user.entity";
 import { UpdateAvatarInput } from "./input/update-avatar.input";
 import UserService from "./user.service";
 
 @Resolver(() => User)
 export class UserResolver {
-  constructor(
-    private readonly userService: UserService,
-    private readonly fileService: FileService
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
   @UseGuards(GqlNextAuthSessionGuard)
   @Mutation(() => User)
@@ -23,15 +19,7 @@ export class UserResolver {
   ) {
     logger.log("updateAvatar");
 
-    const avatarUrl = await this.fileService.uploadSingleFile(
-      input.avatarFile,
-      {
-        width: 256,
-        height: 256,
-      }
-    );
-
-    return await this.userService.updateAvatar(user, avatarUrl);
+    return await this.userService.updateAvatar(user, input.avatarFile);
   }
 
   @UseGuards(GqlNextAuthSessionGuard)

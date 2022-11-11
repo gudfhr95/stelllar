@@ -1,14 +1,20 @@
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { EntityRepository } from "@mikro-orm/postgresql";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import { FileUpload } from "graphql-upload-minimal";
+import { FileService } from "../file/file.service";
 import { User } from "./entity/user.entity";
 
 @Injectable()
 export default class UserService {
   constructor(
+    private readonly fileService: FileService,
+    private readonly configService: ConfigService,
     @InjectRepository(User)
     private readonly userRepository: EntityRepository<User>
   ) {}
+
   async getUserById(id: string) {
     const user = await this.userRepository.findOne({ id });
 
@@ -21,7 +27,18 @@ export default class UserService {
     );
   }
 
-  async updateAvatar(user: User, avatarUrl: string) {
+  async updateAvatar(user: User, file: Promise<FileUpload>) {
+    if (user.image.includes(this.configService.get("AWS_ENDPOINT"))) {
+      const splited = user.image.split("/");
+      const key = splited[splited.length - 1];
+
+      await this.fileService.deleteFileInS3(key);
+    }
+
+    const avatarUrl = await this.fileService.uploadSingleFile(file, {
+      width: 256,
+      height: 256,
+    });
     user.image = avatarUrl;
 
     await this.userRepository.persistAndFlush(user);
