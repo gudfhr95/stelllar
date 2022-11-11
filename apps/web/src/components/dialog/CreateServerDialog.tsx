@@ -143,6 +143,13 @@ export default function CreateServerDialog() {
             <div className="form-error">{t("nameError")}</div>
           )}
         </div>
+
+        <textarea
+          {...register("description", { maxLength: 500 })}
+          placeholder={t("description")}
+          className="form-textarea"
+          maxLength={500}
+        />
       </div>
     </StyledDialog>
   );
