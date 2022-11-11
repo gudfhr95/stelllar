@@ -1,5 +1,10 @@
 {
   "title": "Settings",
   "uploadAvatar": "Upload Avatar",
-  "confirm": "Confirm"
+  "changeProfile": "Change Profile",
+  "name": "Name",
+  "confirm": "Confirm",
+  "error": {
+    "nameLength": "Name length must be 2 or more."
+  }
 }

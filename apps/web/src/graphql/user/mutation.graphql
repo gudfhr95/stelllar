@@ -4,3 +4,8 @@ mutation updateAvatar($input: UpdateAvatarInput!) {
   }
 }
 
+mutation updateProfile($input: UpdateProfileInput!){
+  updateProfile(input: $input){
+    ...User
+  }
+}

@@ -281,6 +281,7 @@ type Query {
 
 type Mutation {
   updateAvatar(input: UpdateAvatarInput!): User!
+  updateProfile(input: UpdateProfileInput!): User!
 }
 
 input UpdateAvatarInput {
@@ -289,3 +290,7 @@ input UpdateAvatarInput {
 
 """The `Upload` scalar type represents a file upload."""
 scalar Upload
+
+input UpdateProfileInput {
+  name: String!
+}

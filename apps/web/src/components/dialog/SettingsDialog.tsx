@@ -1,25 +1,44 @@
 import { useTranslation } from "next-i18next";
 import { ChangeEvent } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useUpdateAvatarMutation } from "../../graphql/hooks";
+import {
+  useUpdateAvatarMutation,
+  useUpdateProfileMutation,
+} from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
 import { useSettingsDialog } from "../../hooks/useSettingsDialog";
 import StyledDialog from "../ui/dialog/StyledDialog";
-import { IconCheck, IconImage, IconX } from "../ui/icons/Icons";
+import { IconCheck, IconImage, IconSpinner, IconX } from "../ui/icons/Icons";
 import UserAvatar from "../user/UserAvatar";
 
 export default function UserSettingsDialog() {
   const { t } = useTranslation("settings");
-
   const user = useAuth();
+
   const { settingsDialog: open, setSettingsDialog: setOpen } =
     useSettingsDialog();
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm({
+    mode: "onChange",
+  });
+  const name = watch("name");
+
   const [updateAvatar] = useUpdateAvatarMutation();
+  const [updateProfile, { loading: updateProfileLoading }] =
+    useUpdateProfileMutation();
 
   const close = () => {
+    reset();
     setOpen(false);
   };
+
   const onChangeAvatar = (event: ChangeEvent<HTMLInputElement>) => {
     const avatarFile = event.target.files;
     if (!avatarFile) {
@@ -27,11 +46,16 @@ export default function UserSettingsDialog() {
     }
 
     updateAvatar({ variables: { input: { avatarFile: avatarFile[0] } } }).then(
-      (result) => {
-        console.log(result);
-        toast.success("changed avatar");
+      () => {
+        toast.success("Changed Avatar");
       }
     );
+  };
+
+  const onSubmit: SubmitHandler<FieldValues> = ({ name }) => {
+    updateProfile({ variables: { input: { name } } }).then(() => {
+      toast.success("Changed Profile");
+    });
   };
 
   return (
@@ -42,13 +66,19 @@ export default function UserSettingsDialog() {
           onClose={close}
           closeOnOverlayClick
           buttons={
-            <div className="flex items-center shadow-md px-3 bottom-0 h-5.5 dark:bg-gray-700 z-50 bg-white">
-              <button onClick={() => close()} className="form-button-submit">
-                {t("confirm")}
+            <button
+              disabled={updateProfileLoading || !name || name.length < 2}
+              className="form-button-submit"
+            >
+              {t("confirm")}
+              {updateProfileLoading ? (
+                <IconSpinner className="w-5 h-5" />
+              ) : (
                 <IconCheck className="ml-2 w-5 h-5" />
-              </button>
-            </div>
+              )}
+            </button>
           }
+          onSubmit={handleSubmit(onSubmit)}
         >
           <div className="px-5 pt-5 pb-10">
             <div className="flex items-center font-semibold text-primary">
@@ -82,6 +112,29 @@ export default function UserSettingsDialog() {
                 <IconImage className="w-5 h-5 mr-2" />
                 {t("uploadAvatar")}
               </label>
+            </div>
+
+            <div className="border dark:border-gray-750 rounded space-y-3 p-3">
+              <div className="text-xs font-medium text-tertiary">
+                {t("changeProfile")}
+              </div>
+              <div>
+                <div className="relative">
+                  <input
+                    className="form-input-password"
+                    placeholder={t("name")}
+                    id="name"
+                    {...register("name", {
+                      minLength: 2,
+                      value: user?.name,
+                    })}
+                    minLength={2}
+                  />
+                  {!!name && errors.name && (
+                    <div className="form-error">{t("error.nameLength")}</div>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </StyledDialog>

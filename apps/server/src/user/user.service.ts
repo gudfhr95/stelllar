@@ -5,6 +5,7 @@ import { ConfigService } from "@nestjs/config";
 import { FileUpload } from "graphql-upload-minimal";
 import { FileService } from "../file/file.service";
 import { User } from "./entity/user.entity";
+import { UpdateProfileInput } from "./input/update-profile.input";
 
 @Injectable()
 export default class UserService {
@@ -42,7 +43,13 @@ export default class UserService {
     user.image = avatarUrl;
 
     await this.userRepository.persistAndFlush(user);
+    return user;
+  }
 
+  async updateProfile(user: User, input: UpdateProfileInput) {
+    user.name = input.name ?? user.name;
+
+    await this.userRepository.persistAndFlush(user);
     return user;
   }
 }
