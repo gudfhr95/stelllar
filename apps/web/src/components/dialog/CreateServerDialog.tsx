@@ -40,6 +40,7 @@ export default function CreateServerDialog() {
       readURL(avatarFile[0]).then((url) => setAvatarSrc(url));
     }
   });
+  const displayName = watch("displayName");
 
   const [bannerSrc, setBannerSrc] = useState(null as any);
   const [avatarSrc, setAvatarSrc] = useState(null as any);
@@ -47,6 +48,12 @@ export default function CreateServerDialog() {
   const close = () => {
     setOpen(false);
   };
+
+  const initials = (displayName || "")
+    .split(" ")
+    .map((s: string[]) => s[0])
+    .join("")
+    .toUpperCase();
 
   return (
     <StyledDialog
@@ -95,12 +102,23 @@ export default function CreateServerDialog() {
         style={avatarSrc ? { backgroundImage: `url(${avatarSrc})` } : {}}
       >
         {!avatarSrc && (
-          <div className="text-tertiary text-3xl font-medium overflow-hidden"></div>
+          <div className="text-tertiary text-3xl font-medium overflow-hidden">
+            {initials}
+          </div>
         )}
         <div className="absolute rounded-3xl inset-0 transition bg-black opacity-0 group-hover:opacity-50 flex items-center justify-center">
           <IconEdit className="w-10 h-10" />
         </div>
       </label>
+
+      <div className="pl-30 pr-5 pt-2 text-left">
+        <input
+          {...register("displayName", { maxLength: 100, required: true })}
+          placeholder={t("displayName")}
+          className="form-input-lg"
+          maxLength={100}
+        />
+      </div>
     </StyledDialog>
   );
 }
