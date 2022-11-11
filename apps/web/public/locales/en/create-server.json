@@ -1,4 +1,6 @@
 {
   "save": "Save Changes",
-  "displayName": "Display Name"
+  "displayName": "Display Name",
+  "name": "Name",
+  "nameError": "Letters and Numbers only"
 }

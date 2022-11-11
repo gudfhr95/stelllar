@@ -7,6 +7,8 @@ import { readURL } from "../../utils/readURL";
 import StyledDialog from "../ui/dialog/StyledDialog";
 import { IconCheck, IconEdit } from "../ui/icons/Icons";
 
+const SERVER_REGEX = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
+
 export default function CreateServerDialog() {
   const { t } = useTranslation("create-server");
 
@@ -118,6 +120,29 @@ export default function CreateServerDialog() {
           className="form-input-lg"
           maxLength={100}
         />
+      </div>
+
+      <div className="pb-5 space-y-3 pt-3 px-5 text-left">
+        <div>
+          <div className="text-sm text-accent flex items-center pt-3">
+            <span className={`h-7 flex items-center`}>stelllar.co/+</span>
+            <input
+              {...register("name", {
+                pattern: SERVER_REGEX,
+                required: true,
+                minLength: 2,
+                maxLength: 20,
+              })}
+              minLength={2}
+              maxLength={20}
+              placeholder={t("name")}
+              className="bg-transparent h-7 w-full border-b dark:border-gray-700 focus:outline-none transition dark:focus:border-blue-500"
+            />
+          </div>
+          {errors.name?.type === "pattern" && (
+            <div className="form-error">{t("nameError")}</div>
+          )}
+        </div>
       </div>
     </StyledDialog>
   );
