@@ -18,6 +18,7 @@ export async function getStaticProps({ locale }: { locale: string }) {
         "bottom-bar",
         "settings",
         "server-list",
+        "create-server",
       ])),
     },
   };

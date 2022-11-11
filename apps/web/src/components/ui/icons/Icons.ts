@@ -8,6 +8,7 @@ export {
   HiCheck as IconCheck,
   HiTrash as IconDelete,
   HiHome as IconHome,
+  HiPencil as IconEdit,
 } from "react-icons/hi";
 
 export { IoTelescope as IconExplore } from "react-icons/io5";

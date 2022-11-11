@@ -1,14 +1,16 @@
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import useAuth from "../../hooks/useAuth";
+import { useCreateServerDialog } from "../../hooks/useCreateServerDialog";
 import { IconCreateServer, IconExplore, IconHome } from "../ui/icons/Icons";
 import ServerListItem from "./ServerListItem";
 
 export default function ServerList({ hide = false }) {
   const { t } = useTranslation("server-list");
   const user = useAuth();
-
   const router = useRouter();
+
+  const { setCreateServerDialog } = useCreateServerDialog();
 
   const homeActive = router.pathname === "/";
   const exploreActive = router.pathname === "/explore";
@@ -54,7 +56,9 @@ export default function ServerList({ hide = false }) {
             {user && (
               <ServerListItem
                 name={t("createServer")}
-                onClick={() => {}}
+                onClick={() => {
+                  setCreateServerDialog(true);
+                }}
                 className="dark:bg-gray-800 bg-white hover:bg-purple-600 dark:hover:bg-purple-600"
               >
                 <IconCreateServer
