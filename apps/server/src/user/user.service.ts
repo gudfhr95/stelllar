@@ -52,4 +52,11 @@ export default class UserService {
     await this.userRepository.persistAndFlush(user);
     return user;
   }
+
+  async deleteUser(user: User) {
+    user.isDeleted = true;
+
+    await this.userRepository.persistAndFlush(user);
+    return true;
+  }
 }

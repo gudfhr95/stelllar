@@ -6,5 +6,11 @@
   "confirm": "Confirm",
   "error": {
     "nameLength": "Name length must be 2 or more."
+  },
+  "deleteAccount": {
+    "title": "Delete Account",
+    "content": "You will not be able to recover your account.\n If you agree, please type 'Confirm'.",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
   }
 }

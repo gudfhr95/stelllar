@@ -6,6 +6,9 @@ interface Store {
 
   settingsDialog: boolean;
   setSettingsDialog: (open: boolean) => void;
+
+  deleteAccountDialog: boolean;
+  setDeleteAccountDialog: (open: boolean) => void;
 }
 
 export const useStore = create<Store>()((set, get) => ({
@@ -14,4 +17,7 @@ export const useStore = create<Store>()((set, get) => ({
 
   settingsDialog: false,
   setSettingsDialog: (open) => set({ settingsDialog: open }),
+
+  deleteAccountDialog: false,
+  setDeleteAccountDialog: (open) => set({ deleteAccountDialog: open }),
 }));

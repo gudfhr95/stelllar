@@ -7,9 +7,16 @@ import {
   useUpdateProfileMutation,
 } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
+import { useDeleteAccountDialog } from "../../hooks/useDeleteAccountDialog";
 import { useSettingsDialog } from "../../hooks/useSettingsDialog";
 import StyledDialog from "../ui/dialog/StyledDialog";
-import { IconCheck, IconImage, IconSpinner, IconX } from "../ui/icons/Icons";
+import {
+  IconCheck,
+  IconDelete,
+  IconImage,
+  IconSpinner,
+  IconX,
+} from "../ui/icons/Icons";
 import UserAvatar from "../user/UserAvatar";
 
 export default function UserSettingsDialog() {
@@ -18,6 +25,7 @@ export default function UserSettingsDialog() {
 
   const { settingsDialog: open, setSettingsDialog: setOpen } =
     useSettingsDialog();
+  const { setDeleteAccountDialog } = useDeleteAccountDialog();
 
   const {
     register,
@@ -56,6 +64,10 @@ export default function UserSettingsDialog() {
     updateProfile({ variables: { input: { name } } }).then(() => {
       toast.success("Changed Profile");
     });
+  };
+
+  const onClickDeleteAccountButton = () => {
+    setDeleteAccountDialog(true);
   };
 
   return (
@@ -135,6 +147,16 @@ export default function UserSettingsDialog() {
                   )}
                 </div>
               </div>
+            </div>
+            <div className="mt-3">
+              <button
+                type="button"
+                onClick={onClickDeleteAccountButton}
+                className="form-button-delete"
+              >
+                {t("deleteAccount.title")}
+                <IconDelete className="ml-2 w-5 h-5" />
+              </button>
             </div>
           </div>
         </StyledDialog>

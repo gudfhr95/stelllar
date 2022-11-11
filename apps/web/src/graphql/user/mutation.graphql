@@ -9,3 +9,7 @@ mutation updateProfile($input: UpdateProfileInput!){
     ...User
   }
 }
+
+mutation deleteAccount {
+  deleteUser
+}

@@ -282,6 +282,7 @@ type Query {
 type Mutation {
   updateAvatar(input: UpdateAvatarInput!): User!
   updateProfile(input: UpdateProfileInput!): User!
+  deleteUser: Boolean!
 }
 
 input UpdateAvatarInput {

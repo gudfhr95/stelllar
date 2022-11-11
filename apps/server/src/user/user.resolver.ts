@@ -1,5 +1,6 @@
 import { Logger, UseGuards } from "@nestjs/common";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import { GraphQLBoolean } from "graphql/type";
 import { CurrentUser } from "../auth/decorator/current-user.decorator";
 import { GqlNextAuthSessionGuard } from "../auth/guard/gql-next-auth-session.guard";
 import { User } from "./entity/user.entity";
@@ -37,5 +38,13 @@ export class UserResolver {
     Logger.log("updateProfile");
 
     return await this.userService.updateProfile(user, input);
+  }
+
+  @UseGuards(GqlNextAuthSessionGuard)
+  @Mutation(() => GraphQLBoolean)
+  async deleteUser(@CurrentUser() user: User) {
+    Logger.log("deleteUser");
+
+    return await this.userService.deleteUser(user);
   }
 }
