@@ -7,7 +7,11 @@ export {
   HiLogout as IconLogout,
   HiCheck as IconCheck,
   HiTrash as IconDelete,
+  HiHome as IconHome,
 } from "react-icons/hi";
 
+export { IoTelescope as IconExplore } from "react-icons/io5";
+
+export * from "./IconCreateServer";
 export * from "./IconSpinner";
 export * from "./IconImage";

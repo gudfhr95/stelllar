@@ -3439,7 +3439,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@netlify/classnames-template-literals@npm:^1.0.0":
+"@netlify/classnames-template-literals@npm:^1.0.0, @netlify/classnames-template-literals@npm:^1.0.3":
   version: 1.0.3
   resolution: "@netlify/classnames-template-literals@npm:1.0.3"
   checksum: c64f66d9d34ae9cf65e951e10b45b9c2952cc157b56c1b57b56ff5cd874696770eb6f310ce3e2026e5b8376219579f53a87ddccf29259b9c55826bacfe99f3d1
@@ -18525,6 +18525,7 @@ __metadata:
     "@headlessui/react": ^1.7.4
     "@mikro-orm/core": ^5.5.2
     "@mikro-orm/postgresql": ^5.5.2
+    "@netlify/classnames-template-literals": ^1.0.3
     "@next-auth/mikro-orm-adapter": ^3.0.1
     "@tailwindcss/aspect-ratio": ^0.4.2
     "@tailwindcss/forms": ^0.5.3

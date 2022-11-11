@@ -14,6 +14,7 @@
     "@headlessui/react": "^1.7.4",
     "@mikro-orm/core": "^5.5.2",
     "@mikro-orm/postgresql": "^5.5.2",
+    "@netlify/classnames-template-literals": "^1.0.3",
     "@next-auth/mikro-orm-adapter": "^3.0.1",
     "@tippyjs/react": "^4.2.6",
     "apollo-upload-client": "^17.0.0",
