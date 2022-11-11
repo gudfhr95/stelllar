@@ -5,7 +5,5 @@ export const useLoginDialog = () =>
     return {
       loginDialog: s.loginDialog,
       setLoginDialog: s.setLoginDialog,
-      register: s.register,
-      setRegister: s.setRegister,
     };
   });

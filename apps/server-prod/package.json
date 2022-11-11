@@ -17,9 +17,9 @@
     "migrate": "env-cmd -f .env.development ts-node -r tsconfig-paths/register --transpile-only src/migrate.ts"
   },
   "dependencies": {
-    "@mikro-orm/core": "^4.5.7",
-    "@mikro-orm/migrations": "^4.5.7",
-    "@mikro-orm/postgresql": "^4.5.7",
+    "@mikro-orm/core": "^5.5.2",
+    "@mikro-orm/migrations": "^5.5.2",
+    "@mikro-orm/postgresql": "^5.5.2",
     "@mikro-orm/sql-highlighter": "^1.0.1",
     "@n1ru4l/graphql-live-query": "^0.7.1",
     "@n1ru4l/in-memory-live-query-store": "^0.6.5",

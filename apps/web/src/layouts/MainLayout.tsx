@@ -1,6 +1,8 @@
 import { PropsWithChildren } from "react";
 import BottomBar from "../components/BottomBar";
-import LoginDialog from "../components/LoginDialog";
+import DeleteAccountDialog from "../components/dialog/DeleteAccountDialog";
+import LoginDialog from "../components/dialog/LoginDialog";
+import SettingsDialog from "../components/dialog/SettingsDialog";
 import ResponsiveToaster from "../components/ui/ResponsiveToaster";
 
 export default function MainLayout({ children }: PropsWithChildren) {
@@ -8,6 +10,8 @@ export default function MainLayout({ children }: PropsWithChildren) {
     <>
       <ResponsiveToaster />
       <LoginDialog />
+      <SettingsDialog />
+      <DeleteAccountDialog />
       <div className="flex-grow">
         <div className="flex items-stretch" style={{ height: "100%" }}>
           {children}

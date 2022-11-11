@@ -1,18 +1,28 @@
 import Tippy from "@tippyjs/react";
+import { signOut } from "next-auth/react";
 import { useTranslation } from "next-i18next";
 import useAuth from "../hooks/useAuth";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { useLoginDialog } from "../hooks/useLoginDialog";
-import { IconDark, IconLight } from "./ui/icons/Icons";
+import { useSettingsDialog } from "../hooks/useSettingsDialog";
+import {
+  IconDark,
+  IconLight,
+  IconLogout,
+  IconSettings,
+} from "./ui/icons/Icons";
 import UserAvatar from "./user/UserAvatar";
+
+const offset = [0, 14] as [number, number];
 
 export default function BottomBar() {
   const { t } = useTranslation("bottom-bar");
 
   const { setLoginDialog } = useLoginDialog();
   const { toggle: toggleDark, value: isDark } = useDarkMode();
+  const { setSettingsDialog } = useSettingsDialog();
 
-  const user = useAuth() as any;
+  const user = useAuth();
 
   return (
     <>
@@ -29,6 +39,11 @@ export default function BottomBar() {
               {user.name}
             </div>
             <div className="w-2 h-2 rounded-full bg-green-500 ml-2" />
+            <Tippy content={t("logout")}>
+              <div onClick={() => signOut()}>
+                <IconLogout className="w-4.5 h-4.5 cursor-pointer text-tertiary ml-5" />
+              </div>
+            </Tippy>
           </>
         ) : (
           <div className="flex items-center text-primary text-13 font-medium">
@@ -56,6 +71,19 @@ export default function BottomBar() {
               )}
             </button>
           </Tippy>
+          {user && (
+            <>
+              <Tippy content={t("settings")} offset={offset}>
+                <div
+                  onClick={() => {
+                    setSettingsDialog(true);
+                  }}
+                >
+                  <IconSettings className="w-4.5 h-4.5 cursor-pointer text-tertiary" />
+                </div>
+              </Tippy>
+            </>
+          )}
         </div>
       </div>
     </>

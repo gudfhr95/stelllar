@@ -3,11 +3,11 @@ export {
   HiSun as IconLight,
   HiX as IconX,
   HiUser as IconUser,
-  HiEye as IconShow,
-  HiEyeOff as IconHide,
-  HiMail as IconEmail,
+  HiCog as IconSettings,
+  HiLogout as IconLogout,
+  HiCheck as IconCheck,
+  HiTrash as IconDelete,
 } from "react-icons/hi";
 
-export { CgArrowRight as IconUserToServerArrow } from "react-icons/cg";
-
 export * from "./IconSpinner";
+export * from "./IconImage";
