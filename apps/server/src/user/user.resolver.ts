@@ -6,7 +6,7 @@ import { GqlNextAuthSessionGuard } from "../auth/guard/gql-next-auth-session.gua
 import { User } from "./entity/user.entity";
 import { UpdateAvatarInput } from "./input/update-avatar.input";
 import { UpdateProfileInput } from "./input/update-profile.input";
-import UserService from "./user.service";
+import { UserService } from "./user.service";
 
 @Resolver(() => User)
 export class UserResolver {

@@ -1,8 +1,9 @@
 import Tippy from "@tippyjs/react";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { ServerCategory } from "../../graphql/hooks";
+import { ServerCategory, useCreateServerMutation } from "../../graphql/hooks";
 import { useCreateServerDialog } from "../../hooks/useCreateServerDialog";
 import { readURL } from "../../utils/readURL";
 import CategorySelect from "../server/CategorySelect";
@@ -13,9 +14,13 @@ const SERVER_REGEX = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
 
 export default function CreateServerDialog() {
   const { t } = useTranslation("create-server");
+  const router = useRouter();
 
   const { createServerDialog: open, setCreateServerDialog: setOpen } =
     useCreateServerDialog();
+
+  const [createServer, { loading: createServerLoading }] =
+    useCreateServerMutation();
 
   const {
     handleSubmit,
@@ -46,6 +51,29 @@ export default function CreateServerDialog() {
   });
   const displayName = watch("displayName");
 
+  const onSubmit = ({
+    name,
+    displayName,
+    description,
+    avatarFile,
+    bannerFile,
+  }: any) => {
+    createServer({
+      variables: {
+        input: {
+          name,
+          displayName,
+          description,
+          avatarFile: avatarFile ? avatarFile[0] : null,
+          bannerFile: bannerFile ? bannerFile[0] : null,
+        },
+      },
+    }).then(({ data }) => {
+      setOpen(false);
+      router.push(`/+${data!.createServer.name}`);
+    });
+  };
+
   const [bannerSrc, setBannerSrc] = useState(null as any);
   const [avatarSrc, setAvatarSrc] = useState(null as any);
   const [category, setCategory] = useState(ServerCategory.Other);
@@ -65,6 +93,7 @@ export default function CreateServerDialog() {
       isOpen={open}
       onClose={close}
       closeOnOverlayClick
+      onSubmit={handleSubmit(onSubmit)}
       buttons={
         <Tippy content={t("save")}>
           <button type="submit" className={`form-button-submit`}>

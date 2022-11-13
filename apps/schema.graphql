@@ -283,6 +283,7 @@ type Mutation {
   updateAvatar(input: UpdateAvatarInput!): User!
   updateProfile(input: UpdateProfileInput!): User!
   deleteUser: Boolean!
+  createServer(input: CreateServerInput!): Server!
 }
 
 input UpdateAvatarInput {
@@ -294,4 +295,13 @@ scalar Upload
 
 input UpdateProfileInput {
   name: String!
+}
+
+input CreateServerInput {
+  name: String!
+  displayName: String!
+  description: String
+  category: ServerCategory = Other
+  avatarFile: Upload
+  bannerFile: Upload
 }

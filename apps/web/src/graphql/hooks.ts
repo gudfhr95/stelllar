@@ -70,6 +70,15 @@ export type Comment = BaseEntity & {
   voteType: VoteType;
 };
 
+export type CreateServerInput = {
+  avatarFile?: InputMaybe<Scalars['Upload']>;
+  bannerFile?: InputMaybe<Scalars['Upload']>;
+  category?: InputMaybe<ServerCategory>;
+  description?: InputMaybe<Scalars['String']>;
+  displayName: Scalars['String'];
+  name: Scalars['String'];
+};
+
 export type File = {
   __typename?: 'File';
   filename: Scalars['String'];
@@ -140,9 +149,15 @@ export type LinkMetadata = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createServer: Server;
   deleteUser: Scalars['Boolean'];
   updateAvatar: User;
   updateProfile: User;
+};
+
+
+export type MutationCreateServerArgs = {
+  input: CreateServerInput;
 };
 
 
@@ -323,6 +338,15 @@ export enum VoteType {
   Up = 'Up'
 }
 
+export type ServerFragment = { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null };
+
+export type CreateServerMutationVariables = Exact<{
+  input: CreateServerInput;
+}>;
+
+
+export type CreateServerMutation = { __typename?: 'Mutation', createServer: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null } };
+
 export type UserFragment = { __typename?: 'User', id: string, email: any, name: string, image?: string | null };
 
 export type UpdateAvatarMutationVariables = Exact<{
@@ -349,6 +373,17 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null };
 
+export const ServerFragmentDoc = gql`
+    fragment Server on Server {
+  id
+  name
+  displayName
+  description
+  category
+  bannerUrl
+  avatarUrl
+}
+    `;
 export const UserFragmentDoc = gql`
     fragment User on User {
   id
@@ -357,6 +392,39 @@ export const UserFragmentDoc = gql`
   image
 }
     `;
+export const CreateServerDocument = gql`
+    mutation CreateServer($input: CreateServerInput!) {
+  createServer(input: $input) {
+    ...Server
+  }
+}
+    ${ServerFragmentDoc}`;
+export type CreateServerMutationFn = Apollo.MutationFunction<CreateServerMutation, CreateServerMutationVariables>;
+
+/**
+ * __useCreateServerMutation__
+ *
+ * To run a mutation, you first call `useCreateServerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateServerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createServerMutation, { data, loading, error }] = useCreateServerMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateServerMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateServerMutation, CreateServerMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<CreateServerMutation, CreateServerMutationVariables>(CreateServerDocument, options);
+      }
+export type CreateServerMutationHookResult = ReturnType<typeof useCreateServerMutation>;
+export type CreateServerMutationResult = Apollo.MutationResult<CreateServerMutation>;
+export type CreateServerMutationOptions = Apollo.BaseMutationOptions<CreateServerMutation, CreateServerMutationVariables>;
 export const UpdateAvatarDocument = gql`
     mutation updateAvatar($input: UpdateAvatarInput!) {
   updateAvatar(input: $input) {
