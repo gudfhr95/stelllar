@@ -72,7 +72,7 @@ export default function CategorySelect({
   category,
   setCategory,
 }: CategorySelect) {
-  const { t } = useTranslation("create-server");
+  const { t } = useTranslation("server");
 
   const categories = Object.values(ServerCategory);
   const CategoryIcon = getCategoryIcon(category);

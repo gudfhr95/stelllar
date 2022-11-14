@@ -1,17 +1,13 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import client from "../../apollo-client";
-import ServerSidebar from "../../src/components/server/ServerSidebar";
 import { Server, ServerDocument } from "../../src/graphql/hooks";
+import ServerLayout from "../../src/layouts/ServerLayout";
 
 export default function ServerPage({
   server,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  return (
-    <div>
-      <ServerSidebar server={server} />
-    </div>
-  );
+  return <ServerLayout server={server}></ServerLayout>;
 }
 
 export const getServerSideProps: GetServerSideProps<{

@@ -1,5 +1,11 @@
 {
   "sidebar": {
+    "posts": "Posts",
+    "hot": "Hot",
+    "new": "New",
+    "top": "Top",
+    "admin": "Admin",
+    "edit": "Edit"
   },
   "category": {
     "title": "Category",

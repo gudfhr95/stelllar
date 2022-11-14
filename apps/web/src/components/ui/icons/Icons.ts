@@ -2,6 +2,7 @@ export {
   RiPaletteFill as IconCategoryArts,
   RiFootprintFill as IconCategoryLifestyle,
   RiBasketballFill as IconCategorySports,
+  RiFireFill as IconHot,
 } from "react-icons/ri";
 
 export {
@@ -28,6 +29,9 @@ export {
   HiQuestionMarkCircle as IconCategoryOther,
   HiChevronDown as IconChevronDown,
   HiUsers as IconUsers,
+  HiPlus as IconPlus,
+  HiClock as IconNew,
+  HiSortAscending as IconTop,
 } from "react-icons/hi";
 
 export { MdTv as IconCategoryEntertainment } from "react-icons/md";

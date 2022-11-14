@@ -7,9 +7,13 @@ import {
   useLeaveServerMutation,
 } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
+import { useServerSettingDialog } from "../../hooks/useServerSettingDialog";
 import { getCategoryIcon } from "../../utils/getCategoryIcon";
-import { IconSpinner, IconUsers } from "../ui/icons/Icons";
+import { IconSettings, IconSpinner, IconUsers } from "../ui/icons/Icons";
 import Sidebar from "../ui/sidebar/Sidebar";
+import SidebarItem from "../ui/sidebar/SidebarItem";
+import SidebarLabel from "../ui/sidebar/SidebarLabel";
+import SidebarSortButtons from "../ui/sidebar/SidebarSortButtons";
 import { VectorLogo } from "../ui/vectors/VectorLogo";
 import ServerAvatar from "./ServerAvatar";
 
@@ -35,11 +39,11 @@ type ServerSidebar = {
 };
 
 export default function ServerSidebar({ server }: ServerSidebar) {
-  console.log(server);
-
   const { t } = useTranslation("server");
   const router = useRouter();
   const user = useAuth();
+
+  const { setServerSettingDialog: setOpen } = useServerSettingDialog();
 
   const [joinServer, { loading: joinServerLoading }] = useJoinServerMutation();
   const [leaveServer, { loading: leaveServerLoading }] =
@@ -132,6 +136,24 @@ export default function ServerSidebar({ server }: ServerSidebar) {
               </div>
             </div>
           </div>
+
+          <SidebarLabel plusLabel="Create Post">
+            {t("sidebar.posts")}
+          </SidebarLabel>
+
+          <SidebarSortButtons />
+
+          {!!user && user.id === server.owner.id && (
+            <>
+              <SidebarLabel>{t("sidebar.admin")}</SidebarLabel>
+              <div className="space-y-0.5">
+                <SidebarItem onClick={() => setOpen(true)}>
+                  <IconSettings className="mr-3 w-5 h-5" />
+                  {t("sidebar.edit")}
+                </SidebarItem>
+              </div>
+            </>
+          )}
         </div>
       </Sidebar>
     </>
