@@ -1,8 +1,9 @@
 import Tippy from "@tippyjs/react";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Server } from "../../graphql/hooks";
+import { Server, useUpdateServerMutation } from "../../graphql/hooks";
 import { useServerSettingDialog } from "../../hooks/useServerSettingDialog";
 import { readURL } from "../../utils/readURL";
 import CategorySelect from "../server/CategorySelect";
@@ -15,9 +16,13 @@ type ServerSettingDialog = {
 
 export default function ServerSettingDialog({ server }: ServerSettingDialog) {
   const { t } = useTranslation("server");
+  const router = useRouter();
 
   const { serverSettingDialog: open, setServerSettingDialog: setOpen } =
     useServerSettingDialog();
+
+  const [updateServer, { loading: updateServerLoading }] =
+    useUpdateServerMutation();
 
   const {
     handleSubmit,
@@ -60,12 +65,27 @@ export default function ServerSettingDialog({ server }: ServerSettingDialog) {
   }, []);
 
   const onSubmit = ({
-    name,
     displayName,
     description,
     avatarFile,
     bannerFile,
-  }: any) => {};
+  }: any) => {
+    updateServer({
+      variables: {
+        input: {
+          serverId: server.id,
+          displayName,
+          description,
+          category,
+          avatarFile: avatarFile ? avatarFile[0] : null,
+          bannerFile: bannerFile ? bannerFile[0] : null,
+        },
+      },
+    }).then(() => {
+      setOpen(false);
+      router.push(router.asPath);
+    });
+  };
 
   const close = () => {
     setOpen(false);

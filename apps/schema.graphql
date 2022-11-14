@@ -285,6 +285,7 @@ type Mutation {
   updateProfile(input: UpdateProfileInput!): User!
   deleteUser: Boolean!
   createServer(input: CreateServerInput!): Server!
+  updateServer(input: UpdateServerInput!): Server!
   joinServer(serverId: String!): Server!
   leaveServer(serverId: String!): Server!
 }
@@ -302,6 +303,15 @@ input UpdateProfileInput {
 
 input CreateServerInput {
   name: String!
+  displayName: String!
+  description: String
+  category: ServerCategory = Other
+  avatarFile: Upload
+  bannerFile: Upload
+}
+
+input UpdateServerInput {
+  serverId: String!
   displayName: String!
   description: String
   category: ServerCategory = Other

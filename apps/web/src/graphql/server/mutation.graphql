@@ -4,6 +4,12 @@ mutation CreateServer($input: CreateServerInput!){
   }
 }
 
+mutation UpdateServer($input: UpdateServerInput!){
+  updateServer(input: $input){
+    ...Server
+  }
+}
+
 mutation JoinServer($serverId: String!){
   joinServer(serverId: $serverId){
     ...Server

@@ -13,6 +13,7 @@ import { Public } from "../auth/decorator/public.decorator";
 import { User } from "../user/entity/user.entity";
 import { Server } from "./entity/server.entity";
 import { CreateServerInput } from "./input/create-server.input";
+import { UpdateServerInput } from "./input/update-server.input";
 import { ServerLoader } from "./server.loader";
 import { ServerService } from "./server.service";
 
@@ -50,6 +51,24 @@ export class ServerResolver {
   }
 
   @Mutation(() => Server)
+  async updateServer(
+    @Args("input") input: UpdateServerInput,
+    @CurrentUser() user: User
+  ) {
+    Logger.log("updateServer");
+
+    return await this.serverService.updateServer(
+      input.serverId,
+      user,
+      input.displayName,
+      input.description,
+      input.category,
+      input.avatarFile,
+      input.bannerFile
+    );
+  }
+
+  @Mutation(() => Server)
   async joinServer(
     @Args("serverId") serverId: string,
     @CurrentUser() user: User
@@ -72,8 +91,6 @@ export class ServerResolver {
   @Public()
   @ResolveField("isJoined", () => GraphQLBoolean)
   async isJoined(@Parent() server: Server, @CurrentUser() user?: User) {
-    Logger.log("isJoined", user?.id);
-
     return this.serverLoader.serverJoinedLoader(user?.id).load(server.id);
   }
 }

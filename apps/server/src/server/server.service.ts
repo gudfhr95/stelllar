@@ -79,6 +79,72 @@ export class ServerService {
     return server;
   }
 
+  async updateServer(
+    serverId: string,
+    user: User,
+    displayName: string,
+    description: string,
+    category: ServerCategory,
+    avatarFile: Promise<FileUpload>,
+    bannerFile: Promise<FileUpload>
+  ) {
+    const server = await this.serverRepository.findOneOrFail({
+      id: serverId,
+      owner: user,
+    });
+
+    displayName = displayName.trim();
+    description = description.trim();
+
+    let avatarUrl = null;
+    if (avatarFile) {
+      if (server.avatarUrl) {
+        const splited = server.avatarUrl.split("/");
+        const key = splited[splited.length - 1];
+
+        await this.fileService.deleteFileInS3(key);
+      }
+
+      avatarUrl = await this.fileService.uploadSingleFile(
+        avatarFile,
+        {
+          width: 256,
+          height: 256,
+        },
+        true
+      );
+    }
+
+    let bannerUrl = null;
+    if (bannerFile) {
+      if (server.bannerUrl) {
+        const splited = server.bannerUrl.split("/");
+        const key = splited[splited.length - 1];
+
+        await this.fileService.deleteFileInS3(key);
+      }
+
+      bannerUrl = await this.fileService.uploadSingleFile(
+        bannerFile,
+        {
+          width: 256,
+          height: 256,
+        },
+        true
+      );
+    }
+
+    server.displayName = displayName;
+    server.description = description;
+    server.category = category;
+    server.avatarUrl = avatarUrl ?? server.avatarUrl;
+    server.bannerUrl = bannerUrl ?? server.bannerUrl;
+
+    await this.serverRepository.persistAndFlush(server);
+
+    return server;
+  }
+
   async getServerByName(name: string) {
     return await this.serverRepository.findOne({ name });
   }

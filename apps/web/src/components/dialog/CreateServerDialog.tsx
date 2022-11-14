@@ -64,6 +64,7 @@ export default function CreateServerDialog() {
           name,
           displayName,
           description,
+          category,
           avatarFile: avatarFile ? avatarFile[0] : null,
           bannerFile: bannerFile ? bannerFile[0] : null,
         },
@@ -157,7 +158,7 @@ export default function CreateServerDialog() {
       <div className="pb-5 space-y-3 pt-3 px-5 text-left">
         <div>
           <div className="text-sm text-accent flex items-center pt-3">
-            <span className={`h-7 flex items-center`}>stelllar.co/+</span>
+            <span className={`h-7 flex items-center`}>stelllar.co/server/</span>
             <input
               {...register("name", {
                 pattern: SERVER_REGEX,
