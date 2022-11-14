@@ -22,9 +22,10 @@ export const getServerSideProps: GetServerSideProps<{
     variables: {
       name: params?.server,
     },
+    fetchPolicy: "no-cache",
     context: {
       headers: {
-        Cookie: req.headers.cookie,
+        cookie: req.headers.cookie,
       },
     },
   });

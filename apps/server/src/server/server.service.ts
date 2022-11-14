@@ -83,6 +83,47 @@ export class ServerService {
     return await this.serverRepository.findOne({ name });
   }
 
+  async joinServer(serverId: string, user: User) {
+    let serverUser = await this.serverUserRepository.findOne({
+      server: serverId,
+      user: user.id,
+    });
+
+    if (!serverUser) {
+      serverUser = this.serverUserRepository.create({
+        server: serverId,
+        user: user,
+      });
+    }
+    serverUser.status = ServerUserStatus.Joined;
+
+    await this.serverUserRepository.persistAndFlush(serverUser);
+
+    const server = await this.serverRepository.findOneOrFail({ id: serverId });
+
+    server.userCount += 1;
+
+    await this.serverRepository.persistAndFlush(server);
+
+    return server;
+  }
+
+  async leaveServer(serverId: string, user: User) {
+    const serverUser = await this.serverUserRepository.findOneOrFail({
+      server: serverId,
+      user: user.id,
+      status: ServerUserStatus.Joined,
+    });
+    serverUser.status = ServerUserStatus.None;
+    await this.serverUserRepository.persistAndFlush(serverUser);
+
+    const server = await this.serverRepository.findOneOrFail({ id: serverId });
+    server.userCount -= 1;
+    await this.serverRepository.persistAndFlush(server);
+
+    return server;
+  }
+
   async getServerUsersByServerIdsAndUserId(
     serverIds: string[],
     userId: string

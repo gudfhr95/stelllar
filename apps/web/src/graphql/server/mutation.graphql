@@ -3,3 +3,16 @@ mutation CreateServer($input: CreateServerInput!){
     ...Server
   }
 }
+
+mutation JoinServer($serverId: String!){
+  joinServer(serverId: $serverId){
+    ...Server
+  }
+}
+
+
+mutation LeaveServer($serverId: String!){
+  leaveServer(serverId: $serverId){
+    ...Server
+  }
+}

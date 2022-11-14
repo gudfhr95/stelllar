@@ -6,6 +6,7 @@ fragment Server on Server {
   category
   bannerUrl
   avatarUrl
+  userCount
   owner {
     id
   }
