@@ -70,6 +70,15 @@ export type Comment = BaseEntity & {
   voteType: VoteType;
 };
 
+export type CreateServerInput = {
+  avatarFile?: InputMaybe<Scalars['Upload']>;
+  bannerFile?: InputMaybe<Scalars['Upload']>;
+  category?: InputMaybe<ServerCategory>;
+  description?: InputMaybe<Scalars['String']>;
+  displayName: Scalars['String'];
+  name: Scalars['String'];
+};
+
 export type File = {
   __typename?: 'File';
   filename: Scalars['String'];
@@ -140,9 +149,28 @@ export type LinkMetadata = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createServer: Server;
   deleteUser: Scalars['Boolean'];
+  joinServer: Server;
+  leaveServer: Server;
   updateAvatar: User;
   updateProfile: User;
+  updateServer: Server;
+};
+
+
+export type MutationCreateServerArgs = {
+  input: CreateServerInput;
+};
+
+
+export type MutationJoinServerArgs = {
+  serverId: Scalars['String'];
+};
+
+
+export type MutationLeaveServerArgs = {
+  serverId: Scalars['String'];
 };
 
 
@@ -153,6 +181,11 @@ export type MutationUpdateAvatarArgs = {
 
 export type MutationUpdateProfileArgs = {
   input: UpdateProfileInput;
+};
+
+
+export type MutationUpdateServerArgs = {
+  input: UpdateServerInput;
 };
 
 export enum OnlineStatus {
@@ -195,6 +228,12 @@ export type PostImage = {
 export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
+  server?: Maybe<Server>;
+};
+
+
+export type QueryServerArgs = {
+  name: Scalars['String'];
 };
 
 export enum RelationshipStatus {
@@ -293,6 +332,15 @@ export type UpdateProfileInput = {
   name: Scalars['String'];
 };
 
+export type UpdateServerInput = {
+  avatarFile?: InputMaybe<Scalars['Upload']>;
+  bannerFile?: InputMaybe<Scalars['Upload']>;
+  category?: InputMaybe<ServerCategory>;
+  description?: InputMaybe<Scalars['String']>;
+  displayName: Scalars['String'];
+  serverId: Scalars['String'];
+};
+
 export type User = {
   __typename?: 'User';
   createdAt: Scalars['DateTime'];
@@ -323,7 +371,46 @@ export enum VoteType {
   Up = 'Up'
 }
 
+export type ServerFragment = { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, isJoined: boolean, owner: { __typename?: 'User', id: string } };
+
+export type CreateServerMutationVariables = Exact<{
+  input: CreateServerInput;
+}>;
+
+
+export type CreateServerMutation = { __typename?: 'Mutation', createServer: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, isJoined: boolean, owner: { __typename?: 'User', id: string } } };
+
+export type UpdateServerMutationVariables = Exact<{
+  input: UpdateServerInput;
+}>;
+
+
+export type UpdateServerMutation = { __typename?: 'Mutation', updateServer: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, isJoined: boolean, owner: { __typename?: 'User', id: string } } };
+
+export type JoinServerMutationVariables = Exact<{
+  serverId: Scalars['String'];
+}>;
+
+
+export type JoinServerMutation = { __typename?: 'Mutation', joinServer: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, isJoined: boolean, owner: { __typename?: 'User', id: string } } };
+
+export type LeaveServerMutationVariables = Exact<{
+  serverId: Scalars['String'];
+}>;
+
+
+export type LeaveServerMutation = { __typename?: 'Mutation', leaveServer: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, isJoined: boolean, owner: { __typename?: 'User', id: string } } };
+
+export type ServerQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type ServerQuery = { __typename?: 'Query', server?: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, isJoined: boolean, owner: { __typename?: 'User', id: string } } | null };
+
 export type UserFragment = { __typename?: 'User', id: string, email: any, name: string, image?: string | null };
+
+export type CurrentUserFragment = { __typename?: 'User', id: string, email: any, name: string, image?: string | null, servers: Array<{ __typename?: 'Server', id: string, name: string, displayName: string, avatarUrl?: string | null, owner: { __typename?: 'User', id: string } }> };
 
 export type UpdateAvatarMutationVariables = Exact<{
   input: UpdateAvatarInput;
@@ -347,8 +434,24 @@ export type DeleteAccountMutation = { __typename?: 'Mutation', deleteUser: boole
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null, servers: Array<{ __typename?: 'Server', id: string, name: string, displayName: string, avatarUrl?: string | null, owner: { __typename?: 'User', id: string } }> } | null };
 
+export const ServerFragmentDoc = gql`
+    fragment Server on Server {
+  id
+  name
+  displayName
+  description
+  category
+  bannerUrl
+  avatarUrl
+  userCount
+  owner {
+    id
+  }
+  isJoined
+}
+    `;
 export const UserFragmentDoc = gql`
     fragment User on User {
   id
@@ -357,6 +460,187 @@ export const UserFragmentDoc = gql`
   image
 }
     `;
+export const CurrentUserFragmentDoc = gql`
+    fragment CurrentUser on User {
+  ...User
+  servers {
+    id
+    name
+    displayName
+    avatarUrl
+    owner {
+      id
+    }
+  }
+}
+    ${UserFragmentDoc}`;
+export const CreateServerDocument = gql`
+    mutation CreateServer($input: CreateServerInput!) {
+  createServer(input: $input) {
+    ...Server
+  }
+}
+    ${ServerFragmentDoc}`;
+export type CreateServerMutationFn = Apollo.MutationFunction<CreateServerMutation, CreateServerMutationVariables>;
+
+/**
+ * __useCreateServerMutation__
+ *
+ * To run a mutation, you first call `useCreateServerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateServerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createServerMutation, { data, loading, error }] = useCreateServerMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateServerMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateServerMutation, CreateServerMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<CreateServerMutation, CreateServerMutationVariables>(CreateServerDocument, options);
+      }
+export type CreateServerMutationHookResult = ReturnType<typeof useCreateServerMutation>;
+export type CreateServerMutationResult = Apollo.MutationResult<CreateServerMutation>;
+export type CreateServerMutationOptions = Apollo.BaseMutationOptions<CreateServerMutation, CreateServerMutationVariables>;
+export const UpdateServerDocument = gql`
+    mutation UpdateServer($input: UpdateServerInput!) {
+  updateServer(input: $input) {
+    ...Server
+  }
+}
+    ${ServerFragmentDoc}`;
+export type UpdateServerMutationFn = Apollo.MutationFunction<UpdateServerMutation, UpdateServerMutationVariables>;
+
+/**
+ * __useUpdateServerMutation__
+ *
+ * To run a mutation, you first call `useUpdateServerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateServerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateServerMutation, { data, loading, error }] = useUpdateServerMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateServerMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateServerMutation, UpdateServerMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<UpdateServerMutation, UpdateServerMutationVariables>(UpdateServerDocument, options);
+      }
+export type UpdateServerMutationHookResult = ReturnType<typeof useUpdateServerMutation>;
+export type UpdateServerMutationResult = Apollo.MutationResult<UpdateServerMutation>;
+export type UpdateServerMutationOptions = Apollo.BaseMutationOptions<UpdateServerMutation, UpdateServerMutationVariables>;
+export const JoinServerDocument = gql`
+    mutation JoinServer($serverId: String!) {
+  joinServer(serverId: $serverId) {
+    ...Server
+  }
+}
+    ${ServerFragmentDoc}`;
+export type JoinServerMutationFn = Apollo.MutationFunction<JoinServerMutation, JoinServerMutationVariables>;
+
+/**
+ * __useJoinServerMutation__
+ *
+ * To run a mutation, you first call `useJoinServerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useJoinServerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [joinServerMutation, { data, loading, error }] = useJoinServerMutation({
+ *   variables: {
+ *      serverId: // value for 'serverId'
+ *   },
+ * });
+ */
+export function useJoinServerMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<JoinServerMutation, JoinServerMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<JoinServerMutation, JoinServerMutationVariables>(JoinServerDocument, options);
+      }
+export type JoinServerMutationHookResult = ReturnType<typeof useJoinServerMutation>;
+export type JoinServerMutationResult = Apollo.MutationResult<JoinServerMutation>;
+export type JoinServerMutationOptions = Apollo.BaseMutationOptions<JoinServerMutation, JoinServerMutationVariables>;
+export const LeaveServerDocument = gql`
+    mutation LeaveServer($serverId: String!) {
+  leaveServer(serverId: $serverId) {
+    ...Server
+  }
+}
+    ${ServerFragmentDoc}`;
+export type LeaveServerMutationFn = Apollo.MutationFunction<LeaveServerMutation, LeaveServerMutationVariables>;
+
+/**
+ * __useLeaveServerMutation__
+ *
+ * To run a mutation, you first call `useLeaveServerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLeaveServerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [leaveServerMutation, { data, loading, error }] = useLeaveServerMutation({
+ *   variables: {
+ *      serverId: // value for 'serverId'
+ *   },
+ * });
+ */
+export function useLeaveServerMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<LeaveServerMutation, LeaveServerMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<LeaveServerMutation, LeaveServerMutationVariables>(LeaveServerDocument, options);
+      }
+export type LeaveServerMutationHookResult = ReturnType<typeof useLeaveServerMutation>;
+export type LeaveServerMutationResult = Apollo.MutationResult<LeaveServerMutation>;
+export type LeaveServerMutationOptions = Apollo.BaseMutationOptions<LeaveServerMutation, LeaveServerMutationVariables>;
+export const ServerDocument = gql`
+    query server($name: String!) {
+  server(name: $name) {
+    ...Server
+  }
+}
+    ${ServerFragmentDoc}`;
+
+/**
+ * __useServerQuery__
+ *
+ * To run a query within a React component, call `useServerQuery` and pass it any options that fit your needs.
+ * When your component renders, `useServerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useServerQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useServerQuery(baseOptions: ApolloReactHooks.QueryHookOptions<ServerQuery, ServerQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<ServerQuery, ServerQueryVariables>(ServerDocument, options);
+      }
+export function useServerLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ServerQuery, ServerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<ServerQuery, ServerQueryVariables>(ServerDocument, options);
+        }
+export type ServerQueryHookResult = ReturnType<typeof useServerQuery>;
+export type ServerLazyQueryHookResult = ReturnType<typeof useServerLazyQuery>;
+export type ServerQueryResult = Apollo.QueryResult<ServerQuery, ServerQueryVariables>;
 export const UpdateAvatarDocument = gql`
     mutation updateAvatar($input: UpdateAvatarInput!) {
   updateAvatar(input: $input) {
@@ -454,12 +738,12 @@ export type DeleteAccountMutationHookResult = ReturnType<typeof useDeleteAccount
 export type DeleteAccountMutationResult = Apollo.MutationResult<DeleteAccountMutation>;
 export type DeleteAccountMutationOptions = Apollo.BaseMutationOptions<DeleteAccountMutation, DeleteAccountMutationVariables>;
 export const MeDocument = gql`
-    query me {
+    query Me {
   me {
-    ...User
+    ...CurrentUser
   }
 }
-    ${UserFragmentDoc}`;
+    ${CurrentUserFragmentDoc}`;
 
 /**
  * __useMeQuery__

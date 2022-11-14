@@ -1,0 +1,5 @@
+query server($name: String!) {
+  server(name: $name) {
+    ...Server
+  }
+}

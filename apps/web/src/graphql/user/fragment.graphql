@@ -4,3 +4,16 @@ fragment User on User {
   name
   image
 }
+
+fragment CurrentUser on User {
+  ...User
+  servers {
+    id
+    name
+    displayName
+    avatarUrl
+    owner {
+      id
+    }
+  }
+}

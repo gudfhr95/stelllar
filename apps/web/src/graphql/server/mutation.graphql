@@ -1,0 +1,24 @@
+mutation CreateServer($input: CreateServerInput!){
+  createServer(input: $input){
+    ...Server
+  }
+}
+
+mutation UpdateServer($input: UpdateServerInput!){
+  updateServer(input: $input){
+    ...Server
+  }
+}
+
+mutation JoinServer($serverId: String!){
+  joinServer(serverId: $serverId){
+    ...Server
+  }
+}
+
+
+mutation LeaveServer($serverId: String!){
+  leaveServer(serverId: $serverId){
+    ...Server
+  }
+}

@@ -2,11 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type ServerUser {
-  user: User!
-  role: Role!
-}
-
 type Role implements BaseEntity {
   id: ID!
   createdAt: DateTime!
@@ -275,14 +270,24 @@ enum RelationshipStatus {
   Blocked
 }
 
+type ServerUser {
+  user: User!
+  role: Role!
+}
+
 type Query {
   me: User
+  server(name: String!): Server
 }
 
 type Mutation {
   updateAvatar(input: UpdateAvatarInput!): User!
   updateProfile(input: UpdateProfileInput!): User!
   deleteUser: Boolean!
+  createServer(input: CreateServerInput!): Server!
+  updateServer(input: UpdateServerInput!): Server!
+  joinServer(serverId: String!): Server!
+  leaveServer(serverId: String!): Server!
 }
 
 input UpdateAvatarInput {
@@ -294,4 +299,22 @@ scalar Upload
 
 input UpdateProfileInput {
   name: String!
+}
+
+input CreateServerInput {
+  name: String!
+  displayName: String!
+  description: String
+  category: ServerCategory = Other
+  avatarFile: Upload
+  bannerFile: Upload
+}
+
+input UpdateServerInput {
+  serverId: String!
+  displayName: String!
+  description: String
+  category: ServerCategory = Other
+  avatarFile: Upload
+  bannerFile: Upload
 }

@@ -2,7 +2,7 @@ import { forwardRef } from "react";
 import Avatar from "../ui/Avatar";
 import { IconUser } from "../ui/icons/Icons";
 
-interface UserAvatar {
+type UserAvatar = {
   avatarUrl?: string | null;
   isOnline?: boolean;
   showOnline?: boolean;
@@ -10,7 +10,7 @@ interface UserAvatar {
   loading?: string;
   className?: string;
   dotClassName?: string;
-}
+};
 
 const UserAvatar = forwardRef(
   (

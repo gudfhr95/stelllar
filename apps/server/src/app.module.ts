@@ -1,14 +1,13 @@
 import * as Joi from "@hapi/joi";
-import { ApolloDriver } from "@nestjs/apollo";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { GraphQLModule } from "@nestjs/graphql";
 import { AuthModule } from "./auth/auth.module";
 import { ChannelModule } from "./channel/channel.module";
 import { CommentModule } from "./comment/comment.module";
 import { DatabaseModule } from "./database/database.module";
 import { FileModule } from "./file/file.module";
 import { FolderModule } from "./folder/folder.module";
+import { GraphqlModule } from "./graphql/graphql.module";
 import { GroupModule } from "./group/group.module";
 import { MessageModule } from "./message/message.module";
 import { PostModule } from "./post/post.module";
@@ -33,20 +32,10 @@ import { UserModule } from "./user/user.module";
       }),
     }),
     DatabaseModule,
-    GraphQLModule.forRoot({
-      driver: ApolloDriver,
-      playground: true,
-      autoSchemaFile: "../schema.graphql",
-      uploads: false,
-      cors: {
-        origin: "http://localhost:3000",
-        credentials: true,
-      },
-      context: ({ req, res }) => ({ req, res }),
-    }),
+    GraphqlModule,
     UserModule,
-    FolderModule,
     ServerModule,
+    FolderModule,
     GroupModule,
     PostModule,
     ChannelModule,

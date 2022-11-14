@@ -8,7 +8,7 @@ import { User } from "./entity/user.entity";
 import { UpdateProfileInput } from "./input/update-profile.input";
 
 @Injectable()
-export default class UserService {
+export class UserService {
   constructor(
     private readonly fileService: FileService,
     private readonly configService: ConfigService,

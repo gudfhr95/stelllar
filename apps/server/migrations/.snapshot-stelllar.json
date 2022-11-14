@@ -626,7 +626,7 @@
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
+          "nullable": true,
           "mappedType": "string"
         },
         "status": {
@@ -695,6 +695,7 @@
             "id"
           ],
           "referencedTableName": "public.role",
+          "deleteRule": "set null",
           "updateRule": "cascade"
         }
       }

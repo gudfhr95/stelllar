@@ -2,7 +2,7 @@ import { InjectRepository } from "@mikro-orm/nestjs";
 import { EntityRepository } from "@mikro-orm/postgresql";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { defaultEntities } from "@next-auth/mikro-orm-adapter";
-import UserService from "../user/user.service";
+import { UserService } from "../user/user.service";
 
 @Injectable()
 export class AuthService {

@@ -6,11 +6,11 @@ import {
   Property,
 } from "@mikro-orm/core";
 import { Field, ObjectType } from "@nestjs/graphql";
-import { User } from "../../user/entity/user.entity";
 import { ReorderUtils } from "../../common/util/reorder-utils";
+import { User } from "../../user/entity/user.entity";
 import { Role } from "./role.entity";
-import { Server } from "./server.entity";
 import { ServerUserStatus } from "./server-user-status.enum";
+import { Server } from "./server.entity";
 
 @ObjectType()
 @Entity()
@@ -31,7 +31,7 @@ export class ServerUser {
   createdAt: Date = new Date();
 
   @Field(() => Role)
-  @ManyToOne({ entity: () => Role, inversedBy: "serverUsers" })
+  @ManyToOne({ entity: () => Role, inversedBy: "serverUsers", nullable: true })
   role: Role;
 
   @Enum({ items: () => ServerUserStatus })

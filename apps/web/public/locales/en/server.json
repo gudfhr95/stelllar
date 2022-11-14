@@ -1,0 +1,35 @@
+{
+  "sidebar": {
+    "posts": "Posts",
+    "hot": "Hot",
+    "new": "New",
+    "top": "Top",
+    "admin": "Admin",
+    "edit": "Edit"
+  },
+  "setting": {
+    "delete": "Delete"
+  },
+  "category": {
+    "title": "Category",
+    "Featured": "Featured",
+    "Arts": "Arts",
+    "Business": "Business",
+    "Culture": "Culture",
+    "Discussion": "Discussion",
+    "Entertainment": "Entertainment",
+    "Gaming": "Gaming",
+    "Health": "Health",
+    "Hobbies": "Hobbies",
+    "Lifestyle": "Lifestyle",
+    "Memes": "Memes",
+    "Meta": "Meta",
+    "News": "News",
+    "Politics": "Politics",
+    "Programming": "Programming",
+    "Science": "Science",
+    "Sports": "Sports",
+    "Technology": "Technology",
+    "Other": "Other"
+  }
+}

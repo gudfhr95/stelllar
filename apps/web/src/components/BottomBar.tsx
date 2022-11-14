@@ -4,7 +4,7 @@ import { useTranslation } from "next-i18next";
 import useAuth from "../hooks/useAuth";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { useLoginDialog } from "../hooks/useLoginDialog";
-import { useSettingsDialog } from "../hooks/useSettingsDialog";
+import { useUserSettingDialog } from "../hooks/useUserSettingDialog";
 import {
   IconDark,
   IconLight,
@@ -20,7 +20,7 @@ export default function BottomBar() {
 
   const { setLoginDialog } = useLoginDialog();
   const { toggle: toggleDark, value: isDark } = useDarkMode();
-  const { setSettingsDialog } = useSettingsDialog();
+  const { setUserSettingDialog } = useUserSettingDialog();
 
   const user = useAuth();
 
@@ -76,7 +76,7 @@ export default function BottomBar() {
               <Tippy content={t("settings")} offset={offset}>
                 <div
                   onClick={() => {
-                    setSettingsDialog(true);
+                    setUserSettingDialog(true);
                   }}
                 >
                   <IconSettings className="w-4.5 h-4.5 cursor-pointer text-tertiary" />

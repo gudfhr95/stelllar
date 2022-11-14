@@ -8,7 +8,7 @@ import {
 } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
 import { useDeleteAccountDialog } from "../../hooks/useDeleteAccountDialog";
-import { useSettingsDialog } from "../../hooks/useSettingsDialog";
+import { useUserSettingDialog } from "../../hooks/useUserSettingDialog";
 import StyledDialog from "../ui/dialog/StyledDialog";
 import {
   IconCheck,
@@ -23,8 +23,8 @@ export default function UserSettingsDialog() {
   const { t } = useTranslation("settings");
   const user = useAuth();
 
-  const { settingsDialog: open, setSettingsDialog: setOpen } =
-    useSettingsDialog();
+  const { userSettingDialog: open, setUserSettingDialog: setOpen } =
+    useUserSettingDialog();
   const { setDeleteAccountDialog } = useDeleteAccountDialog();
 
   const {
