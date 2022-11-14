@@ -1,14 +1,8 @@
-import axios from "axios";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import ExploreLayout from "../src/layouts/ExploreLayout";
 
-export default function Index() {
-  const request = () => {
-    axios
-      .get("http://localhost:4000/auth/google", { withCredentials: true })
-      .then((result) => console.log(result))
-      .catch((err) => console.log(err));
-  };
-  return <button onClick={request}>Request</button>;
+export default function Explore() {
+  return <ExploreLayout></ExploreLayout>;
 }
 
 export async function getStaticProps({ locale }: { locale: string }) {
@@ -19,6 +13,7 @@ export async function getStaticProps({ locale }: { locale: string }) {
         "settings",
         "server-list",
         "create-server",
+        "explore",
       ])),
     },
   };
