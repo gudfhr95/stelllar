@@ -1,5 +1,5 @@
 import { Logger, UseGuards } from "@nestjs/common";
-import { Args, Mutation, Resolver } from "@nestjs/graphql";
+import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { CurrentUser } from "../auth/decorator/current-user.decorator";
 import { GqlNextAuthSessionGuard } from "../auth/guard/gql-next-auth-session.guard";
 import { User } from "../user/entity/user.entity";
@@ -10,6 +10,11 @@ import { ServerService } from "./server.service";
 @Resolver(() => Server)
 export class ServerResolver {
   constructor(private readonly serverService: ServerService) {}
+
+  @Query(() => Server, { nullable: true })
+  async server(@Args("name") name: string) {
+    return await this.serverService.getServerByName(name);
+  }
 
   @UseGuards(GqlNextAuthSessionGuard)
   @Mutation(() => Server)

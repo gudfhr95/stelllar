@@ -77,4 +77,8 @@ export class ServerService {
 
     return server;
   }
+
+  async getServerByName(name: string) {
+    return await this.serverRepository.findOne({ name });
+  }
 }

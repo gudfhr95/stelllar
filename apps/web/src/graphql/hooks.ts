@@ -210,6 +210,12 @@ export type PostImage = {
 export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
+  server?: Maybe<Server>;
+};
+
+
+export type QueryServerArgs = {
+  name: Scalars['String'];
 };
 
 export enum RelationshipStatus {
@@ -347,6 +353,13 @@ export type CreateServerMutationVariables = Exact<{
 
 export type CreateServerMutation = { __typename?: 'Mutation', createServer: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null } };
 
+export type ServerQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type ServerQuery = { __typename?: 'Query', server?: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null } | null };
+
 export type UserFragment = { __typename?: 'User', id: string, email: any, name: string, image?: string | null };
 
 export type UpdateAvatarMutationVariables = Exact<{
@@ -425,6 +438,41 @@ export function useCreateServerMutation(baseOptions?: ApolloReactHooks.MutationH
 export type CreateServerMutationHookResult = ReturnType<typeof useCreateServerMutation>;
 export type CreateServerMutationResult = Apollo.MutationResult<CreateServerMutation>;
 export type CreateServerMutationOptions = Apollo.BaseMutationOptions<CreateServerMutation, CreateServerMutationVariables>;
+export const ServerDocument = gql`
+    query server($name: String!) {
+  server(name: $name) {
+    ...Server
+  }
+}
+    ${ServerFragmentDoc}`;
+
+/**
+ * __useServerQuery__
+ *
+ * To run a query within a React component, call `useServerQuery` and pass it any options that fit your needs.
+ * When your component renders, `useServerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useServerQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useServerQuery(baseOptions: ApolloReactHooks.QueryHookOptions<ServerQuery, ServerQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<ServerQuery, ServerQueryVariables>(ServerDocument, options);
+      }
+export function useServerLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ServerQuery, ServerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<ServerQuery, ServerQueryVariables>(ServerDocument, options);
+        }
+export type ServerQueryHookResult = ReturnType<typeof useServerQuery>;
+export type ServerLazyQueryHookResult = ReturnType<typeof useServerLazyQuery>;
+export type ServerQueryResult = Apollo.QueryResult<ServerQuery, ServerQueryVariables>;
 export const UpdateAvatarDocument = gql`
     mutation updateAvatar($input: UpdateAvatarInput!) {
   updateAvatar(input: $input) {

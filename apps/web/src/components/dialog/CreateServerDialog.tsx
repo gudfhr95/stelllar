@@ -70,7 +70,7 @@ export default function CreateServerDialog() {
       },
     }).then(({ data }) => {
       setOpen(false);
-      router.push(`/+${data!.createServer.name}`);
+      router.push(`/server/${data!.createServer.name}`);
     });
   };
 

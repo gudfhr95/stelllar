@@ -1,0 +1,47 @@
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import client from "../../apollo-client";
+import ServerSidebar from "../../src/components/server/ServerSidebar";
+import { Server, ServerDocument } from "../../src/graphql/hooks";
+
+export default function ServerPage({
+  server,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  return (
+    <div>
+      <ServerSidebar server={server} />
+    </div>
+  );
+}
+
+export const getServerSideProps: GetServerSideProps<{
+  server: Server;
+}> = async ({ params, locale }) => {
+  const { data } = await client.query({
+    query: ServerDocument,
+    variables: {
+      name: params?.server,
+    },
+  });
+
+  console.log(data.server);
+
+  if (!data.server) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      server: data.server,
+      ...(await serverSideTranslations(locale as string, [
+        "bottom-bar",
+        "settings",
+        "server-list",
+        "create-server",
+        "server",
+      ])),
+    },
+  };
+};

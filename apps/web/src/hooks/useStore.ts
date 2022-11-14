@@ -1,6 +1,6 @@
 import create from "zustand";
 
-interface Store {
+type Store = {
   loginDialog: boolean;
   setLoginDialog: (open: boolean) => void;
 
@@ -12,7 +12,13 @@ interface Store {
 
   createServerDialog: boolean;
   setCreateServerDialog: (open: boolean) => void;
-}
+
+  showLeftSidebar: boolean;
+  setShowLeftSidebar: (show: boolean) => void;
+
+  showRightSidebar: boolean;
+  setShowRightSidebar: (show: boolean) => void;
+};
 
 export const useStore = create<Store>()((set, get) => ({
   loginDialog: false,
@@ -26,4 +32,10 @@ export const useStore = create<Store>()((set, get) => ({
 
   createServerDialog: false,
   setCreateServerDialog: (open) => set({ createServerDialog: open }),
+
+  showLeftSidebar: false,
+  setShowLeftSidebar: (show) => set({ showLeftSidebar: show }),
+
+  showRightSidebar: false,
+  setShowRightSidebar: (show) => set({ showRightSidebar: show }),
 }));

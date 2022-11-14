@@ -27,6 +27,7 @@ export {
   HiCode as IconCategoryProgramming,
   HiQuestionMarkCircle as IconCategoryOther,
   HiChevronDown as IconChevronDown,
+  HiUsers as IconUsers,
 } from "react-icons/hi";
 
 export { MdTv as IconCategoryEntertainment } from "react-icons/md";
