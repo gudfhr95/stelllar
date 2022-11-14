@@ -7,6 +7,9 @@
     "admin": "Admin",
     "edit": "Edit"
   },
+  "setting": {
+    "delete": "Delete"
+  },
   "category": {
     "title": "Category",
     "Featured": "Featured",

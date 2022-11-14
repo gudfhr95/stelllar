@@ -1,14 +1,16 @@
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import { Server } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
 import { useCreateServerDialog } from "../../hooks/useCreateServerDialog";
 import { IconCreateServer, IconExplore, IconHome } from "../ui/icons/Icons";
 import ServerListItem from "./ServerListItem";
+import ServerListServer from "./ServerListServer";
 
 export default function ServerList({ hide = false }) {
   const { t } = useTranslation("server-list");
-  const user = useAuth();
   const router = useRouter();
+  const user = useAuth();
 
   const { setCreateServerDialog } = useCreateServerDialog();
 
@@ -33,7 +35,11 @@ export default function ServerList({ hide = false }) {
                   : "dark:bg-gray-800 bg-white hover:bg-blue-600 dark:hover:bg-blue-600"
               }`}
             >
-              <IconHome />
+              <IconHome
+                className={`w-5 h-5 group-hover:text-white transition ${
+                  homeActive ? "text-white" : "text-blue-500"
+                }`}
+              />
             </ServerListItem>
 
             <ServerListItem
@@ -67,6 +73,19 @@ export default function ServerList({ hide = false }) {
               </ServerListItem>
             )}
           </div>
+
+          {!!user && !!user.servers && user.servers.length > 0 && (
+            <div className="space-y-2 flex flex-col items-center py-2">
+              {user.servers.map((server: Server) => (
+                <ServerListServer
+                  key={server.id}
+                  name={server.name}
+                  displayName={server.displayName}
+                  avatarUrl={server.avatarUrl ?? null}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </>

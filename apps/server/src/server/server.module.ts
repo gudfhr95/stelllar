@@ -10,5 +10,6 @@ import { ServerService } from "./server.service";
 @Module({
   imports: [MikroOrmModule.forFeature([Server, ServerUser]), FileModule],
   providers: [ServerResolver, ServerService, ServerLoader],
+  exports: [ServerService],
 })
 export class ServerModule {}

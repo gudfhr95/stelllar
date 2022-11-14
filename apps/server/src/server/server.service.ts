@@ -1,3 +1,4 @@
+import { QueryOrder } from "@mikro-orm/core";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { EntityRepository } from "@mikro-orm/postgresql";
 import { Injectable } from "@nestjs/common";
@@ -199,5 +200,15 @@ export class ServerService {
       user: userId,
       status: ServerUserStatus.Joined,
     });
+  }
+
+  async getServerUsersByUserIds(userIds: string[]) {
+    return await this.serverUserRepository.find(
+      {
+        user: userIds,
+        status: ServerUserStatus.Joined,
+      },
+      { populate: ["server"], orderBy: { position: QueryOrder.ASC } }
+    );
   }
 }

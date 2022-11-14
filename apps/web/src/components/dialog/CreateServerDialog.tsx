@@ -13,7 +13,7 @@ import { IconCheck, IconEdit } from "../ui/icons/Icons";
 const SERVER_REGEX = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
 
 export default function CreateServerDialog() {
-  const { t } = useTranslation("create-server");
+  const { t } = useTranslation("server");
   const router = useRouter();
 
   const { createServerDialog: open, setCreateServerDialog: setOpen } =

@@ -1,5 +1,5 @@
-query me {
+query Me {
   me {
-    ...User
+    ...CurrentUser
   }
 }

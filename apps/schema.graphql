@@ -2,11 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type ServerUser {
-  user: User!
-  role: Role!
-}
-
 type Role implements BaseEntity {
   id: ID!
   createdAt: DateTime!
@@ -273,6 +268,11 @@ enum RelationshipStatus {
   Friends
   Blocking
   Blocked
+}
+
+type ServerUser {
+  user: User!
+  role: Role!
 }
 
 type Query {

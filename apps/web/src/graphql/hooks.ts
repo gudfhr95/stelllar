@@ -410,6 +410,8 @@ export type ServerQuery = { __typename?: 'Query', server?: { __typename?: 'Serve
 
 export type UserFragment = { __typename?: 'User', id: string, email: any, name: string, image?: string | null };
 
+export type CurrentUserFragment = { __typename?: 'User', id: string, email: any, name: string, image?: string | null, servers: Array<{ __typename?: 'Server', id: string, name: string, displayName: string, avatarUrl?: string | null, owner: { __typename?: 'User', id: string } }> };
+
 export type UpdateAvatarMutationVariables = Exact<{
   input: UpdateAvatarInput;
 }>;
@@ -432,7 +434,7 @@ export type DeleteAccountMutation = { __typename?: 'Mutation', deleteUser: boole
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null, servers: Array<{ __typename?: 'Server', id: string, name: string, displayName: string, avatarUrl?: string | null, owner: { __typename?: 'User', id: string } }> } | null };
 
 export const ServerFragmentDoc = gql`
     fragment Server on Server {
@@ -458,6 +460,20 @@ export const UserFragmentDoc = gql`
   image
 }
     `;
+export const CurrentUserFragmentDoc = gql`
+    fragment CurrentUser on User {
+  ...User
+  servers {
+    id
+    name
+    displayName
+    avatarUrl
+    owner {
+      id
+    }
+  }
+}
+    ${UserFragmentDoc}`;
 export const CreateServerDocument = gql`
     mutation CreateServer($input: CreateServerInput!) {
   createServer(input: $input) {
@@ -722,12 +738,12 @@ export type DeleteAccountMutationHookResult = ReturnType<typeof useDeleteAccount
 export type DeleteAccountMutationResult = Apollo.MutationResult<DeleteAccountMutation>;
 export type DeleteAccountMutationOptions = Apollo.BaseMutationOptions<DeleteAccountMutation, DeleteAccountMutationVariables>;
 export const MeDocument = gql`
-    query me {
+    query Me {
   me {
-    ...User
+    ...CurrentUser
   }
 }
-    ${UserFragmentDoc}`;
+    ${CurrentUserFragmentDoc}`;
 
 /**
  * __useMeQuery__
