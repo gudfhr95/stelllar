@@ -1,5 +1,6 @@
 {
   "title": "Explore",
+  "notFound": "No planet found",
   "sort": {
     "label": "Sort",
     "top": "Top",

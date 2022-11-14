@@ -16,7 +16,10 @@ export default function MainLayout({ children }: PropsWithChildren) {
       <DeleteAccountDialog />
       <CreateServerDialog />
       <div className="flex-grow">
-        <div className="flex items-stretch" style={{ height: "100%" }}>
+        <div
+          className="flex items-stretch"
+          style={{ height: "calc(100% - 1.375rem)" }}
+        >
           <ServerList hide />
           {children}
         </div>

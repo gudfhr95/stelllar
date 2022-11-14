@@ -16,7 +16,11 @@ export default function ExploreLayout({
       <ExploreSidebar />
       <div className="flex flex-col flex-grow">
         <Header title={t("title")} icon={<IconExplore className="w-5 h-5" />} />
-        <div className="h-full">{children}</div>
+        <div className="h-full">
+          <div className="max-h-full h-full dark:bg-gray-750 px-6 py-4 scrollbar-custom overflow-y-auto">
+            {children}
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-html, body, #root {
+html, body, #__next, main {
   position: relative;
   height: 100%;
   overflow-y: hidden;

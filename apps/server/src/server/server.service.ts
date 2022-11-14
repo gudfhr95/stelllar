@@ -10,6 +10,7 @@ import { ServerCategory } from "./entity/server-category.enum";
 import { ServerUserStatus } from "./entity/server-user-status.enum";
 import { ServerUser } from "./entity/server-user.entity";
 import { Server } from "./entity/server.entity";
+import { PublicServersSort } from "./input/public-server.input";
 
 @Injectable()
 export class ServerService {
@@ -144,6 +145,22 @@ export class ServerService {
     await this.serverRepository.persistAndFlush(server);
 
     return server;
+  }
+
+  async getPublicServers(sort: PublicServersSort, category: ServerCategory) {
+    let where = {};
+    if (category) {
+      where = { category };
+    }
+
+    let orderBy = {};
+    if (sort === PublicServersSort.New) {
+      orderBy = { createdAt: QueryOrder.DESC };
+    } else if (sort === PublicServersSort.Top) {
+      orderBy = { userCount: QueryOrder.DESC, createdAt: QueryOrder.DESC };
+    }
+
+    return await this.serverRepository.find(where, { orderBy });
   }
 
   async getServerByName(name: string) {

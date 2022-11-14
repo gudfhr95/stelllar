@@ -278,6 +278,12 @@ type ServerUser {
 type Query {
   me: User
   server(name: String!): Server
+  publicServers(sort: PublicServersSort = Top, category: ServerCategory): [Server!]!
+}
+
+enum PublicServersSort {
+  New
+  Top
 }
 
 type Mutation {
