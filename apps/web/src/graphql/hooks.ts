@@ -344,21 +344,21 @@ export enum VoteType {
   Up = 'Up'
 }
 
-export type ServerFragment = { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null };
+export type ServerFragment = { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, isJoined: boolean, owner: { __typename?: 'User', id: string } };
 
 export type CreateServerMutationVariables = Exact<{
   input: CreateServerInput;
 }>;
 
 
-export type CreateServerMutation = { __typename?: 'Mutation', createServer: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null } };
+export type CreateServerMutation = { __typename?: 'Mutation', createServer: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, isJoined: boolean, owner: { __typename?: 'User', id: string } } };
 
 export type ServerQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
 
 
-export type ServerQuery = { __typename?: 'Query', server?: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null } | null };
+export type ServerQuery = { __typename?: 'Query', server?: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, isJoined: boolean, owner: { __typename?: 'User', id: string } } | null };
 
 export type UserFragment = { __typename?: 'User', id: string, email: any, name: string, image?: string | null };
 
@@ -395,6 +395,10 @@ export const ServerFragmentDoc = gql`
   category
   bannerUrl
   avatarUrl
+  owner {
+    id
+  }
+  isJoined
 }
     `;
 export const UserFragmentDoc = gql`

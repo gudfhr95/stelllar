@@ -16,15 +16,18 @@ export default function ServerPage({
 
 export const getServerSideProps: GetServerSideProps<{
   server: Server;
-}> = async ({ params, locale }) => {
+}> = async ({ req, params, locale }) => {
   const { data } = await client.query({
     query: ServerDocument,
     variables: {
       name: params?.server,
     },
+    context: {
+      headers: {
+        Cookie: req.headers.cookie,
+      },
+    },
   });
-
-  console.log(data.server);
 
   if (!data.server) {
     return {

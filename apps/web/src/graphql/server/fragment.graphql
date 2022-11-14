@@ -6,4 +6,8 @@ fragment Server on Server {
   category
   bannerUrl
   avatarUrl
+  owner {
+    id
+  }
+  isJoined
 }

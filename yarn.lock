@@ -7646,7 +7646,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dataloader@npm:2.1.0, dataloader@npm:^2.0.0":
+"dataloader@npm:2.1.0, dataloader@npm:^2.0.0, dataloader@npm:^2.1.0":
   version: 2.1.0
   resolution: "dataloader@npm:2.1.0"
   checksum: bbd43496c41697766f8611f60ed3bae437b450985499140b9603a2447c10d45975d3a0661caaebaa9750bc1bc9fd154676a314423294916c8b8ca1a59a08d139
@@ -16321,6 +16321,7 @@ __metadata:
     aws-sdk: ^2.1251.0
     class-validator: ^0.13.2
     cookie-parser: ^1.4.6
+    dataloader: ^2.1.0
     eslint: 8.26.0
     eslint-config-nestjs: "*"
     graphql: ^16.6.0

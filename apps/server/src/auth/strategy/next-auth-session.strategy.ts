@@ -4,7 +4,7 @@ import { Request } from "express";
 import { Strategy } from "passport-custom";
 import { AuthService } from "../auth.service";
 
-const cookieName = "next-auth.session-token";
+export const COOKIE_NAME = "next-auth.session-token";
 
 @Injectable()
 export class NextAuthSessionStrategy extends PassportStrategy(
@@ -16,7 +16,7 @@ export class NextAuthSessionStrategy extends PassportStrategy(
   }
 
   async validate(req: Request) {
-    const sessionToken = req.cookies[cookieName];
+    const sessionToken = req.cookies[COOKIE_NAME];
     if (!sessionToken) {
       throw new UnauthorizedException({ message: "No session token" });
     }

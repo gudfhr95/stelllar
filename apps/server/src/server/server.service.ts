@@ -6,6 +6,7 @@ import { ReorderUtils } from "../common/util/reorder-utils";
 import { FileService } from "../file/file.service";
 import { User } from "../user/entity/user.entity";
 import { ServerCategory } from "./entity/server-category.enum";
+import { ServerUserStatus } from "./entity/server-user-status.enum";
 import { ServerUser } from "./entity/server-user.entity";
 import { Server } from "./entity/server.entity";
 
@@ -80,5 +81,16 @@ export class ServerService {
 
   async getServerByName(name: string) {
     return await this.serverRepository.findOne({ name });
+  }
+
+  async getServerUsersByServerIdsAndUserId(
+    serverIds: string[],
+    userId: string
+  ) {
+    return await this.serverUserRepository.find({
+      server: serverIds,
+      user: userId,
+      status: ServerUserStatus.Joined,
+    });
   }
 }
