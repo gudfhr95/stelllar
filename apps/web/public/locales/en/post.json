@@ -1,3 +1,13 @@
 {
-  "create": "Create Post"
+  "create": {
+    "label": "Create Post",
+    "tab": {
+      "text": "Text",
+      "image": "Image",
+      "link": "Link"
+    },
+    "title": "Title",
+    "submit": "Submit",
+    "cancel": "Cancel"
+  }
 }

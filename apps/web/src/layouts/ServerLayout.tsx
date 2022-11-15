@@ -1,4 +1,5 @@
 import { PropsWithChildren } from "react";
+import CreatePostDialog from "../components/dialog/CreatePostDialog";
 import ServerSettingDialog from "../components/dialog/ServerSettingDialog";
 import ServerHeader from "../components/server/ServerHeader";
 import ServerSidebar from "../components/server/ServerSidebar";
@@ -15,6 +16,7 @@ export default function ServerLayout({
   return (
     <>
       <ServerSettingDialog server={server} />
+      <CreatePostDialog />
       <ServerSidebar server={server} />
       <div className="flex flex-col flex-grow">
         <ServerHeader />

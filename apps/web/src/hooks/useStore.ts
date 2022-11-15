@@ -21,6 +21,9 @@ type Store = {
 
   serverSettingDialog: boolean;
   setServerSettingDialog: (open: boolean) => void;
+
+  createPostDialog: boolean;
+  setCreatePostDialog: (open: boolean) => void;
 };
 
 export const useStore = create<Store>()((set, get) => ({
@@ -44,4 +47,7 @@ export const useStore = create<Store>()((set, get) => ({
 
   serverSettingDialog: false,
   setServerSettingDialog: (open) => set({ serverSettingDialog: open }),
+
+  createPostDialog: false,
+  setCreatePostDialog: (open) => set({ createPostDialog: open }),
 }));
