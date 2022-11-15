@@ -1,8 +1,7 @@
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { ServerCategory } from "../../graphql/hooks";
-import { useExploreCategory } from "../../hooks/useExploreCategory";
-import { useExploreSort } from "../../hooks/useExploreSort";
 import { getCategoryIcon } from "../../utils/getCategoryIcon";
 import { IconNew, IconTop } from "../ui/icons/Icons";
 import Sidebar from "../ui/sidebar/Sidebar";
@@ -16,14 +15,16 @@ type Category = {
 
 function Category({ category }: Category) {
   const { t } = useTranslation("explore");
-
-  const { exploreCategory, setExploreCategory } = useExploreCategory();
+  const router = useRouter();
 
   const Icon = getCategoryIcon(category);
   return (
     <SidebarItem
-      onClick={() => setExploreCategory(category)}
-      active={exploreCategory === category}
+      to={{
+        pathname: router.pathname,
+        query: { ...router.query, category },
+      }}
+      active={router.query.category === category}
     >
       <Icon className={`w-5 h-5 mr-3`} />
       {category ? t(`category.${category}`) : t("category.All")}
@@ -38,13 +39,16 @@ type Sort = {
 };
 
 function Sort({ sort, label, icon }: Sort) {
-  const { exploreSort, setExploreSort } = useExploreSort();
+  const router = useRouter();
 
   const Icon = icon;
   return (
     <SidebarItem
-      onClick={() => setExploreSort(sort)}
-      active={exploreSort === sort}
+      to={{
+        pathname: router.pathname,
+        query: { ...router.query, sort },
+      }}
+      active={router.query.sort === sort}
     >
       <Icon className="w-5 h-5 mr-3" />
       {label}
@@ -78,7 +82,7 @@ export default function ExploreSidebar() {
         <SidebarLabel>{t("category.title")}</SidebarLabel>
 
         <div className="space-y-0.5">
-          <Category category={null} />
+          <Category category="All" />
           {categories.map((category) => (
             <Category key={category} category={category} />
           ))}

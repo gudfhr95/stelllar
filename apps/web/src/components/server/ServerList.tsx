@@ -44,7 +44,7 @@ export default function ServerList({ hide = false }) {
 
             <ServerListItem
               name={t("explore")}
-              to="/explore"
+              to="/explore?sort=Top&category=All"
               active={exploreActive}
               className={
                 exploreActive

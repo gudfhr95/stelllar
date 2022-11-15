@@ -44,9 +44,9 @@ const activeClassName = (light: boolean) =>
 `);
 
 type SidebarItem = {
-  to?: string;
+  to?: string | {};
   active?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
   small?: boolean;
   large?: boolean;
   light?: boolean;

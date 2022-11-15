@@ -24,12 +24,6 @@ type Store = {
 
   serverSettingDialog: boolean;
   setServerSettingDialog: (open: boolean) => void;
-
-  exploreSort: string;
-  setExploreSort: (sort: string) => void;
-
-  exploreCategory: string | null;
-  setExploreCategory: (category: string | null) => void;
 };
 
 export const useStore = create<Store>()((set, get) => ({
@@ -56,10 +50,4 @@ export const useStore = create<Store>()((set, get) => ({
 
   serverSettingDialog: false,
   setServerSettingDialog: (open) => set({ serverSettingDialog: open }),
-
-  exploreSort: "Top",
-  setExploreSort: (sort) => set({ exploreSort: sort }),
-
-  exploreCategory: null,
-  setExploreCategory: (category) => set({ exploreCategory: category }),
 }));

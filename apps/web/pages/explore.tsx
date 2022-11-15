@@ -6,7 +6,6 @@ import ServerInfoCard from "../src/components/server/ServerInfoCard";
 import EndReached from "../src/components/ui/EndReached";
 import { PublicServersDocument, Server } from "../src/graphql/hooks";
 import ExploreLayout from "../src/layouts/ExploreLayout";
-import { capitalizeFirstLetter } from "../src/utils/capitalizeFirstLetter";
 
 export default function Explore({
   servers,
@@ -42,10 +41,9 @@ export const getServerSideProps: GetServerSideProps<{
   const { data } = await client.query({
     query: PublicServersDocument,
     variables: {
-      sort: query.sort ? capitalizeFirstLetter(query.sort as string) : null,
-      category: query.category
-        ? capitalizeFirstLetter(query.category as string)
-        : null,
+      sort: query.sort ?? null,
+      category:
+        query.category && query.category !== "All" ? query.category : null,
     },
     fetchPolicy: "no-cache",
     context: {
