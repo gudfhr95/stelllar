@@ -9439,17 +9439,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"file-type@npm:16.5.3":
-  version: 16.5.3
-  resolution: "file-type@npm:16.5.3"
-  dependencies:
-    readable-web-to-node-stream: ^3.0.0
-    strtok3: ^6.2.4
-    token-types: ^4.1.1
-  checksum: 38a4443d0f7b9b3de8a44a1d75d441f9ddb544a1adbf22ec7bc07d135452c3464000c64daa51220ffec6a38ceec7565a1290337bd81aab2e6273c79db5ed9ef3
-  languageName: node
-  linkType: hard
-
 "file-type@npm:^16.5.2":
   version: 16.5.4
   resolution: "file-type@npm:16.5.4"
@@ -15243,7 +15232,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-contenteditable@npm:^3.3.5":
+"react-contenteditable@npm:^3.3.5, react-contenteditable@npm:^3.3.6":
   version: 3.3.6
   resolution: "react-contenteditable@npm:3.3.6"
   dependencies:
@@ -16540,7 +16529,6 @@ __metadata:
     dataloader: ^2.1.0
     eslint: 8.26.0
     eslint-config-nestjs: "*"
-    file-type: 16.5.3
     file-type-cjs: ^1.0.7
     got-cjs: ^12.5.4
     graphql: ^16.6.0
@@ -18911,6 +18899,7 @@ __metadata:
     next-i18next: ^12.1.0
     postcss: ^8.4.18
     react: ^18.2.0
+    react-contenteditable: ^3.3.6
     react-dom: ^18.2.0
     react-hook-form: ^7.39.1
     react-hot-toast: ^2.4.0

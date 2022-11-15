@@ -12,6 +12,9 @@
     "link": {
       "label": "Link URL",
       "error": "Must be a valid URL"
+    },
+    "image": {
+      "label": "Drag 'n' drop some images here, or click to select images"
     }
   }
 }

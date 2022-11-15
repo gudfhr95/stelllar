@@ -5,7 +5,11 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDebounce } from "react-use";
-import { Server, useGetLinkMetadataQuery } from "../../graphql/hooks";
+import {
+  LinkMetadata,
+  Server,
+  useGetLinkMetadataQuery,
+} from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
 import { useCreatePostDialog } from "../../hooks/useCreatePostDialog";
 import PostEmbed from "../post/PostEmbed";
@@ -15,8 +19,10 @@ import Editor from "../ui/editor/Editor";
 import {
   IconFormatImage,
   IconLinkChain,
+  IconPlus,
   IconSpinner,
   IconText,
+  IconX,
 } from "../ui/icons/Icons";
 
 const labelClass = ctl(`
@@ -95,10 +101,34 @@ const Tab = {
   Image: "Image",
 };
 
+function readFileAsDataURL(file: any) {
+  return new Promise(function (resolve, reject) {
+    let fr = new FileReader();
+
+    fr.onload = function () {
+      resolve(fr.result);
+    };
+
+    fr.onerror = function () {
+      reject(fr);
+    };
+
+    fr.readAsDataURL(file);
+  });
+}
+
 export default function CreatePostDialog() {
   const { t } = useTranslation("post");
   const { query } = useRouter();
   const user = useAuth();
+
+  useEffect(() => {
+    setServer(
+      query.server
+        ? user && user.servers.find((s: Server) => s.name == query.server)
+        : null
+    );
+  }, [query.server]);
 
   const { createPostDialog: open, setCreatePostDialog: setOpen } =
     useCreatePostDialog();
@@ -122,16 +152,64 @@ export default function CreatePostDialog() {
     skip: !debouncedLinkUrl || !isURL(debouncedLinkUrl),
   });
   const linkMeta = linkMetadata?.getLinkMetadata;
+  const [images, setImages] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(0);
 
-  console.log(linkMetadata);
+  const onChangeImages = (e: any) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      setImages(
+        Array.from(files).map((file) => ({
+          file,
+          caption: "",
+          linkUrl: "",
+        })) as []
+      );
+      let readers = [];
+      for (let i = 0; i < files.length; i++) {
+        readers.push(readFileAsDataURL(files[i]));
+      }
+      Promise.all(readers).then((values) =>
+        setImages(
+          values.map((data, i) => ({
+            file: files[i],
+            caption: "",
+            linkUrl: "",
+            data,
+          })) as []
+        )
+      );
+    }
+  };
 
-  useEffect(() => {
-    setServer(
-      query.server
-        ? user && user.servers.find((s: Server) => s.name == query.server)
-        : null
-    );
-  }, [query.server]);
+  const onAddImages = (e: any) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      setImages([
+        ...images,
+        ...Array.from(files).map((file) => ({
+          file,
+          caption: "",
+          linkUrl: "",
+        })),
+      ] as []);
+      let readers = [];
+      for (let i = 0; i < files.length; i++) {
+        readers.push(readFileAsDataURL(files[i]));
+      }
+      Promise.all(readers).then((values) => {
+        setImages([
+          ...images,
+          ...values.map((data, i) => ({
+            file: files[i],
+            caption: "",
+            linkUrl: "",
+            data,
+          })),
+        ] as []);
+      });
+    }
+  };
 
   const close = () => {
     setOpen(false);
@@ -249,10 +327,94 @@ export default function CreatePostDialog() {
 
               {debouncedLinkUrl && isURL(debouncedLinkUrl) && !!linkMeta && (
                 <div className="mt-5">
-                  <PostEmbed dark metadata={linkMeta} />
+                  <PostEmbed dark metadata={linkMeta as LinkMetadata} />
                 </div>
               )}
             </>
+          )}
+
+          {currentTab === Tab.Image && (
+            <div className="mt-5">
+              {images && images.length > 0 ? (
+                <div>
+                  <div className="flex">
+                    <div className="flex scrollbar-custom items-center space-x-3 overflow-x-auto border dark:border-gray-700 rounded-md h-31 px-3 max-w-full w-full">
+                      {images.map((image: any, i) => (
+                        <div
+                          key={i}
+                          onClick={() => setSelectedImage(i)}
+                          className={`cursor-pointer group relative rounded border ${
+                            selectedImage === i
+                              ? "dark:border-gray-500"
+                              : "dark:border-transparent"
+                          }`}
+                        >
+                          <div
+                            className={`max-w-25 max-h-25 min-w-[6.25rem] min-h-[6.25rem] transform ${
+                              selectedImage === i ? "scale-85" : ""
+                            }`}
+                          >
+                            <div
+                              className="absolute top-1 right-1 rounded-full bg-black p-0.5 hidden group-hover:block z-10"
+                              onClick={() => {
+                                if (selectedImage >= i && selectedImage > 0) {
+                                  setImmediate(() =>
+                                    setSelectedImage(selectedImage - 1)
+                                  );
+                                }
+                                const newImages = images.slice();
+                                newImages.splice(i, 1);
+                                setImages(newImages);
+                              }}
+                            >
+                              <IconX className="w-4.5 h-4.5 text-white" />
+                            </div>
+                            <div className="absolute inset-0 bg-black rounded bg-opacity-0 group-hover:bg-opacity-50" />
+                            <div
+                              style={{ backgroundImage: `url(${image.data})` }}
+                              className={`max-w-25 max-h-25 min-w-[6.25rem] min-h-[6.25rem] bg-cover bg-center select-none rounded`}
+                            />
+                          </div>
+                        </div>
+                      ))}
+
+                      <div className="w-25 h-25 rounded relative flex items-center justify-center border dark:border-gray-700 border-dashed cursor-pointer transition dark:hover:bg-gray-775">
+                        <input
+                          type="file"
+                          id="file"
+                          accept="image/png,image/jpeg,image/webp,image/gif"
+                          hidden
+                          multiple
+                          onChange={onAddImages}
+                        />
+                        <label
+                          htmlFor="file"
+                          className="absolute inset-0 block cursor-pointer"
+                        />
+                        <IconPlus className="w-1/2 h-1/2 text-tertiary" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="relative">
+                  <input
+                    type="file"
+                    id="files"
+                    accept="image/png,image/jpeg,image/webp,image/gif"
+                    hidden
+                    multiple
+                    onChange={onChangeImages}
+                  />
+                  <label
+                    htmlFor="files"
+                    className="select-none cursor-pointer flex items-center justify-center text-base text-tertiary h-30 border border-dashed dark:border-gray-700 rounded-md transition dark:hover:bg-gray-775"
+                  >
+                    {t("create.image.label")}
+                  </label>
+                </div>
+              )}
+            </div>
           )}
 
           <div className="flex items-center pt-5">
