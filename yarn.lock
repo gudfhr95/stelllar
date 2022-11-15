@@ -4351,7 +4351,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tiptap/extension-underline@npm:^2.0.0-beta.15":
+"@tiptap/extension-underline@npm:^2.0.0-beta.15, @tiptap/extension-underline@npm:^2.0.0-beta.202":
   version: 2.0.0-beta.202
   resolution: "@tiptap/extension-underline@npm:2.0.0-beta.202"
   peerDependencies:
@@ -4360,7 +4360,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tiptap/react@npm:^2.0.0-beta.52":
+"@tiptap/react@npm:^2.0.0-beta.202, @tiptap/react@npm:^2.0.0-beta.52":
   version: 2.0.0-beta.202
   resolution: "@tiptap/react@npm:2.0.0-beta.202"
   dependencies:
@@ -4375,7 +4375,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tiptap/starter-kit@npm:^2.0.0-beta.82":
+"@tiptap/starter-kit@npm:^2.0.0-beta.202, @tiptap/starter-kit@npm:^2.0.0-beta.82":
   version: 2.0.0-beta.202
   resolution: "@tiptap/starter-kit@npm:2.0.0-beta.202"
   dependencies:
@@ -18663,6 +18663,9 @@ __metadata:
     "@tailwindcss/line-clamp": ^0.4.2
     "@tailwindcss/typography": ^0.5.7
     "@tippyjs/react": ^4.2.6
+    "@tiptap/extension-underline": ^2.0.0-beta.202
+    "@tiptap/react": ^2.0.0-beta.202
+    "@tiptap/starter-kit": ^2.0.0-beta.202
     "@types/apollo-upload-client": ^17.0.2
     "@types/node": ^18.11.9
     "@types/react": ^18.0.25

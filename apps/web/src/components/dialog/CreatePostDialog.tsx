@@ -8,6 +8,7 @@ import useAuth from "../../hooks/useAuth";
 import { useCreatePostDialog } from "../../hooks/useCreatePostDialog";
 import ServerSelect from "../post/ServerSelect";
 import Dialog from "../ui/dialog/Dialog";
+import Editor from "../ui/editor/Editor";
 import { IconFormatImage, IconLinkChain, IconText } from "../ui/icons/Icons";
 
 const labelClass = ctl(`
@@ -100,6 +101,7 @@ export default function CreatePostDialog() {
   const { register, handleSubmit, reset, formState, watch, setValue, trigger } =
     useForm({ mode: "onChange" });
   const title = watch("title");
+  const [text, setText] = useState("");
 
   useEffect(() => {
     setServer(
@@ -167,6 +169,12 @@ export default function CreatePostDialog() {
               id="title"
             />
           </div>
+
+          {currentTab === Tab.Text && (
+            <div className="pt-5">
+              <Editor text={text} setText={setText} />
+            </div>
+          )}
 
           <div className="flex items-center pt-5">
             <div className="ml-auto flex items-center space-x-3">
