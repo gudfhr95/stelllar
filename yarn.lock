@@ -2922,6 +2922,36 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@metascraper/helpers@npm:^5.31.3":
+  version: 5.31.3
+  resolution: "@metascraper/helpers@npm:5.31.3"
+  dependencies:
+    audio-extensions: 0.0.0
+    chrono-node: 2.4.1
+    condense-whitespace: ~2.0.0
+    entities: ~4.4.0
+    file-extension: ~4.0.5
+    has-values: ~2.0.1
+    image-extensions: ~1.1.0
+    is-relative-url: ~3.0.0
+    is-uri: ~1.2.4
+    iso-639-3: ~2.2.0
+    isostring: 0.0.1
+    jsdom: ~20.0.0
+    lodash: ~4.17.21
+    memoize-one: ~6.0.0
+    microsoft-capitalize: ~1.0.5
+    mime: ~3.0.0
+    normalize-url: ~6.1.0
+    re2: ~1.17.7
+    smartquotes: ~2.3.2
+    tldts: ~5.7.92
+    url-regex-safe: ~3.0.0
+    video-extensions: ~1.2.0
+  checksum: fb3c49304220db0b9d85a2eefa5451d67aef3332fb896f429abe02f6fa81e57ca25bf20bd9449ab12a46ff8488dd94d6e204a48e4323dd164fdad103dcc2c4a5
+  languageName: node
+  linkType: hard
+
 "@mikro-orm/cli@npm:^5.5.2":
   version: 5.5.2
   resolution: "@mikro-orm/cli@npm:5.5.2"
@@ -3946,7 +3976,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sindresorhus/is@npm:^4.0.0":
+"@sindresorhus/is@npm:4.6.0, @sindresorhus/is@npm:^4.0.0":
   version: 4.6.0
   resolution: "@sindresorhus/is@npm:4.6.0"
   checksum: 83839f13da2c29d55c97abc3bc2c55b250d33a0447554997a85c539e058e57b8da092da396e252b11ec24a0279a0bed1f537fa26302209327060643e327f81d2
@@ -3992,7 +4022,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@szmarczak/http-timer@npm:^4.0.5":
+"@szmarczak/http-timer@npm:4.0.6, @szmarczak/http-timer@npm:^4.0.5":
   version: 4.0.6
   resolution: "@szmarczak/http-timer@npm:4.0.6"
   dependencies:
@@ -5047,7 +5077,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/responselike@npm:^1.0.0":
+"@types/responselike@npm:1.0.0, @types/responselike@npm:^1.0.0":
   version: 1.0.0
   resolution: "@types/responselike@npm:1.0.0"
   dependencies:
@@ -6678,6 +6708,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cacheable-lookup@npm:6.1.0":
+  version: 6.1.0
+  resolution: "cacheable-lookup@npm:6.1.0"
+  checksum: 4e37afe897219b1035335b0765106a2c970ffa930497b43cac5000b860f3b17f48d004187279fae97e2e4cbf6a3693709b6d64af65279c7d6c8453321d36d118
+  languageName: node
+  linkType: hard
+
 "cacheable-lookup@npm:^5.0.3":
   version: 5.0.4
   resolution: "cacheable-lookup@npm:5.0.4"
@@ -6685,7 +6722,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cacheable-request@npm:^7.0.2":
+"cacheable-request@npm:7.0.2, cacheable-request@npm:^7.0.2":
   version: 7.0.2
   resolution: "cacheable-request@npm:7.0.2"
   dependencies:
@@ -9391,6 +9428,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"file-type-cjs@npm:^1.0.7":
+  version: 1.0.7
+  resolution: "file-type-cjs@npm:1.0.7"
+  dependencies:
+    peek-readable: ^4.1.0
+    readable-stream: ^3.6.0
+    token-types: ^4.1.1
+  checksum: f5d02780d81e24414827bc52e67b2441657d67aef66cec0cbdc46ea5cd75270b0cd40fd6115a0de32b5cd7b0e667d1dfd766fd18cdcab266727cff9ee7e979a1
+  languageName: node
+  linkType: hard
+
+"file-type@npm:16.5.3":
+  version: 16.5.3
+  resolution: "file-type@npm:16.5.3"
+  dependencies:
+    readable-web-to-node-stream: ^3.0.0
+    strtok3: ^6.2.4
+    token-types: ^4.1.1
+  checksum: 38a4443d0f7b9b3de8a44a1d75d441f9ddb544a1adbf22ec7bc07d135452c3464000c64daa51220ffec6a38ceec7565a1290337bd81aab2e6273c79db5ed9ef3
+  languageName: node
+  linkType: hard
+
 "file-type@npm:^16.5.2":
   version: 16.5.4
   resolution: "file-type@npm:16.5.4"
@@ -9518,7 +9577,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"form-data-encoder@npm:^1.7.1":
+"form-data-encoder@npm:1.7.2, form-data-encoder@npm:^1.7.1":
   version: 1.7.2
   resolution: "form-data-encoder@npm:1.7.2"
   checksum: aeebd87a1cb009e13cbb5e4e4008e6202ed5f6551eb6d9582ba8a062005178907b90f4887899d3c993de879159b6c0c940af8196725b428b4248cec5af3acf5f
@@ -9886,7 +9945,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"get-stream@npm:^6.0.0":
+"get-stream@npm:^6.0.0, get-stream@npm:^6.0.1":
   version: 6.0.1
   resolution: "get-stream@npm:6.0.1"
   checksum: e04ecece32c92eebf5b8c940f51468cd53554dcbb0ea725b2748be583c9523d00128137966afce410b9b051eb2ef16d657cd2b120ca8edafcf5a65e81af63cad
@@ -10049,6 +10108,26 @@ __metadata:
   dependencies:
     get-intrinsic: ^1.1.3
   checksum: a5ccfb8806e0917a94e0b3de2af2ea4979c1da920bc381667c260e00e7cafdbe844e2cb9c5bcfef4e5412e8bf73bab837285bc35c7ba73aaaf0134d4583393a6
+  languageName: node
+  linkType: hard
+
+"got-cjs@npm:^12.5.4":
+  version: 12.5.4
+  resolution: "got-cjs@npm:12.5.4"
+  dependencies:
+    "@sindresorhus/is": 4.6.0
+    "@szmarczak/http-timer": 4.0.6
+    "@types/responselike": 1.0.0
+    cacheable-lookup: 6.1.0
+    cacheable-request: 7.0.2
+    decompress-response: ^6.0.0
+    form-data-encoder: 1.7.2
+    get-stream: ^6.0.1
+    http2-wrapper: ^2.1.10
+    lowercase-keys: 2.0.0
+    p-cancelable: 2.1.1
+    responselike: 2.0.1
+  checksum: 9babdcaaf68b3323537e731ff02c0d7380112f1d97d49923249b1bc0125401c02ed0034915edb4b6e1e7766627a97b91c226e2dcf76797b16e3cb9a51fb2c08e
   languageName: node
   linkType: hard
 
@@ -10534,6 +10613,16 @@ __metadata:
     quick-lru: ^5.1.1
     resolve-alpn: ^1.0.0
   checksum: 74160b862ec699e3f859739101ff592d52ce1cb207b7950295bf7962e4aa1597ef709b4292c673bece9c9b300efad0559fc86c71b1409c7a1e02b7229456003e
+  languageName: node
+  linkType: hard
+
+"http2-wrapper@npm:^2.1.10":
+  version: 2.1.11
+  resolution: "http2-wrapper@npm:2.1.11"
+  dependencies:
+    quick-lru: ^5.1.1
+    resolve-alpn: ^1.2.0
+  checksum: 5da05aa2c77226ac9cc82c616383f59c8f31b79897b02ecbe44b09714be1fca1f21bb184e672a669ca2830eefea4edac5f07e71c00cb5a8c5afec8e5a20cfaf7
   languageName: node
   linkType: hard
 
@@ -12642,7 +12731,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lowercase-keys@npm:^2.0.0":
+"lowercase-keys@npm:2.0.0, lowercase-keys@npm:^2.0.0":
   version: 2.0.0
   resolution: "lowercase-keys@npm:2.0.0"
   checksum: 24d7ebd56ccdf15ff529ca9e08863f3c54b0b9d1edb97a3ae1af34940ae666c01a1e6d200707bce730a8ef76cb57cc10e65f245ecaaf7e6bc8639f2fb460ac23
@@ -12847,6 +12936,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"metascraper-author@npm:^5.31.3":
+  version: 5.31.3
+  resolution: "metascraper-author@npm:5.31.3"
+  dependencies:
+    "@metascraper/helpers": ^5.31.3
+  checksum: 0e8079f992ab27cc12c042cf07a81c2841ddb25de20bea95ed9e3f33c75ab2fce270fc90de75f606b951d181763835cf8a7fbe920ad28a567567266a85248e8c
+  languageName: node
+  linkType: hard
+
 "metascraper-clearbit@npm:^5.22.11":
   version: 5.31.1
   resolution: "metascraper-clearbit@npm:5.31.1"
@@ -12861,12 +12959,34 @@ __metadata:
   languageName: node
   linkType: hard
 
+"metascraper-clearbit@npm:^5.31.3":
+  version: 5.31.3
+  resolution: "metascraper-clearbit@npm:5.31.3"
+  dependencies:
+    "@keyvhq/memoize": ~1.6.14
+    "@metascraper/helpers": ^5.31.3
+    async-memoize-one: ~1.1.2
+    got: ~11.8.5
+    lodash: ~4.17.21
+  checksum: 954eb7428465a3d808b5e161d0fd131667ea209834f8ce5ac07970b25c950fd5502d6d167ae794381e4b05301375d2c9833e724983a4c08a04a407f034edd138
+  languageName: node
+  linkType: hard
+
 "metascraper-date@npm:^5.22.11":
   version: 5.31.1
   resolution: "metascraper-date@npm:5.31.1"
   dependencies:
     "@metascraper/helpers": ^5.31.1
   checksum: 8b55d37a6adb0e25fd65761b44559d97dcd26733a1943e37cb648d3373c8a181d015a6adc4dca8cd3e583c190dbdfcd46b24e9bb5e2136944d7265d41e16a662
+  languageName: node
+  linkType: hard
+
+"metascraper-date@npm:^5.31.3":
+  version: 5.31.3
+  resolution: "metascraper-date@npm:5.31.3"
+  dependencies:
+    "@metascraper/helpers": ^5.31.3
+  checksum: 09738ce5e8dec8cd6c10e5ec9e5ad9de3e0f463105a8fac596ac166fad098d1442757e3db7cec10727b79d926f3da4ec5805b6472d689f676e8f57bccb086029
   languageName: node
   linkType: hard
 
@@ -12888,6 +13008,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"metascraper-image@npm:^5.31.3":
+  version: 5.31.3
+  resolution: "metascraper-image@npm:5.31.3"
+  dependencies:
+    "@metascraper/helpers": ^5.31.3
+  checksum: 855d6605590dec476533f1895f38cf79b2b976737a673ab81737a371dec1c8748c3e05e25491cf867fae20d531dc80b46cd44ec9a71cb7b888147dc4ecda2aec
+  languageName: node
+  linkType: hard
+
 "metascraper-logo@npm:^5.22.11":
   version: 5.31.1
   resolution: "metascraper-logo@npm:5.31.1"
@@ -12895,6 +13024,16 @@ __metadata:
     "@metascraper/helpers": ^5.31.1
     lodash: ~4.17.21
   checksum: edf6fdc3a510ab73dcd47e8fb749d68cb6e929315d3a26b8106d468c40c1d0333e113b9c016bbeefca9695bceab8d6d82739d172e71208622689f76b17ddca97
+  languageName: node
+  linkType: hard
+
+"metascraper-logo@npm:^5.31.3":
+  version: 5.31.3
+  resolution: "metascraper-logo@npm:5.31.3"
+  dependencies:
+    "@metascraper/helpers": ^5.31.3
+    lodash: ~4.17.21
+  checksum: 45e42f2b2e32fb273a99c3d8cd84c3e2a1f14ca3ef8f3eee8db124e5cd564fd5988926d544005ffce0df6475e5a5315b082abd59d73fc912258da1f26f7b7713
   languageName: node
   linkType: hard
 
@@ -12907,6 +13046,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"metascraper-publisher@npm:^5.31.3":
+  version: 5.31.3
+  resolution: "metascraper-publisher@npm:5.31.3"
+  dependencies:
+    "@metascraper/helpers": ^5.31.3
+  checksum: 0719bf2e5ee08ac4d800a5434e804eb73775d2ddcc046b8b04fe628e3a08506173a53b8d52e19e246350d2696a78951e001384747da75d906c2ce614d7158192
+  languageName: node
+  linkType: hard
+
 "metascraper-title@npm:^5.22.11":
   version: 5.31.1
   resolution: "metascraper-title@npm:5.31.1"
@@ -12916,12 +13064,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"metascraper-title@npm:^5.31.3":
+  version: 5.31.3
+  resolution: "metascraper-title@npm:5.31.3"
+  dependencies:
+    "@metascraper/helpers": ^5.31.3
+  checksum: 095362a07de4d747493caa3a7a81f3652988f14f9417c9b456fe534782efa002b74735e971f5cc9bf2e4cb6c127b008b5a3b398998103adb87ae2f6879970dad
+  languageName: node
+  linkType: hard
+
 "metascraper-url@npm:^5.22.11":
   version: 5.31.1
   resolution: "metascraper-url@npm:5.31.1"
   dependencies:
     "@metascraper/helpers": ^5.31.1
   checksum: 53c7abb5c5e08f3304d266557a05599e847d067ffc84313a7fef0809c27682dfd7227e15535bb86f1bca0a2767c1d76d1251b81000dfd9ba100114bd65c6e540
+  languageName: node
+  linkType: hard
+
+"metascraper-url@npm:^5.31.3":
+  version: 5.31.3
+  resolution: "metascraper-url@npm:5.31.3"
+  dependencies:
+    "@metascraper/helpers": ^5.31.3
+  checksum: 9129d1367ef774c5e0c53cbe7263d16fa959be2ffe6814b2a3ceb0573f2b4817676fb638cb0f8565fda045516a58caffaca7318feed9496aecd0ddf0f3393a29
   languageName: node
   linkType: hard
 
@@ -12937,6 +13103,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"metascraper-youtube@npm:^5.31.3":
+  version: 5.31.3
+  resolution: "metascraper-youtube@npm:5.31.3"
+  dependencies:
+    "@metascraper/helpers": ^5.31.3
+    get-video-id: ~3.6.5
+    p-locate: ~5.0.0
+    reachable-url: ~1.7.0
+  checksum: 4ed22acf340727b36e805832e19bf27d97a63b63dd3a4c10911136df804b8b025ec4cf283da2fe1fcec783d7c6db20ee950e3842717b5e1c8bdc6fee91509960
+  languageName: node
+  linkType: hard
+
 "metascraper@npm:^5.22.11":
   version: 5.31.1
   resolution: "metascraper@npm:5.31.1"
@@ -12946,6 +13124,18 @@ __metadata:
     lodash: ~4.17.21
     whoops: ~4.1.2
   checksum: becef786f7fb8ed4d3f8549a09d39efda2275926f093da59876010277e256c4217493fc7f859065e9e511341c7c04824af2a353c608d8c717330750898f4caaa
+  languageName: node
+  linkType: hard
+
+"metascraper@npm:^5.32.0":
+  version: 5.32.0
+  resolution: "metascraper@npm:5.32.0"
+  dependencies:
+    "@metascraper/helpers": ^5.31.3
+    cheerio: ~1.0.0-rc.12
+    lodash: ~4.17.21
+    whoops: ~4.1.2
+  checksum: 946e39538d8e6b89f4d808bf95d6d2c2577cdc1d325ae427ec79f9cce04e7c07f829da18d6f20e312806e6e8162baf71e6bad14698df5dcb4f31c494a30eb341
   languageName: node
   linkType: hard
 
@@ -13959,7 +14149,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"p-cancelable@npm:^2.0.0":
+"p-cancelable@npm:2.1.1, p-cancelable@npm:^2.0.0":
   version: 2.1.1
   resolution: "p-cancelable@npm:2.1.1"
   checksum: 3dba12b4fb4a1e3e34524535c7858fc82381bbbd0f247cc32dedc4018592a3950ce66b106d0880b4ec4c2d8d6576f98ca885dc1d7d0f274d1370be20e9523ddf
@@ -14734,7 +14924,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.6.2, prop-types@npm:^15.7.1, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:15.8.1, prop-types@npm:^15.6.2, prop-types@npm:^15.7.1, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -15378,7 +15568,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-use@npm:^17.2.4":
+"react-use@npm:^17.2.4, react-use@npm:^17.4.0":
   version: 17.4.0
   resolution: "react-use@npm:17.4.0"
   dependencies:
@@ -15437,6 +15627,19 @@ __metadata:
     react: ">=16 || >=17 || >= 18"
     react-dom: ">=16 || >=17 || >= 18"
   checksum: 4030091da3de1aa96e72919735b443ccc4a0cc107473f948458d4c72d941c58469c11f8435c4c235778c5e656c89cce95c29bd773e5149874ee9971798a73924
+  languageName: node
+  linkType: hard
+
+"react-youtube@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "react-youtube@npm:10.0.0"
+  dependencies:
+    fast-deep-equal: 3.1.3
+    prop-types: 15.8.1
+    youtube-player: 5.5.2
+  peerDependencies:
+    react: ">=0.14.1"
+  checksum: e6d4c141b855e0f602493bad2bff18aef4ba227052966a8224ecff557384bf47ae944938066cae413db1e7c877eda9de655d2586fd77885b94637bfa3835ec40
   languageName: node
   linkType: hard
 
@@ -15734,7 +15937,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve-alpn@npm:^1.0.0":
+"resolve-alpn@npm:^1.0.0, resolve-alpn@npm:^1.2.0":
   version: 1.2.1
   resolution: "resolve-alpn@npm:1.2.1"
   checksum: f558071fcb2c60b04054c99aebd572a2af97ef64128d59bef7ab73bd50d896a222a056de40ffc545b633d99b304c259ea9d0c06830d5c867c34f0bfa60b8eae0
@@ -15837,7 +16040,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"responselike@npm:^2.0.0":
+"responselike@npm:2.0.1, responselike@npm:^2.0.0":
   version: 2.0.1
   resolution: "responselike@npm:2.0.1"
   dependencies:
@@ -16337,10 +16540,23 @@ __metadata:
     dataloader: ^2.1.0
     eslint: 8.26.0
     eslint-config-nestjs: "*"
+    file-type: 16.5.3
+    file-type-cjs: ^1.0.7
+    got-cjs: ^12.5.4
     graphql: ^16.6.0
     graphql-scalars: ^1.20.0
     graphql-upload-minimal: ^1.5.4
     jest: 29.2.2
+    metascraper: ^5.32.0
+    metascraper-author: ^5.31.3
+    metascraper-clearbit: ^5.31.3
+    metascraper-date: ^5.31.3
+    metascraper-image: ^5.31.3
+    metascraper-logo: ^5.31.3
+    metascraper-publisher: ^5.31.3
+    metascraper-title: ^5.31.3
+    metascraper-url: ^5.31.3
+    metascraper-youtube: ^5.31.3
     mime: ^3.0.0
     mudder: ^2.1.0
     passport: ^0.6.0
@@ -16357,6 +16573,7 @@ __metadata:
     ts-node: ^10.9.1
     tsconfig-paths: 4.1.0
     typescript: ^4.8.4
+    user-agents: ^1.0.1199
     uuid: ^9.0.0
   languageName: unknown
   linkType: soft
@@ -18311,6 +18528,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"user-agents@npm:^1.0.1199":
+  version: 1.0.1199
+  resolution: "user-agents@npm:1.0.1199"
+  dependencies:
+    dot-json: ^1.2.2
+    lodash.clonedeep: ^4.5.0
+  checksum: 0d62884848d9a9331f92aa71d84830214e58069beb9896022285ca08f118a0f010694d0ccf05aac0cbf323ea98b549c6877112527efac0cf2ad373a7169ff671
+  languageName: node
+  linkType: hard
+
 "user-agents@npm:^1.0.719":
   version: 1.0.1194
   resolution: "user-agents@npm:1.0.1194"
@@ -18673,6 +18900,7 @@ __metadata:
     apollo-upload-client: ^17.0.0
     autoprefixer: ^10.4.13
     axios: ^1.1.3
+    class-validator: ^0.13.2
     eslint: 8.26.0
     eslint-config-custom: "*"
     framer-motion: ^7.6.6
@@ -18687,7 +18915,9 @@ __metadata:
     react-hook-form: ^7.39.1
     react-hot-toast: ^2.4.0
     react-i18next: ^12.0.0
+    react-use: ^17.4.0
     react-virtuoso: ^3.1.3
+    react-youtube: ^10.0.0
     tailwind-scrollbar: ^2.0.1
     tailwindcss: ^3.2.2
     tippy.js: ^6.3.7

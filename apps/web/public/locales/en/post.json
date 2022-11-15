@@ -8,6 +8,10 @@
     },
     "title": "Title",
     "submit": "Submit",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "link": {
+      "label": "Link URL",
+      "error": "Must be a valid URL"
+    }
   }
 }

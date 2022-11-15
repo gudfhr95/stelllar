@@ -1,15 +1,23 @@
 import ctl from "@netlify/classnames-template-literals";
+import { isURL } from "class-validator";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Server } from "../../graphql/hooks";
+import { useDebounce } from "react-use";
+import { Server, useGetLinkMetadataQuery } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
 import { useCreatePostDialog } from "../../hooks/useCreatePostDialog";
+import PostEmbed from "../post/PostEmbed";
 import ServerSelect from "../post/ServerSelect";
 import Dialog from "../ui/dialog/Dialog";
 import Editor from "../ui/editor/Editor";
-import { IconFormatImage, IconLinkChain, IconText } from "../ui/icons/Icons";
+import {
+  IconFormatImage,
+  IconLinkChain,
+  IconSpinner,
+  IconText,
+} from "../ui/icons/Icons";
 
 const labelClass = ctl(`
   block
@@ -102,6 +110,20 @@ export default function CreatePostDialog() {
     useForm({ mode: "onChange" });
   const title = watch("title");
   const [text, setText] = useState("");
+  const linkUrl = watch("linkUrl");
+
+  const [debouncedLinkUrl, setDebouncedLinkUrl] = useState("");
+  useDebounce(() => setDebouncedLinkUrl(linkUrl), 500, [linkUrl]);
+
+  const { data: linkMetadata, loading: loadingMeta } = useGetLinkMetadataQuery({
+    variables: {
+      linkUrl: debouncedLinkUrl,
+    },
+    skip: !debouncedLinkUrl || !isURL(debouncedLinkUrl),
+  });
+  const linkMeta = linkMetadata?.getLinkMetadata;
+
+  console.log(linkMetadata);
 
   useEffect(() => {
     setServer(
@@ -174,6 +196,63 @@ export default function CreatePostDialog() {
             <div className="pt-5">
               <Editor text={text} setText={setText} />
             </div>
+          )}
+
+          {currentTab === Tab.Link && (
+            <>
+              <div className="pb-5 pt-1.5">
+                {linkMeta?.title && title !== linkMeta?.title && (
+                  <span
+                    className="text-xs text-blue-500 hover:underline cursor-pointer line-clamp-1"
+                    onClick={() => {
+                      setValue("title", linkMeta?.title);
+                      trigger("title");
+                    }}
+                  >
+                    {linkMeta?.title}
+                  </span>
+                )}
+              </div>
+
+              <label
+                htmlFor="linkUrl"
+                className="block text-11 pb-1.5 font-semibold tracking-widest uppercase text-tertiary"
+              >
+                {t("create.link.label")}
+              </label>
+              <div className="relative h-10">
+                <IconLinkChain
+                  className={`top-1/2 left-2.5 transform -translate-y-1/2 absolute w-5 h-5 text-mid`}
+                />
+
+                <input
+                  maxLength={2000}
+                  className="px-10 h-10 dark:bg-gray-750 bg-gray-100 rounded text-sm text-primary w-full focus:outline-none"
+                  {...register("linkUrl", {
+                    validate: (url) => !url || isURL(url),
+                  })}
+                  id="linkUrl"
+                />
+
+                {loadingMeta && (
+                  <div className="top-1/2 right-2.5 transform -translate-y-1/2 absolute">
+                    <IconSpinner />
+                  </div>
+                )}
+              </div>
+
+              {linkUrl && !isURL(linkUrl) && (
+                <div className="text-13 text-red-400 pt-1">
+                  {t("create.link.error")}
+                </div>
+              )}
+
+              {debouncedLinkUrl && isURL(debouncedLinkUrl) && !!linkMeta && (
+                <div className="mt-5">
+                  <PostEmbed dark metadata={linkMeta} />
+                </div>
+              )}
+            </>
           )}
 
           <div className="flex items-center pt-5">

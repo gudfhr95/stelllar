@@ -4,6 +4,7 @@ export {
   RiBasketballFill as IconCategorySports,
   RiFireFill as IconHot,
   RiCodeBoxFill as IconFormatCodeBlock,
+  RiPlayFill as IconPlay,
 } from "react-icons/ri";
 
 export {
@@ -40,6 +41,7 @@ export {
   HiCode as IconFormatCodeInline,
   HiMinus as IconFormatDivider,
   HiEmojiHappy as IconFormatEmoji,
+  HiOutlineExternalLink as IconLinkExternal,
 } from "react-icons/hi";
 
 export {

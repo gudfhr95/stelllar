@@ -1,11 +1,14 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { S3 } from "aws-sdk";
+import { fromStream } from "file-type-cjs";
+import got from "got-cjs";
 import { FileUpload } from "graphql-upload-minimal";
 import * as mime from "mime";
-import * as sharp from "sharp";
+import sharp from "sharp";
 import { Readable } from "stream";
 import { v4 as uuid } from "uuid";
+import { Image } from "../common/entity/image.entity";
 
 export const imageMimeTypes = [
   "image/gif",
@@ -50,6 +53,71 @@ export class FileService {
     }
 
     return await this.uploadFileToS3(ext, body, "image/webp");
+  }
+
+  async uploadImageUrl(linkUrl: string) {
+    const createStream = () => got.stream(linkUrl);
+
+    const fileType = await fromStream(createStream());
+
+    if (!imageMimeTypes.includes(fileType.mime))
+      throw new Error("error.upload.invalidMime");
+
+    const ext = fileType.ext;
+    return await this.uploadImageFile(createStream, ext);
+  }
+
+  async uploadImageFile(createStream: () => any, ext: string) {
+    const originalSharp = this.initSharp();
+    const originalBody = createStream().pipe(originalSharp);
+    const metadata = await originalSharp.metadata();
+    const pages = metadata.pages;
+    const originalWidth = metadata.width;
+    let originalHeight = metadata.height;
+    if (metadata.pageHeight && pages) originalHeight = metadata.pageHeight;
+
+    const originalUrl = await this.uploadFileToS3(
+      ext,
+      originalBody,
+      "image/webp"
+    );
+
+    const image = {
+      originalUrl,
+      originalWidth,
+      originalHeight,
+    } as Image;
+
+    if (pages) {
+      return {
+        ...image,
+        smallUrl: originalUrl,
+        popupUrl: originalUrl,
+      } as Image;
+    } else {
+      const fit = "inside";
+      const smallBody = createStream().pipe(
+        this.initSharp().resize({
+          fit,
+          width: image.smallWidth,
+          height: image.smallHeight,
+        })
+      );
+
+      const popupBody = createStream().pipe(
+        this.initSharp().resize({
+          fit,
+          width: image.popupWidth,
+          height: image.popupHeight,
+        })
+      );
+
+      return {
+        ...image,
+        smallUrl: await this.uploadFileToS3(ext, smallBody, "image/webp"),
+        popupUrl: await this.uploadFileToS3(ext, popupBody, "image/webp"),
+      } as Image;
+    }
   }
 
   async uploadFileToS3(

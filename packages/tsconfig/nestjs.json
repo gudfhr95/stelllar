@@ -18,7 +18,7 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "esModuleInterop": true
   },
   "include": ["../../apps/server/src", "../../apps/server/test"],
   "exclude": ["../../apps/server/migrations"]

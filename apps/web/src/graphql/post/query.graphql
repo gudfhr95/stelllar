@@ -1,0 +1,5 @@
+query getLinkMetadata($linkUrl: String!) {
+  getLinkMetadata(linkUrl: $linkUrl) {
+    ...Metadata
+  }
+}

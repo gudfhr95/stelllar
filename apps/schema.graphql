@@ -47,7 +47,11 @@ type Image {
   originalWidth: PositiveInt!
   originalHeight: PositiveInt!
   smallUrl: String
+  smallWidth: PositiveInt!
+  smallHeight: PositiveInt!
   popupUrl: String
+  popupWidth: PositiveInt!
+  popupHeight: PositiveInt!
 }
 
 """Integers that will have a value greater than 0."""
@@ -279,6 +283,7 @@ type Query {
   me: User
   server(name: String!): Server
   publicServers(sort: PublicServersSort = Top, category: ServerCategory): [Server!]!
+  getLinkMetadata(linkUrl: String!): LinkMetadata
 }
 
 enum PublicServersSort {

@@ -13,6 +13,7 @@ import { MessageModule } from "./message/message.module";
 import { PostModule } from "./post/post.module";
 import { ServerModule } from "./server/server.module";
 import { UserModule } from "./user/user.module";
+import { ScraperModule } from './scraper/scraper.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { UserModule } from "./user/user.module";
     MessageModule,
     AuthModule,
     FileModule,
+    ScraperModule,
   ],
 })
 export class AppModule {}

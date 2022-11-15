@@ -127,8 +127,12 @@ export type Image = {
   originalHeight: Scalars['PositiveInt'];
   originalUrl: Scalars['String'];
   originalWidth: Scalars['PositiveInt'];
+  popupHeight: Scalars['PositiveInt'];
   popupUrl?: Maybe<Scalars['String']>;
+  popupWidth: Scalars['PositiveInt'];
+  smallHeight: Scalars['PositiveInt'];
   smallUrl?: Maybe<Scalars['String']>;
+  smallWidth: Scalars['PositiveInt'];
 };
 
 export type LinkMetadata = {
@@ -226,15 +230,21 @@ export type PostImage = {
 };
 
 export enum PublicServersSort {
-  New = 'new',
-  Top = 'top'
+  New = 'New',
+  Top = 'Top'
 }
 
 export type Query = {
   __typename?: 'Query';
+  getLinkMetadata?: Maybe<LinkMetadata>;
   me?: Maybe<User>;
   publicServers: Array<Server>;
   server?: Maybe<Server>;
+};
+
+
+export type QueryGetLinkMetadataArgs = {
+  linkUrl: Scalars['String'];
 };
 
 
@@ -383,6 +393,17 @@ export enum VoteType {
   Up = 'Up'
 }
 
+export type ImageFragment = { __typename?: 'Image', originalUrl: string, popupUrl?: string | null, popupWidth: any, popupHeight: any, smallUrl?: string | null, smallWidth: any, smallHeight: any };
+
+export type MetadataFragment = { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, popupUrl?: string | null, popupWidth: any, popupHeight: any, smallUrl?: string | null, smallWidth: any, smallHeight: any } | null };
+
+export type GetLinkMetadataQueryVariables = Exact<{
+  linkUrl: Scalars['String'];
+}>;
+
+
+export type GetLinkMetadataQuery = { __typename?: 'Query', getLinkMetadata?: { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, popupUrl?: string | null, popupWidth: any, popupHeight: any, smallUrl?: string | null, smallWidth: any, smallHeight: any } | null } | null };
+
 export type ServerFragment = { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, isJoined: boolean, owner: { __typename?: 'User', id: string } };
 
 export type CreateServerMutationVariables = Exact<{
@@ -456,6 +477,32 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null, servers: Array<{ __typename?: 'Server', id: string, name: string, displayName: string, avatarUrl?: string | null, owner: { __typename?: 'User', id: string } }> } | null };
 
+export const ImageFragmentDoc = gql`
+    fragment Image on Image {
+  originalUrl
+  popupUrl
+  popupWidth
+  popupHeight
+  smallUrl
+  smallWidth
+  smallHeight
+}
+    `;
+export const MetadataFragmentDoc = gql`
+    fragment Metadata on LinkMetadata {
+  author
+  date
+  description
+  image {
+    ...Image
+  }
+  publisher
+  title
+  twitterCard
+  url
+  themeColor
+}
+    ${ImageFragmentDoc}`;
 export const ServerFragmentDoc = gql`
     fragment Server on Server {
   id
@@ -494,6 +541,41 @@ export const CurrentUserFragmentDoc = gql`
   }
 }
     ${UserFragmentDoc}`;
+export const GetLinkMetadataDocument = gql`
+    query getLinkMetadata($linkUrl: String!) {
+  getLinkMetadata(linkUrl: $linkUrl) {
+    ...Metadata
+  }
+}
+    ${MetadataFragmentDoc}`;
+
+/**
+ * __useGetLinkMetadataQuery__
+ *
+ * To run a query within a React component, call `useGetLinkMetadataQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLinkMetadataQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLinkMetadataQuery({
+ *   variables: {
+ *      linkUrl: // value for 'linkUrl'
+ *   },
+ * });
+ */
+export function useGetLinkMetadataQuery(baseOptions: ApolloReactHooks.QueryHookOptions<GetLinkMetadataQuery, GetLinkMetadataQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<GetLinkMetadataQuery, GetLinkMetadataQueryVariables>(GetLinkMetadataDocument, options);
+      }
+export function useGetLinkMetadataLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetLinkMetadataQuery, GetLinkMetadataQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<GetLinkMetadataQuery, GetLinkMetadataQueryVariables>(GetLinkMetadataDocument, options);
+        }
+export type GetLinkMetadataQueryHookResult = ReturnType<typeof useGetLinkMetadataQuery>;
+export type GetLinkMetadataLazyQueryHookResult = ReturnType<typeof useGetLinkMetadataLazyQuery>;
+export type GetLinkMetadataQueryResult = Apollo.QueryResult<GetLinkMetadataQuery, GetLinkMetadataQueryVariables>;
 export const CreateServerDocument = gql`
     mutation CreateServer($input: CreateServerInput!) {
   createServer(input: $input) {
