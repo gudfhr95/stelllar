@@ -1,13 +1,31 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import client from "../../apollo-client";
+import CreatePostHeader from "../../src/components/post/CreatePostHeader";
+import ServerPosts from "../../src/components/server/ServerPosts";
 import { Server, ServerDocument } from "../../src/graphql/hooks";
+import useAuth from "../../src/hooks/useAuth";
 import ServerLayout from "../../src/layouts/ServerLayout";
 
 export default function ServerPage({
   server,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  return <ServerLayout server={server}></ServerLayout>;
+  const user = useAuth();
+
+  return (
+    <ServerLayout server={server}>
+      <ServerPosts
+        serverId={server.id}
+        header={
+          !!user ? (
+            <CreatePostHeader serverId={server.id} />
+          ) : (
+            <div className="h-4" />
+          )
+        }
+      />
+    </ServerLayout>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps<{
@@ -41,6 +59,7 @@ export const getServerSideProps: GetServerSideProps<{
         "server-list",
         "create-server",
         "server",
+        "post",
       ])),
     },
   };
