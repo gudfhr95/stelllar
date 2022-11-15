@@ -225,10 +225,22 @@ export type PostImage = {
   linkUrl?: Maybe<Scalars['String']>;
 };
 
+export enum PublicServersSort {
+  New = 'new',
+  Top = 'top'
+}
+
 export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
+  publicServers: Array<Server>;
   server?: Maybe<Server>;
+};
+
+
+export type QueryPublicServersArgs = {
+  category?: InputMaybe<ServerCategory>;
+  sort?: InputMaybe<PublicServersSort>;
 };
 
 
@@ -407,6 +419,14 @@ export type ServerQueryVariables = Exact<{
 
 
 export type ServerQuery = { __typename?: 'Query', server?: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, isJoined: boolean, owner: { __typename?: 'User', id: string } } | null };
+
+export type PublicServersQueryVariables = Exact<{
+  sort?: InputMaybe<PublicServersSort>;
+  category?: InputMaybe<ServerCategory>;
+}>;
+
+
+export type PublicServersQuery = { __typename?: 'Query', publicServers: Array<{ __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, avatarUrl?: string | null, bannerUrl?: string | null, userCount: any, category: ServerCategory }> };
 
 export type UserFragment = { __typename?: 'User', id: string, email: any, name: string, image?: string | null };
 
@@ -641,6 +661,49 @@ export function useServerLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookO
 export type ServerQueryHookResult = ReturnType<typeof useServerQuery>;
 export type ServerLazyQueryHookResult = ReturnType<typeof useServerLazyQuery>;
 export type ServerQueryResult = Apollo.QueryResult<ServerQuery, ServerQueryVariables>;
+export const PublicServersDocument = gql`
+    query publicServers($sort: PublicServersSort, $category: ServerCategory) {
+  publicServers(sort: $sort, category: $category) {
+    id
+    name
+    displayName
+    description
+    avatarUrl
+    bannerUrl
+    userCount
+    category
+  }
+}
+    `;
+
+/**
+ * __usePublicServersQuery__
+ *
+ * To run a query within a React component, call `usePublicServersQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePublicServersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePublicServersQuery({
+ *   variables: {
+ *      sort: // value for 'sort'
+ *      category: // value for 'category'
+ *   },
+ * });
+ */
+export function usePublicServersQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<PublicServersQuery, PublicServersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<PublicServersQuery, PublicServersQueryVariables>(PublicServersDocument, options);
+      }
+export function usePublicServersLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PublicServersQuery, PublicServersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<PublicServersQuery, PublicServersQueryVariables>(PublicServersDocument, options);
+        }
+export type PublicServersQueryHookResult = ReturnType<typeof usePublicServersQuery>;
+export type PublicServersLazyQueryHookResult = ReturnType<typeof usePublicServersLazyQuery>;
+export type PublicServersQueryResult = Apollo.QueryResult<PublicServersQuery, PublicServersQueryVariables>;
 export const UpdateAvatarDocument = gql`
     mutation updateAvatar($input: UpdateAvatarInput!) {
   updateAvatar(input: $input) {

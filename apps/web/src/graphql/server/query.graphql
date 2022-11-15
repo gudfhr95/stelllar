@@ -3,3 +3,16 @@ query server($name: String!) {
     ...Server
   }
 }
+
+query publicServers($sort: PublicServersSort, $category: ServerCategory) {
+  publicServers(sort: $sort, category: $category) {
+    id
+    name
+    displayName
+    description
+    avatarUrl
+    bannerUrl
+    userCount
+    category
+  }
+}

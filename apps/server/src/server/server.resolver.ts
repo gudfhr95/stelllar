@@ -13,6 +13,7 @@ import { Public } from "../auth/decorator/public.decorator";
 import { User } from "../user/entity/user.entity";
 import { Server } from "./entity/server.entity";
 import { CreateServerInput } from "./input/create-server.input";
+import { PublicServersArgs } from "./input/public-server.input";
 import { UpdateServerInput } from "./input/update-server.input";
 import { ServerLoader } from "./server.loader";
 import { ServerService } from "./server.service";
@@ -30,6 +31,14 @@ export class ServerResolver {
     Logger.log("server");
 
     return await this.serverService.getServerByName(name);
+  }
+
+  @Public()
+  @Query(() => [Server])
+  async publicServers(@Args() args: PublicServersArgs) {
+    Logger.log("publicServers");
+
+    return await this.serverService.getPublicServers(args.sort, args.category);
   }
 
   @Mutation(() => Server)

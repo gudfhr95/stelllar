@@ -19,9 +19,8 @@ import {
   IconCategorySports,
   IconCategoryTechnology,
 } from "../components/ui/icons/Icons";
-import { ServerCategory } from "../graphql/hooks";
 
-export const getCategoryIcon = (category: ServerCategory) => {
+export const getCategoryIcon = (category: string | null) => {
   switch (category) {
     case "Arts":
       return IconCategoryArts;

@@ -32,6 +32,7 @@ export {
   HiPlus as IconPlus,
   HiClock as IconNew,
   HiSortAscending as IconTop,
+  HiMenu as IconMenu,
 } from "react-icons/hi";
 
 export { MdTv as IconCategoryEntertainment } from "react-icons/md";
