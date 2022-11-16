@@ -130,7 +130,7 @@ export default function CreatePostDialog() {
         ? user && user.servers.find((s: Server) => s.name == query.server)
         : null
     );
-  }, [query.server]);
+  }, [user, query]);
 
   const { createPostDialog: open, setCreatePostDialog: setOpen } =
     useCreatePostDialog();

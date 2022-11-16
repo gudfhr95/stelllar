@@ -100,7 +100,7 @@ export default function ServerSidebar({ server }: ServerSidebar) {
                 {server.displayName}
               </div>
 
-              {!!user && user.id !== server.owner.id && (
+              {!!user && !!server && user.id !== server.owner.id && (
                 <button
                   className={joinButtonClass(
                     server.isJoined,
@@ -143,7 +143,7 @@ export default function ServerSidebar({ server }: ServerSidebar) {
 
           <SidebarSortButtons />
 
-          {!!user && user.id === server.owner.id && (
+          {!!user && !!server && user.id === server.owner.id && (
             <>
               <SidebarLabel>{t("sidebar.admin")}</SidebarLabel>
               <div className="space-y-0.5">

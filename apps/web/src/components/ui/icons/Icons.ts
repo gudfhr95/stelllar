@@ -42,6 +42,10 @@ export {
   HiMinus as IconFormatDivider,
   HiEmojiHappy as IconFormatEmoji,
   HiOutlineExternalLink as IconLinkExternal,
+  HiChevronUp as IconChevronUp,
+  HiGlobeAlt as IconLinkWeb,
+  HiChatAlt2 as IconChat,
+  HiDotsVertical as IconDotsVertical,
 } from "react-icons/hi";
 
 export {

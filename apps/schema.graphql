@@ -72,10 +72,6 @@ type LinkMetadata {
   themeColor: String
 }
 
-type PostImage {
-  image: Image!
-}
-
 type Comment implements BaseEntity {
   id: ID!
   createdAt: DateTime!
@@ -99,6 +95,10 @@ enum VoteType {
   Down
 }
 
+type PostImage {
+  image: Image!
+}
+
 type Post implements BaseEntity {
   id: ID!
   createdAt: DateTime!
@@ -115,7 +115,7 @@ type Post implements BaseEntity {
   server: Server!
   folders: [Folder!]
   voteCount: Int!
-  voteType: VoteType!
+  voteType: VoteType
   commentCount: NonNegativeInt!
   updatedAt: DateTime
   isDeleted: Boolean!
@@ -281,12 +281,35 @@ type Query {
   me: User
   server(name: String!): Server
   publicServers(sort: PublicServersSort = Top, category: ServerCategory): [Server!]!
+  posts(offset: NonNegativeInt = 0, limit: PositiveInt = 20, sort: PostsSort = Hot, time: PostsTime = All, feed: PostsFeed = Joined, serverName: String, folderId: ID, search: String): [Post!]!
   getLinkMetadata(linkUrl: String!): LinkMetadata
 }
 
 enum PublicServersSort {
   New
   Top
+}
+
+enum PostsSort {
+  New
+  Top
+  Hot
+  Added
+}
+
+enum PostsTime {
+  Hour
+  Day
+  Week
+  Month
+  Year
+  All
+}
+
+enum PostsFeed {
+  Joined
+  Featured
+  All
 }
 
 type Mutation {

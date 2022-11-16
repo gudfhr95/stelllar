@@ -3,19 +3,19 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import client from "../../apollo-client";
 import CreatePostHeader from "../../src/components/post/CreatePostHeader";
 import ServerPosts from "../../src/components/server/ServerPosts";
-import { Server, ServerDocument } from "../../src/graphql/hooks";
+import { PostsDocument, Server, ServerDocument } from "../../src/graphql/hooks";
 import useAuth from "../../src/hooks/useAuth";
 import ServerLayout from "../../src/layouts/ServerLayout";
 
 export default function ServerPage({
   server,
+  initialPosts,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const user = useAuth();
 
   return (
     <ServerLayout server={server}>
       <ServerPosts
-        serverId={server.id}
         header={
           !!user ? (
             <CreatePostHeader serverId={server.id} />
@@ -23,6 +23,7 @@ export default function ServerPage({
             <div className="h-4" />
           )
         }
+        initialPosts={initialPosts}
       />
     </ServerLayout>
   );
@@ -30,8 +31,9 @@ export default function ServerPage({
 
 export const getServerSideProps: GetServerSideProps<{
   server: Server;
-}> = async ({ req, params, locale }) => {
-  const { data } = await client.query({
+  initialPosts: [];
+}> = async ({ req, params, query, locale }) => {
+  const { data: serverData } = await client.query({
     query: ServerDocument,
     variables: {
       name: params?.server,
@@ -44,15 +46,19 @@ export const getServerSideProps: GetServerSideProps<{
     },
   });
 
-  if (!data.server) {
-    return {
-      notFound: true,
-    };
-  }
+  const { data: postsData } = await client.query({
+    query: PostsDocument,
+    variables: {
+      sort: query.sort,
+      time: query.time,
+      serverName: params?.server,
+    },
+  });
 
   return {
     props: {
-      server: data.server,
+      server: serverData?.server,
+      initialPosts: postsData?.posts,
       ...(await serverSideTranslations(locale as string, [
         "bottom-bar",
         "settings",

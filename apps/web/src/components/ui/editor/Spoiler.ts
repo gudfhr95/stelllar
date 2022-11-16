@@ -5,10 +5,12 @@ export const Spoiler = Mark.create({
 
   inclusive: false,
 
-  defaultOptions: {
-    HTMLAttributes: {
-      "data-spoiler": "",
-    },
+  addOptions() {
+    return {
+      HTMLAttributes: {
+        "data-spoiler": "",
+      },
+    };
   },
 
   addAttributes() {

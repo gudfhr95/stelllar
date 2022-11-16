@@ -1,6 +1,8 @@
+import { QueryOrder } from "@mikro-orm/core";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { EntityRepository } from "@mikro-orm/postgresql";
 import { Injectable } from "@nestjs/common";
+import dayjs from "dayjs";
 import mime from "mime";
 import { handleText } from "../common/util/handle-text";
 import { FileService, imageMimeTypes } from "../file/file.service";
@@ -10,6 +12,7 @@ import { User } from "../user/entity/user.entity";
 import { PostImage } from "./entity/post-image.entity";
 import { Post } from "./entity/post.entity";
 import { CreatePostImagesInput } from "./input/create-post.input";
+import { PostsSort, PostsTime } from "./input/posts.args";
 
 @Injectable()
 export class PostService {
@@ -21,6 +24,56 @@ export class PostService {
     @InjectRepository(Server)
     private readonly serverRepository: EntityRepository<Server>
   ) {}
+
+  async getPosts(
+    user: User,
+    serverName: string,
+    sort: PostsSort,
+    time: PostsTime,
+    offset: number,
+    limit: number
+  ) {
+    let orderBy = {};
+    if (sort === PostsSort.New) {
+      orderBy = { createdAt: QueryOrder.DESC };
+    } else if (sort === PostsSort.Hot) {
+      orderBy = { hotRank: QueryOrder.DESC };
+    } else if (sort === PostsSort.Top) {
+      orderBy = { voteCount: QueryOrder.DESC };
+    }
+
+    let servers: Server[] = [];
+    if (serverName) {
+      servers = [
+        await this.serverRepository.findOneOrFail({ name: serverName }),
+      ];
+    }
+
+    const posts = await this.postRepository.find(
+      {
+        $and: [
+          !time || time === PostsTime.All
+            ? {}
+            : {
+                createdAt: {
+                  $gt: dayjs()
+                    .subtract(1, time.toLowerCase() as any)
+                    .toDate(),
+                },
+              },
+          servers.length ? { server: servers } : {},
+        ],
+      },
+      {
+        orderBy,
+        limit,
+        offset,
+        populate: ["server"],
+      }
+    );
+
+    return posts;
+  }
 
   async createPost(
     user: User,

@@ -46,6 +46,7 @@
     "class-validator": "^0.13.2",
     "cookie-parser": "^1.4.6",
     "dataloader": "^2.1.0",
+    "dayjs": "^1.11.6",
     "file-type-cjs": "^1.0.7",
     "got-cjs": "^12.5.4",
     "graphql": "^16.6.0",
