@@ -6650,6 +6650,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"buffer@npm:^6.0.3":
+  version: 6.0.3
+  resolution: "buffer@npm:6.0.3"
+  dependencies:
+    base64-js: ^1.3.1
+    ieee754: ^1.2.1
+  checksum: 5ad23293d9a731e4318e420025800b42bf0d264004c0286c8cc010af7a270c7a0f6522e84f54b9ad65cbd6db20b8badbfd8d2ebf4f80fa03dab093b89e68c3f9
+  languageName: node
+  linkType: hard
+
 "builtin-modules@npm:^3.1.0":
   version: 3.3.0
   resolution: "builtin-modules@npm:3.3.0"
@@ -7105,6 +7115,15 @@ __metadata:
   version: 1.0.4
   resolution: "clone@npm:1.0.4"
   checksum: d06418b7335897209e77bdd430d04f882189582e67bd1f75a04565f3f07f5b3f119a9d670c943b6697d0afb100f03b866b3b8a1f91d4d02d72c4ecf2bb64b5dd
+  languageName: node
+  linkType: hard
+
+"cloneable-readable@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "cloneable-readable@npm:3.0.0"
+  dependencies:
+    readable-stream: ^4.0.0
+  checksum: 2b436abbd5c572e232f5f92fb3d6bf2db9f19ef186868b398b86f0aff67ddf56bd2da38d4b60ff5186597e3a9faecae168d937a4de63136cc3459b91eb829060
   languageName: node
   linkType: hard
 
@@ -9139,7 +9158,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"events@npm:^3.2.0":
+"events@npm:^3.2.0, events@npm:^3.3.0":
   version: 3.3.0
   resolution: "events@npm:3.3.0"
   checksum: f6f487ad2198aa41d878fa31452f1a3c00958f46e9019286ff4787c84aac329332ab45c9cdc8c445928fc6d7ded294b9e005a7fce9426488518017831b272780
@@ -14866,6 +14885,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"process@npm:^0.11.10":
+  version: 0.11.10
+  resolution: "process@npm:0.11.10"
+  checksum: bfcce49814f7d172a6e6a14d5fa3ac92cc3d0c3b9feb1279774708a719e19acd673995226351a082a9ae99978254e320ccda4240ddc474ba31a76c79491ca7c3
+  languageName: node
+  linkType: hard
+
 "promise-inflight@npm:^1.0.1":
   version: 1.0.1
   resolution: "promise-inflight@npm:1.0.1"
@@ -15699,6 +15725,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"readable-stream@npm:^4.0.0":
+  version: 4.2.0
+  resolution: "readable-stream@npm:4.2.0"
+  dependencies:
+    abort-controller: ^3.0.0
+    buffer: ^6.0.3
+    events: ^3.3.0
+    process: ^0.11.10
+  checksum: aa8447f781e6df90af78f6b0b9b9a77da2816dcf6c8220e7021c4de36e04f8129fed7ead81eac0baad2f42098209f9e7d7cd43169e1c156efcd2613828a37439
+  languageName: node
+  linkType: hard
+
 "readable-web-to-node-stream@npm:^3.0.0":
   version: 3.0.2
   resolution: "readable-web-to-node-stream@npm:3.0.2"
@@ -16525,6 +16563,7 @@ __metadata:
     apollo-server-express: ^3.11.1
     aws-sdk: ^2.1251.0
     class-validator: ^0.13.2
+    cloneable-readable: ^3.0.0
     cookie-parser: ^1.4.6
     dataloader: ^2.1.0
     eslint: 8.26.0
@@ -16563,6 +16602,7 @@ __metadata:
     typescript: ^4.8.4
     user-agents: ^1.0.1199
     uuid: ^9.0.0
+    xss: ^1.0.14
   languageName: unknown
   linkType: soft
 
@@ -19449,7 +19489,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"xss@npm:^1.0.8, xss@npm:^1.0.9":
+"xss@npm:^1.0.14, xss@npm:^1.0.8, xss@npm:^1.0.9":
   version: 1.0.14
   resolution: "xss@npm:1.0.14"
   dependencies:

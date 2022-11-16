@@ -2,12 +2,16 @@ import { Logger } from "@nestjs/common";
 import { Args, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
 import { Image } from "../common/entity/image.entity";
 import { LinkMetadata } from "../common/entity/link-metadata.entity";
+import { FileService } from "../file/file.service";
 import { LinkMetadataArgs } from "./input/link-metadata.args";
 import { ScraperService } from "./scraper.service";
 
 @Resolver(() => LinkMetadata)
 export class ScraperResolver {
-  constructor(private readonly scraperService: ScraperService) {}
+  constructor(
+    private readonly scraperService: ScraperService,
+    private readonly fileService: FileService
+  ) {}
 
   @Query(() => LinkMetadata, { nullable: true })
   async getLinkMetadata(@Args() args: LinkMetadataArgs) {
@@ -23,10 +27,10 @@ export class ScraperResolver {
       return null;
     }
 
-    image.smallWidth = this.scraperService.getSmallWidth(image);
-    image.smallHeight = this.scraperService.getSmallHeight(image);
-    image.popupWidth = this.scraperService.getPopupWidth(image);
-    image.popupHeight = this.scraperService.getPopupHeight(image);
+    image.smallWidth = this.fileService.getSmallWidth(image);
+    image.smallHeight = this.fileService.getSmallHeight(image);
+    image.popupWidth = this.fileService.getPopupWidth(image);
+    image.popupHeight = this.fileService.getPopupHeight(image);
 
     return image;
   }

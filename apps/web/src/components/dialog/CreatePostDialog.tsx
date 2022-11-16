@@ -5,9 +5,11 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDebounce } from "react-use";
+import "setimmediate";
 import {
   LinkMetadata,
   Server,
+  useCreatePostMutation,
   useGetLinkMetadataQuery,
 } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
@@ -133,7 +135,9 @@ export default function CreatePostDialog() {
   const { createPostDialog: open, setCreatePostDialog: setOpen } =
     useCreatePostDialog();
 
-  const [server, setServer] = useState(null);
+  const [createPost, { loading }] = useCreatePostMutation();
+
+  const [server, setServer] = useState<Server | null>(null);
   const [currentTab, setCurrentTab] = useState(Tab.Text);
 
   const { register, handleSubmit, reset, formState, watch, setValue, trigger } =
@@ -161,20 +165,18 @@ export default function CreatePostDialog() {
       setImages(
         Array.from(files).map((file) => ({
           file,
-          caption: "",
-          linkUrl: "",
         })) as []
       );
+
       let readers = [];
       for (let i = 0; i < files.length; i++) {
         readers.push(readFileAsDataURL(files[i]));
       }
+
       Promise.all(readers).then((values) =>
         setImages(
           values.map((data, i) => ({
             file: files[i],
-            caption: "",
-            linkUrl: "",
             data,
           })) as []
         )
@@ -189,21 +191,19 @@ export default function CreatePostDialog() {
         ...images,
         ...Array.from(files).map((file) => ({
           file,
-          caption: "",
-          linkUrl: "",
         })),
       ] as []);
+
       let readers = [];
       for (let i = 0; i < files.length; i++) {
         readers.push(readFileAsDataURL(files[i]));
       }
+
       Promise.all(readers).then((values) => {
         setImages([
           ...images,
           ...values.map((data, i) => ({
             file: files[i],
-            caption: "",
-            linkUrl: "",
             data,
           })),
         ] as []);
@@ -215,9 +215,37 @@ export default function CreatePostDialog() {
     setOpen(false);
   };
 
+  const onSubmit = ({ title, linkUrl }: any) => {
+    createPost({
+      variables: {
+        input: {
+          title,
+          text: text && currentTab === Tab.Text ? text : null,
+          linkUrl: linkUrl && currentTab === Tab.Link ? linkUrl : null,
+          serverId: server?.id ?? "",
+          images:
+            images && images.length > 0 && currentTab === Tab.Image
+              ? images.map(({ file }) => ({ file }))
+              : null,
+        },
+      },
+    }).then(({ data }) => {
+      const post = data?.createPost;
+      if (!post) {
+        return;
+      }
+
+      setOpen(false);
+      reset();
+    });
+  };
+
   return (
     <Dialog isOpen={open} onClose={close}>
-      <form className="max-w-screen-md w-full dark:bg-gray-800 bg-white text-left rounded-xl">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="max-w-screen-md w-full dark:bg-gray-800 bg-white text-left rounded-xl"
+      >
         <div className="grid grid-cols-4">
           <ServerSelect
             servers={user ? user.servers : []}
@@ -362,6 +390,7 @@ export default function CreatePostDialog() {
                                     setSelectedImage(selectedImage - 1)
                                   );
                                 }
+
                                 const newImages = images.slice();
                                 newImages.splice(i, 1);
                                 setImages(newImages);
@@ -370,10 +399,14 @@ export default function CreatePostDialog() {
                               <IconX className="w-4.5 h-4.5 text-white" />
                             </div>
                             <div className="absolute inset-0 bg-black rounded bg-opacity-0 group-hover:bg-opacity-50" />
-                            <div
-                              style={{ backgroundImage: `url(${image.data})` }}
-                              className={`max-w-25 max-h-25 min-w-[6.25rem] min-h-[6.25rem] bg-cover bg-center select-none rounded`}
-                            />
+                            {image.data && (
+                              <div
+                                style={{
+                                  backgroundImage: `url(${image.data})`,
+                                }}
+                                className={`max-w-25 max-h-25 min-w-[6.25rem] min-h-[6.25rem] bg-cover bg-center select-none rounded`}
+                              />
+                            )}
                           </div>
                         </div>
                       ))}
@@ -426,8 +459,15 @@ export default function CreatePostDialog() {
               >
                 {t("create.cancel")}
               </button>
-              <button type="submit" className={postBtnClass}>
+              <button
+                type="submit"
+                disabled={!formState.isValid || !server || loading}
+                className={postBtnClass}
+              >
                 {t("create.submit")}
+                {loading && (
+                  <IconSpinner className="w-5 h-5 text-primary ml-3" />
+                )}
               </button>
             </div>
           </div>

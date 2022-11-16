@@ -47,11 +47,11 @@ type Image {
   originalWidth: PositiveInt!
   originalHeight: PositiveInt!
   smallUrl: String
-  smallWidth: PositiveInt!
-  smallHeight: PositiveInt!
+  smallWidth: PositiveInt
+  smallHeight: PositiveInt
   popupUrl: String
-  popupWidth: PositiveInt!
-  popupHeight: PositiveInt!
+  popupWidth: PositiveInt
+  popupHeight: PositiveInt
 }
 
 """Integers that will have a value greater than 0."""
@@ -74,8 +74,6 @@ type LinkMetadata {
 
 type PostImage {
   image: Image!
-  linkUrl: String
-  caption: String
 }
 
 type Comment implements BaseEntity {
@@ -299,6 +297,7 @@ type Mutation {
   updateServer(input: UpdateServerInput!): Server!
   joinServer(serverId: String!): Server!
   leaveServer(serverId: String!): Server!
+  createPost(input: CreatePostInput!): Post!
 }
 
 input UpdateAvatarInput {
@@ -328,4 +327,16 @@ input UpdateServerInput {
   category: ServerCategory = Other
   avatarFile: Upload
   bannerFile: Upload
+}
+
+input CreatePostInput {
+  title: String!
+  linkUrl: String
+  text: String
+  serverId: ID!
+  images: [CreatePostImagesInput!]
+}
+
+input CreatePostImagesInput {
+  file: Upload!
 }

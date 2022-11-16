@@ -4,7 +4,7 @@ import { S3 } from "aws-sdk";
 import { fromStream } from "file-type-cjs";
 import got from "got-cjs";
 import { FileUpload } from "graphql-upload-minimal";
-import * as mime from "mime";
+import mime from "mime";
 import sharp from "sharp";
 import { Readable } from "stream";
 import { v4 as uuid } from "uuid";
@@ -16,6 +16,11 @@ export const imageMimeTypes = [
   "image/png",
   "image/webp",
 ];
+
+const POPUP_MAX_WIDTH = 1440;
+const POPUP_MAX_HEIGHT = 630;
+const SMALL_MAX_WIDTH = 400;
+const SMALL_MAX_HEIGHT = 300;
 
 @Injectable()
 export class FileService {
@@ -68,8 +73,11 @@ export class FileService {
   }
 
   async uploadImageFile(createStream: () => any, ext: string) {
+    const buffer = await this.streamToBuffer(createStream());
+    const originalStream = this.bufferToStream(buffer);
+
     const originalSharp = this.initSharp();
-    const originalBody = createStream().pipe(originalSharp);
+    const originalBody = originalStream.pipe(originalSharp);
     const metadata = await originalSharp.metadata();
     const pages = metadata.pages;
     const originalWidth = metadata.width;
@@ -96,19 +104,22 @@ export class FileService {
       } as Image;
     } else {
       const fit = "inside";
-      const smallBody = createStream().pipe(
+
+      const smallStream = this.bufferToStream(buffer);
+      const smallBody = smallStream.pipe(
         this.initSharp().resize({
           fit,
-          width: image.smallWidth,
-          height: image.smallHeight,
+          width: this.getSmallWidth(image),
+          height: this.getSmallHeight(image),
         })
       );
 
-      const popupBody = createStream().pipe(
+      const popupStream = this.bufferToStream(buffer);
+      const popupBody = popupStream.pipe(
         this.initSharp().resize({
           fit,
-          width: image.popupWidth,
-          height: image.popupHeight,
+          width: this.getPopupWidth(image),
+          height: this.getPopupHeight(image),
         })
       );
 
@@ -149,5 +160,75 @@ export class FileService {
         Key: key,
       })
       .promise();
+  }
+
+  async streamToBuffer(stream: any) {
+    const chunks: Buffer[] = [];
+    return new Promise((resolve, reject) => {
+      stream.on("data", (chunk: any) => chunks.push(Buffer.from(chunk)));
+      stream.on("error", (err: any) => reject(err));
+      stream.on("end", () => resolve(Buffer.concat(chunks)));
+    });
+  }
+
+  bufferToStream(buffer: any) {
+    const stream = new Readable();
+
+    stream.push(buffer);
+    stream.push(null);
+
+    return stream;
+  }
+
+  getSmallWidth(image: Image) {
+    return this.calculateDimensions({
+      width: image.originalWidth,
+      height: image.originalHeight,
+      maxWidth: SMALL_MAX_WIDTH,
+      maxHeight: SMALL_MAX_HEIGHT,
+    })[0];
+  }
+
+  getSmallHeight(image: Image) {
+    return this.calculateDimensions({
+      width: image.originalWidth,
+      height: image.originalHeight,
+      maxWidth: SMALL_MAX_WIDTH,
+      maxHeight: SMALL_MAX_HEIGHT,
+    })[1];
+  }
+
+  getPopupWidth(image: Image) {
+    return this.calculateDimensions({
+      width: image.originalWidth,
+      height: image.originalHeight,
+      maxWidth: POPUP_MAX_WIDTH,
+      maxHeight: POPUP_MAX_HEIGHT,
+    })[0];
+  }
+
+  getPopupHeight(image: Image) {
+    return this.calculateDimensions({
+      width: image.originalWidth,
+      height: image.originalHeight,
+      maxWidth: POPUP_MAX_WIDTH,
+      maxHeight: POPUP_MAX_HEIGHT,
+    })[1];
+  }
+
+  calculateDimensions({ width, height, maxWidth, maxHeight }) {
+    if (width > maxWidth) {
+      const ratio = height / width;
+      width = maxWidth;
+      height = Math.round(width * ratio);
+    }
+
+    if (height > maxHeight) {
+      const ratio = width / height;
+      height = maxHeight;
+      width = Math.round(height * ratio);
+    }
+
+    return [width, height];
   }
 }

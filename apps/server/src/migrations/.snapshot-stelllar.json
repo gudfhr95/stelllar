@@ -8,12 +8,12 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "bigint",
-          "unsigned": true,
-          "autoincrement": true,
-          "primary": true,
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "created_at": {
           "name": "created_at",
@@ -21,9 +21,19 @@
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
+          "nullable": true,
           "length": 6,
+          "default": "'now'",
           "mappedType": "datetime"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
         },
         "email": {
           "name": "email",
@@ -34,17 +44,18 @@
           "nullable": false,
           "mappedType": "text"
         },
-        "username": {
-          "name": "username",
-          "type": "text",
+        "email_verified": {
+          "name": "email_verified",
+          "type": "timestamptz(0)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
-          "mappedType": "text"
+          "nullable": true,
+          "length": 6,
+          "mappedType": "datetime"
         },
-        "current_hashed_refresh_token": {
-          "name": "current_hashed_refresh_token",
+        "image": {
+          "name": "image",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -61,15 +72,6 @@
           "nullable": true,
           "length": 6,
           "mappedType": "datetime"
-        },
-        "avatar_url": {
-          "name": "avatar_url",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "text"
         },
         "online_status": {
           "name": "online_status",
@@ -96,34 +98,6 @@
           "nullable": false,
           "default": "false",
           "mappedType": "boolean"
-        },
-        "color": {
-          "name": "color",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "default": "'Indigo'",
-          "enumItems": [
-            "Red",
-            "Yellow",
-            "Green",
-            "Blue",
-            "Indigo",
-            "Purple",
-            "Pink"
-          ],
-          "mappedType": "enum"
-        },
-        "password": {
-          "name": "password",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "text"
         },
         "is_deleted": {
           "name": "is_deleted",
@@ -180,19 +154,19 @@
       "indexes": [
         {
           "columnNames": [
-            "email"
+            "name"
           ],
           "composite": false,
-          "keyName": "user_email_unique",
+          "keyName": "user_name_unique",
           "primary": false,
           "unique": true
         },
         {
           "columnNames": [
-            "username"
+            "email"
           ],
           "composite": false,
-          "keyName": "user_username_unique",
+          "keyName": "user_email_unique",
           "primary": false,
           "unique": true
         },
@@ -213,12 +187,91 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "bigint",
-          "unsigned": true,
-          "autoincrement": true,
-          "primary": true,
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "expires": {
+          "name": "expires",
+          "type": "timestamptz(0)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        },
+        "session_token": {
+          "name": "session_token",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        }
+      },
+      "name": "session",
+      "schema": "public",
+      "indexes": [
+        {
+          "columnNames": [
+            "session_token"
+          ],
+          "composite": false,
+          "keyName": "session_session_token_unique",
+          "primary": false,
+          "unique": true
+        },
+        {
+          "keyName": "session_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "session_user_id_foreign": {
+          "constraintName": "session_user_id_foreign",
+          "columnNames": [
+            "user_id"
+          ],
+          "localTableName": "public.session",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.user",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
         },
         "created_at": {
           "name": "created_at",
@@ -259,12 +312,12 @@
         },
         "owner_id": {
           "name": "owner_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "category": {
           "name": "category",
@@ -418,12 +471,12 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "bigint",
-          "unsigned": true,
-          "autoincrement": true,
-          "primary": true,
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "created_at": {
           "name": "created_at",
@@ -446,12 +499,12 @@
         },
         "server_id": {
           "name": "server_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "is_default": {
           "name": "is_default",
@@ -531,21 +584,21 @@
       "columns": {
         "user_id": {
           "name": "user_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "server_id": {
           "name": "server_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "position": {
           "name": "position",
@@ -569,12 +622,12 @@
         },
         "role_id": {
           "name": "role_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
-          "mappedType": "bigint"
+          "nullable": true,
+          "mappedType": "string"
         },
         "status": {
           "name": "status",
@@ -642,6 +695,7 @@
             "id"
           ],
           "referencedTableName": "public.role",
+          "deleteRule": "set null",
           "updateRule": "cascade"
         }
       }
@@ -650,12 +704,12 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "bigint",
-          "unsigned": true,
-          "autoincrement": true,
-          "primary": true,
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "created_at": {
           "name": "created_at",
@@ -687,12 +741,12 @@
         },
         "server_id": {
           "name": "server_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "position": {
           "name": "position",
@@ -783,21 +837,21 @@
       "columns": {
         "owner_id": {
           "name": "owner_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "user_id": {
           "name": "user_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "created_at": {
           "name": "created_at",
@@ -924,12 +978,12 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "bigint",
-          "unsigned": true,
-          "autoincrement": true,
-          "primary": true,
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "created_at": {
           "name": "created_at",
@@ -997,12 +1051,12 @@
         },
         "author_id": {
           "name": "author_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "is_pinned": {
           "name": "is_pinned",
@@ -1026,12 +1080,12 @@
         },
         "server_id": {
           "name": "server_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "vote_count": {
           "name": "vote_count",
@@ -1119,21 +1173,21 @@
       "columns": {
         "user_id": {
           "name": "user_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "post_id": {
           "name": "post_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "created_at": {
           "name": "created_at",
@@ -1207,12 +1261,12 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "bigint",
-          "unsigned": true,
-          "autoincrement": true,
-          "primary": true,
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "created_at": {
           "name": "created_at",
@@ -1226,12 +1280,12 @@
         },
         "owner_id": {
           "name": "owner_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "name": {
           "name": "name",
@@ -1295,12 +1349,12 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "bigint",
-          "unsigned": true,
-          "autoincrement": true,
-          "primary": true,
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "created_at": {
           "name": "created_at",
@@ -1314,39 +1368,39 @@
         },
         "author_id": {
           "name": "author_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "channel_id": {
           "name": "channel_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": true,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "group_id": {
           "name": "group_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": true,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "to_user_id": {
           "name": "to_user_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": true,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "text": {
           "name": "text",
@@ -1524,21 +1578,21 @@
       "columns": {
         "message_id": {
           "name": "message_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "user_id": {
           "name": "user_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         }
       },
       "name": "message_mentioned_users",
@@ -1589,21 +1643,21 @@
       "columns": {
         "user_id": {
           "name": "user_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "group_id": {
           "name": "group_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "last_view_at": {
           "name": "last_view_at",
@@ -1682,21 +1736,21 @@
       "columns": {
         "group_id": {
           "name": "group_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "user_id": {
           "name": "user_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         }
       },
       "name": "group_users",
@@ -1747,12 +1801,12 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "bigint",
-          "unsigned": true,
-          "autoincrement": true,
-          "primary": true,
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "created_at": {
           "name": "created_at",
@@ -1793,21 +1847,21 @@
         },
         "owner_id": {
           "name": "owner_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": true,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "server_id": {
           "name": "server_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": true,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "is_deleted": {
           "name": "is_deleted",
@@ -1913,21 +1967,21 @@
       "columns": {
         "server_id": {
           "name": "server_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "folder_id": {
           "name": "folder_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "position": {
           "name": "position",
@@ -1995,30 +2049,30 @@
       "columns": {
         "post_id": {
           "name": "post_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "folder_id": {
           "name": "folder_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "added_by_user_id": {
           "name": "added_by_user_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "added_at": {
           "name": "added_at",
@@ -2090,12 +2144,12 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "bigint",
-          "unsigned": true,
-          "autoincrement": true,
-          "primary": true,
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "created_at": {
           "name": "created_at",
@@ -2109,21 +2163,21 @@
         },
         "author_id": {
           "name": "author_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "post_id": {
           "name": "post_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "text": {
           "name": "text",
@@ -2136,12 +2190,12 @@
         },
         "parent_comment_id": {
           "name": "parent_comment_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": true,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "vote_count": {
           "name": "vote_count",
@@ -2261,12 +2315,12 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "bigint",
-          "unsigned": true,
-          "autoincrement": true,
-          "primary": true,
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "created_at": {
           "name": "created_at",
@@ -2280,21 +2334,21 @@
         },
         "user_id": {
           "name": "user_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "comment_id": {
           "name": "comment_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "is_read": {
           "name": "is_read",
@@ -2352,21 +2406,21 @@
       "columns": {
         "user_id": {
           "name": "user_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "comment_id": {
           "name": "comment_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "created_at": {
           "name": "created_at",
@@ -2440,21 +2494,21 @@
       "columns": {
         "user_id": {
           "name": "user_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "channel_id": {
           "name": "channel_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "last_view_at": {
           "name": "last_view_at",
@@ -2521,23 +2575,174 @@
     },
     {
       "columns": {
-        "user_id": {
-          "name": "user_id",
-          "type": "bigint",
+        "id": {
+          "name": "id",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "type": {
+          "name": "type",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "provider": {
+          "name": "provider",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "provider_account_id": {
+          "name": "provider_account_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "refresh_token": {
+          "name": "refresh_token",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "string"
+        },
+        "access_token": {
+          "name": "access_token",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "string"
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "integer"
+        },
+        "token_type": {
+          "name": "token_type",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "string"
+        },
+        "scope": {
+          "name": "scope",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "string"
+        },
+        "id_token": {
+          "name": "id_token",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "session_state": {
+          "name": "session_state",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "string"
+        }
+      },
+      "name": "account",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "account_provider_provider_account_id_unique",
+          "columnNames": [
+            "provider",
+            "provider_account_id"
+          ],
+          "composite": true,
+          "primary": false,
+          "unique": true
+        },
+        {
+          "keyName": "account_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "account_user_id_foreign": {
+          "constraintName": "account_user_id_foreign",
+          "columnNames": [
+            "user_id"
+          ],
+          "localTableName": "public.account",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.user",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
         },
         "folder_id": {
           "name": "folder_id",
-          "type": "bigint",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "bigint"
+          "mappedType": "string"
         },
         "position": {
           "name": "position",

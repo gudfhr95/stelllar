@@ -70,6 +70,18 @@ export type Comment = BaseEntity & {
   voteType: VoteType;
 };
 
+export type CreatePostImagesInput = {
+  file: Scalars['Upload'];
+};
+
+export type CreatePostInput = {
+  images?: InputMaybe<Array<CreatePostImagesInput>>;
+  linkUrl?: InputMaybe<Scalars['String']>;
+  serverId: Scalars['ID'];
+  text?: InputMaybe<Scalars['String']>;
+  title: Scalars['String'];
+};
+
 export type CreateServerInput = {
   avatarFile?: InputMaybe<Scalars['Upload']>;
   bannerFile?: InputMaybe<Scalars['Upload']>;
@@ -127,12 +139,12 @@ export type Image = {
   originalHeight: Scalars['PositiveInt'];
   originalUrl: Scalars['String'];
   originalWidth: Scalars['PositiveInt'];
-  popupHeight: Scalars['PositiveInt'];
+  popupHeight?: Maybe<Scalars['PositiveInt']>;
   popupUrl?: Maybe<Scalars['String']>;
-  popupWidth: Scalars['PositiveInt'];
-  smallHeight: Scalars['PositiveInt'];
+  popupWidth?: Maybe<Scalars['PositiveInt']>;
+  smallHeight?: Maybe<Scalars['PositiveInt']>;
   smallUrl?: Maybe<Scalars['String']>;
-  smallWidth: Scalars['PositiveInt'];
+  smallWidth?: Maybe<Scalars['PositiveInt']>;
 };
 
 export type LinkMetadata = {
@@ -153,6 +165,7 @@ export type LinkMetadata = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createPost: Post;
   createServer: Server;
   deleteUser: Scalars['Boolean'];
   joinServer: Server;
@@ -160,6 +173,11 @@ export type Mutation = {
   updateAvatar: User;
   updateProfile: User;
   updateServer: Server;
+};
+
+
+export type MutationCreatePostArgs = {
+  input: CreatePostInput;
 };
 
 
@@ -224,9 +242,7 @@ export type Post = BaseEntity & {
 
 export type PostImage = {
   __typename?: 'PostImage';
-  caption?: Maybe<Scalars['String']>;
   image: Image;
-  linkUrl?: Maybe<Scalars['String']>;
 };
 
 export enum PublicServersSort {
@@ -393,16 +409,25 @@ export enum VoteType {
   Up = 'Up'
 }
 
-export type ImageFragment = { __typename?: 'Image', originalUrl: string, popupUrl?: string | null, popupWidth: any, popupHeight: any, smallUrl?: string | null, smallWidth: any, smallHeight: any };
+export type PostFragment = { __typename?: 'Post', id: string, title: string, isPinned: boolean, text?: string | null, linkUrl?: string | null, commentCount: any, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, linkMetadata?: { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null } | null, images: Array<{ __typename?: 'PostImage', image: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } }> };
 
-export type MetadataFragment = { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, popupUrl?: string | null, popupWidth: any, popupHeight: any, smallUrl?: string | null, smallWidth: any, smallHeight: any } | null };
+export type ImageFragment = { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null };
+
+export type MetadataFragment = { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null };
+
+export type CreatePostMutationVariables = Exact<{
+  input: CreatePostInput;
+}>;
+
+
+export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: string, title: string, isPinned: boolean, text?: string | null, linkUrl?: string | null, commentCount: any, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, author?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null, linkMetadata?: { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null } | null, images: Array<{ __typename?: 'PostImage', image: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } }> } };
 
 export type GetLinkMetadataQueryVariables = Exact<{
   linkUrl: Scalars['String'];
 }>;
 
 
-export type GetLinkMetadataQuery = { __typename?: 'Query', getLinkMetadata?: { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, popupUrl?: string | null, popupWidth: any, popupHeight: any, smallUrl?: string | null, smallWidth: any, smallHeight: any } | null } | null };
+export type GetLinkMetadataQuery = { __typename?: 'Query', getLinkMetadata?: { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null } | null };
 
 export type ServerFragment = { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, isJoined: boolean, owner: { __typename?: 'User', id: string } };
 
@@ -480,6 +505,8 @@ export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: st
 export const ImageFragmentDoc = gql`
     fragment Image on Image {
   originalUrl
+  originalWidth
+  originalHeight
   popupUrl
   popupWidth
   popupHeight
@@ -503,6 +530,30 @@ export const MetadataFragmentDoc = gql`
   themeColor
 }
     ${ImageFragmentDoc}`;
+export const PostFragmentDoc = gql`
+    fragment Post on Post {
+  id
+  title
+  isPinned
+  text
+  linkUrl
+  commentCount
+  voteCount
+  voteType
+  isDeleted
+  createdAt
+  updatedAt
+  linkMetadata {
+    ...Metadata
+  }
+  images {
+    image {
+      ...Image
+    }
+  }
+}
+    ${MetadataFragmentDoc}
+${ImageFragmentDoc}`;
 export const ServerFragmentDoc = gql`
     fragment Server on Server {
   id
@@ -541,6 +592,43 @@ export const CurrentUserFragmentDoc = gql`
   }
 }
     ${UserFragmentDoc}`;
+export const CreatePostDocument = gql`
+    mutation createPost($input: CreatePostInput!) {
+  createPost(input: $input) {
+    ...Post
+    author {
+      ...User
+    }
+  }
+}
+    ${PostFragmentDoc}
+${UserFragmentDoc}`;
+export type CreatePostMutationFn = Apollo.MutationFunction<CreatePostMutation, CreatePostMutationVariables>;
+
+/**
+ * __useCreatePostMutation__
+ *
+ * To run a mutation, you first call `useCreatePostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPostMutation, { data, loading, error }] = useCreatePostMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreatePostMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreatePostMutation, CreatePostMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<CreatePostMutation, CreatePostMutationVariables>(CreatePostDocument, options);
+      }
+export type CreatePostMutationHookResult = ReturnType<typeof useCreatePostMutation>;
+export type CreatePostMutationResult = Apollo.MutationResult<CreatePostMutation>;
+export type CreatePostMutationOptions = Apollo.BaseMutationOptions<CreatePostMutation, CreatePostMutationVariables>;
 export const GetLinkMetadataDocument = gql`
     query getLinkMetadata($linkUrl: String!) {
   getLinkMetadata(linkUrl: $linkUrl) {

@@ -6,5 +6,6 @@ import { ScraperService } from "./scraper.service";
 @Module({
   imports: [FileModule],
   providers: [ScraperResolver, ScraperService],
+  exports: [ScraperService],
 })
 export class ScraperModule {}

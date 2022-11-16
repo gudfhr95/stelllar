@@ -14,16 +14,10 @@ import metascraperUrl from "metascraper-url";
 import metascraperYoutube from "metascraper-youtube";
 import sanitizeHtml from "sanitize-html";
 import UserAgent from "user-agents";
-import { Image } from "../common/entity/image.entity";
 import { LinkMetadata } from "../common/entity/link-metadata.entity";
 import { FileService } from "../file/file.service";
 
 const TIMEOUT = 5000;
-
-const POPUP_MAX_WIDTH = 1440;
-const POPUP_MAX_HEIGHT = 630;
-const SMALL_MAX_WIDTH = 400;
-const SMALL_MAX_HEIGHT = 300;
 
 const metascraperTwitterCard: any = () => ({
   twitterCard: [
@@ -112,57 +106,5 @@ export class ScraperService {
     }
 
     return metadata as LinkMetadata;
-  }
-
-  getSmallWidth(image: Image) {
-    return this.calculateDimensions({
-      width: image.originalWidth,
-      height: image.originalHeight,
-      maxWidth: SMALL_MAX_WIDTH,
-      maxHeight: SMALL_MAX_HEIGHT,
-    })[0];
-  }
-
-  getSmallHeight(image: Image) {
-    return this.calculateDimensions({
-      width: image.originalWidth,
-      height: image.originalHeight,
-      maxWidth: SMALL_MAX_WIDTH,
-      maxHeight: SMALL_MAX_HEIGHT,
-    })[1];
-  }
-
-  getPopupWidth(image: Image) {
-    return this.calculateDimensions({
-      width: image.originalWidth,
-      height: image.originalHeight,
-      maxWidth: POPUP_MAX_WIDTH,
-      maxHeight: POPUP_MAX_HEIGHT,
-    })[0];
-  }
-
-  getPopupHeight(image: Image) {
-    return this.calculateDimensions({
-      width: image.originalWidth,
-      height: image.originalHeight,
-      maxWidth: POPUP_MAX_WIDTH,
-      maxHeight: POPUP_MAX_HEIGHT,
-    })[1];
-  }
-
-  calculateDimensions({ width, height, maxWidth, maxHeight }) {
-    if (width > maxWidth) {
-      const ratio = height / width;
-      width = maxWidth;
-      height = Math.round(width * ratio);
-    }
-
-    if (height > maxHeight) {
-      const ratio = width / height;
-      height = maxHeight;
-      width = Math.round(height * ratio);
-    }
-
-    return [width, height];
   }
 }
