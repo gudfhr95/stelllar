@@ -25,7 +25,7 @@ export default function Index({
 export const getServerSideProps: GetServerSideProps<{
   initialPosts: [];
 }> = async ({ req, locale, query }) => {
-  const { data: postsData } = await client.query({
+  const { data } = await client.query({
     query: PostsDocument,
     variables: {
       sort: query.sort,
@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps<{
 
   return {
     props: {
-      initialPosts: [],
+      initialPosts: data.posts,
       ...(await serverSideTranslations(locale as string, [
         "bottom-bar",
         "settings",

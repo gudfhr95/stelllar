@@ -28,6 +28,7 @@ export class PostResolver {
     return await this.postService.getPosts(
       user,
       args.serverName,
+      args.feed,
       args.sort,
       args.time,
       args.offset,

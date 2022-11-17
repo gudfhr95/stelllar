@@ -7,12 +7,14 @@ import mime from "mime";
 import { handleText } from "../common/util/handle-text";
 import { FileService, imageMimeTypes } from "../file/file.service";
 import { ScraperService } from "../scraper/scraper.service";
+import { ServerUserStatus } from "../server/entity/server-user-status.enum";
+import { ServerUser } from "../server/entity/server-user.entity";
 import { Server } from "../server/entity/server.entity";
 import { User } from "../user/entity/user.entity";
 import { PostImage } from "./entity/post-image.entity";
 import { Post } from "./entity/post.entity";
 import { CreatePostImagesInput } from "./input/create-post.input";
-import { PostsSort, PostsTime } from "./input/posts.args";
+import { PostsFeed, PostsSort, PostsTime } from "./input/posts.args";
 
 @Injectable()
 export class PostService {
@@ -22,12 +24,15 @@ export class PostService {
     @InjectRepository(Post)
     private readonly postRepository: EntityRepository<Post>,
     @InjectRepository(Server)
-    private readonly serverRepository: EntityRepository<Server>
+    private readonly serverRepository: EntityRepository<Server>,
+    @InjectRepository(ServerUser)
+    private readonly serverUserRepository: EntityRepository<ServerUser>
   ) {}
 
   async getPosts(
     user: User,
     serverName: string,
+    feed: PostsFeed,
     sort: PostsSort,
     time: PostsTime,
     offset: number,
@@ -47,9 +52,21 @@ export class PostService {
       servers = [
         await this.serverRepository.findOneOrFail({ name: serverName }),
       ];
+    } else if (feed === PostsFeed.Joined) {
+      const joinedServers = await this.serverUserRepository.find(
+        {
+          user,
+          status: ServerUserStatus.Joined,
+        },
+        { populate: ["server"] }
+      );
+
+      servers = joinedServers.map((js) => js.server);
+    } else if (feed === PostsFeed.Featured) {
+      servers = await this.serverRepository.findAll();
     }
 
-    const posts = await this.postRepository.find(
+    return await this.postRepository.find(
       {
         $and: [
           !time || time === PostsTime.All
@@ -61,7 +78,7 @@ export class PostService {
                     .toDate(),
                 },
               },
-          servers.length ? { server: servers } : {},
+          servers.length ? { server: servers } : { server: [] },
         ],
       },
       {
@@ -71,8 +88,6 @@ export class PostService {
         populate: ["author", "server"],
       }
     );
-
-    return posts;
   }
 
   async createPost(
