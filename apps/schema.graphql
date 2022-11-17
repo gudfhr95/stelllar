@@ -108,6 +108,7 @@ type Post implements BaseEntity {
   linkMetadata: LinkMetadata
   linkMetadatas: [LinkMetadata!]!
   images: [PostImage!]!
+  thumbnailUrl: String
   author: User
   serverUser: ServerUser
   isPinned: Boolean!

@@ -19,6 +19,15 @@ query posts(
     feed: $feed
   ) {
     ...Post
+    author {
+      ...User
+    }
+    server {
+      id
+      name
+      avatarUrl
+      displayName
+    }
   }
 }
 

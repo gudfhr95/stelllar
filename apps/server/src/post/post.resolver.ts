@@ -1,5 +1,13 @@
 import { Logger } from "@nestjs/common";
-import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from "@nestjs/graphql";
+import { GraphQLString } from "graphql/type";
 import { CurrentUser } from "../auth/decorator/current-user.decorator";
 import { Public } from "../auth/decorator/public.decorator";
 import { User } from "../user/entity/user.entity";
@@ -42,5 +50,26 @@ export class PostResolver {
       input.text,
       input.images
     );
+  }
+
+  @ResolveField("thumbnailUrl", () => GraphQLString, { nullable: true })
+  thumbnailUrl(@Parent() post: Post) {
+    if (post.images && post.images.length > 0) {
+      return post.images[0].image.smallUrl;
+    }
+
+    if (!post.linkUrl) {
+      return null;
+    }
+
+    if (post.linkMetadata && post.linkMetadata.image) {
+      return post.linkMetadata.image.smallUrl;
+    }
+
+    if (post.linkMetadata && post.linkMetadata.logo) {
+      return post.linkMetadata.logo.smallUrl;
+    }
+
+    return null;
   }
 }

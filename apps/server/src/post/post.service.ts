@@ -68,7 +68,7 @@ export class PostService {
         orderBy,
         limit,
         offset,
-        populate: ["server"],
+        populate: ["author", "server"],
       }
     );
 

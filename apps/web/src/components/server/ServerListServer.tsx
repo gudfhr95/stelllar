@@ -18,11 +18,7 @@ export default function ServerListServer({
   const active = name === router.query.server;
   return (
     <>
-      <ServerListItem
-        to={`/server/${name}?sort=Hot`}
-        name={displayName}
-        active={active}
-      >
+      <ServerListItem to={`/server/${name}`} name={displayName} active={active}>
         <ServerAvatar
           name={name}
           displayName={displayName}

@@ -4,36 +4,21 @@ fragment Post on Post {
   isPinned
   text
   linkUrl
+  linkMetadata {
+    ...Metadata
+  }
+  thumbnailUrl
+  images {
+    image {
+      ...Image
+    }
+  }
   commentCount
   voteCount
   voteType
   isDeleted
   createdAt
   updatedAt
-  linkMetadata {
-    ...Metadata
-  }
-  images {
-    image {
-      ...Image
-    }
-  }
-  server {
-    ...Server
-  }
-}
-
-
-fragment Image on Image {
-  originalUrl
-  originalWidth
-  originalHeight
-  popupUrl
-  popupWidth
-  popupHeight
-  smallUrl
-  smallWidth
-  smallHeight
 }
 
 fragment Metadata on LinkMetadata {
@@ -48,4 +33,16 @@ fragment Metadata on LinkMetadata {
   twitterCard
   url
   themeColor
+}
+
+fragment Image on Image {
+  originalUrl
+  originalWidth
+  originalHeight
+  popupUrl
+  popupWidth
+  popupHeight
+  smallUrl
+  smallWidth
+  smallHeight
 }

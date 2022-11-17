@@ -6,6 +6,7 @@ import useAuth from "../../hooks/useAuth";
 import ServerAvatar from "../server/ServerAvatar";
 import {
   IconChat,
+  IconChevronDown,
   IconChevronUp,
   IconDotsVertical,
   IconLinkWeb,
@@ -24,7 +25,10 @@ export default memo(function PostItem({
 }: PostItem) {
   const user = useAuth();
 
-  const onClickUpvote = (e) => {};
+  const onClickUpVote = (e: any) => {};
+
+  const onClickDownVote = (e: any) => {};
+
   return (
     <div
       className={`${className} cursor-pointer relative group hover:shadow dark:bg-gray-800 dark:hover:bg-gray-825 bg-gray-200 px-2 py-3 md:rounded flex hover:bg-gray-300`}
@@ -33,14 +37,22 @@ export default memo(function PostItem({
         <button
           type="button"
           className={`focus:outline-none p-1 rounded-full dark:hover:bg-gray-750 transition cursor-pointer hover:bg-gray-200`}
-          onClick={onClickUpvote}
+          onClick={onClickUpVote}
         >
           <IconChevronUp className="w-5 h-5" />
         </button>
 
         <div className={`text-13 leading-none font-semibold`}>
-          {post.voteCount < 0 ? 0 : post.voteCount}
+          {post.voteCount}
         </div>
+
+        <button
+          type="button"
+          className={`focus:outline-none p-1 rounded-full dark:hover:bg-gray-750 transition cursor-pointer hover:bg-gray-200`}
+          onClick={onClickDownVote}
+        >
+          <IconChevronDown className="w-5 h-5" />
+        </button>
       </div>
 
       <div
@@ -76,7 +88,7 @@ export default memo(function PostItem({
               className="dark:bg-gray-750 rounded-full"
             />
             <span className="ml-1.5 text-xs font-medium text-secondary">
-              {post.server?.displayName}
+              {post.server.displayName}
             </span>
           </Link>
           <span className="text-xs text-tertiary">
@@ -84,6 +96,9 @@ export default memo(function PostItem({
             {formatDistanceToNowStrict(new Date(post.createdAt))}
             &nbsp;ago&nbsp;by
           </span>
+          <div className="ml-1 cursor-pointer text-tertiary text-xs font-medium leading-none">
+            {post.author?.name ?? "[deleted]"}
+          </div>
         </div>
 
         <div className="text-secondary font-medium text-base">{post.title}</div>

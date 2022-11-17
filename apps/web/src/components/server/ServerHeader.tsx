@@ -18,11 +18,13 @@ export default function ServerHeader() {
     case "Top":
       icon = <IconTop className={"w-5 h-5"} />;
       break;
+    default:
+      icon = <IconHot className={"w-5 h-5"} />;
   }
 
   return (
     <Header
-      title={query.sort as string}
+      title={(query.sort as string) || "Hot"}
       icon={icon}
       showDivider={query.sort === "Top"}
     >

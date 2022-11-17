@@ -50,6 +50,9 @@ export class Post extends BaseEntity {
   @Embedded(() => PostImage, { object: true, array: true })
   images: PostImage[] = [];
 
+  @Field({ nullable: true })
+  thumbnailUrl: string | null;
+
   @Field(() => User, { nullable: true })
   @ManyToOne(() => User)
   author?: User;
