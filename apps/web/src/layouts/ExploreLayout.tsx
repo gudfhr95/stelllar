@@ -4,11 +4,7 @@ import ExploreSidebar from "../components/explore/ExploreSidebar";
 import Header from "../components/ui/header/Header";
 import { IconExplore } from "../components/ui/icons/Icons";
 
-type ExploreLayout = {};
-
-export default function ExploreLayout({
-  children,
-}: PropsWithChildren<ExploreLayout>) {
+export default function ExploreLayout({ children }: PropsWithChildren) {
   const { t } = useTranslation("explore");
 
   return (

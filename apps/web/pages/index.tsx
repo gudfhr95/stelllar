@@ -1,25 +1,27 @@
-import axios from "axios";
+import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import HomeLayout from "../src/layouts/HomeLayout";
 
 export default function Index() {
-  const request = () => {
-    axios
-      .get("http://localhost:4000/auth/google", { withCredentials: true })
-      .then((result) => console.log(result))
-      .catch((err) => console.log(err));
-  };
-  return <button onClick={request}>Request</button>;
+  return <HomeLayout></HomeLayout>;
 }
 
-export async function getStaticProps({ locale }: { locale: string }) {
+export const getServerSideProps: GetServerSideProps<{}> = async ({
+  req,
+  locale,
+  query,
+}) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, [
+      ...(await serverSideTranslations(locale as string, [
         "bottom-bar",
         "settings",
         "server-list",
+        "create-server",
+        "explore",
         "server",
+        "home",
       ])),
     },
   };
-}
+};

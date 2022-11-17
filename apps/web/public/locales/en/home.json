@@ -1,0 +1,10 @@
+{
+  "feed": {
+    "label": "Feeds",
+    "feed": "Feed",
+    "featured": "Featured"
+  },
+  "post": {
+    "label": "Sort"
+  },
+}

@@ -46,6 +46,7 @@ export {
   HiGlobeAlt as IconLinkWeb,
   HiChatAlt2 as IconChat,
   HiDotsVertical as IconDotsVertical,
+  HiCheckCircle as IconFeatured,
 } from "react-icons/hi";
 
 export {

@@ -15,7 +15,9 @@ function SortItem({ sort, icon }: SortItem) {
 
   const active =
     router.query.sort === sort ||
-    (sort === "Hot" && router.asPath === `/server/${server}`);
+    (sort === "Hot" &&
+      !router.query.sort &&
+      (router.asPath === `/server/${server}` || router.pathname === "/"));
 
   const Icon = icon;
 
