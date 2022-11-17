@@ -3,6 +3,8 @@ export {
   RiFootprintFill as IconCategoryLifestyle,
   RiBasketballFill as IconCategorySports,
   RiFireFill as IconHot,
+  RiCodeBoxFill as IconFormatCodeBlock,
+  RiPlayFill as IconPlay,
 } from "react-icons/ri";
 
 export {
@@ -33,9 +35,37 @@ export {
   HiClock as IconNew,
   HiSortAscending as IconTop,
   HiMenu as IconMenu,
+  HiMenuAlt2 as IconText,
+  HiLink as IconLinkChain,
+  HiPhotograph as IconFormatImage,
+  HiCode as IconFormatCodeInline,
+  HiMinus as IconFormatDivider,
+  HiEmojiHappy as IconFormatEmoji,
+  HiOutlineExternalLink as IconLinkExternal,
+  HiChevronUp as IconChevronUp,
+  HiGlobeAlt as IconLinkWeb,
+  HiChatAlt2 as IconChat,
+  HiDotsVertical as IconDotsVertical,
+  HiCheckCircle as IconFeatured,
 } from "react-icons/hi";
 
-export { MdTv as IconCategoryEntertainment } from "react-icons/md";
+export {
+  BiBold as IconFormatBold,
+  BiItalic as IconFormatItalic,
+  BiUnderline as IconFormatUnderline,
+  BiStrikethrough as IconFormatStrikethrough,
+  BiHide as IconFormatSpoiler,
+  BiLink as IconFormatLink,
+  BiUnlink as IconFormatLinkRemove,
+  BiHeading as IconFormatHeading,
+} from "react-icons/bi";
+
+export {
+  MdTv as IconCategoryEntertainment,
+  MdFormatListBulleted as IconFormatListBulleted,
+  MdFormatListNumbered as IconFormatListNumbered,
+  MdFormatQuote as IconFormatQuote,
+} from "react-icons/md";
 
 export {
   FaSortAlphaDown as IconAll,

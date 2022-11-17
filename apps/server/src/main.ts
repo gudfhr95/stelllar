@@ -1,6 +1,6 @@
 import { Logger } from "@nestjs/common";
 import { NestFactory, Reflector } from "@nestjs/core";
-import * as cookieParser from "cookie-parser";
+import cookieParser from "cookie-parser";
 import { graphqlUploadExpress } from "graphql-upload-minimal";
 import { AppModule } from "./app.module";
 import { GqlNextAuthSessionGuard } from "./auth/guard/gql-next-auth-session.guard";

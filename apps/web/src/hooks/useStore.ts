@@ -19,11 +19,11 @@ type Store = {
   showRightSidebar: boolean;
   setShowRightSidebar: (show: boolean) => void;
 
-  postSort: string;
-  setPostSort: (sort: string) => void;
-
   serverSettingDialog: boolean;
   setServerSettingDialog: (open: boolean) => void;
+
+  createPostDialog: boolean;
+  setCreatePostDialog: (open: boolean) => void;
 };
 
 export const useStore = create<Store>()((set, get) => ({
@@ -45,9 +45,9 @@ export const useStore = create<Store>()((set, get) => ({
   showRightSidebar: false,
   setShowRightSidebar: (show) => set({ showRightSidebar: show }),
 
-  postSort: "Hot",
-  setPostSort: (sort) => set({ postSort: sort }),
-
   serverSettingDialog: false,
   setServerSettingDialog: (open) => set({ serverSettingDialog: open }),
+
+  createPostDialog: false,
+  setCreatePostDialog: (open) => set({ createPostDialog: open }),
 }));

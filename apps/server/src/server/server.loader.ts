@@ -1,5 +1,5 @@
 import { Injectable, Scope } from "@nestjs/common";
-import * as DataLoader from "dataloader";
+import DataLoader from "dataloader";
 import { ServerService } from "./server.service";
 
 @Injectable({ scope: Scope.REQUEST })

@@ -1,5 +1,6 @@
 import { PropsWithChildren } from "react";
 import BottomBar from "../components/BottomBar";
+import CreatePostDialog from "../components/dialog/CreatePostDialog";
 import CreateServerDialog from "../components/dialog/CreateServerDialog";
 import DeleteAccountDialog from "../components/dialog/DeleteAccountDialog";
 import LoginDialog from "../components/dialog/LoginDialog";
@@ -15,6 +16,7 @@ export default function MainLayout({ children }: PropsWithChildren) {
       <SettingsDialog />
       <DeleteAccountDialog />
       <CreateServerDialog />
+      <CreatePostDialog />
       <div className="flex-grow">
         <div
           className="flex items-stretch"

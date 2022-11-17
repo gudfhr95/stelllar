@@ -1,4 +1,3 @@
-import { Field, Int, ObjectType } from "@nestjs/graphql";
 import {
   Collection,
   Embedded,
@@ -9,19 +8,20 @@ import {
   Property,
   QueryOrder,
 } from "@mikro-orm/core";
-import { BaseEntity } from "../../common/entity/base.entity";
-import { Server } from "../../server/entity/server.entity";
-import { LinkMetadata } from "../../common/entity/link-metadata.entity";
-import { PostImage } from "./post-image.entity";
-import { User } from "../../user/entity/user.entity";
-import { ServerUser } from "../../server/entity/server-user.entity";
-import { Comment } from "../../comment/entity/comment.entity";
-import { FolderPost } from "../../folder/entity/folder-post.entity";
-import { Folder } from "../../folder/entity/folder.entity";
-import { VoteType } from "../../common/entity/vote-type.enum";
-import { PostVote } from "./post-vote.entity";
+import { Field, Int, ObjectType } from "@nestjs/graphql";
 import { GraphQLNonNegativeInt } from "graphql-scalars";
 import { GraphQLBoolean } from "graphql/type";
+import { Comment } from "../../comment/entity/comment.entity";
+import { BaseEntity } from "../../common/entity/base.entity";
+import { LinkMetadata } from "../../common/entity/link-metadata.entity";
+import { VoteType } from "../../common/entity/vote-type.enum";
+import { FolderPost } from "../../folder/entity/folder-post.entity";
+import { Folder } from "../../folder/entity/folder.entity";
+import { ServerUser } from "../../server/entity/server-user.entity";
+import { Server } from "../../server/entity/server.entity";
+import { User } from "../../user/entity/user.entity";
+import { PostImage } from "./post-image.entity";
+import { PostVote } from "./post-vote.entity";
 
 @ObjectType({ implements: BaseEntity })
 @Entity()
@@ -49,6 +49,9 @@ export class Post extends BaseEntity {
   @Field(() => [PostImage])
   @Embedded(() => PostImage, { object: true, array: true })
   images: PostImage[] = [];
+
+  @Field({ nullable: true })
+  thumbnailUrl: string | null;
 
   @Field(() => User, { nullable: true })
   @ManyToOne(() => User)
@@ -84,7 +87,7 @@ export class Post extends BaseEntity {
   @Property({ columnType: "int" })
   voteCount = 0;
 
-  @Field(() => VoteType)
+  @Field(() => VoteType, { nullable: true })
   voteType: VoteType = VoteType.None;
 
   @OneToMany(() => PostVote, "post")

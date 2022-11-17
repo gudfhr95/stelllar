@@ -1,0 +1,38 @@
+query posts(
+  $sort: PostsSort
+  $offset: NonNegativeInt
+  $limit: PositiveInt
+  $time: PostsTime
+  $folderId: ID
+  $serverName: String
+  $search: String
+  $feed: PostsFeed
+) {
+  posts(
+    sort: $sort
+    time: $time
+    folderId: $folderId
+    serverName: $serverName
+    search: $search
+    offset: $offset
+    limit: $limit
+    feed: $feed
+  ) {
+    ...Post
+    author {
+      ...User
+    }
+    server {
+      id
+      name
+      avatarUrl
+      displayName
+    }
+  }
+}
+
+query getLinkMetadata($linkUrl: String!) {
+  getLinkMetadata(linkUrl: $linkUrl) {
+    ...Metadata
+  }
+}

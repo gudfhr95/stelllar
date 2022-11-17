@@ -1,25 +1,50 @@
-import axios from "axios";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import client from "../apollo-client";
+import PostList from "../src/components/post/PostList";
+import { PostsDocument } from "../src/graphql/hooks";
+import HomeLayout from "../src/layouts/HomeLayout";
 
-export default function Index() {
-  const request = () => {
-    axios
-      .get("http://localhost:4000/auth/google", { withCredentials: true })
-      .then((result) => console.log(result))
-      .catch((err) => console.log(err));
-  };
-  return <button onClick={request}>Request</button>;
+export default function Index({
+  initialPosts,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  return (
+    <HomeLayout>
+      <PostList initialPosts={initialPosts} />
+    </HomeLayout>
+  );
 }
 
-export async function getStaticProps({ locale }: { locale: string }) {
+export const getServerSideProps: GetServerSideProps<{
+  initialPosts: [];
+}> = async ({ req, locale, query }) => {
+  const { data } = await client.query({
+    query: PostsDocument,
+    variables: {
+      sort: query.sort,
+      time: query.time,
+      feed: query.feed,
+    },
+    context: {
+      headers: {
+        cookie: req.headers.cookie,
+      },
+    },
+  });
+
   return {
     props: {
-      ...(await serverSideTranslations(locale, [
+      initialPosts: data.posts,
+      ...(await serverSideTranslations(locale as string, [
         "bottom-bar",
         "settings",
         "server-list",
+        "create-server",
+        "explore",
         "server",
+        "home",
+        "post",
       ])),
     },
   };
-}
+};

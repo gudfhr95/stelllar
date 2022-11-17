@@ -47,7 +47,11 @@ type Image {
   originalWidth: PositiveInt!
   originalHeight: PositiveInt!
   smallUrl: String
+  smallWidth: PositiveInt
+  smallHeight: PositiveInt
   popupUrl: String
+  popupWidth: PositiveInt
+  popupHeight: PositiveInt
 }
 
 """Integers that will have a value greater than 0."""
@@ -66,12 +70,6 @@ type LinkMetadata {
   url: String
   twitterCard: String
   themeColor: String
-}
-
-type PostImage {
-  image: Image!
-  linkUrl: String
-  caption: String
 }
 
 type Comment implements BaseEntity {
@@ -97,6 +95,10 @@ enum VoteType {
   Down
 }
 
+type PostImage {
+  image: Image!
+}
+
 type Post implements BaseEntity {
   id: ID!
   createdAt: DateTime!
@@ -106,6 +108,7 @@ type Post implements BaseEntity {
   linkMetadata: LinkMetadata
   linkMetadatas: [LinkMetadata!]!
   images: [PostImage!]!
+  thumbnailUrl: String
   author: User
   serverUser: ServerUser
   isPinned: Boolean!
@@ -113,7 +116,7 @@ type Post implements BaseEntity {
   server: Server!
   folders: [Folder!]
   voteCount: Int!
-  voteType: VoteType!
+  voteType: VoteType
   commentCount: NonNegativeInt!
   updatedAt: DateTime
   isDeleted: Boolean!
@@ -279,11 +282,35 @@ type Query {
   me: User
   server(name: String!): Server
   publicServers(sort: PublicServersSort = Top, category: ServerCategory): [Server!]!
+  posts(offset: NonNegativeInt = 0, limit: PositiveInt = 20, sort: PostsSort = Hot, time: PostsTime = All, feed: PostsFeed = Joined, serverName: String, folderId: ID, search: String): [Post!]!
+  getLinkMetadata(linkUrl: String!): LinkMetadata
 }
 
 enum PublicServersSort {
   New
   Top
+}
+
+enum PostsSort {
+  New
+  Top
+  Hot
+  Added
+}
+
+enum PostsTime {
+  Hour
+  Day
+  Week
+  Month
+  Year
+  All
+}
+
+enum PostsFeed {
+  Joined
+  Featured
+  All
 }
 
 type Mutation {
@@ -294,6 +321,7 @@ type Mutation {
   updateServer(input: UpdateServerInput!): Server!
   joinServer(serverId: String!): Server!
   leaveServer(serverId: String!): Server!
+  createPost(input: CreatePostInput!): Post!
 }
 
 input UpdateAvatarInput {
@@ -323,4 +351,16 @@ input UpdateServerInput {
   category: ServerCategory = Other
   avatarFile: Upload
   bannerFile: Upload
+}
+
+input CreatePostInput {
+  title: String!
+  linkUrl: String
+  text: String
+  serverId: ID!
+  images: [CreatePostImagesInput!]
+}
+
+input CreatePostImagesInput {
+  file: Upload!
 }

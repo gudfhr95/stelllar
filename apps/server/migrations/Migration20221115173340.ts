@@ -1,6 +1,6 @@
 import { Migration } from '@mikro-orm/migrations';
 
-export class Migration20221109080937 extends Migration {
+export class Migration20221115173340 extends Migration {
 
   async up(): Promise<void> {
     this.addSql('create table "user" ("id" varchar(255) not null, "created_at" timestamptz(0) null default \'now\', "name" text not null, "email" text not null, "email_verified" timestamptz(0) null, "image" varchar(255) null, "last_login_at" timestamptz(0) null, "online_status" text check ("online_status" in (\'Online\', \'Away\', \'DoNotDisturb\', \'Offline\')) not null default \'Online\', "is_admin" boolean not null default false, "is_deleted" boolean not null default false, "is_banned" boolean not null default false, "ban_reason" text null, "is_og" boolean not null default false, "is_staff" boolean not null default false, constraint "user_pkey" primary key ("id"));');
@@ -14,7 +14,7 @@ export class Migration20221109080937 extends Migration {
 
     this.addSql('create table "role" ("id" varchar(255) not null, "created_at" timestamptz(0) not null, "name" text not null, "server_id" varchar(255) not null, "is_default" boolean not null default false, "color" varchar(255) null, "permissions" text[] not null default \'{SendMessages}\', constraint "role_pkey" primary key ("id"));');
 
-    this.addSql('create table "server_user" ("user_id" varchar(255) not null, "server_id" varchar(255) not null, "position" text not null default \'U\', "created_at" timestamptz(0) not null, "role_id" varchar(255) not null, "status" text check ("status" in (\'None\', \'Joined\', \'Banned\')) not null default \'Joined\', constraint "server_user_pkey" primary key ("user_id", "server_id"));');
+    this.addSql('create table "server_user" ("user_id" varchar(255) not null, "server_id" varchar(255) not null, "position" text not null default \'U\', "created_at" timestamptz(0) not null, "role_id" varchar(255) null, "status" text check ("status" in (\'None\', \'Joined\', \'Banned\')) not null default \'Joined\', constraint "server_user_pkey" primary key ("user_id", "server_id"));');
 
     this.addSql('create table "channel" ("id" varchar(255) not null, "created_at" timestamptz(0) not null, "name" text null, "description" text null, "server_id" varchar(255) not null, "position" text not null default \'U\', "type" text check ("type" in (\'Public\', \'Restricted\', \'Private\')) not null default \'Public\', "is_deleted" boolean not null default false, "last_message_at" timestamptz(0) not null, "is_default" boolean not null default false, constraint "channel_pkey" primary key ("id"));');
 
@@ -62,7 +62,7 @@ export class Migration20221109080937 extends Migration {
 
     this.addSql('alter table "server_user" add constraint "server_user_user_id_foreign" foreign key ("user_id") references "user" ("id") on update cascade;');
     this.addSql('alter table "server_user" add constraint "server_user_server_id_foreign" foreign key ("server_id") references "server" ("id") on update cascade;');
-    this.addSql('alter table "server_user" add constraint "server_user_role_id_foreign" foreign key ("role_id") references "role" ("id") on update cascade;');
+    this.addSql('alter table "server_user" add constraint "server_user_role_id_foreign" foreign key ("role_id") references "role" ("id") on update cascade on delete set null;');
 
     this.addSql('alter table "channel" add constraint "channel_server_id_foreign" foreign key ("server_id") references "server" ("id") on update cascade;');
 

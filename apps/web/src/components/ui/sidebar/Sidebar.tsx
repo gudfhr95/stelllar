@@ -1,8 +1,8 @@
 import ctl from "@netlify/classnames-template-literals";
 import { AnimatePresence, motion } from "framer-motion";
 import { PropsWithChildren } from "react";
-import { useLeftSidebar } from "../../../hooks/useLeftSidebar";
-import { useRightSidebar } from "../../../hooks/useRightSidebar";
+import { useShowLeftSidebar } from "../../../hooks/useShowLeftSidebar";
+import { useShowRightSidebar } from "../../../hooks/useShowRightSidebar";
 
 const sidebarClass = ctl(`
   transition
@@ -57,8 +57,8 @@ export default function Sidebar({
   right = false,
   children,
 }: PropsWithChildren<Sidebar>) {
-  const { showLeftSidebar, setShowLeftSidebar } = useLeftSidebar();
-  const { showRightSidebar, setShowRightSidebar } = useRightSidebar();
+  const { showLeftSidebar, setShowLeftSidebar } = useShowLeftSidebar();
+  const { showRightSidebar, setShowRightSidebar } = useShowRightSidebar();
 
   return (
     <>

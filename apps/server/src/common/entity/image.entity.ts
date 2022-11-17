@@ -21,7 +21,19 @@ export class Image {
   @Field({ nullable: true })
   smallUrl?: string;
 
+  @Field(() => GraphQLPositiveInt, { nullable: true })
+  smallWidth: number;
+
+  @Field(() => GraphQLPositiveInt, { nullable: true })
+  smallHeight: number;
+
   @Property({ columnType: "text", nullable: true })
   @Field({ nullable: true })
   popupUrl: string;
+
+  @Field(() => GraphQLPositiveInt, { nullable: true })
+  popupWidth: number;
+
+  @Field(() => GraphQLPositiveInt, { nullable: true })
+  popupHeight: number;
 }
