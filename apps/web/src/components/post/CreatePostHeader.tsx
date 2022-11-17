@@ -3,9 +3,11 @@ import useAuth from "../../hooks/useAuth";
 import { useCreatePostDialog } from "../../hooks/useCreatePostDialog";
 import UserAvatar from "../user/UserAvatar";
 
-type CreatePostHeader = { serverId: string };
+type CreatePostHeader = { serverId?: string | null };
 
-export default function CreatePostHeader({ serverId }: CreatePostHeader) {
+export default function CreatePostHeader({
+  serverId = null,
+}: CreatePostHeader) {
   const { t } = useTranslation("post");
   const user = useAuth();
 

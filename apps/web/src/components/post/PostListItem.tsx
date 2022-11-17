@@ -13,7 +13,7 @@ import {
   IconText,
 } from "../ui/icons/Icons";
 
-type PostItem = {
+type PostListItem = {
   post: Post;
   index: number;
   className?: string;
@@ -22,7 +22,7 @@ export default memo(function PostItem({
   post,
   index,
   className = "",
-}: PostItem) {
+}: PostListItem) {
   const user = useAuth();
 
   const onClickUpVote = (e: any) => {};

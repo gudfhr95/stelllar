@@ -2,7 +2,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import client from "../../apollo-client";
 import CreatePostHeader from "../../src/components/post/CreatePostHeader";
-import ServerPosts from "../../src/components/server/ServerPosts";
+import PostList from "../../src/components/post/PostList";
 import { PostsDocument, Server, ServerDocument } from "../../src/graphql/hooks";
 import useAuth from "../../src/hooks/useAuth";
 import ServerLayout from "../../src/layouts/ServerLayout";
@@ -15,7 +15,7 @@ export default function ServerPage({
 
   return (
     <ServerLayout server={server}>
-      <ServerPosts
+      <PostList
         header={
           !!user ? (
             <CreatePostHeader serverId={server.id} />
@@ -52,6 +52,11 @@ export const getServerSideProps: GetServerSideProps<{
       sort: query.sort,
       time: query.time,
       serverName: params?.server,
+    },
+    context: {
+      headers: {
+        cookie: req.headers.cookie,
+      },
     },
   });
 

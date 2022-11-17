@@ -2,17 +2,17 @@ import { useTranslation } from "next-i18next";
 import { useRef } from "react";
 import { Virtuoso } from "react-virtuoso";
 import { usePosts } from "../../hooks/usePosts";
-import PostItem from "../post/PostItem";
 import EndReached from "../ui/EndReached";
 import { IconSpinner } from "../ui/icons/IconSpinner";
+import PostItem from "./PostListItem";
 
-type ServerPosts = {
+type PostList = {
   header: any;
   showServerName?: boolean;
   initialPosts: [];
 };
 
-export default function ServerPosts({ header, initialPosts }: ServerPosts) {
+export default function PostList({ header, initialPosts }: PostList) {
   const { t } = useTranslation("post");
 
   const [posts, fetching, fetchMore, hasNext] = usePosts(initialPosts);
