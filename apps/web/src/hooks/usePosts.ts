@@ -1,21 +1,13 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { usePostsQuery } from "../graphql/hooks";
 
 export const usePosts = (initialPosts: []) => {
   const { query } = useRouter();
 
-  const [posts, setPosts] = useState(initialPosts);
-  const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(
     (initialPosts.length as number) === 20
   );
-
-  useEffect(() => {
-    setPosts(initialPosts);
-    setPage(1);
-    setHasNext((initialPosts.length as number) === 20);
-  }, [query]);
 
   const variables = {
     serverName: query.server as any,
@@ -24,7 +16,7 @@ export const usePosts = (initialPosts: []) => {
     time: query.time as any,
   };
 
-  const { loading, fetchMore } = usePostsQuery({
+  const { data, loading, fetchMore } = usePostsQuery({
     variables,
     fetchPolicy: "cache-and-network",
     nextFetchPolicy: "cache-first",
@@ -35,23 +27,22 @@ export const usePosts = (initialPosts: []) => {
       return;
     }
 
-    const { data } = await fetchMore({
+    const { data: result } = await fetchMore({
       variables: {
         ...variables,
-        offset: 20 * page,
+        offset: data?.posts.length,
       },
     });
 
-    const p = data.posts;
+    const p = result.posts;
 
     if (p.length === 0) {
       setHasNext(false);
       return;
     }
-
-    setPosts((prevPosts) => [...prevPosts, ...p] as []);
-    setPage(page + 1);
   };
+
+  const posts = data?.posts ? data.posts : initialPosts;
 
   return [posts, loading, loadMore, hasNext] as any;
 };

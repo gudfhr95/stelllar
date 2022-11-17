@@ -2,7 +2,6 @@ import { formatDistanceToNowStrict } from "date-fns";
 import Link from "next/link";
 import { memo } from "react";
 import { Post } from "../../graphql/hooks";
-import useAuth from "../../hooks/useAuth";
 import ServerAvatar from "../server/ServerAvatar";
 import {
   IconChat,
@@ -23,8 +22,6 @@ export default memo(function PostItem({
   index,
   className = "",
 }: PostListItem) {
-  const user = useAuth();
-
   const onClickUpVote = (e: any) => {};
 
   const onClickDownVote = (e: any) => {};

@@ -1,15 +1,14 @@
 import { useTranslation } from "next-i18next";
-import useAuth from "../../hooks/useAuth";
+import { User } from "../../graphql/hooks";
 import { useCreatePostDialog } from "../../hooks/useCreatePostDialog";
 import UserAvatar from "../user/UserAvatar";
 
-type CreatePostHeader = { serverId?: string | null };
+type CreatePostHeader = {
+  user: User;
+};
 
-export default function CreatePostHeader({
-  serverId = null,
-}: CreatePostHeader) {
+export default function CreatePostHeader({ user }: CreatePostHeader) {
   const { t } = useTranslation("post");
-  const user = useAuth();
 
   const { setCreatePostDialog } = useCreatePostDialog();
 

@@ -13,7 +13,7 @@ import { Public } from "../auth/decorator/public.decorator";
 import { User } from "../user/entity/user.entity";
 import { Post } from "./entity/post.entity";
 import { CreatePostInput } from "./input/create-post.input";
-import { PostsArgs } from "./input/posts.args";
+import { PostsArgs, PostsFeed } from "./input/posts.args";
 import { PostService } from "./post.service";
 
 @Resolver(() => Post)
@@ -24,6 +24,10 @@ export class PostResolver {
   @Query(() => [Post])
   async posts(@Args() args: PostsArgs, @CurrentUser() user: User) {
     Logger.log("posts");
+
+    if (!user) {
+      args.feed = PostsFeed.Featured;
+    }
 
     return await this.postService.getPosts(
       user,

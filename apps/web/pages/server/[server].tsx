@@ -1,7 +1,6 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import client from "../../apollo-client";
-import CreatePostHeader from "../../src/components/post/CreatePostHeader";
 import PostList from "../../src/components/post/PostList";
 import { PostsDocument, Server, ServerDocument } from "../../src/graphql/hooks";
 import useAuth from "../../src/hooks/useAuth";
@@ -15,16 +14,7 @@ export default function ServerPage({
 
   return (
     <ServerLayout server={server}>
-      <PostList
-        header={
-          !!user ? (
-            <CreatePostHeader serverId={server.id} />
-          ) : (
-            <div className="h-4" />
-          )
-        }
-        initialPosts={initialPosts}
-      />
+      <PostList initialPosts={initialPosts} />
     </ServerLayout>
   );
 }

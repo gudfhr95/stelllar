@@ -1,4 +1,5 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { offsetLimitPagination } from "@apollo/client/utilities";
 import { createUploadLink } from "apollo-upload-client";
 
 const httpLink = createUploadLink({
@@ -8,7 +9,15 @@ const httpLink = createUploadLink({
 
 const client = new ApolloClient({
   link: httpLink,
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          posts: offsetLimitPagination(),
+        },
+      },
+    },
+  }),
 });
 
 export default client;
