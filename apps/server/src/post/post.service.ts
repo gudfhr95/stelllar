@@ -129,7 +129,6 @@ export class PostService {
         }
 
         const i = await this.fileService.uploadImageFile(createReadStream, ext);
-        console.log(i);
         postImages.push({
           image: i,
         });

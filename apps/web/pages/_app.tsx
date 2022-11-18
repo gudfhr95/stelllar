@@ -1,5 +1,4 @@
 import { ApolloProvider } from "@apollo/client";
-import axios from "axios";
 import { SessionProvider } from "next-auth/react";
 import { appWithTranslation } from "next-i18next";
 import { AppProps } from "next/app";
@@ -10,8 +9,6 @@ import MainLayout from "../src/layouts/MainLayout";
 import "../src/styles/global.css";
 import "../src/styles/index.css";
 import "../src/styles/tippy.css";
-
-axios.defaults.withCredentials = true;
 
 function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const previousPath = usePreviousPath();

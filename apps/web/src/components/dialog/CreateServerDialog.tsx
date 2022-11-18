@@ -71,7 +71,7 @@ export default function CreateServerDialog() {
       },
     }).then(({ data }) => {
       setOpen(false);
-      router.push(`/server/${data!.createServer.name}`);
+      router.push(`/planets/${data!.createServer.name}`);
     });
   };
 
