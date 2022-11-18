@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePostsQuery } from "../graphql/hooks";
 
 export const usePosts = (initialPosts: []) => {
@@ -8,6 +8,10 @@ export const usePosts = (initialPosts: []) => {
   const [hasNext, setHasNext] = useState(
     (initialPosts.length as number) === 20
   );
+
+  useEffect(() => {
+    setHasNext((initialPosts.length as number) === 20);
+  }, [query]);
 
   const variables = {
     serverName: query.server as any,

@@ -64,19 +64,29 @@ export default memo(function PostItem({
       <div className="flex flex-col items-center pr-2">
         <button
           type="button"
-          className={`focus:outline-none p-1 rounded-full dark:hover:bg-gray-750 transition cursor-pointer hover:bg-gray-200`}
+          className={`focus:outline-none p-1 rounded-full dark:hover:bg-gray-750 transition cursor-pointer hover:bg-gray-200 ${
+            post.voteType === VoteType.Up ? "text-red-400" : "text-mid"
+          }`}
           onClick={onClickUpVote}
         >
           <IconChevronUp className="w-5 h-5" />
         </button>
 
-        <div className={`text-13 leading-none font-semibold`}>
+        <div
+          className={`text-13 leading-none font-semibold ${
+            post.voteType === VoteType.Up ? "text-red-400" : ""
+          } ${post.voteType === VoteType.Down ? "text-blue-400" : ""} ${
+            post.voteType === VoteType.None ? "text-tertiary" : ""
+          }`}
+        >
           {post.voteCount}
         </div>
 
         <button
           type="button"
-          className={`focus:outline-none p-1 rounded-full dark:hover:bg-gray-750 transition cursor-pointer hover:bg-gray-200`}
+          className={`focus:outline-none p-1 rounded-full dark:hover:bg-gray-750 transition cursor-pointer ${
+            post.voteType === VoteType.Down ? "text-blue-400" : "text-mid"
+          }`}
           onClick={onClickDownVote}
         >
           <IconChevronDown className="w-5 h-5" />
