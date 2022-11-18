@@ -1,6 +1,7 @@
 import { formatDistanceToNowStrict } from "date-fns";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import {
   Post as PostType,
@@ -8,10 +9,13 @@ import {
   VoteType,
 } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
+import MessageImageDialog from "../message/MessageImageDialog";
 import ServerAvatar from "../server/ServerAvatar";
 import {
   IconChat,
   IconChevronDown,
+  IconChevronLeft,
+  IconChevronRight,
   IconChevronUp,
   IconDotsVertical,
 } from "../ui/icons/Icons";
@@ -27,6 +31,8 @@ export default function Post({ post, className = "" }: IPost) {
   const user = useAuth();
 
   const [vote] = useVoteMutation();
+
+  const [currentImage, setCurrentImage] = useState(0);
 
   const onClickUpVote = (e: any) => {
     e.stopPropagation();
@@ -158,6 +164,51 @@ export default function Post({ post, className = "" }: IPost) {
                     </a>
                   )}
                 </>
+              )}
+
+              {!!post.images.length && (
+                <div className="mt-2 max-w-[400px]">
+                  <div className="flex relative">
+                    <div className="w-full h-[300px] relative flex items-center justify-center dark:bg-gray-775">
+                      {post.images.map((image, i) => (
+                        <div
+                          key={i}
+                          className={`select-none ${
+                            i === currentImage ? "block" : "hidden"
+                          }`}
+                        >
+                          <MessageImageDialog
+                            rounded={false}
+                            image={image.image}
+                            key={i}
+                          />
+                        </div>
+                      ))}
+                    </div>
+
+                    {post.images.length > 1 && (
+                      <>
+                        {currentImage > 0 && (
+                          <div
+                            onClick={() => setCurrentImage(currentImage - 1)}
+                            className="absolute left-3 top-1/2 transform -translate-y-1/2 rounded-full shadow flex items-center justify-center w-10 h-10 dark:bg-white"
+                          >
+                            <IconChevronLeft className="w-5 h-5 dark:text-black" />
+                          </div>
+                        )}
+
+                        {currentImage < post.images.length - 1 && (
+                          <div
+                            onClick={() => setCurrentImage(currentImage + 1)}
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 rounded-full shadow flex items-center justify-center w-10 h-10 dark:bg-white"
+                          >
+                            <IconChevronRight className="w-5 h-5 dark:text-black" />
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </div>
               )}
             </div>
 
