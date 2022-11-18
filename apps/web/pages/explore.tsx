@@ -57,11 +57,11 @@ export const getServerSideProps: GetServerSideProps<{
     props: {
       servers: data.publicServers ?? [],
       ...(await serverSideTranslations(locale as string, [
-        "bottom-bar",
-        "settings",
-        "server-list",
-        "create-server",
+        "common",
+        "home",
         "explore",
+        "server",
+        "post",
       ])),
     },
   };

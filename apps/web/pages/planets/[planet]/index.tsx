@@ -1,10 +1,14 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import client from "../../apollo-client";
-import PostList from "../../src/components/post/PostList";
-import { PostsDocument, Server, ServerDocument } from "../../src/graphql/hooks";
-import useAuth from "../../src/hooks/useAuth";
-import ServerLayout from "../../src/layouts/ServerLayout";
+import client from "../../../apollo-client";
+import PostList from "../../../src/components/post/PostList";
+import {
+  PostsDocument,
+  Server,
+  ServerDocument,
+} from "../../../src/graphql/hooks";
+import useAuth from "../../../src/hooks/useAuth";
+import ServerLayout from "../../../src/layouts/ServerLayout";
 
 export default function ServerPage({
   server,
@@ -26,7 +30,7 @@ export const getServerSideProps: GetServerSideProps<{
   const { data: serverData } = await client.query({
     query: ServerDocument,
     variables: {
-      name: params?.server,
+      name: params?.planet,
     },
     fetchPolicy: "no-cache",
     context: {
@@ -41,7 +45,7 @@ export const getServerSideProps: GetServerSideProps<{
     variables: {
       sort: query.sort,
       time: query.time,
-      serverName: params?.server,
+      serverName: params?.planet,
     },
     context: {
       headers: {
@@ -55,10 +59,9 @@ export const getServerSideProps: GetServerSideProps<{
       server: serverData?.server,
       initialPosts: postsData?.posts,
       ...(await serverSideTranslations(locale as string, [
-        "bottom-bar",
-        "settings",
-        "server-list",
-        "create-server",
+        "common",
+        "home",
+        "explore",
         "server",
         "post",
       ])),

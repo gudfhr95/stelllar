@@ -26,6 +26,8 @@ export default memo(function PostItem({
   const [vote] = useVoteMutation();
 
   const onClickUpVote = (e: any) => {
+    e.stopPropagation();
+
     if (!user) {
       toast.error("Login to vote");
       return;
@@ -42,6 +44,8 @@ export default memo(function PostItem({
   };
 
   const onClickDownVote = (e: any) => {
+    e.stopPropagation();
+
     if (!user) {
       toast.error("Login to vote");
       return;
@@ -58,7 +62,8 @@ export default memo(function PostItem({
   };
 
   return (
-    <div
+    <Link
+      href={`/planets/${post.server.name}/posts/${post.id}`}
       className={`${className} cursor-pointer relative group hover:shadow dark:bg-gray-800 dark:hover:bg-gray-825 bg-gray-200 px-2 py-3 md:rounded flex hover:bg-gray-300`}
     >
       <div className="flex flex-col items-center pr-2">
@@ -84,7 +89,7 @@ export default memo(function PostItem({
 
         <button
           type="button"
-          className={`focus:outline-none p-1 rounded-full dark:hover:bg-gray-750 transition cursor-pointer ${
+          className={`focus:outline-none p-1 rounded-full dark:hover:bg-gray-750 transition cursor-pointer hover:bg-gray-200 ${
             post.voteType === VoteType.Down ? "text-blue-400" : "text-mid"
           }`}
           onClick={onClickDownVote}
@@ -115,7 +120,7 @@ export default memo(function PostItem({
       <div className="pr-4 flex-grow flex flex-col">
         <div className="flex flex-wrap items-center pb-1.5">
           <Link
-            href={`/server/${post.server.name}`}
+            href={`/planets/${post.server.name}`}
             className="flex items-center"
           >
             <ServerAvatar
@@ -156,6 +161,6 @@ export default memo(function PostItem({
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 });

@@ -11,13 +11,13 @@ type SortItem = {
 function SortItem({ sort, icon }: SortItem) {
   const { t } = useTranslation("server");
   const router = useRouter();
-  const server = router.query.server;
+  const planet = router.query.planet;
 
   const active =
     router.query.sort === sort ||
     (sort === "Hot" &&
       !router.query.sort &&
-      (router.asPath === `/server/${server}` || router.pathname === "/"));
+      (router.asPath === `/planets/${planet}` || router.pathname === "/"));
 
   const Icon = icon;
 
