@@ -116,7 +116,7 @@ type Post implements BaseEntity {
   server: Server!
   folders: [Folder!]
   voteCount: Int!
-  voteType: VoteType
+  voteType: VoteType!
   commentCount: NonNegativeInt!
   updatedAt: DateTime
   isDeleted: Boolean!
@@ -285,6 +285,7 @@ type Query {
   post(id: String!): Post!
   posts(offset: NonNegativeInt = 0, limit: PositiveInt = 20, sort: PostsSort = Hot, time: PostsTime = All, feed: PostsFeed = Joined, serverName: String, folderId: ID, search: String): [Post!]!
   getLinkMetadata(linkUrl: String!): LinkMetadata
+  comments(postId: ID, sort: CommentsSort = Top): [Comment!]!
 }
 
 enum PublicServersSort {
@@ -312,6 +313,11 @@ enum PostsFeed {
   Joined
   Featured
   All
+}
+
+enum CommentsSort {
+  New
+  Top
 }
 
 type Mutation {

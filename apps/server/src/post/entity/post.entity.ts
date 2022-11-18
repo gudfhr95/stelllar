@@ -87,7 +87,7 @@ export class Post extends BaseEntity {
   @Property({ columnType: "int" })
   voteCount = 0;
 
-  @Field(() => VoteType, { nullable: true })
+  @Field(() => VoteType)
   voteType: VoteType = VoteType.None;
 
   @OneToMany(() => PostVote, "post")

@@ -1,3 +1,4 @@
+import { QueryOrder } from "@mikro-orm/core";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { EntityRepository } from "@mikro-orm/postgresql";
 import { Injectable } from "@nestjs/common";
@@ -5,6 +6,7 @@ import { handleText } from "../common/util/handle-text";
 import { Post } from "../post/entity/post.entity";
 import { User } from "../user/entity/user.entity";
 import { Comment } from "./entity/comment.entity";
+import { CommentsSort } from "./input/comments.args";
 
 @Injectable()
 export class CommentService {
@@ -14,6 +16,21 @@ export class CommentService {
     @InjectRepository(Post)
     private readonly postRepository: EntityRepository<Post>
   ) {}
+
+  async getCommentsByPostId(postId: string, sort: CommentsSort) {
+    const post = await this.postRepository.findOneOrFail({ id: postId });
+
+    return await this.commentRepository.find(
+      { post },
+      {
+        orderBy:
+          sort === CommentsSort.Top
+            ? { voteCount: QueryOrder.DESC, createdAt: QueryOrder.DESC }
+            : { createdAt: QueryOrder.DESC },
+        populate: ["author"],
+      }
+    );
+  }
 
   async createComment(
     postId: string,
