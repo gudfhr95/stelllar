@@ -22,7 +22,9 @@ export default memo(function PostItem({
   index,
   className = "",
 }: PostListItem) {
-  const onClickUpVote = (e: any) => {};
+  const onClickUpVote = (e: any) => {
+    console.log(post.voteType);
+  };
 
   const onClickDownVote = (e: any) => {};
 
