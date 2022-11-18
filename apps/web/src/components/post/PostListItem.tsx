@@ -1,7 +1,8 @@
 import { formatDistanceToNowStrict } from "date-fns";
 import Link from "next/link";
 import { memo } from "react";
-import { Post } from "../../graphql/hooks";
+import toast from "react-hot-toast";
+import { Post, User, useVoteMutation, VoteType } from "../../graphql/hooks";
 import ServerAvatar from "../server/ServerAvatar";
 import {
   IconChat,
@@ -14,17 +15,47 @@ import {
 
 type PostListItem = {
   post: Post;
-  index: number;
+  user?: User | null;
   className?: string;
 };
 export default memo(function PostItem({
   post,
-  index,
+  user = null,
   className = "",
 }: PostListItem) {
-  const onClickUpVote = (e: any) => {};
+  const [vote] = useVoteMutation();
 
-  const onClickDownVote = (e: any) => {};
+  const onClickUpVote = (e: any) => {
+    if (!user) {
+      toast.error("Login to vote");
+      return;
+    }
+
+    vote({
+      variables: {
+        input: {
+          postId: post.id,
+          type: post.voteType === VoteType.Up ? VoteType.None : VoteType.Up,
+        },
+      },
+    });
+  };
+
+  const onClickDownVote = (e: any) => {
+    if (!user) {
+      toast.error("Login to vote");
+      return;
+    }
+
+    vote({
+      variables: {
+        input: {
+          postId: post.id,
+          type: post.voteType === VoteType.Down ? VoteType.None : VoteType.Down,
+        },
+      },
+    });
+  };
 
   return (
     <div
@@ -33,19 +64,29 @@ export default memo(function PostItem({
       <div className="flex flex-col items-center pr-2">
         <button
           type="button"
-          className={`focus:outline-none p-1 rounded-full dark:hover:bg-gray-750 transition cursor-pointer hover:bg-gray-200`}
+          className={`focus:outline-none p-1 rounded-full dark:hover:bg-gray-750 transition cursor-pointer hover:bg-gray-200 ${
+            post.voteType === VoteType.Up ? "text-red-400" : "text-mid"
+          }`}
           onClick={onClickUpVote}
         >
           <IconChevronUp className="w-5 h-5" />
         </button>
 
-        <div className={`text-13 leading-none font-semibold`}>
+        <div
+          className={`text-13 leading-none font-semibold ${
+            post.voteType === VoteType.Up ? "text-red-400" : ""
+          } ${post.voteType === VoteType.Down ? "text-blue-400" : ""} ${
+            post.voteType === VoteType.None ? "text-tertiary" : ""
+          }`}
+        >
           {post.voteCount}
         </div>
 
         <button
           type="button"
-          className={`focus:outline-none p-1 rounded-full dark:hover:bg-gray-750 transition cursor-pointer hover:bg-gray-200`}
+          className={`focus:outline-none p-1 rounded-full dark:hover:bg-gray-750 transition cursor-pointer ${
+            post.voteType === VoteType.Down ? "text-blue-400" : "text-mid"
+          }`}
           onClick={onClickDownVote}
         >
           <IconChevronDown className="w-5 h-5" />

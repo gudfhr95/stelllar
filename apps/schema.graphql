@@ -322,6 +322,7 @@ type Mutation {
   joinServer(serverId: String!): Server!
   leaveServer(serverId: String!): Server!
   createPost(input: CreatePostInput!): Post!
+  vote(input: VoteInput!): Post!
 }
 
 input UpdateAvatarInput {
@@ -363,4 +364,9 @@ input CreatePostInput {
 
 input CreatePostImagesInput {
   file: Upload!
+}
+
+input VoteInput {
+  postId: ID!
+  type: VoteType!
 }

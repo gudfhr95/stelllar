@@ -4,6 +4,7 @@ import { EntityRepository } from "@mikro-orm/postgresql";
 import { Injectable } from "@nestjs/common";
 import dayjs from "dayjs";
 import mime from "mime";
+import { VoteType } from "../common/entity/vote-type.enum";
 import { handleText } from "../common/util/handle-text";
 import { FileService, imageMimeTypes } from "../file/file.service";
 import { ScraperService } from "../scraper/scraper.service";
@@ -12,6 +13,7 @@ import { ServerUser } from "../server/entity/server-user.entity";
 import { Server } from "../server/entity/server.entity";
 import { User } from "../user/entity/user.entity";
 import { PostImage } from "./entity/post-image.entity";
+import { PostVote } from "./entity/post-vote.entity";
 import { Post } from "./entity/post.entity";
 import { CreatePostImagesInput } from "./input/create-post.input";
 import { PostsFeed, PostsSort, PostsTime } from "./input/posts.args";
@@ -23,6 +25,8 @@ export class PostService {
     private readonly scraperService: ScraperService,
     @InjectRepository(Post)
     private readonly postRepository: EntityRepository<Post>,
+    @InjectRepository(PostVote)
+    private readonly postVoteRepository: EntityRepository<PostVote>,
     @InjectRepository(Server)
     private readonly serverRepository: EntityRepository<Server>,
     @InjectRepository(ServerUser)
@@ -135,9 +139,66 @@ export class PostService {
         ? await this.scraperService.scrapeMetadata(linkUrl)
         : null,
       images: postImages,
+      voteCount: 1,
     });
 
     await this.postRepository.persistAndFlush(post);
+
+    const vote = this.postVoteRepository.create({
+      post,
+      user,
+      type: VoteType.Up,
+    });
+
+    await this.postVoteRepository.persistAndFlush(vote);
+
     return post;
+  }
+
+  async vote(postId: string, user: User, type: VoteType) {
+    const post = await this.postRepository.findOneOrFail(
+      { id: postId },
+      { populate: ["author", "server"] }
+    );
+
+    let vote = await this.postVoteRepository.findOne({ post, user });
+    if (!vote) {
+      vote = this.postVoteRepository.create({ post, user });
+    }
+
+    if (type === VoteType.Up) {
+      post.voteCount += 1;
+
+      if (vote.type === VoteType.Down) {
+        post.voteCount += 1;
+      }
+    } else if (type === VoteType.Down) {
+      post.voteCount -= 1;
+
+      if (vote.type === VoteType.Up) {
+        post.voteCount -= 1;
+      }
+    } else if (type === VoteType.None) {
+      if (vote.type === VoteType.Up) {
+        post.voteCount -= 1;
+      } else if (vote.type === VoteType.Down) {
+        post.voteCount += 1;
+      }
+    }
+
+    post.voteType = type;
+    await this.postRepository.persistAndFlush(post);
+
+    vote.type = type;
+    await this.postVoteRepository.persistAndFlush(vote);
+
+    return post;
+  }
+
+  async getPostVotesByPostIdsAndUserId(postIds: string[], userId: string) {
+    return await this.postVoteRepository.find({
+      post: postIds,
+      user: userId,
+    });
   }
 }
