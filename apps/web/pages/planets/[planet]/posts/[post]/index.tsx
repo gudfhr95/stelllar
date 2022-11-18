@@ -1,8 +1,9 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import client from "../../../../../apollo-client";
+import Post from "../../../../../src/components/post/Post";
 import {
-  Post,
+  Post as PostType,
   PostDocument,
   Server,
   ServerDocument,
@@ -15,17 +16,15 @@ export default function PostPage({
   previousPath,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
-    <PostLayout
-      server={server}
-      post={post}
-      previousPath={previousPath}
-    ></PostLayout>
+    <PostLayout server={server} post={post} previousPath={previousPath}>
+      <Post post={post} />
+    </PostLayout>
   );
 }
 
 export const getServerSideProps: GetServerSideProps<{
   server: Server;
-  post: Post;
+  post: PostType;
   previousPath?: string;
 }> = async ({ req, params, query, locale }) => {
   const { data: serverData } = await client.query({

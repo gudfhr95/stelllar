@@ -27,7 +27,11 @@ export default function PostLayout({
       {previousIsServer ? <ServerSidebar server={server} /> : <HomeSidebar />}
       <div className="flex flex-col flex-grow">
         <PostHeader post={post} back={hasPreviousPath} />
-        <div className="h-full">{children}</div>
+        <div className="h-full">
+          <div className="max-h-full h-full scrollbar-custom dark:bg-gray-750 overflow-y-auto">
+            {children}
+          </div>
+        </div>
       </div>
     </>
   );
