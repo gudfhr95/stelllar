@@ -1,24 +1,37 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import client from "../../../../../apollo-client";
-import { Post, Server, ServerDocument } from "../../../../../src/graphql/hooks";
-import ServerLayout from "../../../../../src/layouts/ServerLayout";
+import {
+  Post,
+  PostDocument,
+  Server,
+  ServerDocument,
+} from "../../../../../src/graphql/hooks";
+import PostLayout from "../../../../../src/layouts/PostLayout";
 
 export default function PostPage({
   server,
   post,
+  previousPath,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  return <ServerLayout server={server}></ServerLayout>;
+  return (
+    <PostLayout
+      server={server}
+      post={post}
+      previousPath={previousPath}
+    ></PostLayout>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps<{
   server: Server;
   post: Post;
+  previousPath?: string;
 }> = async ({ req, params, query, locale }) => {
   const { data: serverData } = await client.query({
     query: ServerDocument,
     variables: {
-      name: params?.server,
+      name: params?.planet,
     },
     fetchPolicy: "no-cache",
     context: {
@@ -28,12 +41,23 @@ export const getServerSideProps: GetServerSideProps<{
     },
   });
 
-  console.log(params);
-  console.log(query);
+  const { data: postData } = await client.query({
+    query: PostDocument,
+    variables: {
+      id: params?.post,
+    },
+    fetchPolicy: "no-cache",
+    context: {
+      headers: {
+        cookie: req.headers.cookie,
+      },
+    },
+  });
 
   return {
     props: {
       server: serverData?.server,
+      post: postData?.post,
       ...(await serverSideTranslations(locale as string, [
         "common",
         "home",

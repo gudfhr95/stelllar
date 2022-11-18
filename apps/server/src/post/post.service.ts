@@ -33,6 +33,13 @@ export class PostService {
     private readonly serverUserRepository: EntityRepository<ServerUser>
   ) {}
 
+  async getPostById(postId: string) {
+    return await this.postRepository.findOneOrFail(
+      { id: postId },
+      { populate: ["author", "server"] }
+    );
+  }
+
   async getPosts(
     user: User,
     serverName: string,

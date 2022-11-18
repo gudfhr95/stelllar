@@ -24,8 +24,9 @@ function SortItem({ sort, icon }: SortItem) {
   return (
     <SidebarItem
       to={{
-        pathname: router.pathname,
-        query: { ...router.query, sort },
+        pathname:
+          router.pathname === "/" ? "/" : `/planets/${router.query.planet}`,
+        query: router.pathname === "/" ? { ...router.query, sort } : { sort },
       }}
       active={active}
     >

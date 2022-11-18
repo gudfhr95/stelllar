@@ -28,6 +28,14 @@ export class PostResolver {
   ) {}
 
   @Public()
+  @Query(() => Post)
+  async post(@Args("id") postId: string, @CurrentUser() user: User) {
+    Logger.log("post");
+
+    return await this.postService.getPostById(postId);
+  }
+
+  @Public()
   @Query(() => [Post])
   async posts(@Args() args: PostsArgs, @CurrentUser() user: User) {
     Logger.log("posts");

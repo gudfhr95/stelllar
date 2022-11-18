@@ -1,5 +1,6 @@
 import { formatDistanceToNowStrict } from "date-fns";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { memo } from "react";
 import toast from "react-hot-toast";
 import { Post, User, useVoteMutation, VoteType } from "../../graphql/hooks";
@@ -23,6 +24,8 @@ export default memo(function PostItem({
   user = null,
   className = "",
 }: PostListItem) {
+  const router = useRouter();
+
   const [vote] = useVoteMutation();
 
   const onClickUpVote = (e: any) => {
@@ -62,9 +65,11 @@ export default memo(function PostItem({
   };
 
   return (
-    <Link
-      href={`/planets/${post.server.name}/posts/${post.id}`}
+    <div
       className={`${className} cursor-pointer relative group hover:shadow dark:bg-gray-800 dark:hover:bg-gray-825 bg-gray-200 px-2 py-3 md:rounded flex hover:bg-gray-300`}
+      onClick={() =>
+        router.push(`/planets/${post.server.name}/posts/${post.id}`)
+      }
     >
       <div className="flex flex-col items-center pr-2">
         <button
@@ -161,6 +166,6 @@ export default memo(function PostItem({
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 });
