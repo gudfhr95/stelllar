@@ -1,6 +1,8 @@
 import ctl from "@netlify/classnames-template-literals";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 import { useState } from "react";
+import { useCreateCommentMutation } from "../../graphql/hooks";
 import Editor from "../ui/editor/Editor";
 
 const commentBtnClass = ctl(`
@@ -35,6 +37,9 @@ type CommentEditor = {
 
 export default function CommentEditor({ postId, setOpen }: CommentEditor) {
   const { t } = useTranslation("comment");
+  const router = useRouter();
+
+  const [createComment, { loading }] = useCreateCommentMutation();
 
   const [text, setText] = useState("");
 
@@ -43,7 +48,20 @@ export default function CommentEditor({ postId, setOpen }: CommentEditor) {
     setText("");
   };
 
-  const onClickSubmit = () => {};
+  const onClickSubmit = () => {
+    createComment({
+      variables: {
+        input: {
+          postId,
+          text,
+        },
+      },
+    }).then(() => {
+      setOpen(false);
+      setText("");
+      router.replace(router.asPath);
+    });
+  };
 
   return (
     <div className="max-w-screen-md w-full">
