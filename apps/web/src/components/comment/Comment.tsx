@@ -2,13 +2,9 @@ import ctl from "@netlify/classnames-template-literals";
 import { formatDistanceToNowStrict } from "date-fns";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import toast from "react-hot-toast";
-import {
-  Comment as CommentType,
-  Post,
-  useCommentVoteMutation,
-  VoteType,
-} from "../../graphql/hooks";
+import { Post, useCommentVoteMutation, VoteType } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
 import { useReplyComment } from "../../hooks/useReplyComment";
 import {
@@ -33,10 +29,16 @@ const replyBtnClass = ctl(`
 
 type Comment = {
   post: Post;
-  comment: CommentType;
+  comment: any;
+  setParentComment?: any;
   level?: number;
 };
-export default function Comment({ post, comment, level = 0 }: Comment) {
+export default function Comment({
+  post,
+  comment,
+  setParentComment,
+  level = 0,
+}: Comment) {
   const { t } = useTranslation("comment");
   const router = useRouter();
   const user = useAuth();
@@ -44,6 +46,8 @@ export default function Comment({ post, comment, level = 0 }: Comment) {
   const [commentVote] = useCommentVoteMutation();
 
   const { replyingCommentId, setReplyingCommentId } = useReplyComment();
+
+  const [collapse, setCollapse] = useState(false);
 
   const onClickUpVote = (e: any) => {
     if (!user) {
@@ -103,7 +107,13 @@ export default function Comment({ post, comment, level = 0 }: Comment) {
             !comment.author ? "opacity-40 dark:bg-gray-700" : "hover:opacity-90"
           }`}
         />
-        <div className={`pl-3 pb-3 w-full`}>
+        <div
+          className={`pl-3 pb-3 w-full${
+            !!comment.childCount && !collapse
+              ? "border-b dark:border-gray-750"
+              : ""
+          }`}
+        >
           <div className="flex items-end pb-1.5">
             <div
               className={`text-sm font-medium cursor-pointer hover:underline leading-none`}
@@ -156,6 +166,17 @@ export default function Comment({ post, comment, level = 0 }: Comment) {
               </button>
             </div>
 
+            {!!comment.childCount && (
+              <div
+                className={replyBtnClass}
+                onClick={() => setCollapse(!collapse)}
+              >
+                {collapse
+                  ? `${t("reply.show")} (${comment.childCount})`
+                  : t("reply.hide")}
+              </div>
+            )}
+
             <div className={replyBtnClass} onClick={onClickReply}>
               {isReplying ? t("reply.cancel") : t("reply.label")}
             </div>
@@ -177,6 +198,18 @@ export default function Comment({ post, comment, level = 0 }: Comment) {
             </div>
           )}
         </div>
+      </div>
+      <div className="pl-3">
+        {!collapse &&
+          comment.childComments.map((childComment: any) => (
+            <Comment
+              key={childComment.id}
+              comment={childComment}
+              level={level + 1}
+              setParentComment={setParentComment}
+              post={post}
+            />
+          ))}
       </div>
     </div>
   );

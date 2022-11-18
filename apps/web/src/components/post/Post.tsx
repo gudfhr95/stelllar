@@ -1,15 +1,15 @@
 import { formatDistanceToNowStrict } from "date-fns";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import {
-  Comment as CommentType,
   Post as PostType,
   usePostVoteMutation,
   VoteType,
 } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
+import { createCommentTree } from "../../utils/commentUtils";
 import Comment from "../comment/Comment";
 import CreateCommentCard from "../comment/CreateCommentCard";
 import MessageImageDialog from "../message/MessageImageDialog";
@@ -26,7 +26,7 @@ import PostEmbed from "./PostEmbed";
 
 type IPost = {
   post: PostType;
-  comments: CommentType[];
+  comments: any;
   className?: string;
 };
 
@@ -37,6 +37,11 @@ export default function Post({ post, comments, className = "" }: IPost) {
   const [postVote] = usePostVoteMutation();
 
   const [currentImage, setCurrentImage] = useState(0);
+
+  const commentsTree = useMemo(
+    () => createCommentTree(comments ?? []),
+    [comments]
+  );
 
   const onClickUpVote = (e: any) => {
     if (!user) {
@@ -239,7 +244,7 @@ export default function Post({ post, comments, className = "" }: IPost) {
       )}
 
       <div className="space-y-2 md:px-4 pt-4 px-0 pb-96">
-        {comments.map((comment) => (
+        {commentsTree.map((comment: any) => (
           <Comment key={comment.id} post={post} comment={comment} />
         ))}
       </div>

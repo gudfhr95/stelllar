@@ -49,10 +49,14 @@ export class CommentService {
     text = handleText(text);
 
     const post = await this.postRepository.findOneOrFail({ id: postId });
+    const parentComment = parentCommentId
+      ? await this.commentRepository.findOneOrFail({ id: parentCommentId })
+      : null;
 
     const comment = await this.commentRepository.create({
       post,
       author: user,
+      parentComment,
       text,
       voteCount: 1,
     });

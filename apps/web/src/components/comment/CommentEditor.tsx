@@ -59,6 +59,7 @@ export default function CommentEditor({
         input: {
           postId,
           text,
+          parentCommentId,
         },
       },
     }).then(() => {
