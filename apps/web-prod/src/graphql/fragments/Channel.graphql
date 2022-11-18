@@ -1,8 +1,0 @@
-fragment Channel on Channel {
-  id
-  name
-  description
-  isUnread
-  mentionCount
-  type
-}
