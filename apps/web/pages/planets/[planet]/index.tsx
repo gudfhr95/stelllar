@@ -64,6 +64,7 @@ export const getServerSideProps: GetServerSideProps<{
         "explore",
         "server",
         "post",
+        "comment",
       ])),
     },
   };

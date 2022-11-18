@@ -9,6 +9,7 @@ import {
   VoteType,
 } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
+import CreateCommentCard from "../comment/CreateCommentCard";
 import MessageImageDialog from "../message/MessageImageDialog";
 import ServerAvatar from "../server/ServerAvatar";
 import {
@@ -231,6 +232,12 @@ export default function Post({ post, className = "" }: IPost) {
           </div>
         </div>
       </div>
+
+      {user && (
+        <div className="pt-4 px-4">
+          <CreateCommentCard postId={post.id} />
+        </div>
+      )}
     </>
   );
 }
