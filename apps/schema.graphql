@@ -116,7 +116,7 @@ type Post implements BaseEntity {
   server: Server!
   folders: [Folder!]
   voteCount: Int!
-  voteType: VoteType
+  voteType: VoteType!
   commentCount: NonNegativeInt!
   updatedAt: DateTime
   isDeleted: Boolean!
@@ -285,6 +285,7 @@ type Query {
   post(id: String!): Post!
   posts(offset: NonNegativeInt = 0, limit: PositiveInt = 20, sort: PostsSort = Hot, time: PostsTime = All, feed: PostsFeed = Joined, serverName: String, folderId: ID, search: String): [Post!]!
   getLinkMetadata(linkUrl: String!): LinkMetadata
+  comments(postId: ID, sort: CommentsSort = Top): [Comment!]!
 }
 
 enum PublicServersSort {
@@ -314,6 +315,11 @@ enum PostsFeed {
   All
 }
 
+enum CommentsSort {
+  New
+  Top
+}
+
 type Mutation {
   updateAvatar(input: UpdateAvatarInput!): User!
   updateProfile(input: UpdateProfileInput!): User!
@@ -323,7 +329,9 @@ type Mutation {
   joinServer(serverId: String!): Server!
   leaveServer(serverId: String!): Server!
   createPost(input: CreatePostInput!): Post!
-  vote(input: VoteInput!): Post!
+  postVote(input: PostVoteInput!): Post!
+  createComment(input: CreateCommentInput!): Comment!
+  commentVote(input: CommentVoteInput!): Comment!
 }
 
 input UpdateAvatarInput {
@@ -367,7 +375,18 @@ input CreatePostImagesInput {
   file: Upload!
 }
 
-input VoteInput {
+input PostVoteInput {
   postId: ID!
+  type: VoteType!
+}
+
+input CreateCommentInput {
+  text: String!
+  postId: ID!
+  parentCommentId: ID
+}
+
+input CommentVoteInput {
+  commentId: ID!
   type: VoteType!
 }

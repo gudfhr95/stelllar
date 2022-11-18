@@ -1,14 +1,17 @@
 import { formatDistanceToNowStrict } from "date-fns";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import {
   Post as PostType,
-  useVoteMutation,
+  usePostVoteMutation,
   VoteType,
 } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
+import { createCommentTree } from "../../utils/commentUtils";
+import Comment from "../comment/Comment";
+import CreateCommentCard from "../comment/CreateCommentCard";
 import MessageImageDialog from "../message/MessageImageDialog";
 import ServerAvatar from "../server/ServerAvatar";
 import {
@@ -23,26 +26,30 @@ import PostEmbed from "./PostEmbed";
 
 type IPost = {
   post: PostType;
+  comments: any;
   className?: string;
 };
 
-export default function Post({ post, className = "" }: IPost) {
+export default function Post({ post, comments, className = "" }: IPost) {
   const router = useRouter();
   const user = useAuth();
 
-  const [vote] = useVoteMutation();
+  const [postVote] = usePostVoteMutation();
 
   const [currentImage, setCurrentImage] = useState(0);
 
-  const onClickUpVote = (e: any) => {
-    e.stopPropagation();
+  const commentsTree = useMemo(
+    () => createCommentTree(comments ?? []),
+    [comments]
+  );
 
+  const onClickUpVote = (e: any) => {
     if (!user) {
       toast.error("Login to vote");
       return;
     }
 
-    vote({
+    postVote({
       variables: {
         input: {
           postId: post.id,
@@ -53,14 +60,12 @@ export default function Post({ post, className = "" }: IPost) {
   };
 
   const onClickDownVote = (e: any) => {
-    e.stopPropagation();
-
     if (!user) {
       toast.error("Login to vote");
       return;
     }
 
-    vote({
+    postVote({
       variables: {
         input: {
           postId: post.id,
@@ -230,6 +235,18 @@ export default function Post({ post, className = "" }: IPost) {
             </div>
           </div>
         </div>
+      </div>
+
+      {user && (
+        <div className="pt-4 px-4">
+          <CreateCommentCard postId={post.id} />
+        </div>
+      )}
+
+      <div className="space-y-2 md:px-4 pt-4 px-0 pb-96">
+        {commentsTree.map((comment: any) => (
+          <Comment key={comment.id} post={post} comment={comment} />
+        ))}
       </div>
     </>
   );

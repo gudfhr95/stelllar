@@ -1,0 +1,17 @@
+mutation createComment($input: CreateCommentInput!) {
+  createComment(input: $input) {
+    ...Comment
+    author {
+      ...User
+    }
+  }
+}
+
+mutation commentVote($input: CommentVoteInput!) {
+  commentVote(input: $input) {
+    ...Comment
+    author {
+      ...User
+    }
+  }
+}

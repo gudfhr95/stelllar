@@ -7,8 +7,8 @@ mutation createPost($input: CreatePostInput!) {
   }
 }
 
-mutation vote($input: VoteInput!) {
-  vote(input: $input) {
+mutation postVote($input: PostVoteInput!) {
+  postVote(input: $input) {
     ...Post
     author {
       ...User

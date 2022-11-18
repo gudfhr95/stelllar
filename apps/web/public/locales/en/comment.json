@@ -1,0 +1,11 @@
+{
+  "create": "Write Comment",
+  "cancel": "Cancel",
+  "submit": "Submit",
+  "reply": {
+    "show": "Show",
+    "hide": "Hide",
+    "label": "Reply",
+    "cancel": "Cancel Reply"
+  }
+}
