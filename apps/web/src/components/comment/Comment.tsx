@@ -1,19 +1,23 @@
 import ctl from "@netlify/classnames-template-literals";
 import { formatDistanceToNowStrict } from "date-fns";
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import {
   Comment as CommentType,
+  Post,
   useCommentVoteMutation,
   VoteType,
 } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
+import { useReplyComment } from "../../hooks/useReplyComment";
 import {
   IconChevronDown,
   IconChevronUp,
   IconDotsVertical,
 } from "../ui/icons/Icons";
 import UserAvatar from "../user/UserAvatar";
+import CommentEditor from "./CommentEditor";
 
 const replyBtnClass = ctl(`
   ml-2
@@ -28,14 +32,18 @@ const replyBtnClass = ctl(`
 `);
 
 type Comment = {
+  post: Post;
   comment: CommentType;
   level?: number;
 };
-export default function Comment({ comment, level = 0 }: Comment) {
+export default function Comment({ post, comment, level = 0 }: Comment) {
+  const { t } = useTranslation("comment");
   const router = useRouter();
   const user = useAuth();
 
   const [commentVote] = useCommentVoteMutation();
+
+  const { replyingCommentId, setReplyingCommentId } = useReplyComment();
 
   const onClickUpVote = (e: any) => {
     if (!user) {
@@ -68,6 +76,15 @@ export default function Comment({ comment, level = 0 }: Comment) {
         },
       },
     }).then(() => router.replace(router.asPath));
+  };
+
+  const isReplying = replyingCommentId === comment.id;
+  const onClickReply = () => {
+    if (isReplying) {
+      setReplyingCommentId(null);
+    } else {
+      setReplyingCommentId(comment.id);
+    }
   };
 
   return (
@@ -139,12 +156,26 @@ export default function Comment({ comment, level = 0 }: Comment) {
               </button>
             </div>
 
+            <div className={replyBtnClass} onClick={onClickReply}>
+              {isReplying ? t("reply.cancel") : t("reply.label")}
+            </div>
+
             <div
               className={`ml-2 text-disabled flex items-center cursor-pointer`}
             >
               <IconDotsVertical className="w-4 h-4" />
             </div>
           </div>
+
+          {isReplying && (
+            <div className="pt-3 max-w-screen-md w-full">
+              <CommentEditor
+                postId={post.id}
+                parentCommentId={comment.id}
+                setOpen={() => setReplyingCommentId(null)}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -1,5 +1,9 @@
 {
   "create": "Write Comment",
   "cancel": "Cancel",
-  "submit": "Submit"
+  "submit": "Submit",
+  "reply": {
+    "label": "Reply",
+    "cancel": "Cancel Reply"
+  }
 }

@@ -32,10 +32,15 @@ const cancelBtnClass = ctl(`
 
 type CommentEditor = {
   postId: string;
+  parentCommentId: string;
   setOpen: (open: boolean) => void;
 };
 
-export default function CommentEditor({ postId, setOpen }: CommentEditor) {
+export default function CommentEditor({
+  postId,
+  parentCommentId,
+  setOpen,
+}: CommentEditor) {
   const { t } = useTranslation("comment");
   const router = useRouter();
 
