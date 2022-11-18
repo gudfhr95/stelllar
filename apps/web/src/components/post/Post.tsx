@@ -15,6 +15,7 @@ import {
   IconChevronUp,
   IconDotsVertical,
 } from "../ui/icons/Icons";
+import PostEmbed from "./PostEmbed";
 
 type IPost = {
   post: PostType;
@@ -138,6 +139,25 @@ export default function Post({ post, className = "" }: IPost) {
                   dangerouslySetInnerHTML={{ __html: post.text }}
                   className="prose prose-sm dark:prose-dark max-w-none pt-0.5"
                 />
+              )}
+
+              {post.linkUrl && (
+                <>
+                  {post.linkMetadata ? (
+                    <div className="max-w-screen-sm w-full mt-2">
+                      <PostEmbed dark metadata={post.linkMetadata} />
+                    </div>
+                  ) : (
+                    <a
+                      href={post.linkUrl}
+                      target="_blank"
+                      rel="noopener nofollow noreferrer"
+                      className="text-sm text-blue-400 hover:underline cursor-pointer pt-0.5"
+                    >
+                      {post.linkUrl}
+                    </a>
+                  )}
+                </>
               )}
             </div>
 
