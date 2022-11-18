@@ -8,7 +8,7 @@ import ServerListItem from "./ServerListItem";
 import ServerListServer from "./ServerListServer";
 
 export default function ServerList({ hide = false }) {
-  const { t } = useTranslation("server-list");
+  const { t } = useTranslation("common");
   const router = useRouter();
   const user = useAuth();
 
@@ -26,7 +26,7 @@ export default function ServerList({ hide = false }) {
         <div className="h-full flex flex-col items-center w-full divide-y dark:divide-gray-800 divide-gray-200">
           <div className="space-y-2 flex flex-col items-center py-2">
             <ServerListItem
-              name={t("home")}
+              name={t("sidebar.home")}
               to="/"
               active={homeActive}
               className={`${
@@ -43,7 +43,7 @@ export default function ServerList({ hide = false }) {
             </ServerListItem>
 
             <ServerListItem
-              name={t("explore")}
+              name={t("sidebar.explore")}
               to="/explore"
               active={exploreActive}
               className={
@@ -61,7 +61,7 @@ export default function ServerList({ hide = false }) {
 
             {user && (
               <ServerListItem
-                name={t("createServer")}
+                name={t("sidebar.createPlanet")}
                 onClick={() => {
                   setCreateServerDialog(true);
                 }}

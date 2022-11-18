@@ -47,6 +47,9 @@ export {
   HiChatAlt2 as IconChat,
   HiDotsVertical as IconDotsVertical,
   HiCheckCircle as IconFeatured,
+  HiArrowLeft as IconBack,
+  HiChevronLeft as IconChevronLeft,
+  HiChevronRight as IconChevronRight,
 } from "react-icons/hi";
 
 export {

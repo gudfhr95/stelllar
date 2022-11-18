@@ -36,13 +36,10 @@ export const getServerSideProps: GetServerSideProps<{
     props: {
       initialPosts: data.posts,
       ...(await serverSideTranslations(locale as string, [
-        "bottom-bar",
-        "settings",
-        "server-list",
-        "create-server",
+        "common",
+        "home",
         "explore",
         "server",
-        "home",
         "post",
       ])),
     },

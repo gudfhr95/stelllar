@@ -96,7 +96,7 @@ export default function CreateServerDialog() {
       closeOnOverlayClick
       onSubmit={handleSubmit(onSubmit)}
       buttons={
-        <Tippy content={t("save")}>
+        <Tippy content={t("createServer.save")}>
           <button type="submit" className={`form-button-submit`}>
             <IconCheck className="w-5 h-5 text-primary" />
           </button>
@@ -149,7 +149,7 @@ export default function CreateServerDialog() {
       <div className="pl-30 pr-5 pt-2 text-left">
         <input
           {...register("displayName", { maxLength: 100, required: true })}
-          placeholder={t("displayName")}
+          placeholder={t("createServer.displayName")}
           className="form-input-lg"
           maxLength={100}
         />
@@ -158,7 +158,9 @@ export default function CreateServerDialog() {
       <div className="pb-5 space-y-3 pt-3 px-5 text-left">
         <div>
           <div className="text-sm text-accent flex items-center pt-3">
-            <span className={`h-7 flex items-center`}>stelllar.co/server/</span>
+            <span className={`h-7 flex items-center`}>
+              stelllar.co/planets/
+            </span>
             <input
               {...register("name", {
                 pattern: SERVER_REGEX,
@@ -168,18 +170,18 @@ export default function CreateServerDialog() {
               })}
               minLength={2}
               maxLength={20}
-              placeholder={t("name")}
+              placeholder={t("createServer.name")}
               className="bg-transparent h-7 w-full border-b dark:border-gray-700 focus:outline-none transition dark:focus:border-blue-500"
             />
           </div>
           {errors.name?.type === "pattern" && (
-            <div className="form-error">{t("nameError")}</div>
+            <div className="form-error">{t("createServer.nameError")}</div>
           )}
         </div>
 
         <textarea
           {...register("description", { maxLength: 500 })}
-          placeholder={t("description")}
+          placeholder={t("createServer.description")}
           className="form-textarea"
           maxLength={500}
         />

@@ -126,8 +126,8 @@ export default function CreatePostDialog() {
 
   useEffect(() => {
     setServer(
-      query.server
-        ? user && user.servers.find((s: Server) => s.name == query.server)
+      query.planet
+        ? user && user.servers.find((s: Server) => s.name == query.planet)
         : null
     );
   }, [user, query]);

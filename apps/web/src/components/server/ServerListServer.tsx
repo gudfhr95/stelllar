@@ -15,10 +15,14 @@ export default function ServerListServer({
 }: ServerListServer) {
   const router = useRouter();
 
-  const active = name === router.query.server;
+  const active = name === router.query.planet;
   return (
     <>
-      <ServerListItem to={`/server/${name}`} name={displayName} active={active}>
+      <ServerListItem
+        to={`/planets/${name}`}
+        name={displayName}
+        active={active}
+      >
         <ServerAvatar
           name={name}
           displayName={displayName}

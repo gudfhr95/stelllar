@@ -1,3 +1,18 @@
+query post($id: String!) {
+  post(id: $id) {
+    ...Post
+    author {
+      ...User
+    }
+    server {
+      id
+      name
+      avatarUrl
+      displayName
+    }
+  }
+}
+
 query posts(
   $sort: PostsSort
   $offset: NonNegativeInt

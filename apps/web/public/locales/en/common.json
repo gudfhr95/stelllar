@@ -1,0 +1,32 @@
+{
+  "sidebar": {
+    "home": "Home",
+    "explore": "Explore",
+    "createPlanet": "Create Planet"
+  },
+  "bottomBar": {
+    "login": "Login",
+    "logout": "Logout",
+    "settings": "Settings",
+    "theme": {
+      "dark": "Dark Mode",
+      "light": "Light Mode"
+    }
+  },
+  "setting": {
+    "title": "Settings",
+    "uploadAvatar": "Upload Avatar",
+    "changeProfile": "Change Profile",
+    "name": "Name",
+    "confirm": "Confirm",
+    "error": {
+      "nameLength": "Name length must be 2 or more."
+    },
+    "deleteAccount": {
+      "title": "Delete Account",
+      "content": "You will not be able to recover your account.\n If you agree, please type 'Confirm'.",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    }
+  }
+}

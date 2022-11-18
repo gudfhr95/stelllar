@@ -14,9 +14,11 @@ export default function HomeSidebar() {
   const user = useAuth();
 
   const feedActive =
-    router.query.feed === "Joined" || (user && !router.query.feed);
+    router.pathname === "/" &&
+    (router.query.feed === "Joined" || (user && !router.query.feed));
   const featuredActive =
-    router.query.feed === "Featured" || (!user && !router.query.feed);
+    router.pathname === "/" &&
+    (router.query.feed === "Featured" || (!user && !router.query.feed));
 
   return (
     <>
@@ -32,8 +34,10 @@ export default function HomeSidebar() {
             {!!user && (
               <SidebarItem
                 to={{
-                  pathname: router.pathname,
-                  query: { ...router.query, feed: "Joined" },
+                  pathname: "/",
+                  query: router.query.sort
+                    ? { sort: router.query.sort, feed: "Joined" }
+                    : { feed: "Joined" },
                 }}
                 active={feedActive}
               >
@@ -44,8 +48,10 @@ export default function HomeSidebar() {
 
             <SidebarItem
               to={{
-                pathname: router.pathname,
-                query: { ...router.query, feed: "Featured" },
+                pathname: "/",
+                query: router.query.sort
+                  ? { sort: router.query.sort, feed: "Featured" }
+                  : { feed: "Featured" },
               }}
               active={featuredActive}
             >

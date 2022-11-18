@@ -1,32 +1,36 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import client from "../../apollo-client";
-import PostList from "../../src/components/post/PostList";
-import { PostsDocument, Server, ServerDocument } from "../../src/graphql/hooks";
-import useAuth from "../../src/hooks/useAuth";
-import ServerLayout from "../../src/layouts/ServerLayout";
+import client from "../../../../../apollo-client";
+import Post from "../../../../../src/components/post/Post";
+import {
+  Post as PostType,
+  PostDocument,
+  Server,
+  ServerDocument,
+} from "../../../../../src/graphql/hooks";
+import PostLayout from "../../../../../src/layouts/PostLayout";
 
-export default function ServerPage({
+export default function PostPage({
   server,
-  initialPosts,
+  post,
+  previousPath,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const user = useAuth();
-
   return (
-    <ServerLayout server={server}>
-      <PostList initialPosts={initialPosts} />
-    </ServerLayout>
+    <PostLayout server={server} post={post} previousPath={previousPath}>
+      <Post post={post} />
+    </PostLayout>
   );
 }
 
 export const getServerSideProps: GetServerSideProps<{
   server: Server;
-  initialPosts: [];
+  post: PostType;
+  previousPath?: string;
 }> = async ({ req, params, query, locale }) => {
   const { data: serverData } = await client.query({
     query: ServerDocument,
     variables: {
-      name: params?.server,
+      name: params?.planet,
     },
     fetchPolicy: "no-cache",
     context: {
@@ -36,13 +40,12 @@ export const getServerSideProps: GetServerSideProps<{
     },
   });
 
-  const { data: postsData } = await client.query({
-    query: PostsDocument,
+  const { data: postData } = await client.query({
+    query: PostDocument,
     variables: {
-      sort: query.sort,
-      time: query.time,
-      serverName: params?.server,
+      id: params?.post,
     },
+    fetchPolicy: "no-cache",
     context: {
       headers: {
         cookie: req.headers.cookie,
@@ -53,12 +56,11 @@ export const getServerSideProps: GetServerSideProps<{
   return {
     props: {
       server: serverData?.server,
-      initialPosts: postsData?.posts,
+      post: postData?.post,
       ...(await serverSideTranslations(locale as string, [
-        "bottom-bar",
-        "settings",
-        "server-list",
-        "create-server",
+        "common",
+        "home",
+        "explore",
         "server",
         "post",
       ])),

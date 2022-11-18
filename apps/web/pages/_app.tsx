@@ -5,6 +5,7 @@ import { appWithTranslation } from "next-i18next";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import apolloClient from "../apollo-client";
+import { usePreviousPath } from "../src/hooks/usePreviousPath";
 import MainLayout from "../src/layouts/MainLayout";
 import "../src/styles/global.css";
 import "../src/styles/index.css";
@@ -13,6 +14,8 @@ import "../src/styles/tippy.css";
 axios.defaults.withCredentials = true;
 
 function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+  const previousPath = usePreviousPath();
+
   return (
     <>
       <Head>
@@ -26,7 +29,7 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
           <SessionProvider session={session}>
             <div style={{ height: "100%" }} className="flex">
               <MainLayout>
-                <Component {...pageProps} />
+                <Component {...{ ...pageProps, previousPath }} />
               </MainLayout>
             </div>
           </SessionProvider>

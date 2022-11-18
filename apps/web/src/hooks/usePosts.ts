@@ -14,7 +14,7 @@ export const usePosts = (initialPosts: []) => {
   }, [query]);
 
   const variables = {
-    serverName: query.server as any,
+    serverName: query.planet as any,
     feed: query.feed as any,
     sort: query.sort as any,
     time: query.time as any,

@@ -16,7 +16,7 @@ import UserAvatar from "./user/UserAvatar";
 const offset = [0, 14] as [number, number];
 
 export default function BottomBar() {
-  const { t } = useTranslation("bottom-bar");
+  const { t } = useTranslation("common");
 
   const { setLoginDialog } = useLoginDialog();
   const { toggle: toggleDark, value: isDark } = useDarkMode();
@@ -39,7 +39,7 @@ export default function BottomBar() {
               {user.name}
             </div>
             <div className="w-2 h-2 rounded-full bg-green-500 ml-2" />
-            <Tippy content={t("logout")}>
+            <Tippy content={t("bottomBar.logout")}>
               <div onClick={() => signOut()}>
                 <IconLogout className="w-4.5 h-4.5 cursor-pointer text-tertiary ml-5" />
               </div>
@@ -53,13 +53,17 @@ export default function BottomBar() {
                 setLoginDialog(true);
               }}
             >
-              {t("login")}
+              {t("bottomBar.login")}
             </div>
           </div>
         )}
 
         <div className="ml-auto flex items-center space-x-4 text-primary">
-          <Tippy content={isDark ? t("theme.light") : t("theme.dark")}>
+          <Tippy
+            content={
+              isDark ? t("bottomBar.theme.light") : t("bottomBar.theme.dark")
+            }
+          >
             <button
               className="text-tertiary cursor-pointer"
               onClick={() => toggleDark()}
@@ -73,7 +77,7 @@ export default function BottomBar() {
           </Tippy>
           {user && (
             <>
-              <Tippy content={t("settings")} offset={offset}>
+              <Tippy content={t("bottomBar.settings")} offset={offset}>
                 <div
                   onClick={() => {
                     setUserSettingDialog(true);
