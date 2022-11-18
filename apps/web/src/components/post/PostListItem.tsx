@@ -1,7 +1,8 @@
 import { formatDistanceToNowStrict } from "date-fns";
 import Link from "next/link";
 import { memo } from "react";
-import { Post } from "../../graphql/hooks";
+import toast from "react-hot-toast";
+import { Post, User, useVoteMutation, VoteType } from "../../graphql/hooks";
 import ServerAvatar from "../server/ServerAvatar";
 import {
   IconChat,
@@ -14,19 +15,47 @@ import {
 
 type PostListItem = {
   post: Post;
-  index: number;
+  user?: User | null;
   className?: string;
 };
 export default memo(function PostItem({
   post,
-  index,
+  user = null,
   className = "",
 }: PostListItem) {
+  const [vote] = useVoteMutation();
+
   const onClickUpVote = (e: any) => {
-    console.log(post.voteType);
+    if (!user) {
+      toast.error("Login to vote");
+      return;
+    }
+
+    vote({
+      variables: {
+        input: {
+          postId: post.id,
+          type: post.voteType === VoteType.Up ? VoteType.None : VoteType.Up,
+        },
+      },
+    });
   };
 
-  const onClickDownVote = (e: any) => {};
+  const onClickDownVote = (e: any) => {
+    if (!user) {
+      toast.error("Login to vote");
+      return;
+    }
+
+    vote({
+      variables: {
+        input: {
+          postId: post.id,
+          type: post.voteType === VoteType.Down ? VoteType.None : VoteType.Down,
+        },
+      },
+    });
+  };
 
   return (
     <div

@@ -6,3 +6,12 @@ mutation createPost($input: CreatePostInput!) {
     }
   }
 }
+
+mutation vote($input: VoteInput!) {
+  vote(input: $input) {
+    ...Post
+    author {
+      ...User
+    }
+  }
+}

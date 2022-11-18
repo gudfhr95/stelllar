@@ -16,6 +16,7 @@ import { PostVote } from "./entity/post-vote.entity";
 import { Post } from "./entity/post.entity";
 import { CreatePostInput } from "./input/create-post.input";
 import { PostsArgs, PostsFeed } from "./input/posts.args";
+import { VoteInput } from "./input/vote.input";
 import { PostLoader } from "./post.loader";
 import { PostService } from "./post.service";
 
@@ -61,6 +62,11 @@ export class PostResolver {
       input.text,
       input.images
     );
+  }
+
+  @Mutation(() => Post)
+  async vote(@Args("input") input: VoteInput, @CurrentUser() user: User) {
+    return await this.postService.vote(input.postId, user, input.type);
   }
 
   @ResolveField("thumbnailUrl", () => GraphQLString, { nullable: true })

@@ -155,6 +155,46 @@ export class PostService {
     return post;
   }
 
+  async vote(postId: string, user: User, type: VoteType) {
+    const post = await this.postRepository.findOneOrFail(
+      { id: postId },
+      { populate: ["author", "server"] }
+    );
+
+    let vote = await this.postVoteRepository.findOne({ post, user });
+    if (!vote) {
+      vote = this.postVoteRepository.create({ post, user });
+    }
+
+    if (type === VoteType.Up) {
+      post.voteCount += 1;
+
+      if (vote.type === VoteType.Down) {
+        post.voteCount += 1;
+      }
+    } else if (type === VoteType.Down) {
+      post.voteCount -= 1;
+
+      if (vote.type === VoteType.Up) {
+        post.voteCount -= 1;
+      }
+    } else if (type === VoteType.None) {
+      if (vote.type === VoteType.Up) {
+        post.voteCount -= 1;
+      } else if (vote.type === VoteType.Down) {
+        post.voteCount += 1;
+      }
+    }
+
+    post.voteType = type;
+    await this.postRepository.persistAndFlush(post);
+
+    vote.type = type;
+    await this.postVoteRepository.persistAndFlush(vote);
+
+    return post;
+  }
+
   async getPostVotesByPostIdsAndUserId(postIds: string[], userId: string) {
     return await this.postVoteRepository.find({
       post: postIds,

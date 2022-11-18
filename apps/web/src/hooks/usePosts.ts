@@ -18,8 +18,7 @@ export const usePosts = (initialPosts: []) => {
 
   const { data, loading, fetchMore } = usePostsQuery({
     variables,
-    fetchPolicy: "cache-and-network",
-    nextFetchPolicy: "cache-first",
+    fetchPolicy: "network-only",
   });
 
   const loadMore = async () => {
