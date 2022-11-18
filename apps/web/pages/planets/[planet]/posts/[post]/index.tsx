@@ -62,9 +62,13 @@ export const getServerSideProps: GetServerSideProps<{
     variables: {
       postId: params?.post,
     },
+    fetchPolicy: "no-cache",
+    context: {
+      headers: {
+        cookie: req.headers.cookie,
+      },
+    },
   });
-
-  console.log(commentsData);
 
   return {
     props: {

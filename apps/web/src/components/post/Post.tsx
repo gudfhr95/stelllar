@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import {
   Comment as CommentType,
   Post as PostType,
-  useVoteMutation,
+  usePostVoteMutation,
   VoteType,
 } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
@@ -34,19 +34,17 @@ export default function Post({ post, comments, className = "" }: IPost) {
   const router = useRouter();
   const user = useAuth();
 
-  const [vote] = useVoteMutation();
+  const [postVote] = usePostVoteMutation();
 
   const [currentImage, setCurrentImage] = useState(0);
 
   const onClickUpVote = (e: any) => {
-    e.stopPropagation();
-
     if (!user) {
       toast.error("Login to vote");
       return;
     }
 
-    vote({
+    postVote({
       variables: {
         input: {
           postId: post.id,
@@ -57,14 +55,12 @@ export default function Post({ post, comments, className = "" }: IPost) {
   };
 
   const onClickDownVote = (e: any) => {
-    e.stopPropagation();
-
     if (!user) {
       toast.error("Login to vote");
       return;
     }
 
-    vote({
+    postVote({
       variables: {
         input: {
           postId: post.id,

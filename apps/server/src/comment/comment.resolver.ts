@@ -11,14 +11,19 @@ import { CurrentUser } from "../auth/decorator/current-user.decorator";
 import { Public } from "../auth/decorator/public.decorator";
 import { VoteType } from "../common/entity/vote-type.enum";
 import { User } from "../user/entity/user.entity";
+import { CommentLoader } from "./comment.loader";
 import { CommentService } from "./comment.service";
 import { Comment } from "./entity/comment.entity";
+import { CommentVoteInput } from "./input/comment-vote.input";
 import { CommentsArgs } from "./input/comments.args";
 import { CreateCommentInput } from "./input/create-comment.input";
 
 @Resolver(() => Comment)
 export class CommentResolver {
-  constructor(private readonly commentService: CommentService) {}
+  constructor(
+    private readonly commentService: CommentService,
+    private readonly commentLoader: CommentLoader
+  ) {}
 
   @Public()
   @Query(() => [Comment])
@@ -46,8 +51,20 @@ export class CommentResolver {
     );
   }
 
+  @Mutation(() => Comment)
+  async commentVote(
+    @Args("input") input: CommentVoteInput,
+    @CurrentUser() user: User
+  ) {
+    return await this.commentService.vote(input.commentId, user, input.type);
+  }
+
   @ResolveField("voteType", () => VoteType)
   voteType(@Parent() comment: Comment, @CurrentUser() user: User) {
-    return VoteType.None;
+    if (!user) {
+      return VoteType.None;
+    }
+
+    return this.commentLoader.commentVoteLoader(user.id).load(comment.id);
   }
 }

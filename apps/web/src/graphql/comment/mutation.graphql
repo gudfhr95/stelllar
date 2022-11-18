@@ -6,3 +6,12 @@ mutation createComment($input: CreateCommentInput!) {
     }
   }
 }
+
+mutation commentVote($input: CommentVoteInput!) {
+  commentVote(input: $input) {
+    ...Comment
+    author {
+      ...User
+    }
+  }
+}

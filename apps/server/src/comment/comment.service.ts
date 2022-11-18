@@ -2,9 +2,11 @@ import { QueryOrder } from "@mikro-orm/core";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { EntityRepository } from "@mikro-orm/postgresql";
 import { Injectable } from "@nestjs/common";
+import { VoteType } from "../common/entity/vote-type.enum";
 import { handleText } from "../common/util/handle-text";
 import { Post } from "../post/entity/post.entity";
 import { User } from "../user/entity/user.entity";
+import { CommentVote } from "./entity/comment-vote.entity";
 import { Comment } from "./entity/comment.entity";
 import { CommentsSort } from "./input/comments.args";
 
@@ -13,6 +15,8 @@ export class CommentService {
   constructor(
     @InjectRepository(Comment)
     private readonly commentRepository: EntityRepository<Comment>,
+    @InjectRepository(CommentVote)
+    private readonly commentVoteRepository: EntityRepository<CommentVote>,
     @InjectRepository(Post)
     private readonly postRepository: EntityRepository<Post>
   ) {}
@@ -54,9 +58,66 @@ export class CommentService {
     });
     await this.commentRepository.persistAndFlush(comment);
 
+    const vote = this.commentVoteRepository.create({
+      comment,
+      user,
+      type: VoteType.Up,
+    });
+    await this.commentVoteRepository.persistAndFlush(vote);
+
     post.commentCount += 1;
     await this.postRepository.persistAndFlush(post);
 
     return comment;
+  }
+
+  async vote(commentId: string, user: User, type: VoteType) {
+    const comment = await this.commentRepository.findOneOrFail(
+      { id: commentId },
+      { populate: ["author"] }
+    );
+
+    let vote = await this.commentVoteRepository.findOne({ comment, user });
+    if (!vote) {
+      vote = this.commentVoteRepository.create({ comment, user });
+    }
+
+    if (type === VoteType.Up) {
+      comment.voteCount += 1;
+
+      if (vote.type === VoteType.Down) {
+        comment.voteCount += 1;
+      }
+    } else if (type === VoteType.Down) {
+      comment.voteCount -= 1;
+
+      if (vote.type === VoteType.Up) {
+        comment.voteCount -= 1;
+      }
+    } else if (type === VoteType.None) {
+      if (vote.type === VoteType.Up) {
+        comment.voteCount -= 1;
+      } else if (vote.type === VoteType.Down) {
+        comment.voteCount += 1;
+      }
+    }
+
+    comment.voteType = type;
+    await this.commentRepository.persistAndFlush(comment);
+
+    vote.type = type;
+    await this.commentVoteRepository.persistAndFlush(vote);
+
+    return comment;
+  }
+
+  async getCommentVotesByCommentIdsAndUserId(
+    commentIds: string[],
+    userId: string
+  ) {
+    return await this.commentVoteRepository.find({
+      comment: commentIds,
+      user: userId,
+    });
   }
 }

@@ -15,8 +15,8 @@ import { User } from "../user/entity/user.entity";
 import { PostVote } from "./entity/post-vote.entity";
 import { Post } from "./entity/post.entity";
 import { CreatePostInput } from "./input/create-post.input";
+import { PostVoteInput } from "./input/post-vote.input";
 import { PostsArgs, PostsFeed } from "./input/posts.args";
-import { VoteInput } from "./input/vote.input";
 import { PostLoader } from "./post.loader";
 import { PostService } from "./post.service";
 
@@ -73,7 +73,10 @@ export class PostResolver {
   }
 
   @Mutation(() => Post)
-  async vote(@Args("input") input: VoteInput, @CurrentUser() user: User) {
+  async postVote(
+    @Args("input") input: PostVoteInput,
+    @CurrentUser() user: User
+  ) {
     return await this.postService.vote(input.postId, user, input.type);
   }
 

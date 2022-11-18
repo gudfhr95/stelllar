@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { memo } from "react";
 import toast from "react-hot-toast";
-import { Post, User, useVoteMutation, VoteType } from "../../graphql/hooks";
+import { Post, usePostVoteMutation, User, VoteType } from "../../graphql/hooks";
 import ServerAvatar from "../server/ServerAvatar";
 import {
   IconChat,
@@ -26,7 +26,7 @@ export default memo(function PostItem({
 }: PostListItem) {
   const router = useRouter();
 
-  const [vote] = useVoteMutation();
+  const [postVote] = usePostVoteMutation();
 
   const onClickUpVote = (e: any) => {
     e.stopPropagation();
@@ -36,7 +36,7 @@ export default memo(function PostItem({
       return;
     }
 
-    vote({
+    postVote({
       variables: {
         input: {
           postId: post.id,
@@ -54,7 +54,7 @@ export default memo(function PostItem({
       return;
     }
 
-    vote({
+    postVote({
       variables: {
         input: {
           postId: post.id,

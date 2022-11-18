@@ -1,6 +1,13 @@
 import ctl from "@netlify/classnames-template-literals";
 import { formatDistanceToNowStrict } from "date-fns";
-import { Comment as CommentType, VoteType } from "../../graphql/hooks";
+import { useRouter } from "next/router";
+import toast from "react-hot-toast";
+import {
+  Comment as CommentType,
+  useCommentVoteMutation,
+  VoteType,
+} from "../../graphql/hooks";
+import useAuth from "../../hooks/useAuth";
 import {
   IconChevronDown,
   IconChevronUp,
@@ -25,6 +32,44 @@ type Comment = {
   level?: number;
 };
 export default function Comment({ comment, level = 0 }: Comment) {
+  const router = useRouter();
+  const user = useAuth();
+
+  const [commentVote] = useCommentVoteMutation();
+
+  const onClickUpVote = (e: any) => {
+    if (!user) {
+      toast.error("Login to vote");
+      return;
+    }
+
+    commentVote({
+      variables: {
+        input: {
+          commentId: comment.id,
+          type: comment.voteType === VoteType.Up ? VoteType.None : VoteType.Up,
+        },
+      },
+    }).then(() => router.replace(router.asPath));
+  };
+
+  const onClickDownVote = (e: any) => {
+    if (!user) {
+      toast.error("Login to vote");
+      return;
+    }
+
+    commentVote({
+      variables: {
+        input: {
+          commentId: comment.id,
+          type:
+            comment.voteType === VoteType.Down ? VoteType.None : VoteType.Down,
+        },
+      },
+    }).then(() => router.replace(router.asPath));
+  };
+
   return (
     <div
       className={`relative md:rounded dark:bg-gray-800 bg-gray-200 ${
@@ -68,7 +113,7 @@ export default function Comment({ comment, level = 0 }: Comment) {
                 className={`focus:outline-none p-1 rounded-full dark:hover:bg-gray-750 transition cursor-pointer hover:bg-gray-200 ${
                   comment.voteType === VoteType.Up ? "text-red-400" : "text-mid"
                 }`}
-                onClick={() => {}}
+                onClick={onClickUpVote}
               >
                 <IconChevronUp className="w-5 h-5" />
               </button>
@@ -88,7 +133,7 @@ export default function Comment({ comment, level = 0 }: Comment) {
                     ? "text-blue-400"
                     : "text-mid"
                 }`}
-                onClick={() => {}}
+                onClick={onClickDownVote}
               >
                 <IconChevronDown className="w-5 h-5" />
               </button>
