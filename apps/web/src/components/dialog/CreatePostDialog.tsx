@@ -121,16 +121,17 @@ function readFileAsDataURL(file: any) {
 
 export default function CreatePostDialog() {
   const { t } = useTranslation("post");
-  const { query } = useRouter();
+  const router = useRouter();
   const user = useAuth();
 
   useEffect(() => {
     setServer(
-      query.planet
-        ? user && user.servers.find((s: Server) => s.name == query.planet)
+      router.query.planet
+        ? user &&
+            user.servers.find((s: Server) => s.name == router.query.planet)
         : null
     );
-  }, [user, query]);
+  }, [user, router.query]);
 
   const { createPostDialog: open, setCreatePostDialog: setOpen } =
     useCreatePostDialog();
@@ -237,6 +238,7 @@ export default function CreatePostDialog() {
 
       setOpen(false);
       reset();
+      router.push(`/planets/${server?.name}/posts/${post.id}`);
     });
   };
 

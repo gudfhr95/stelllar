@@ -1,15 +1,14 @@
 import { Options } from "@mikro-orm/core";
 import { ConfigService } from "@nestjs/config";
+import { Comment } from "../comment/entity/comment.entity";
+import { Post } from "../post/entity/post.entity";
+import { Server } from "../server/entity/server.entity";
 import { User } from "../user/entity/user.entity";
-import { Relationship } from "../user/entity/relationship.entity";
-import { Folder } from "../folder/entity/folder.entity";
-import { Reply } from "../comment/entity/reply.entity";
-import { ChannelUser } from "../channel/entity/channel-user.entity";
 
 const configService = new ConfigService();
 
 const MikroOrmConfig: Options = {
-  entities: [User, Relationship, Folder, Reply, ChannelUser],
+  entities: [User, Server, Post, Comment],
   type: "postgresql",
   host: configService.get("POSTGRES_HOST"),
   port: configService.get("POSTGRES_PORT"),

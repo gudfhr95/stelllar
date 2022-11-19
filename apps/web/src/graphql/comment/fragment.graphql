@@ -9,7 +9,4 @@ fragment Comment on Comment {
   isDeleted
   createdAt
   updatedAt
-  linkMetadatas {
-    ...Metadata
-  }
 }
