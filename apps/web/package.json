@@ -42,6 +42,7 @@
     "react-use": "^17.4.0",
     "react-virtuoso": "^3.1.4",
     "react-youtube": "^10.0.0",
+    "short-uuid": "^4.2.2",
     "tippy.js": "^6.3.7",
     "ui": "*",
     "uuid": "^9.0.0",
