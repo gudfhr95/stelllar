@@ -6,7 +6,6 @@ import {
   ManyToOne,
   OneToMany,
   Property,
-  QueryOrder,
 } from "@mikro-orm/core";
 import { Field, Int, ObjectType } from "@nestjs/graphql";
 import { GraphQLNonNegativeInt } from "graphql-scalars";
@@ -15,9 +14,6 @@ import { Comment } from "../../comment/entity/comment.entity";
 import { BaseEntity } from "../../common/entity/base.entity";
 import { LinkMetadata } from "../../common/entity/link-metadata.entity";
 import { VoteType } from "../../common/entity/vote-type.enum";
-import { FolderPost } from "../../folder/entity/folder-post.entity";
-import { Folder } from "../../folder/entity/folder.entity";
-import { ServerUser } from "../../server/entity/server-user.entity";
 import { Server } from "../../server/entity/server.entity";
 import { User } from "../../user/entity/user.entity";
 import { PostImage } from "./post-image.entity";
@@ -57,31 +53,12 @@ export class Post extends BaseEntity {
   @ManyToOne(() => User)
   author?: User;
 
-  @Field(() => ServerUser, { nullable: true })
-  serverUser?: ServerUser;
-
-  @Field(() => GraphQLBoolean)
-  @Property({ columnType: "boolean" })
-  isPinned = false;
-
-  @Field({ nullable: true })
-  @Property({ nullable: true })
-  pinnedAt?: Date;
-
   @OneToMany(() => Comment, "post")
   comments = new Collection<Comment>(this);
 
   @Field(() => Server)
   @ManyToOne({ entity: () => Server })
   server: Server;
-
-  @OneToMany(() => FolderPost, "post", {
-    orderBy: { addedAt: QueryOrder.DESC },
-  })
-  folderPosts = new Collection<FolderPost>(this);
-
-  @Field(() => [Folder], { nullable: true })
-  folders?: Folder[];
 
   @Field(() => Int)
   @Property({ columnType: "int" })

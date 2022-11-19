@@ -26,19 +26,13 @@ export default function BottomBar() {
 
   return (
     <>
-      <div className="flex items-center shadow-md px-3 bottom-0 h-5.5 dark:bg-gray-700 z-50 bg-white">
+      <div className="relative flex items-center shadow-md px-3 bottom-0 h-5.5 dark:bg-gray-700 z-50 bg-white">
         {user ? (
           <>
-            <UserAvatar
-              avatarUrl={user.image}
-              isOnline={user.isOnline}
-              size={4.5}
-              className="mr-2"
-            />
+            <UserAvatar avatarUrl={user.image} size={4.5} className="mr-2" />
             <div className="text-primary text-13 font-medium cursor-pointer">
               {user.name}
             </div>
-            <div className="w-2 h-2 rounded-full bg-green-500 ml-2" />
             <Tippy content={t("bottomBar.logout")}>
               <div onClick={() => signOut()}>
                 <IconLogout className="w-4.5 h-4.5 cursor-pointer text-tertiary ml-5" />

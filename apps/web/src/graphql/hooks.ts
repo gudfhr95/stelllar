@@ -18,8 +18,6 @@ export type Scalars = {
   DateTime: any;
   /** A field whose value conforms to the standard internet email address format as specified in RFC822: https://www.w3.org/Protocols/rfc822/. */
   EmailAddress: any;
-  /** A field whose value is a hex color code: https://en.wikipedia.org/wiki/Web_colors. */
-  HexColorCode: any;
   /** Integers that will have a value of 0 or more. */
   NonNegativeInt: any;
   /** Integers that will have a value greater than 0. */
@@ -33,35 +31,13 @@ export type BaseEntity = {
   id: Scalars['ID'];
 };
 
-export type Channel = BaseEntity & {
-  __typename?: 'Channel';
-  createdAt: Scalars['DateTime'];
-  description?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  isDefault: Scalars['Boolean'];
-  isUnread: Scalars['Boolean'];
-  mentionCount: Scalars['NonNegativeInt'];
-  name?: Maybe<Scalars['String']>;
-  server: Server;
-  type: ChannelType;
-};
-
-export enum ChannelType {
-  Private = 'Private',
-  Public = 'Public',
-  Restricted = 'Restricted'
-}
-
 export type Comment = BaseEntity & {
   __typename?: 'Comment';
   author?: Maybe<User>;
   createdAt: Scalars['DateTime'];
   id: Scalars['ID'];
   isDeleted: Scalars['Boolean'];
-  isPinned: Scalars['Boolean'];
-  linkMetadatas: Array<LinkMetadata>;
   parentComment?: Maybe<Comment>;
-  pinnedAt?: Maybe<Scalars['DateTime']>;
   post: Post;
   serverUser?: Maybe<ServerUser>;
   text: Scalars['String'];
@@ -105,49 +81,6 @@ export type CreateServerInput = {
   description?: InputMaybe<Scalars['String']>;
   displayName: Scalars['String'];
   name: Scalars['String'];
-};
-
-export type File = {
-  __typename?: 'File';
-  filename: Scalars['String'];
-  mime: Scalars['String'];
-  size: Scalars['Float'];
-  url: Scalars['String'];
-};
-
-export type Folder = BaseEntity & {
-  __typename?: 'Folder';
-  avatarUrl?: Maybe<Scalars['String']>;
-  createdAt: Scalars['DateTime'];
-  description?: Maybe<Scalars['String']>;
-  followerCount: Scalars['NonNegativeInt'];
-  id: Scalars['ID'];
-  isCollaborative: Scalars['Boolean'];
-  isFollowing: Scalars['Boolean'];
-  name: Scalars['String'];
-  owner?: Maybe<User>;
-  postCount: Scalars['NonNegativeInt'];
-  server?: Maybe<Server>;
-  visibility: FolderVisibility;
-};
-
-export enum FolderVisibility {
-  Friends = 'Friends',
-  Private = 'Private',
-  Public = 'Public',
-  Unlisted = 'Unlisted'
-}
-
-export type Group = BaseEntity & {
-  __typename?: 'Group';
-  avatarUrl?: Maybe<Scalars['String']>;
-  createdAt: Scalars['DateTime'];
-  id: Scalars['ID'];
-  lastMessageAt: Scalars['DateTime'];
-  name: Scalars['String'];
-  owner: User;
-  unreadCount: Scalars['NonNegativeInt'];
-  users: Array<User>;
 };
 
 export type Image = {
@@ -244,29 +177,18 @@ export type MutationUpdateServerArgs = {
   input: UpdateServerInput;
 };
 
-export enum OnlineStatus {
-  Away = 'Away',
-  DoNotDisturb = 'DoNotDisturb',
-  Offline = 'Offline',
-  Online = 'Online'
-}
-
 export type Post = BaseEntity & {
   __typename?: 'Post';
   author?: Maybe<User>;
   commentCount: Scalars['NonNegativeInt'];
   createdAt: Scalars['DateTime'];
-  folders?: Maybe<Array<Folder>>;
   id: Scalars['ID'];
   images: Array<PostImage>;
   isDeleted: Scalars['Boolean'];
-  isPinned: Scalars['Boolean'];
   linkMetadata?: Maybe<LinkMetadata>;
   linkMetadatas: Array<LinkMetadata>;
   linkUrl?: Maybe<Scalars['String']>;
-  pinnedAt?: Maybe<Scalars['DateTime']>;
   server: Server;
-  serverUser?: Maybe<ServerUser>;
   text?: Maybe<Scalars['String']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
   title: Scalars['String'];
@@ -362,48 +284,19 @@ export type QueryServerArgs = {
   name: Scalars['String'];
 };
 
-export enum RelationshipStatus {
-  Blocked = 'Blocked',
-  Blocking = 'Blocking',
-  FriendRequestIncoming = 'FriendRequestIncoming',
-  FriendRequestOutgoing = 'FriendRequestOutgoing',
-  Friends = 'Friends',
-  None = 'None'
-}
-
-export type Role = BaseEntity & {
-  __typename?: 'Role';
-  color?: Maybe<Scalars['HexColorCode']>;
-  createdAt: Scalars['DateTime'];
-  id: Scalars['ID'];
-  isDefault: Scalars['Boolean'];
-  name: Scalars['String'];
-  permissions: Array<ServerPermission>;
-};
-
 export type Server = BaseEntity & {
   __typename?: 'Server';
   avatarUrl?: Maybe<Scalars['String']>;
   bannerUrl?: Maybe<Scalars['String']>;
   category: ServerCategory;
-  channels: Array<Channel>;
   createdAt: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
   displayName: Scalars['String'];
-  folders: Array<Folder>;
   id: Scalars['ID'];
-  isBanned: Scalars['Boolean'];
-  isChatEnabled: Scalars['Boolean'];
   isDeleted: Scalars['Boolean'];
-  isDownvotesEnabled: Scalars['Boolean'];
-  isFeatured: Scalars['Boolean'];
   isJoined: Scalars['Boolean'];
-  isPublic: Scalars['Boolean'];
   name: Scalars['String'];
-  onlineCount: Scalars['NonNegativeInt'];
   owner: User;
-  permissions: Array<ServerPermission>;
-  roles: Array<Role>;
   userCount: Scalars['NonNegativeInt'];
 };
 
@@ -428,25 +321,8 @@ export enum ServerCategory {
   Technology = 'Technology'
 }
 
-export enum ServerPermission {
-  AddPostToFolder = 'AddPostToFolder',
-  Admin = 'Admin',
-  DisplayRoleSeparately = 'DisplayRoleSeparately',
-  ManageChannels = 'ManageChannels',
-  ManageComments = 'ManageComments',
-  ManageFolders = 'ManageFolders',
-  ManageMessages = 'ManageMessages',
-  ManagePosts = 'ManagePosts',
-  ManageServer = 'ManageServer',
-  ManageUsers = 'ManageUsers',
-  PrivateChannels = 'PrivateChannels',
-  RestrictedChannels = 'RestrictedChannels',
-  SendMessages = 'SendMessages'
-}
-
 export type ServerUser = {
   __typename?: 'ServerUser';
-  role: Role;
   user: User;
 };
 
@@ -471,24 +347,12 @@ export type User = {
   __typename?: 'User';
   createdAt: Scalars['DateTime'];
   email: Scalars['EmailAddress'];
-  folders: Array<Folder>;
-  groups: Array<Group>;
   id: Scalars['ID'];
   image?: Maybe<Scalars['String']>;
   isAdmin: Scalars['Boolean'];
-  isCurrentUser: Scalars['Boolean'];
-  isOg: Scalars['Boolean'];
-  isOnline: Scalars['Boolean'];
-  isStaff: Scalars['Boolean'];
   lastLoginAt?: Maybe<Scalars['DateTime']>;
-  lastMessageAt?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
-  onlineStatus: OnlineStatus;
-  relatedUsers: Array<User>;
-  relationshipStatus: RelationshipStatus;
   servers: Array<Server>;
-  showChat: Scalars['Boolean'];
-  unreadCount: Scalars['NonNegativeInt'];
 };
 
 export enum VoteType {
@@ -497,21 +361,21 @@ export enum VoteType {
   Up = 'Up'
 }
 
-export type CommentFragment = { __typename?: 'Comment', id: string, text: string, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, parentComment?: { __typename?: 'Comment', id: string } | null, linkMetadatas: Array<{ __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null }> };
+export type CommentFragment = { __typename?: 'Comment', id: string, text: string, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, parentComment?: { __typename?: 'Comment', id: string } | null };
 
 export type CreateCommentMutationVariables = Exact<{
   input: CreateCommentInput;
 }>;
 
 
-export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'Comment', id: string, text: string, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, author?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null, parentComment?: { __typename?: 'Comment', id: string } | null, linkMetadatas: Array<{ __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null }> } };
+export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'Comment', id: string, text: string, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, author?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null, parentComment?: { __typename?: 'Comment', id: string } | null } };
 
 export type CommentVoteMutationVariables = Exact<{
   input: CommentVoteInput;
 }>;
 
 
-export type CommentVoteMutation = { __typename?: 'Mutation', commentVote: { __typename?: 'Comment', id: string, text: string, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, author?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null, parentComment?: { __typename?: 'Comment', id: string } | null, linkMetadatas: Array<{ __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null }> } };
+export type CommentVoteMutation = { __typename?: 'Mutation', commentVote: { __typename?: 'Comment', id: string, text: string, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, author?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null, parentComment?: { __typename?: 'Comment', id: string } | null } };
 
 export type CommentsQueryVariables = Exact<{
   postId: Scalars['ID'];
@@ -519,9 +383,9 @@ export type CommentsQueryVariables = Exact<{
 }>;
 
 
-export type CommentsQuery = { __typename?: 'Query', comments: Array<{ __typename?: 'Comment', id: string, text: string, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, author?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null, parentComment?: { __typename?: 'Comment', id: string } | null, linkMetadatas: Array<{ __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null }> }> };
+export type CommentsQuery = { __typename?: 'Query', comments: Array<{ __typename?: 'Comment', id: string, text: string, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, author?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null, parentComment?: { __typename?: 'Comment', id: string } | null }> };
 
-export type PostFragment = { __typename?: 'Post', id: string, title: string, isPinned: boolean, text?: string | null, linkUrl?: string | null, thumbnailUrl?: string | null, commentCount: any, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, linkMetadata?: { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null } | null, images: Array<{ __typename?: 'PostImage', image: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } }> };
+export type PostFragment = { __typename?: 'Post', id: string, title: string, text?: string | null, linkUrl?: string | null, thumbnailUrl?: string | null, commentCount: any, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, linkMetadata?: { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null } | null, images: Array<{ __typename?: 'PostImage', image: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } }> };
 
 export type MetadataFragment = { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null };
 
@@ -532,21 +396,21 @@ export type CreatePostMutationVariables = Exact<{
 }>;
 
 
-export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: string, title: string, isPinned: boolean, text?: string | null, linkUrl?: string | null, thumbnailUrl?: string | null, commentCount: any, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, author?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null, linkMetadata?: { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null } | null, images: Array<{ __typename?: 'PostImage', image: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } }> } };
+export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: string, title: string, text?: string | null, linkUrl?: string | null, thumbnailUrl?: string | null, commentCount: any, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, author?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null, linkMetadata?: { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null } | null, images: Array<{ __typename?: 'PostImage', image: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } }> } };
 
 export type PostVoteMutationVariables = Exact<{
   input: PostVoteInput;
 }>;
 
 
-export type PostVoteMutation = { __typename?: 'Mutation', postVote: { __typename?: 'Post', id: string, title: string, isPinned: boolean, text?: string | null, linkUrl?: string | null, thumbnailUrl?: string | null, commentCount: any, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, author?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null, linkMetadata?: { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null } | null, images: Array<{ __typename?: 'PostImage', image: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } }> } };
+export type PostVoteMutation = { __typename?: 'Mutation', postVote: { __typename?: 'Post', id: string, title: string, text?: string | null, linkUrl?: string | null, thumbnailUrl?: string | null, commentCount: any, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, author?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null, linkMetadata?: { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null } | null, images: Array<{ __typename?: 'PostImage', image: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } }> } };
 
 export type PostQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post: { __typename?: 'Post', id: string, title: string, isPinned: boolean, text?: string | null, linkUrl?: string | null, thumbnailUrl?: string | null, commentCount: any, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, author?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null, server: { __typename?: 'Server', id: string, name: string, avatarUrl?: string | null, displayName: string }, linkMetadata?: { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null } | null, images: Array<{ __typename?: 'PostImage', image: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } }> } };
+export type PostQuery = { __typename?: 'Query', post: { __typename?: 'Post', id: string, title: string, text?: string | null, linkUrl?: string | null, thumbnailUrl?: string | null, commentCount: any, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, author?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null, server: { __typename?: 'Server', id: string, name: string, avatarUrl?: string | null, displayName: string }, linkMetadata?: { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null } | null, images: Array<{ __typename?: 'PostImage', image: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } }> } };
 
 export type PostsQueryVariables = Exact<{
   sort?: InputMaybe<PostsSort>;
@@ -560,7 +424,7 @@ export type PostsQueryVariables = Exact<{
 }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: string, title: string, isPinned: boolean, text?: string | null, linkUrl?: string | null, thumbnailUrl?: string | null, commentCount: any, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, author?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null, server: { __typename?: 'Server', id: string, name: string, avatarUrl?: string | null, displayName: string }, linkMetadata?: { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null } | null, images: Array<{ __typename?: 'PostImage', image: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } }> }> };
+export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: string, title: string, text?: string | null, linkUrl?: string | null, thumbnailUrl?: string | null, commentCount: any, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, author?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null, server: { __typename?: 'Server', id: string, name: string, avatarUrl?: string | null, displayName: string }, linkMetadata?: { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null } | null, images: Array<{ __typename?: 'PostImage', image: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } }> }> };
 
 export type GetLinkMetadataQueryVariables = Exact<{
   linkUrl: Scalars['String'];
@@ -642,6 +506,20 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null, servers: Array<{ __typename?: 'Server', id: string, name: string, displayName: string, avatarUrl?: string | null, owner: { __typename?: 'User', id: string } }> } | null };
 
+export const CommentFragmentDoc = gql`
+    fragment Comment on Comment {
+  id
+  parentComment {
+    id
+  }
+  text
+  voteCount
+  voteType
+  isDeleted
+  createdAt
+  updatedAt
+}
+    `;
 export const ImageFragmentDoc = gql`
     fragment Image on Image {
   originalUrl
@@ -670,28 +548,10 @@ export const MetadataFragmentDoc = gql`
   themeColor
 }
     ${ImageFragmentDoc}`;
-export const CommentFragmentDoc = gql`
-    fragment Comment on Comment {
-  id
-  parentComment {
-    id
-  }
-  text
-  voteCount
-  voteType
-  isDeleted
-  createdAt
-  updatedAt
-  linkMetadatas {
-    ...Metadata
-  }
-}
-    ${MetadataFragmentDoc}`;
 export const PostFragmentDoc = gql`
     fragment Post on Post {
   id
   title
-  isPinned
   text
   linkUrl
   linkMetadata {

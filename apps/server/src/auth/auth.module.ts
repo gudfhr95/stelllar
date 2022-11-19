@@ -3,7 +3,6 @@ import { Module } from "@nestjs/common";
 import { PassportModule } from "@nestjs/passport";
 import { defaultEntities } from "@next-auth/mikro-orm-adapter";
 import { UserModule } from "../user/user.module";
-import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { NextAuthSessionStrategy } from "./strategy/next-auth-session.strategy";
 
@@ -14,6 +13,5 @@ import { NextAuthSessionStrategy } from "./strategy/next-auth-session.strategy";
     UserModule,
   ],
   providers: [AuthService, NextAuthSessionStrategy],
-  controllers: [AuthController],
 })
 export class AuthModule {}

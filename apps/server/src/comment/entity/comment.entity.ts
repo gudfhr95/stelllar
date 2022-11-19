@@ -1,20 +1,18 @@
 import {
   Collection,
-  Embedded,
   Entity,
   ManyToOne,
   OneToMany,
   Property,
 } from "@mikro-orm/core";
 import { Field, Int, ObjectType } from "@nestjs/graphql";
-import { BaseEntity } from "../../common/entity/base.entity";
-import { Post } from "../../post/entity/post.entity";
-import { User } from "../../user/entity/user.entity";
-import { ServerUser } from "../../server/entity/server-user.entity";
-import { VoteType } from "../../common/entity/vote-type.enum";
-import { CommentVote } from "./comment-vote.entity";
-import { LinkMetadata } from "../../common/entity/link-metadata.entity";
 import { GraphQLBoolean } from "graphql/type";
+import { BaseEntity } from "../../common/entity/base.entity";
+import { VoteType } from "../../common/entity/vote-type.enum";
+import { Post } from "../../post/entity/post.entity";
+import { ServerUser } from "../../server/entity/server-user.entity";
+import { User } from "../../user/entity/user.entity";
+import { CommentVote } from "./comment-vote.entity";
 
 @ObjectType({ implements: BaseEntity })
 @Entity()
@@ -48,14 +46,6 @@ export class Comment extends BaseEntity {
   @OneToMany(() => CommentVote, "comment")
   votes = new Collection<CommentVote>(this);
 
-  @Field(() => GraphQLBoolean)
-  @Property({ columnType: "boolean" })
-  isPinned = false;
-
-  @Field({ nullable: true })
-  @Property({ nullable: true })
-  pinnedAt?: Date;
-
   @Field({ nullable: true })
   @Property({ nullable: true })
   updatedAt?: Date;
@@ -63,8 +53,4 @@ export class Comment extends BaseEntity {
   @Field(() => GraphQLBoolean)
   @Property({ columnType: "boolean" })
   isDeleted = false;
-
-  @Field(() => [LinkMetadata])
-  @Embedded(() => LinkMetadata, { object: true, array: true })
-  linkMetadatas: LinkMetadata[] = [];
 }

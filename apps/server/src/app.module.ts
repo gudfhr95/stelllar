@@ -2,18 +2,14 @@ import * as Joi from "@hapi/joi";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AuthModule } from "./auth/auth.module";
-import { ChannelModule } from "./channel/channel.module";
 import { CommentModule } from "./comment/comment.module";
 import { DatabaseModule } from "./database/database.module";
 import { FileModule } from "./file/file.module";
-import { FolderModule } from "./folder/folder.module";
 import { GraphqlModule } from "./graphql/graphql.module";
-import { GroupModule } from "./group/group.module";
-import { MessageModule } from "./message/message.module";
 import { PostModule } from "./post/post.module";
+import { ScraperModule } from "./scraper/scraper.module";
 import { ServerModule } from "./server/server.module";
 import { UserModule } from "./user/user.module";
-import { ScraperModule } from './scraper/scraper.module';
 
 @Module({
   imports: [
@@ -34,15 +30,11 @@ import { ScraperModule } from './scraper/scraper.module';
     }),
     DatabaseModule,
     GraphqlModule,
+    AuthModule,
     UserModule,
     ServerModule,
-    FolderModule,
-    GroupModule,
     PostModule,
-    ChannelModule,
     CommentModule,
-    MessageModule,
-    AuthModule,
     FileModule,
     ScraperModule,
   ],

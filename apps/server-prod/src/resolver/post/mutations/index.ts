@@ -1,7 +1,0 @@
-export * from './createPost'
-export * from './deletePost'
-export * from './pinPost'
-export * from './readPost'
-export * from './unpinPost'
-export * from './updatePost'
-export * from './updatePostVote'
