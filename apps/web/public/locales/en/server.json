@@ -17,6 +17,8 @@
     }
   },
   "sidebar": {
+    "join": "Join",
+    "leave": "Leave",
     "posts": "Posts",
     "Hot": "Hot",
     "New": "New",

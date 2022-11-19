@@ -73,7 +73,9 @@ export default function ServerInfoCard({
 
             <div className="ml-auto inline-flex items-center">
               <CategoryIcon className="w-4 h-4 text-tertiary" />
-              <div className="ml-2 text-tertiary">{category}</div>
+              <div className="ml-2 text-tertiary">
+                {t(`category.${category}`)}
+              </div>
             </div>
           </div>
         </div>

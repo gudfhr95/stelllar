@@ -1,5 +1,6 @@
 import ctl from "@netlify/classnames-template-literals";
 import { formatDistanceToNowStrict } from "date-fns";
+import * as Locales from "date-fns/locale";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -39,7 +40,7 @@ export default function Comment({
   setParentComment,
   level = 0,
 }: Comment) {
-  const { t } = useTranslation("comment");
+  const { i18n, t } = useTranslation("comment");
   const router = useRouter();
   const user = useAuth();
 
@@ -123,8 +124,11 @@ export default function Comment({
               )}
             </div>
             <div className="text-11 text-mid font-medium pl-2 leading-none">
-              {formatDistanceToNowStrict(new Date(comment.createdAt))}
-              &nbsp;ago
+              {formatDistanceToNowStrict(new Date(comment.createdAt), {
+                // @ts-ignore
+                locale: Locales[i18n.language],
+              })}
+              &nbsp;{t("ago")}
             </div>
           </div>
 

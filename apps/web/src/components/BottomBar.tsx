@@ -26,7 +26,7 @@ export default function BottomBar() {
 
   return (
     <>
-      <div className="relative flex items-center shadow-md px-3 bottom-0 h-5.5 dark:bg-gray-700 z-50 bg-white">
+      <div className="relative flex items-center shadow-md px-3 bottom-0 h-5.5 dark:bg-gray-700 z-10 bg-white">
         {user ? (
           <>
             <UserAvatar avatarUrl={user.image} size={4.5} className="mr-2" />
