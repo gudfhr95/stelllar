@@ -7,16 +7,14 @@
   "bottomBar": {
     "login": "Login",
     "logout": "Logout",
-    "settings": "Settings",
     "theme": {
       "dark": "Dark Mode",
       "light": "Light Mode"
     }
   },
-  "setting": {
-    "title": "Settings",
+  "userSetting": {
+    "title": "Profile Setting",
     "uploadAvatar": "Upload Avatar",
-    "changeProfile": "Change Profile",
     "name": "Name",
     "confirm": "Confirm",
     "error": {

@@ -7,16 +7,14 @@
   "bottomBar": {
     "login": "로그인",
     "logout": "로그아웃",
-    "settings": "설정",
     "theme": {
       "dark": "다크 모드",
       "light": "라이트 모드"
     }
   },
-  "setting": {
-    "title": "설정",
+  "userSetting": {
+    "title": "프로필 설정",
     "uploadAvatar": "아바타 업로드",
-    "changeProfile": "프로필 변경",
     "name": "이름",
     "confirm": "확인",
     "error": {

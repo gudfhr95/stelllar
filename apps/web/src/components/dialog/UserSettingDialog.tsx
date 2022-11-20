@@ -82,7 +82,7 @@ export default function UserSettingsDialog() {
               disabled={updateProfileLoading || !name || name.length < 2}
               className="form-button-submit"
             >
-              {t("setting.confirm")}
+              {t("userSetting.confirm")}
               {updateProfileLoading ? (
                 <IconSpinner className="w-5 h-5" />
               ) : (
@@ -94,13 +94,7 @@ export default function UserSettingsDialog() {
         >
           <div className="px-5 pt-5 pb-10">
             <div className="flex items-center font-semibold text-primary">
-              <UserAvatar
-                avatarUrl={user.image}
-                size={6}
-                className="rounded-md mr-2"
-              />
-              {t("setting.title")}&nbsp;&nbsp;–&nbsp;&nbsp;
-              <div className="truncate">{user.name}</div>
+              {t("userSetting.title")}
               <IconX
                 className="h-5 w-5 highlightable ml-auto"
                 onClick={close}
@@ -122,19 +116,19 @@ export default function UserSettingsDialog() {
                 className="h-9 transition hover:bg-gray-200 cursor-pointer flex items-center justify-center text-sm font-medium border rounded dark:border-gray-600 px-3 bg-gray-300 text-gray-800 ml-3"
               >
                 <IconImage className="w-5 h-5 mr-2" />
-                {t("setting.uploadAvatar")}
+                {t("userSetting.uploadAvatar")}
               </label>
             </div>
 
             <div className="border dark:border-gray-750 rounded space-y-3 p-3">
               <div className="text-xs font-medium text-tertiary">
-                {t("setting.changeProfile")}
+                {t("userSetting.name")}
               </div>
               <div>
                 <div className="relative">
                   <input
                     className="form-input-password"
-                    placeholder={t("setting.name")}
+                    placeholder={t("userSetting.name")}
                     id="name"
                     {...register("name", {
                       minLength: 2,
@@ -144,7 +138,7 @@ export default function UserSettingsDialog() {
                   />
                   {!!name && errors.name && (
                     <div className="form-error">
-                      {t("setting.error.nameLength")}
+                      {t("userSetting.error.nameLength")}
                     </div>
                   )}
                 </div>
@@ -156,7 +150,7 @@ export default function UserSettingsDialog() {
                 onClick={onClickDeleteAccountButton}
                 className="form-button-delete"
               >
-                {t("setting.deleteAccount.title")}
+                {t("userSetting.deleteAccount.title")}
                 <IconDelete className="ml-2 w-5 h-5" />
               </button>
             </div>
