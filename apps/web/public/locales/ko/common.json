@@ -18,13 +18,17 @@
     "name": "이름",
     "confirm": "확인",
     "error": {
-      "nameLength": "이름은 두글자 이상이여야 합니다."
+      "nameLength": "이름은 두글자 이상이여야 합니다.",
+      "duplicateName": "중복된 이름입니다."
     },
     "deleteAccount": {
       "title": "계정 삭제",
       "content": "계정을 삭제하면 복구할 수 없습니다.\n 계정을 삭제하길 원하신다면, '확인'을 입력해주세요.",
       "cancel": "취소",
       "confirm": "확인"
+    },
+    "toast": {
+      "success": "저장 완료"
     }
   }
 }

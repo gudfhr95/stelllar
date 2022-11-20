@@ -99,15 +99,6 @@
       "indexes": [
         {
           "columnNames": [
-            "name"
-          ],
-          "composite": false,
-          "keyName": "user_name_unique",
-          "primary": false,
-          "unique": true
-        },
-        {
-          "columnNames": [
             "email"
           ],
           "composite": false,

@@ -33,6 +33,7 @@ export default function UserSettingsDialog() {
     watch,
     reset,
     formState: { errors },
+    setError,
   } = useForm({
     mode: "onChange",
   });
@@ -55,15 +56,19 @@ export default function UserSettingsDialog() {
 
     updateAvatar({ variables: { input: { avatarFile: avatarFile[0] } } }).then(
       () => {
-        toast.success("Changed Avatar");
+        toast.success(t("userSetting.toast.success"));
       }
     );
   };
 
   const onSubmit: SubmitHandler<FieldValues> = ({ name }) => {
-    updateProfile({ variables: { input: { name } } }).then(() => {
-      toast.success("Changed Profile");
-    });
+    updateProfile({ variables: { input: { name } } })
+      .then((data) => {
+        toast.success(t("userSetting.toast.success"));
+      })
+      .catch((data) => {
+        setError("name", { type: data.message });
+      });
   };
 
   const onClickDeleteAccountButton = () => {
@@ -136,9 +141,14 @@ export default function UserSettingsDialog() {
                     })}
                     minLength={2}
                   />
-                  {!!name && errors.name && (
+                  {!!name && errors.name?.type === "minLength" && (
                     <div className="form-error">
                       {t("userSetting.error.nameLength")}
+                    </div>
+                  )}
+                  {!!name && errors.name?.type === "duplicateName" && (
+                    <div className="form-error">
+                      {t("userSetting.error.duplicateName")}
                     </div>
                   )}
                 </div>
