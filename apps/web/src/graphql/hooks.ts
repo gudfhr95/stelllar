@@ -62,12 +62,8 @@ export type CreateCommentInput = {
   text: Scalars['String'];
 };
 
-export type CreatePostImagesInput = {
-  file: Scalars['Upload'];
-};
-
 export type CreatePostInput = {
-  images?: InputMaybe<Array<CreatePostImagesInput>>;
+  images?: InputMaybe<Array<PostImageInput>>;
   linkUrl?: InputMaybe<Scalars['String']>;
   serverId: Scalars['ID'];
   text?: InputMaybe<Scalars['String']>;
@@ -124,6 +120,7 @@ export type Mutation = {
   leaveServer: Server;
   postVote: Post;
   updateAvatar: User;
+  updatePost: Post;
   updateProfile: User;
   updateServer: Server;
 };
@@ -174,6 +171,11 @@ export type MutationUpdateAvatarArgs = {
 };
 
 
+export type MutationUpdatePostArgs = {
+  input: UpdatePostInput;
+};
+
+
 export type MutationUpdateProfileArgs = {
   input: UpdateProfileInput;
 };
@@ -206,6 +208,10 @@ export type Post = BaseEntity & {
 export type PostImage = {
   __typename?: 'PostImage';
   image: Image;
+};
+
+export type PostImageInput = {
+  file: Scalars['Upload'];
 };
 
 export type PostVoteInput = {
@@ -336,6 +342,14 @@ export type UpdateAvatarInput = {
   avatarFile: Scalars['Upload'];
 };
 
+export type UpdatePostInput = {
+  images?: InputMaybe<Array<PostImageInput>>;
+  linkUrl?: InputMaybe<Scalars['String']>;
+  postId: Scalars['ID'];
+  text?: InputMaybe<Scalars['String']>;
+  title: Scalars['String'];
+};
+
 export type UpdateProfileInput = {
   name: Scalars['String'];
 };
@@ -403,6 +417,13 @@ export type CreatePostMutationVariables = Exact<{
 
 
 export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: string, title: string, text?: string | null, linkUrl?: string | null, thumbnailUrl?: string | null, commentCount: any, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, author?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null, linkMetadata?: { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null } | null, images: Array<{ __typename?: 'PostImage', image: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } }> } };
+
+export type UpdatePostMutationVariables = Exact<{
+  input: UpdatePostInput;
+}>;
+
+
+export type UpdatePostMutation = { __typename?: 'Mutation', updatePost: { __typename?: 'Post', id: string, title: string, text?: string | null, linkUrl?: string | null, thumbnailUrl?: string | null, commentCount: any, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, author?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null, linkMetadata?: { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null } | null, images: Array<{ __typename?: 'PostImage', image: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } }> } };
 
 export type DeletePostMutationVariables = Exact<{
   input: Scalars['String'];
@@ -774,6 +795,43 @@ export function useCreatePostMutation(baseOptions?: ApolloReactHooks.MutationHoo
 export type CreatePostMutationHookResult = ReturnType<typeof useCreatePostMutation>;
 export type CreatePostMutationResult = Apollo.MutationResult<CreatePostMutation>;
 export type CreatePostMutationOptions = Apollo.BaseMutationOptions<CreatePostMutation, CreatePostMutationVariables>;
+export const UpdatePostDocument = gql`
+    mutation updatePost($input: UpdatePostInput!) {
+  updatePost(input: $input) {
+    ...Post
+    author {
+      ...User
+    }
+  }
+}
+    ${PostFragmentDoc}
+${UserFragmentDoc}`;
+export type UpdatePostMutationFn = Apollo.MutationFunction<UpdatePostMutation, UpdatePostMutationVariables>;
+
+/**
+ * __useUpdatePostMutation__
+ *
+ * To run a mutation, you first call `useUpdatePostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePostMutation, { data, loading, error }] = useUpdatePostMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdatePostMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdatePostMutation, UpdatePostMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<UpdatePostMutation, UpdatePostMutationVariables>(UpdatePostDocument, options);
+      }
+export type UpdatePostMutationHookResult = ReturnType<typeof useUpdatePostMutation>;
+export type UpdatePostMutationResult = Apollo.MutationResult<UpdatePostMutation>;
+export type UpdatePostMutationOptions = Apollo.BaseMutationOptions<UpdatePostMutation, UpdatePostMutationVariables>;
 export const DeletePostDocument = gql`
     mutation deletePost($input: String!) {
   deletePost(id: $input)

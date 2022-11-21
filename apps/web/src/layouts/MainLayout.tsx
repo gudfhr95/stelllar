@@ -1,9 +1,9 @@
 import { PropsWithChildren } from "react";
 import BottomBar from "../components/BottomBar";
-import CreatePostDialog from "../components/dialog/CreatePostDialog";
 import CreateServerDialog from "../components/dialog/CreateServerDialog";
 import LoginDialog from "../components/dialog/LoginDialog";
 import SettingsDialog from "../components/dialog/UserSettingDialog";
+import CreatePostDialog from "../components/post/CreatePostDialog";
 import ServerList from "../components/server/ServerList";
 import ResponsiveToaster from "../components/ui/ResponsiveToaster";
 

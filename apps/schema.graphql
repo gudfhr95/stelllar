@@ -195,6 +195,7 @@ type Mutation {
   joinServer(serverId: String!): Server!
   leaveServer(serverId: String!): Server!
   createPost(input: CreatePostInput!): Post!
+  updatePost(input: UpdatePostInput!): Post!
   deletePost(id: String!): Boolean!
   postVote(input: PostVoteInput!): Post!
   createComment(input: CreateCommentInput!): Comment!
@@ -235,11 +236,19 @@ input CreatePostInput {
   linkUrl: String
   text: String
   serverId: ID!
-  images: [CreatePostImagesInput!]
+  images: [PostImageInput!]
 }
 
-input CreatePostImagesInput {
+input PostImageInput {
   file: Upload!
+}
+
+input UpdatePostInput {
+  postId: ID!
+  title: String!
+  linkUrl: String
+  text: String
+  images: [PostImageInput!]
 }
 
 input PostVoteInput {

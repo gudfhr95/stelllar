@@ -14,8 +14,6 @@ import {
 } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
 import { useCreatePostDialog } from "../../hooks/useCreatePostDialog";
-import PostEmbed from "../post/PostEmbed";
-import ServerSelect from "../post/ServerSelect";
 import Dialog from "../ui/dialog/Dialog";
 import Editor from "../ui/editor/Editor";
 import {
@@ -26,6 +24,8 @@ import {
   IconText,
   IconX,
 } from "../ui/icons/Icons";
+import PostEmbed from "./PostEmbed";
+import ServerSelect from "./ServerSelect";
 
 const labelClass = ctl(`
   block
