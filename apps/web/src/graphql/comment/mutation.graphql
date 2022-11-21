@@ -7,6 +7,15 @@ mutation createComment($input: CreateCommentInput!) {
   }
 }
 
+mutation updateComment($input: UpdateCommentInput!){
+  updateComment(input: $input){
+    ...Comment
+    author {
+      ...User
+    }
+  }
+}
+
 mutation deleteComment($input: String!){
   deleteComment(id: $input)
 }

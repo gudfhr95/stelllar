@@ -2,6 +2,8 @@ import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useDeleteCommentMutation } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
+import { useEditComment } from "../../hooks/useEditComment";
+import { useReplyComment } from "../../hooks/useReplyComment";
 import ContextMenuSection from "../ui/context/ContextMenuSection";
 
 export default function CommentContextMenu({
@@ -15,6 +17,20 @@ export default function CommentContextMenu({
 
   const [deleteComment] = useDeleteCommentMutation();
 
+  const { editingCommentId, setEditingCommentId } = useEditComment();
+  const { setReplyingCommentId } = useReplyComment();
+
+  const isEditing = editingCommentId === comment.id;
+  const onClickEdit = () => {
+    if (isEditing) {
+      setEditingCommentId(null);
+      setReplyingCommentId(null);
+    } else {
+      setEditingCommentId(comment.id);
+      setReplyingCommentId(null);
+    }
+  };
+
   const onClickDelete = () => {
     deleteComment({
       variables: { input: comment.id },
@@ -27,7 +43,7 @@ export default function CommentContextMenu({
       <ContextMenuSection>
         {canManageComment && (
           <>
-            <ContextMenuItem label={t("menu.edit")} />
+            <ContextMenuItem label={t("menu.edit")} onClick={onClickEdit} />
             <ContextMenuItem
               label={t("menu.delete")}
               red

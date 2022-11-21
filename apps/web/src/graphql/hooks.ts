@@ -121,6 +121,7 @@ export type Mutation = {
   leaveServer: Server;
   postVote: Post;
   updateAvatar: User;
+  updateComment: Comment;
   updatePost: Post;
   updateProfile: User;
   updateServer: Server;
@@ -174,6 +175,11 @@ export type MutationPostVoteArgs = {
 
 export type MutationUpdateAvatarArgs = {
   input: UpdateAvatarInput;
+};
+
+
+export type MutationUpdateCommentArgs = {
+  input: UpdateCommentInput;
 };
 
 
@@ -348,6 +354,11 @@ export type UpdateAvatarInput = {
   avatarFile: Scalars['Upload'];
 };
 
+export type UpdateCommentInput = {
+  commentId: Scalars['ID'];
+  text: Scalars['String'];
+};
+
 export type UpdatePostInput = {
   images?: InputMaybe<Array<PostImageInput>>;
   linkUrl?: InputMaybe<Scalars['String']>;
@@ -395,6 +406,13 @@ export type CreateCommentMutationVariables = Exact<{
 
 
 export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'Comment', id: string, text: string, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, author?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null, parentComment?: { __typename?: 'Comment', id: string } | null } };
+
+export type UpdateCommentMutationVariables = Exact<{
+  input: UpdateCommentInput;
+}>;
+
+
+export type UpdateCommentMutation = { __typename?: 'Mutation', updateComment: { __typename?: 'Comment', id: string, text: string, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, author?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null, parentComment?: { __typename?: 'Comment', id: string } | null } };
 
 export type DeleteCommentMutationVariables = Exact<{
   input: Scalars['String'];
@@ -694,6 +712,43 @@ export function useCreateCommentMutation(baseOptions?: ApolloReactHooks.Mutation
 export type CreateCommentMutationHookResult = ReturnType<typeof useCreateCommentMutation>;
 export type CreateCommentMutationResult = Apollo.MutationResult<CreateCommentMutation>;
 export type CreateCommentMutationOptions = Apollo.BaseMutationOptions<CreateCommentMutation, CreateCommentMutationVariables>;
+export const UpdateCommentDocument = gql`
+    mutation updateComment($input: UpdateCommentInput!) {
+  updateComment(input: $input) {
+    ...Comment
+    author {
+      ...User
+    }
+  }
+}
+    ${CommentFragmentDoc}
+${UserFragmentDoc}`;
+export type UpdateCommentMutationFn = Apollo.MutationFunction<UpdateCommentMutation, UpdateCommentMutationVariables>;
+
+/**
+ * __useUpdateCommentMutation__
+ *
+ * To run a mutation, you first call `useUpdateCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCommentMutation, { data, loading, error }] = useUpdateCommentMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateCommentMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateCommentMutation, UpdateCommentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<UpdateCommentMutation, UpdateCommentMutationVariables>(UpdateCommentDocument, options);
+      }
+export type UpdateCommentMutationHookResult = ReturnType<typeof useUpdateCommentMutation>;
+export type UpdateCommentMutationResult = Apollo.MutationResult<UpdateCommentMutation>;
+export type UpdateCommentMutationOptions = Apollo.BaseMutationOptions<UpdateCommentMutation, UpdateCommentMutationVariables>;
 export const DeleteCommentDocument = gql`
     mutation deleteComment($input: String!) {
   deleteComment(id: $input)

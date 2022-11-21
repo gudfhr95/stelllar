@@ -199,6 +199,7 @@ type Mutation {
   deletePost(id: String!): Boolean!
   postVote(input: PostVoteInput!): Post!
   createComment(input: CreateCommentInput!): Comment!
+  updateComment(input: UpdateCommentInput!): Comment!
   deleteComment(id: String!): Boolean!
   commentVote(input: CommentVoteInput!): Comment!
 }
@@ -261,6 +262,11 @@ input CreateCommentInput {
   text: String!
   postId: ID!
   parentCommentId: ID
+}
+
+input UpdateCommentInput {
+  commentId: ID!
+  text: String!
 }
 
 input CommentVoteInput {

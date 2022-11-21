@@ -7,6 +7,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { Post, useCommentVoteMutation, VoteType } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
+import { useEditComment } from "../../hooks/useEditComment";
 import { useReplyComment } from "../../hooks/useReplyComment";
 import ContextMenuTrigger from "../ui/context/ContextMenuTrigger";
 import { ContextMenuType } from "../ui/context/ContextMenuType";
@@ -16,7 +17,8 @@ import {
   IconDotsVertical,
 } from "../ui/icons/Icons";
 import UserAvatar from "../user/UserAvatar";
-import CommentEditor from "./CommentEditor";
+import CreateCommentEditor from "./CreateCommentEditor";
+import EditCommentEditor from "./EditCommentEditor";
 
 const replyBtnClass = ctl(`
   ml-2
@@ -49,6 +51,7 @@ export default function Comment({
   const [commentVote] = useCommentVoteMutation();
 
   const { replyingCommentId, setReplyingCommentId } = useReplyComment();
+  const { editingCommentId, setEditingCommentId } = useEditComment();
 
   const [collapse, setCollapse] = useState(false);
 
@@ -86,10 +89,13 @@ export default function Comment({
   };
 
   const isReplying = replyingCommentId === comment.id;
+  const isEditing = editingCommentId === comment.id;
   const onClickReply = () => {
     if (isReplying) {
+      setEditingCommentId(null);
       setReplyingCommentId(null);
     } else {
+      setEditingCommentId(null);
       setReplyingCommentId(comment.id);
     }
   };
@@ -213,10 +219,18 @@ export default function Comment({
 
           {isReplying && (
             <div className="pt-3 max-w-screen-md w-full">
-              <CommentEditor
+              <CreateCommentEditor
                 postId={post.id}
                 parentCommentId={comment.id}
                 setOpen={() => setReplyingCommentId(null)}
+              />
+            </div>
+          )}
+          {isEditing && (
+            <div className="pt-3 max-w-screen-md w-full">
+              <EditCommentEditor
+                comment={comment}
+                setOpen={() => setEditingCommentId(null)}
               />
             </div>
           )}

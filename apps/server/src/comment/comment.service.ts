@@ -75,6 +75,32 @@ export class CommentService {
     return comment;
   }
 
+  async updateComment(commentId: string, user: User, text: string) {
+    const comment = await this.commentRepository.findOneOrFail(
+      {
+        id: commentId,
+        isDeleted: false,
+      },
+      { populate: ["author"] }
+    );
+
+    if (!(user === comment.author || user.isAdmin)) {
+      throw new HttpException("forbidden", HttpStatus.FORBIDDEN);
+    }
+
+    text = text.replace(/<[^/>][^>]*><\/[^>]+>/, "");
+    if (!text) {
+      throw new Error("error.comment.empty");
+    }
+    text = handleText(text);
+
+    comment.text = text;
+
+    await this.commentRepository.persistAndFlush(comment);
+
+    return comment;
+  }
+
   async deleteComment(commentId: string, user: User) {
     const comment = await this.commentRepository.findOneOrFail(
       {

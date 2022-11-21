@@ -27,6 +27,9 @@ type Store = {
 
   replyingCommentId: string | null;
   setReplyingCommentId: (commentId: string | null) => void;
+
+  editingCommentId: string | null;
+  setEditingCommentId: (commentId: string | null) => void;
 };
 
 export const useStore = create<Store>()((set, get) => ({
@@ -56,4 +59,7 @@ export const useStore = create<Store>()((set, get) => ({
 
   replyingCommentId: null,
   setReplyingCommentId: (commentId) => set({ replyingCommentId: commentId }),
+
+  editingCommentId: null,
+  setEditingCommentId: (commentId) => set({ editingCommentId: commentId }),
 }));

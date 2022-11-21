@@ -18,6 +18,7 @@ import { Comment } from "./entity/comment.entity";
 import { CommentVoteInput } from "./input/comment-vote.input";
 import { CommentsArgs } from "./input/comments.args";
 import { CreateCommentInput } from "./input/create-comment.input";
+import { UpdateCommentInput } from "./input/update-comment.input";
 
 @Resolver(() => Comment)
 export class CommentResolver {
@@ -47,6 +48,20 @@ export class CommentResolver {
     return await this.commentService.createComment(
       input.postId,
       input.parentCommentId,
+      user,
+      input.text
+    );
+  }
+
+  @Mutation(() => Comment)
+  async updateComment(
+    @Args("input") input: UpdateCommentInput,
+    @CurrentUser() user: User
+  ) {
+    Logger.log("updateComment");
+
+    return await this.commentService.updateComment(
+      input.commentId,
       user,
       input.text
     );

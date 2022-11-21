@@ -2,7 +2,7 @@ import { useTranslation } from "next-i18next";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import UserAvatar from "../user/UserAvatar";
-import CommentEditor from "./CommentEditor";
+import CreateCommentEditor from "./CreateCommentEditor";
 
 type CreateCommentCard = {
   postId: string;
@@ -32,7 +32,7 @@ export default function CreateCommentCard({ postId }: CreateCommentCard) {
             <UserAvatar avatarUrl={user.image} size={7} />
           </div>
 
-          <CommentEditor postId={postId} setOpen={setOpen} />
+          <CreateCommentEditor postId={postId} setOpen={setOpen} />
         </div>
       )}
     </>
