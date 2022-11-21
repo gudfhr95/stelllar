@@ -7,6 +7,10 @@ mutation createPost($input: CreatePostInput!) {
   }
 }
 
+mutation deletePost($input: String!){
+  deletePost(id: $input)
+}
+
 mutation postVote($input: PostVoteInput!) {
   postVote(input: $input) {
     ...Post

@@ -1,7 +1,7 @@
 import { QueryOrder } from "@mikro-orm/core";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { EntityRepository } from "@mikro-orm/postgresql";
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import dayjs from "dayjs";
 import mime from "mime";
 import { VoteType } from "../common/entity/vote-type.enum";
@@ -80,6 +80,7 @@ export class PostService {
     return await this.postRepository.find(
       {
         $and: [
+          { isDeleted: false },
           !time || time === PostsTime.All
             ? {}
             : {
@@ -157,6 +158,23 @@ export class PostService {
     });
 
     await this.postVoteRepository.persistAndFlush(vote);
+
+    return post;
+  }
+
+  async deletePost(postId: string, user: User) {
+    const post = await this.postRepository.findOneOrFail(
+      { id: postId, isDeleted: false },
+      { populate: ["author", "server"] }
+    );
+
+    if (!(post.author === user || user.isAdmin)) {
+      throw new HttpException("forbidden", HttpStatus.FORBIDDEN);
+    }
+
+    post.isDeleted = true;
+
+    await this.postRepository.persistAndFlush(post);
 
     return post;
   }

@@ -195,6 +195,7 @@ type Mutation {
   joinServer(serverId: String!): Server!
   leaveServer(serverId: String!): Server!
   createPost(input: CreatePostInput!): Post!
+  deletePost(id: String!): Boolean!
   postVote(input: PostVoteInput!): Post!
   createComment(input: CreateCommentInput!): Comment!
   commentVote(input: CommentVoteInput!): Comment!

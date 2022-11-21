@@ -7,7 +7,7 @@ import {
   ResolveField,
   Resolver,
 } from "@nestjs/graphql";
-import { GraphQLString } from "graphql/type";
+import { GraphQLBoolean, GraphQLString } from "graphql/type";
 import { CurrentUser } from "../auth/decorator/current-user.decorator";
 import { Public } from "../auth/decorator/public.decorator";
 import { VoteType } from "../common/entity/vote-type.enum";
@@ -70,6 +70,13 @@ export class PostResolver {
       input.text,
       input.images
     );
+  }
+
+  @Mutation(() => GraphQLBoolean)
+  async deletePost(@Args("id") postId: string, @CurrentUser() user: User) {
+    Logger.log("deletePost");
+
+    return !!(await this.postService.deletePost(postId, user));
   }
 
   @Mutation(() => Post)
