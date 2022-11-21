@@ -47,6 +47,12 @@ export class UserService {
   }
 
   async updateProfile(user: User, input: UpdateProfileInput) {
+    if (input.name) {
+      if (await this.existsUserByName(input.name)) {
+        throw new HttpException("duplicateName", HttpStatus.BAD_REQUEST);
+      }
+    }
+
     user.name = input.name ?? user.name;
 
     await this.userRepository.persistAndFlush(user);
@@ -58,5 +64,12 @@ export class UserService {
 
     await this.userRepository.persistAndFlush(user);
     return true;
+  }
+
+  async existsUserByName(name: string) {
+    return !!(await this.userRepository.findOne({
+      name,
+      isDeleted: false,
+    }));
   }
 }

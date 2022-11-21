@@ -1,4 +1,6 @@
 import { formatDistanceToNowStrict } from "date-fns";
+import * as Locales from "date-fns/locale";
+import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { memo } from "react";
@@ -24,6 +26,7 @@ export default memo(function PostItem({
   user = null,
   className = "",
 }: PostListItem) {
+  const { i18n, t } = useTranslation("post");
   const router = useRouter();
 
   const [postVote] = usePostVoteMutation();
@@ -141,8 +144,11 @@ export default memo(function PostItem({
           </Link>
           <span className="text-xs text-tertiary">
             &nbsp;&middot;&nbsp;
-            {formatDistanceToNowStrict(new Date(post.createdAt))}
-            &nbsp;ago&nbsp;by
+            {formatDistanceToNowStrict(new Date(post.createdAt), {
+              // @ts-ignore
+              locale: Locales[i18n.language],
+            })}
+            &nbsp;{t("ago")}&nbsp;&middot;
           </span>
           <div className="ml-1 cursor-pointer text-tertiary text-xs font-medium leading-none">
             {post.author?.name ?? "[deleted]"}

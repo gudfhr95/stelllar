@@ -1,0 +1,28 @@
+{
+  "sidebar": {
+    "home": "홈",
+    "explore": "탐색",
+    "createPlanet": "행성 만들기"
+  },
+  "bottomBar": {
+    "login": "로그인",
+    "logout": "로그아웃",
+    "theme": {
+      "dark": "다크 모드",
+      "light": "라이트 모드"
+    }
+  },
+  "userSetting": {
+    "title": "프로필 설정",
+    "uploadAvatar": "아바타 업로드",
+    "name": "이름",
+    "confirm": "확인",
+    "error": {
+      "nameLength": "이름은 두글자 이상이여야 합니다.",
+      "duplicateName": "중복된 이름입니다."
+    },
+    "toast": {
+      "success": "저장 완료"
+    }
+  }
+}

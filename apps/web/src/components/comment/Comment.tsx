@@ -1,19 +1,24 @@
 import ctl from "@netlify/classnames-template-literals";
 import { formatDistanceToNowStrict } from "date-fns";
+import * as Locales from "date-fns/locale";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Post, useCommentVoteMutation, VoteType } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
+import { useEditComment } from "../../hooks/useEditComment";
 import { useReplyComment } from "../../hooks/useReplyComment";
+import ContextMenuTrigger from "../ui/context/ContextMenuTrigger";
+import { ContextMenuType } from "../ui/context/ContextMenuType";
 import {
   IconChevronDown,
   IconChevronUp,
   IconDotsVertical,
 } from "../ui/icons/Icons";
 import UserAvatar from "../user/UserAvatar";
-import CommentEditor from "./CommentEditor";
+import CreateCommentEditor from "./CreateCommentEditor";
+import EditCommentEditor from "./EditCommentEditor";
 
 const replyBtnClass = ctl(`
   ml-2
@@ -39,13 +44,14 @@ export default function Comment({
   setParentComment,
   level = 0,
 }: Comment) {
-  const { t } = useTranslation("comment");
+  const { i18n, t } = useTranslation("comment");
   const router = useRouter();
   const user = useAuth();
 
   const [commentVote] = useCommentVoteMutation();
 
   const { replyingCommentId, setReplyingCommentId } = useReplyComment();
+  const { editingCommentId, setEditingCommentId } = useEditComment();
 
   const [collapse, setCollapse] = useState(false);
 
@@ -83,10 +89,13 @@ export default function Comment({
   };
 
   const isReplying = replyingCommentId === comment.id;
+  const isEditing = editingCommentId === comment.id;
   const onClickReply = () => {
     if (isReplying) {
+      setEditingCommentId(null);
       setReplyingCommentId(null);
     } else {
+      setEditingCommentId(null);
       setReplyingCommentId(comment.id);
     }
   };
@@ -123,15 +132,24 @@ export default function Comment({
               )}
             </div>
             <div className="text-11 text-mid font-medium pl-2 leading-none">
-              {formatDistanceToNowStrict(new Date(comment.createdAt))}
-              &nbsp;ago
+              {formatDistanceToNowStrict(new Date(comment.createdAt), {
+                // @ts-ignore
+                locale: Locales[i18n.language],
+              })}
+              &nbsp;{t("ago")}
             </div>
           </div>
 
-          <div
-            className="prose prose-sm dark:prose-dark max-w-none"
-            dangerouslySetInnerHTML={{ __html: comment.text }}
-          />
+          {comment.isDeleted ? (
+            <div className="prose prose-sm dark:prose-dark max-w-none">
+              <span>{t("deletedComment")}</span>
+            </div>
+          ) : (
+            <div
+              className="prose prose-sm dark:prose-dark max-w-none"
+              dangerouslySetInnerHTML={{ __html: comment.text }}
+            />
+          )}
 
           <div className="flex items-center pt-1 -ml-2">
             <div className="flex items-center">
@@ -177,23 +195,42 @@ export default function Comment({
               </div>
             )}
 
-            <div className={replyBtnClass} onClick={onClickReply}>
-              {isReplying ? t("reply.cancel") : t("reply.label")}
-            </div>
+            {user && (
+              <>
+                <div className={replyBtnClass} onClick={onClickReply}>
+                  {isReplying ? t("reply.cancel") : t("reply.label")}
+                </div>
+              </>
+            )}
 
-            <div
-              className={`ml-2 text-disabled flex items-center cursor-pointer`}
-            >
-              <IconDotsVertical className="w-4 h-4" />
-            </div>
+            {!comment.isDeleted && user?.id === comment.author.id && (
+              <ContextMenuTrigger
+                leftClick
+                data={{ type: ContextMenuType.Comment, comment, post }}
+              >
+                <div
+                  className={`ml-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex items-center cursor-pointer`}
+                >
+                  <IconDotsVertical className="w-4 h-4" />
+                </div>
+              </ContextMenuTrigger>
+            )}
           </div>
 
           {isReplying && (
             <div className="pt-3 max-w-screen-md w-full">
-              <CommentEditor
+              <CreateCommentEditor
                 postId={post.id}
                 parentCommentId={comment.id}
                 setOpen={() => setReplyingCommentId(null)}
+              />
+            </div>
+          )}
+          {isEditing && (
+            <div className="pt-3 max-w-screen-md w-full">
+              <EditCommentEditor
+                comment={comment}
+                setOpen={() => setEditingCommentId(null)}
               />
             </div>
           )}

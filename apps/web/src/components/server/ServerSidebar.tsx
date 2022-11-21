@@ -113,9 +113,9 @@ export default function ServerSidebar({ server }: ServerSidebar) {
                   {joinServerLoading || leaveServerLoading ? (
                     <IconSpinner className="w-3 h-3" />
                   ) : server.isJoined ? (
-                    "Leave"
+                    t("sidebar.leave")
                   ) : (
-                    "Join"
+                    t("sidebar.join")
                   )}
                 </button>
               )}

@@ -4709,6 +4709,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"any-base@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "any-base@npm:1.1.0"
+  checksum: c1fd040de52e710e2de7d9ae4df52bac589f35622adb24686c98ce21c7b824859a8db9614bc119ed8614f42fd08918b2612e6a6c385480462b3100a1af59289d
+  languageName: node
+  linkType: hard
+
 "anymatch@npm:^3.0.3, anymatch@npm:~3.1.2":
   version: 3.1.2
   resolution: "anymatch@npm:3.1.2"
@@ -5112,6 +5119,17 @@ __metadata:
   version: 4.5.1
   resolution: "axe-core@npm:4.5.1"
   checksum: db90c6b41483e9c3452393933072fe0b8c2221e6d9b96ae0e6a03a4ce1e4c35bec539c92e9b6fcd63c4acf6678ad3c3ca7f5ab1d884210d157867cc54acd4f6a
+  languageName: node
+  linkType: hard
+
+"axios@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "axios@npm:1.1.3"
+  dependencies:
+    follow-redirects: ^1.15.0
+    form-data: ^4.0.0
+    proxy-from-env: ^1.1.0
+  checksum: cab3b17bf6092c9387f7023d699db093cfa23650b56c4422cd474d124b78b2e3b5a520f932c330664a58ab85b867b1c25a95cace475ef72d236888c852b84e6d
   languageName: node
   linkType: hard
 
@@ -7781,6 +7799,16 @@ __metadata:
   version: 3.2.7
   resolution: "flatted@npm:3.2.7"
   checksum: 427633049d55bdb80201c68f7eb1cbd533e03eac541f97d3aecab8c5526f12a20ccecaeede08b57503e772c769e7f8680b37e8d482d1e5f8d7e2194687f9ea35
+  languageName: node
+  linkType: hard
+
+"follow-redirects@npm:^1.15.0":
+  version: 1.15.2
+  resolution: "follow-redirects@npm:1.15.2"
+  peerDependenciesMeta:
+    debug:
+      optional: true
+  checksum: faa66059b66358ba65c234c2f2a37fcec029dc22775f35d9ad6abac56003268baf41e55f9ee645957b32c7d9f62baf1f0b906e68267276f54ec4b4c597c2b190
   languageName: node
   linkType: hard
 
@@ -11072,18 +11100,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"my-turborepo@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "my-turborepo@workspace:."
-  dependencies:
-    env-cmd: ^10.1.0
-    eslint-config-custom: "*"
-    eslint-config-nestjs: "*"
-    prettier: ^2.7.1
-    turbo: ^1.6.3
-  languageName: unknown
-  linkType: soft
-
 "nan@npm:^2.16.0":
   version: 2.17.0
   resolution: "nan@npm:2.17.0"
@@ -12511,6 +12527,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"proxy-from-env@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "proxy-from-env@npm:1.1.0"
+  checksum: ed7fcc2ba0a33404958e34d95d18638249a68c430e30fcb6c478497d72739ba64ce9810a24f53a7d921d0c065e5b78e3822759800698167256b04659366ca4d4
+  languageName: node
+  linkType: hard
+
 "psl@npm:^1.1.33":
   version: 1.9.0
   resolution: "psl@npm:1.9.0"
@@ -13588,6 +13611,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"short-uuid@npm:^4.2.2":
+  version: 4.2.2
+  resolution: "short-uuid@npm:4.2.2"
+  dependencies:
+    any-base: ^1.1.0
+    uuid: ^8.3.2
+  checksum: 5b718a026897f34483bc95cebb6814cff45538d462583053be9003403f459a104ea88ed893fa462589ef040abd454bf499298d55fa0081d61d987ab85cbf3fe4
+  languageName: node
+  linkType: hard
+
 "side-channel@npm:^1.0.4":
   version: 1.0.4
   resolution: "side-channel@npm:1.0.4"
@@ -13881,6 +13914,18 @@ __metadata:
   checksum: 18c7623fdb8f646fb213ca4051be4df7efb3484d4ab662937ca6fbef7ced9b9e12842709872eb3020cc3504b93bde88935c9f6417489627a7786f24f8031cbcb
   languageName: node
   linkType: hard
+
+"stelllar@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "stelllar@workspace:."
+  dependencies:
+    env-cmd: ^10.1.0
+    eslint-config-custom: "*"
+    eslint-config-nestjs: "*"
+    prettier: ^2.7.1
+    turbo: ^1.6.3
+  languageName: unknown
+  linkType: soft
 
 "streamsearch@npm:^1.1.0":
   version: 1.1.0
@@ -15291,6 +15336,7 @@ __metadata:
     "@types/react-dom": ^18.0.9
     apollo-upload-client: ^17.0.0
     autoprefixer: ^10.4.13
+    axios: ^1.1.3
     class-validator: ^0.13.2
     date-fns: ^2.29.3
     eslint: 8.28.0
@@ -15314,6 +15360,7 @@ __metadata:
     react-use: ^17.4.0
     react-virtuoso: ^3.1.4
     react-youtube: ^10.0.0
+    short-uuid: ^4.2.2
     tailwind-scrollbar: ^2.0.1
     tailwindcss: ^3.2.4
     tippy.js: ^6.3.7

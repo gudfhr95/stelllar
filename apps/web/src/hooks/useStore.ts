@@ -7,9 +7,6 @@ type Store = {
   userSettingDialog: boolean;
   setUserSettingDialog: (open: boolean) => void;
 
-  deleteAccountDialog: boolean;
-  setDeleteAccountDialog: (open: boolean) => void;
-
   createServerDialog: boolean;
   setCreateServerDialog: (open: boolean) => void;
 
@@ -25,8 +22,14 @@ type Store = {
   createPostDialog: boolean;
   setCreatePostDialog: (open: boolean) => void;
 
+  editPostDialog: boolean;
+  setEditPostDialog: (open: boolean) => void;
+
   replyingCommentId: string | null;
   setReplyingCommentId: (commentId: string | null) => void;
+
+  editingCommentId: string | null;
+  setEditingCommentId: (commentId: string | null) => void;
 };
 
 export const useStore = create<Store>()((set, get) => ({
@@ -35,9 +38,6 @@ export const useStore = create<Store>()((set, get) => ({
 
   userSettingDialog: false,
   setUserSettingDialog: (open) => set({ userSettingDialog: open }),
-
-  deleteAccountDialog: false,
-  setDeleteAccountDialog: (open) => set({ deleteAccountDialog: open }),
 
   createServerDialog: false,
   setCreateServerDialog: (open) => set({ createServerDialog: open }),
@@ -54,6 +54,12 @@ export const useStore = create<Store>()((set, get) => ({
   createPostDialog: false,
   setCreatePostDialog: (open) => set({ createPostDialog: open }),
 
+  editPostDialog: false,
+  setEditPostDialog: (open) => set({ editPostDialog: open }),
+
   replyingCommentId: null,
   setReplyingCommentId: (commentId) => set({ replyingCommentId: commentId }),
+
+  editingCommentId: null,
+  setEditingCommentId: (commentId) => set({ editingCommentId: commentId }),
 }));

@@ -1,4 +1,6 @@
 import { formatDistanceToNowStrict } from "date-fns";
+import * as Locales from "date-fns/locale";
+import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
@@ -14,6 +16,8 @@ import Comment from "../comment/Comment";
 import CreateCommentCard from "../comment/CreateCommentCard";
 import MessageImageDialog from "../message/MessageImageDialog";
 import ServerAvatar from "../server/ServerAvatar";
+import ContextMenuTrigger from "../ui/context/ContextMenuTrigger";
+import { ContextMenuType } from "../ui/context/ContextMenuType";
 import {
   IconChat,
   IconChevronDown,
@@ -31,6 +35,7 @@ type IPost = {
 };
 
 export default function Post({ post, comments, className = "" }: IPost) {
+  const { i18n, t } = useTranslation("post");
   const router = useRouter();
   const user = useAuth();
 
@@ -132,8 +137,11 @@ export default function Post({ post, comments, className = "" }: IPost) {
               </Link>
               <span className="text-xs text-tertiary">
                 &nbsp;&middot;&nbsp;
-                {formatDistanceToNowStrict(new Date(post.createdAt))}
-                &nbsp;ago&nbsp;by
+                {formatDistanceToNowStrict(new Date(post.createdAt), {
+                  // @ts-ignore
+                  locale: Locales[i18n.language],
+                })}
+                &nbsp;{t("ago")}&nbsp;&middot;
               </span>
               <div className="ml-1 cursor-pointer text-tertiary text-xs font-medium leading-none">
                 {post.author?.name ?? "[deleted]"}
@@ -227,11 +235,16 @@ export default function Post({ post, comments, className = "" }: IPost) {
                 </div>
               </div>
 
-              <div
-                className={`ml-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex items-center cursor-pointer`}
+              <ContextMenuTrigger
+                data={{ type: ContextMenuType.Post, post }}
+                leftClick
               >
-                <IconDotsVertical className="text-disabled w-4 h-4" />
-              </div>
+                <div
+                  className={`ml-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex items-center cursor-pointer`}
+                >
+                  <IconDotsVertical className="w-4 h-4" />
+                </div>
+              </ContextMenuTrigger>
             </div>
           </div>
         </div>

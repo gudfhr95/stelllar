@@ -27,7 +27,7 @@ export class User implements BaseEntity, defaultEntities.User {
   createdAt: Date = new Date();
 
   @Field()
-  @Property({ columnType: "text", unique: true })
+  @Property({ columnType: "text" })
   name: string;
 
   @Field(() => GraphQLEmailAddress)

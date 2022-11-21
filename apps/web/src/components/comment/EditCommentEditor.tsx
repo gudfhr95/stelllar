@@ -2,7 +2,7 @@ import ctl from "@netlify/classnames-template-literals";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useCreateCommentMutation } from "../../graphql/hooks";
+import { Comment, useUpdateCommentMutation } from "../../graphql/hooks";
 import Editor from "../ui/editor/Editor";
 
 const commentBtnClass = ctl(`
@@ -30,41 +30,37 @@ const cancelBtnClass = ctl(`
   items-center
 `);
 
-type CommentEditor = {
-  postId: string;
-  parentCommentId: string;
+type EditCommentEditor = {
+  comment: Comment;
   setOpen: (open: boolean) => void;
 };
 
-export default function CommentEditor({
-  postId,
-  parentCommentId,
+export default function EditCommentEditor({
+  comment,
   setOpen,
-}: CommentEditor) {
+}: EditCommentEditor) {
   const { t } = useTranslation("comment");
   const router = useRouter();
 
-  const [createComment, { loading }] = useCreateCommentMutation();
+  const [updateComment, { loading }] = useUpdateCommentMutation();
 
-  const [text, setText] = useState("");
+  const [text, setText] = useState(comment.text);
 
   const onClickCancel = () => {
     setOpen(false);
-    setText("");
+    setText(comment.text);
   };
 
   const onClickSubmit = () => {
-    createComment({
+    updateComment({
       variables: {
         input: {
-          postId,
+          commentId: comment.id,
           text,
-          parentCommentId,
         },
       },
     }).then(() => {
       setOpen(false);
-      setText("");
       router.replace(router.asPath);
     });
   };

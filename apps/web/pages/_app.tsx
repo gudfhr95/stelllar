@@ -4,6 +4,7 @@ import { appWithTranslation } from "next-i18next";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import apolloClient from "../apollo-client";
+import ContextMenuProvider from "../src/components/ui/context/ContextMenuProvider";
 import { usePreviousPath } from "../src/hooks/usePreviousPath";
 import MainLayout from "../src/layouts/MainLayout";
 import "../src/styles/global.css";
@@ -24,11 +25,13 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
       <main className="app">
         <ApolloProvider client={apolloClient}>
           <SessionProvider session={session}>
-            <div style={{ height: "100%" }} className="flex">
-              <MainLayout>
-                <Component {...{ ...pageProps, previousPath }} />
-              </MainLayout>
-            </div>
+            <ContextMenuProvider>
+              <div style={{ height: "100%" }} className="flex">
+                <MainLayout>
+                  <Component {...{ ...pageProps, previousPath }} />
+                </MainLayout>
+              </div>
+            </ContextMenuProvider>
           </SessionProvider>
         </ApolloProvider>
       </main>

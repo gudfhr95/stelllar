@@ -5,34 +5,40 @@ import useAuth from "../hooks/useAuth";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { useLoginDialog } from "../hooks/useLoginDialog";
 import { useUserSettingDialog } from "../hooks/useUserSettingDialog";
-import {
-  IconDark,
-  IconLight,
-  IconLogout,
-  IconSettings,
-} from "./ui/icons/Icons";
+import { IconDark, IconGithub, IconLight, IconLogout } from "./ui/icons/Icons";
 import UserAvatar from "./user/UserAvatar";
 
 const offset = [0, 14] as [number, number];
 
 export default function BottomBar() {
   const { t } = useTranslation("common");
+  const user = useAuth();
 
   const { setLoginDialog } = useLoginDialog();
   const { toggle: toggleDark, value: isDark } = useDarkMode();
   const { setUserSettingDialog } = useUserSettingDialog();
 
-  const user = useAuth();
+  const onClickGithub = () => {
+    window.open("https://github.com/gudfhr95/stelllar");
+  };
 
   return (
     <>
-      <div className="relative flex items-center shadow-md px-3 bottom-0 h-5.5 dark:bg-gray-700 z-50 bg-white">
+      <div className="relative flex items-center shadow-md px-3 bottom-0 h-5.5 dark:bg-gray-700 z-10 bg-white">
         {user ? (
           <>
-            <UserAvatar avatarUrl={user.image} size={4.5} className="mr-2" />
-            <div className="text-primary text-13 font-medium cursor-pointer">
-              {user.name}
+            <div
+              onClick={() => {
+                setUserSettingDialog(true);
+              }}
+              className="flex items-center"
+            >
+              <UserAvatar avatarUrl={user.image} size={4.5} className="mr-2" />
+              <div className="text-primary text-13 font-medium cursor-pointer">
+                {user.name}
+              </div>
             </div>
+
             <Tippy content={t("bottomBar.logout")}>
               <div onClick={() => signOut()}>
                 <IconLogout className="w-4.5 h-4.5 cursor-pointer text-tertiary ml-5" />
@@ -53,6 +59,15 @@ export default function BottomBar() {
         )}
 
         <div className="ml-auto flex items-center space-x-4 text-primary">
+          <Tippy content="Github">
+            <button
+              className="text-tertiary cursor-pointer"
+              onClick={onClickGithub}
+            >
+              <IconGithub className="w-4 h-4" />
+            </button>
+          </Tippy>
+
           <Tippy
             content={
               isDark ? t("bottomBar.theme.light") : t("bottomBar.theme.dark")
@@ -69,19 +84,6 @@ export default function BottomBar() {
               )}
             </button>
           </Tippy>
-          {user && (
-            <>
-              <Tippy content={t("bottomBar.settings")} offset={offset}>
-                <div
-                  onClick={() => {
-                    setUserSettingDialog(true);
-                  }}
-                >
-                  <IconSettings className="w-4.5 h-4.5 cursor-pointer text-tertiary" />
-                </div>
-              </Tippy>
-            </>
-          )}
         </div>
       </div>
     </>

@@ -7,7 +7,7 @@ import {
   ResolveField,
   Resolver,
 } from "@nestjs/graphql";
-import { GraphQLString } from "graphql/type";
+import { GraphQLBoolean, GraphQLString } from "graphql/type";
 import { CurrentUser } from "../auth/decorator/current-user.decorator";
 import { Public } from "../auth/decorator/public.decorator";
 import { VoteType } from "../common/entity/vote-type.enum";
@@ -17,6 +17,7 @@ import { Post } from "./entity/post.entity";
 import { CreatePostInput } from "./input/create-post.input";
 import { PostVoteInput } from "./input/post-vote.input";
 import { PostsArgs, PostsFeed } from "./input/posts.args";
+import { UpdatePostInput } from "./input/update-post.input";
 import { PostLoader } from "./post.loader";
 import { PostService } from "./post.service";
 
@@ -66,10 +67,34 @@ export class PostResolver {
       user,
       input.serverId,
       input.title,
-      input.linkUrl,
       input.text,
+      input.linkUrl,
       input.images
     );
+  }
+
+  @Mutation(() => Post)
+  async updatePost(
+    @Args("input") input: UpdatePostInput,
+    @CurrentUser() user: User
+  ) {
+    Logger.log("updatePost");
+
+    return await this.postService.updatePost(
+      input.postId,
+      user,
+      input.title,
+      input.text,
+      input.linkUrl,
+      input.images
+    );
+  }
+
+  @Mutation(() => GraphQLBoolean)
+  async deletePost(@Args("id") postId: string, @CurrentUser() user: User) {
+    Logger.log("deletePost");
+
+    return !!(await this.postService.deletePost(postId, user));
   }
 
   @Mutation(() => Post)

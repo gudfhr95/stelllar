@@ -17,5 +17,11 @@
       "label": "Drag 'n' drop some images here, or click to select images"
     }
   },
-  "endReached": "No more posts"
+  "ago": "ago",
+  "endReached": "No more posts",
+  "menu": {
+    "copyLink": "Copy to Clipboard",
+    "edit": "Edit",
+    "delete": "Delete"
+  }
 }

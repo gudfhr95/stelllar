@@ -7,6 +7,7 @@ import {
   ResolveField,
   Resolver,
 } from "@nestjs/graphql";
+import { GraphQLBoolean } from "graphql/type";
 import { CurrentUser } from "../auth/decorator/current-user.decorator";
 import { Public } from "../auth/decorator/public.decorator";
 import { VoteType } from "../common/entity/vote-type.enum";
@@ -17,6 +18,7 @@ import { Comment } from "./entity/comment.entity";
 import { CommentVoteInput } from "./input/comment-vote.input";
 import { CommentsArgs } from "./input/comments.args";
 import { CreateCommentInput } from "./input/create-comment.input";
+import { UpdateCommentInput } from "./input/update-comment.input";
 
 @Resolver(() => Comment)
 export class CommentResolver {
@@ -49,6 +51,30 @@ export class CommentResolver {
       user,
       input.text
     );
+  }
+
+  @Mutation(() => Comment)
+  async updateComment(
+    @Args("input") input: UpdateCommentInput,
+    @CurrentUser() user: User
+  ) {
+    Logger.log("updateComment");
+
+    return await this.commentService.updateComment(
+      input.commentId,
+      user,
+      input.text
+    );
+  }
+
+  @Mutation(() => GraphQLBoolean)
+  async deleteComment(
+    @Args("id") commentId: string,
+    @CurrentUser() user: User
+  ) {
+    Logger.log("deleteComment");
+
+    return !!(await this.commentService.deleteComment(commentId, user));
   }
 
   @Mutation(() => Comment)

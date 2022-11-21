@@ -153,6 +153,14 @@ export class FileService {
     )}/${this.configService.get("AWS_PUBLIC_BUCKET_NAME")}/${uploadResult.Key}`;
   }
 
+  async deleteFileInS3ByUrl(url: string) {
+    if (url.includes(this.configService.get("AWS_ENDPOINT"))) {
+      const splited = url.split("/");
+      const key = splited[splited.length - 1];
+      await this.deleteFileInS3(key);
+    }
+  }
+
   async deleteFileInS3(key: string) {
     await this.s3
       .deleteObject({

@@ -8,12 +8,13 @@ import { useDebounce } from "react-use";
 import "setimmediate";
 import {
   LinkMetadata,
+  Post,
   Server,
-  useCreatePostMutation,
   useGetLinkMetadataQuery,
+  useUpdatePostMutation,
 } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
-import { useCreatePostDialog } from "../../hooks/useCreatePostDialog";
+import { useEditPostDialog } from "../../hooks/useEditPostDialog";
 import PostEmbed from "../post/PostEmbed";
 import ServerSelect from "../post/ServerSelect";
 import Dialog from "../ui/dialog/Dialog";
@@ -103,6 +104,16 @@ const Tab = {
   Image: "Image",
 };
 
+function getPostType(post: Post) {
+  if (post.text) {
+    return Tab.Text;
+  } else if (post.linkUrl) {
+    return Tab.Link;
+  } else {
+    return Tab.Image;
+  }
+}
+
 function readFileAsDataURL(file: any) {
   return new Promise(function (resolve, reject) {
     let fr = new FileReader();
@@ -119,24 +130,29 @@ function readFileAsDataURL(file: any) {
   });
 }
 
-export default function CreatePostDialog() {
+async function convertURLtoFile(url: string) {
+  const response = await fetch(url);
+  const data = await response.blob();
+  const ext = url.split(".").pop(); // url 구조에 맞게 수정할 것
+  const filename = url.split("/").pop(); // url 구조에 맞게 수정할 것
+  const metadata = { type: `image/${ext}` };
+
+  return new File([data], filename!, metadata);
+}
+
+type EditPostDialog = {
+  post: Post;
+};
+
+export default function EditPostDialog({ post }: EditPostDialog) {
   const { t } = useTranslation("post");
   const router = useRouter();
   const user = useAuth();
 
-  useEffect(() => {
-    setServer(
-      router.query.planet
-        ? user &&
-            user.servers.find((s: Server) => s.name == router.query.planet)
-        : null
-    );
-  }, [user, router.query]);
+  const [updatePost, { loading }] = useUpdatePostMutation();
 
-  const { createPostDialog: open, setCreatePostDialog: setOpen } =
-    useCreatePostDialog();
-
-  const [createPost, { loading }] = useCreatePostMutation();
+  const { editPostDialog: open, setEditPostDialog: setOpen } =
+    useEditPostDialog();
 
   const [server, setServer] = useState<Server | null>(null);
   const [currentTab, setCurrentTab] = useState(Tab.Text);
@@ -159,6 +175,36 @@ export default function CreatePostDialog() {
   const linkMeta = linkMetadata?.getLinkMetadata;
   const [images, setImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(0);
+
+  useEffect(() => {
+    setServer(post.server);
+
+    const postType = getPostType(post);
+    setCurrentTab(postType);
+
+    setValue("title", post.title);
+    if (postType === Tab.Text) {
+      setText(post.text ?? "");
+    } else if (postType === Tab.Link) {
+      setValue("linkUrl", post.linkUrl ?? "");
+    } else {
+      const images = post.images;
+
+      let readers = [];
+      for (let i = 0; i < images.length; i++) {
+        readers.push(convertURLtoFile(images[i].image.originalUrl));
+      }
+
+      Promise.all(readers).then((values) =>
+        setImages(
+          values.map((file, i) => ({
+            file,
+            data: images[i].image.originalUrl,
+          })) as []
+        )
+      );
+    }
+  }, []);
 
   const onChangeImages = (e: any) => {
     const files = e.target.files;
@@ -217,13 +263,13 @@ export default function CreatePostDialog() {
   };
 
   const onSubmit = ({ title, linkUrl }: any) => {
-    createPost({
+    updatePost({
       variables: {
         input: {
+          postId: post.id,
           title,
           text: text && currentTab === Tab.Text ? text : null,
           linkUrl: linkUrl && currentTab === Tab.Link ? linkUrl : null,
-          serverId: server?.id ?? "",
           images:
             images && images.length > 0 && currentTab === Tab.Image
               ? images.map(({ file }) => ({ file }))
@@ -231,14 +277,14 @@ export default function CreatePostDialog() {
         },
       },
     }).then(({ data }) => {
-      const post = data?.createPost;
+      const post = data?.updatePost;
       if (!post) {
         return;
       }
 
       setOpen(false);
       reset();
-      router.push(`/planets/${server?.name}/posts/${post.id}`);
+      router.replace(`/planets/${server?.name}/posts/${post.id}`);
     });
   };
 
