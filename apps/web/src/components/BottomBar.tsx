@@ -5,7 +5,7 @@ import useAuth from "../hooks/useAuth";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { useLoginDialog } from "../hooks/useLoginDialog";
 import { useUserSettingDialog } from "../hooks/useUserSettingDialog";
-import { IconDark, IconLight, IconLogout } from "./ui/icons/Icons";
+import { IconDark, IconGithub, IconLight, IconLogout } from "./ui/icons/Icons";
 import UserAvatar from "./user/UserAvatar";
 
 const offset = [0, 14] as [number, number];
@@ -17,6 +17,10 @@ export default function BottomBar() {
   const { setLoginDialog } = useLoginDialog();
   const { toggle: toggleDark, value: isDark } = useDarkMode();
   const { setUserSettingDialog } = useUserSettingDialog();
+
+  const onClickGithub = () => {
+    window.open("https://github.com/gudfhr95/stelllar");
+  };
 
   return (
     <>
@@ -55,6 +59,15 @@ export default function BottomBar() {
         )}
 
         <div className="ml-auto flex items-center space-x-4 text-primary">
+          <Tippy content="Github">
+            <button
+              className="text-tertiary cursor-pointer"
+              onClick={onClickGithub}
+            >
+              <IconGithub className="w-4 h-4" />
+            </button>
+          </Tippy>
+
           <Tippy
             content={
               isDark ? t("bottomBar.theme.light") : t("bottomBar.theme.dark")

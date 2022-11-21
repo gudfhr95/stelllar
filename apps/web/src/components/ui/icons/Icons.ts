@@ -15,7 +15,6 @@ export {
   HiCog as IconSettings,
   HiLogout as IconLogout,
   HiCheck as IconCheck,
-  HiTrash as IconDelete,
   HiHome as IconHome,
   HiPencil as IconEdit,
   HiOfficeBuilding as IconCategoryBusiness,
@@ -76,6 +75,8 @@ export {
 } from "react-icons/fa";
 
 export { IoTelescope as IconExplore } from "react-icons/io5";
+
+export { SiGithub as IconGithub } from "react-icons/si";
 
 export * from "./IconCreateServer";
 export * from "./IconSpinner";
