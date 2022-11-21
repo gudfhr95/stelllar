@@ -134,10 +134,16 @@ export default function Comment({
             </div>
           </div>
 
-          <div
-            className="prose prose-sm dark:prose-dark max-w-none"
-            dangerouslySetInnerHTML={{ __html: comment.text }}
-          />
+          {comment.isDeleted ? (
+            <div className="prose prose-sm dark:prose-dark max-w-none">
+              <span>{t("deletedComment")}</span>
+            </div>
+          ) : (
+            <div
+              className="prose prose-sm dark:prose-dark max-w-none"
+              dangerouslySetInnerHTML={{ __html: comment.text }}
+            />
+          )}
 
           <div className="flex items-center pt-1 -ml-2">
             <div className="flex items-center">
@@ -191,7 +197,7 @@ export default function Comment({
               </>
             )}
 
-            {user?.id === comment.author.id && (
+            {!comment.isDeleted && user?.id === comment.author.id && (
               <ContextMenuTrigger
                 leftClick
                 data={{ type: ContextMenuType.Comment, comment, post }}
