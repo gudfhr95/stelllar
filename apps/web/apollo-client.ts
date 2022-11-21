@@ -2,8 +2,10 @@ import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { offsetLimitPagination } from "@apollo/client/utilities";
 import { createUploadLink } from "apollo-upload-client";
 
+console.log(process.env);
+
 const httpLink = createUploadLink({
-  uri: "http://localhost:4000/graphql",
+  uri: process.env.NEXT_PUBLIC_GRAPHQL_URI,
   credentials: "include",
 });
 
