@@ -18,5 +18,10 @@
     }
   },
   "ago": "전",
-  "endReached": "게시글이 없습니다."
+  "endReached": "게시글이 없습니다.",
+  "menu": {
+    "copyLink": "링크 복사",
+    "edit": "수정",
+    "delete": "삭제"
+  }
 }

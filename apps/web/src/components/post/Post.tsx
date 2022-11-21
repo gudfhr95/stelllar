@@ -16,6 +16,8 @@ import Comment from "../comment/Comment";
 import CreateCommentCard from "../comment/CreateCommentCard";
 import MessageImageDialog from "../message/MessageImageDialog";
 import ServerAvatar from "../server/ServerAvatar";
+import ContextMenuTrigger from "../ui/context/ContextMenuTrigger";
+import { ContextMenuType } from "../ui/context/ContextMenuType";
 import {
   IconChat,
   IconChevronDown,
@@ -233,11 +235,16 @@ export default function Post({ post, comments, className = "" }: IPost) {
                 </div>
               </div>
 
-              <div
-                className={`ml-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex items-center cursor-pointer`}
+              <ContextMenuTrigger
+                data={{ type: ContextMenuType.Post, post }}
+                leftClick
               >
-                <IconDotsVertical className="text-disabled w-4 h-4" />
-              </div>
+                <div
+                  className={`ml-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex items-center cursor-pointer`}
+                >
+                  <IconDotsVertical className="w-4 h-4" />
+                </div>
+              </ContextMenuTrigger>
             </div>
           </div>
         </div>

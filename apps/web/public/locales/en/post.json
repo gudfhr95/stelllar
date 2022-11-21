@@ -18,5 +18,10 @@
     }
   },
   "ago": "ago",
-  "endReached": "No more posts"
+  "endReached": "No more posts",
+  "menu": {
+    "copyLink": "Copy to Clipboard",
+    "edit": "Edit",
+    "delete": "Delete"
+  }
 }
