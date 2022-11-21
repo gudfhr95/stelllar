@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useCopyToClipboard } from "react-use";
 import { useDeletePostMutation } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
+import { useEditPostDialog } from "../../hooks/useEditPostDialog";
 import ContextMenuSection from "../ui/context/ContextMenuSection";
 
 export default function PostContextMenu({ post, ContextMenuItem }: any) {
@@ -13,8 +14,13 @@ export default function PostContextMenu({ post, ContextMenuItem }: any) {
   const [deletePost] = useDeletePostMutation();
 
   const copyToClipboard = useCopyToClipboard()[1];
+  const { setEditPostDialog } = useEditPostDialog();
 
   const canManagePost = user?.isAdmin || post.author.id === user?.id;
+
+  const onClickEdit = () => {
+    setEditPostDialog(true);
+  };
 
   const onClickDelete = () => {
     deletePost({
@@ -34,7 +40,7 @@ export default function PostContextMenu({ post, ContextMenuItem }: any) {
         />{" "}
         {canManagePost && (
           <>
-            <ContextMenuItem label={t("menu.edit")} />
+            <ContextMenuItem label={t("menu.edit")} onClick={onClickEdit} />
             <ContextMenuItem
               red
               label={t("menu.delete")}

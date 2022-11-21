@@ -22,6 +22,9 @@ type Store = {
   createPostDialog: boolean;
   setCreatePostDialog: (open: boolean) => void;
 
+  editPostDialog: boolean;
+  setEditPostDialog: (open: boolean) => void;
+
   replyingCommentId: string | null;
   setReplyingCommentId: (commentId: string | null) => void;
 };
@@ -47,6 +50,9 @@ export const useStore = create<Store>()((set, get) => ({
 
   createPostDialog: false,
   setCreatePostDialog: (open) => set({ createPostDialog: open }),
+
+  editPostDialog: false,
+  setEditPostDialog: (open) => set({ editPostDialog: open }),
 
   replyingCommentId: null,
   setReplyingCommentId: (commentId) => set({ replyingCommentId: commentId }),
