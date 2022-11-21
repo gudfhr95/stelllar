@@ -8,5 +8,9 @@
     "label": "답글",
     "cancel": "취소"
   },
-  "ago": "전"
+  "ago": "전",
+  "menu": {
+    "edit": "수정",
+    "delete": "삭제"
+  }
 }

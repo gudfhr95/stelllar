@@ -8,5 +8,9 @@
     "label": "Reply",
     "cancel": "Cancel Reply"
   },
-  "ago": "ago"
+  "ago": "ago",
+  "menu": {
+    "edit": "Edit",
+    "delete": "Delete"
+  }
 }

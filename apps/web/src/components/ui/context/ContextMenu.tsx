@@ -1,5 +1,6 @@
 import ctl from "@netlify/classnames-template-literals";
 import { useCopyToClipboard } from "react-use";
+import CommentContextMenu from "../../comment/CommentContextMenu";
 import PostContextMenu from "../../post/PostContextMenu";
 import { ContextMenuType } from "./ContextMenuType";
 import { useContextMenuItem } from "./useContextMenuItem";
@@ -47,6 +48,9 @@ export default function ContextMenu({
       }}
     >
       {data?.type === ContextMenuType.Post && <PostContextMenu {...props} />}
+      {data?.type === ContextMenuType.Comment && (
+        <CommentContextMenu {...props} />
+      )}
     </div>
   );
 }

@@ -14,9 +14,8 @@ export default function PostContextMenu({ post, ContextMenuItem }: any) {
   const [deletePost] = useDeletePostMutation();
 
   const copyToClipboard = useCopyToClipboard()[1];
-  const { setEditPostDialog } = useEditPostDialog();
 
-  const canManagePost = user?.isAdmin || post.author.id === user?.id;
+  const { setEditPostDialog } = useEditPostDialog();
 
   const onClickEdit = () => {
     setEditPostDialog(true);
@@ -28,7 +27,7 @@ export default function PostContextMenu({ post, ContextMenuItem }: any) {
     }).then(() => router.replace(`/planets/${post.server.name}`));
   };
 
-  if (!post) return null;
+  const canManagePost = user?.isAdmin || post.author.id === user?.id;
   return (
     <>
       <ContextMenuSection>
