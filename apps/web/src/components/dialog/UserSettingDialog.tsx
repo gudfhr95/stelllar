@@ -7,16 +7,9 @@ import {
   useUpdateProfileMutation,
 } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
-import { useDeleteAccountDialog } from "../../hooks/useDeleteAccountDialog";
 import { useUserSettingDialog } from "../../hooks/useUserSettingDialog";
 import StyledDialog from "../ui/dialog/StyledDialog";
-import {
-  IconCheck,
-  IconDelete,
-  IconImage,
-  IconSpinner,
-  IconX,
-} from "../ui/icons/Icons";
+import { IconCheck, IconImage, IconSpinner, IconX } from "../ui/icons/Icons";
 import UserAvatar from "../user/UserAvatar";
 
 export default function UserSettingsDialog() {
@@ -25,7 +18,6 @@ export default function UserSettingsDialog() {
 
   const { userSettingDialog: open, setUserSettingDialog: setOpen } =
     useUserSettingDialog();
-  const { setDeleteAccountDialog } = useDeleteAccountDialog();
 
   const {
     register,
@@ -69,10 +61,6 @@ export default function UserSettingsDialog() {
       .catch((data) => {
         setError("name", { type: data.message });
       });
-  };
-
-  const onClickDeleteAccountButton = () => {
-    setDeleteAccountDialog(true);
   };
 
   return (
@@ -153,16 +141,6 @@ export default function UserSettingsDialog() {
                   )}
                 </div>
               </div>
-            </div>
-            <div className="mt-3">
-              <button
-                type="button"
-                onClick={onClickDeleteAccountButton}
-                className="form-button-delete"
-              >
-                {t("userSetting.deleteAccount.title")}
-                <IconDelete className="ml-2 w-5 h-5" />
-              </button>
             </div>
           </div>
         </StyledDialog>
