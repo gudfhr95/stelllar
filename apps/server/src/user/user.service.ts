@@ -29,7 +29,10 @@ export class UserService {
   }
 
   async updateAvatar(user: User, file: Promise<FileUpload>) {
-    if (user.image.includes(this.configService.get("AWS_ENDPOINT"))) {
+    if (
+      user.image &&
+      user.image.includes(this.configService.get("AWS_ENDPOINT"))
+    ) {
       const splited = user.image.split("/");
       const key = splited[splited.length - 1];
 

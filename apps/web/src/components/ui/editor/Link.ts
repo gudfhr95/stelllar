@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Link } from "@tiptap/extension-link";
 import { markInputRule } from "@tiptap/react";
 import { InputRule, inputRules } from "prosemirror-inputrules";

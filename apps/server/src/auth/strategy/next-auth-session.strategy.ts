@@ -4,7 +4,10 @@ import { Request } from "express";
 import { Strategy } from "passport-custom";
 import { AuthService } from "../auth.service";
 
-export const COOKIE_NAME = "next-auth.session-token";
+export const COOKIE_NAME =
+  process.env.NODE_ENV === "production"
+    ? "__Secure-next-auth.session-token"
+    : "next-auth.session-token";
 
 @Injectable()
 export class NextAuthSessionStrategy extends PassportStrategy(
