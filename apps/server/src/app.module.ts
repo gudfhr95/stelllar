@@ -15,6 +15,7 @@ import { UserModule } from "./user/user.module";
   imports: [
     ConfigModule.forRoot({
       validationSchema: Joi.object({
+        NODE_ENV: Joi.string().required(),
         PORT: Joi.number(),
         POSTGRES_HOST: Joi.string().required(),
         POSTGRES_PORT: Joi.number().required(),
