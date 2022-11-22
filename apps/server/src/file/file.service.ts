@@ -29,20 +29,24 @@ export class FileService {
   private readonly initSharp;
 
   constructor(private readonly configService: ConfigService) {
-    this.s3Endpoint =
-      this.configService.get("NODE_ENV") === "production"
-        ? `https://${this.configService.get("AWS_ENDPOINT")}`
-        : `http://${this.configService.get("AWS_ENDPOINT")}`;
+    const isProduction = this.configService.get("NODE_ENV") === "production";
+    if (isProduction) {
+      this.s3Endpoint = `https://${this.configService.get("AWS_ENDPOINT")}`;
+      this.s3 = new S3({
+        region: this.configService.get("AWS_REGION"),
+        accessKeyId: this.configService.get("AWS_ACCESS_KEY_ID"),
+        secretAccessKey: this.configService.get("AWS_SECRET_ACCESS_KEY"),
+      });
+    } else {
+      this.s3Endpoint = `http://${this.configService.get("AWS_ENDPOINT")}`;
+      this.s3 = new S3({
+        endpoint: this.s3Endpoint,
+        region: this.configService.get("AWS_REGION"),
+        accessKeyId: this.configService.get("AWS_ACCESS_KEY_ID"),
+        secretAccessKey: this.configService.get("AWS_SECRET_ACCESS_KEY"),
+        s3ForcePathStyle: true,
+      });
 
-    this.s3 = new S3({
-      endpoint: this.s3Endpoint,
-      region: this.configService.get("AWS_REGION"),
-      accessKeyId: this.configService.get("AWS_ACCESS_KEY_ID"),
-      secretAccessKey: this.configService.get("AWS_SECRET_ACCESS_KEY"),
-      s3ForcePathStyle: true,
-    });
-
-    if (this.configService.get("NODE_ENV") === "development") {
       this.s3Endpoint += `/${this.configService.get("AWS_PUBLIC_BUCKET_NAME")}`;
     }
 
