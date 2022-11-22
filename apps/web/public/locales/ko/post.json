@@ -1,0 +1,27 @@
+{
+  "create": {
+    "label": "게시글 작성하기",
+    "tab": {
+      "text": "텍스트",
+      "image": "이미지",
+      "link": "링크"
+    },
+    "title": "제목",
+    "submit": "작성",
+    "cancel": "취소",
+    "link": {
+      "label": "링크",
+      "error": "유효하지 않은 URL 입니다."
+    },
+    "image": {
+      "label": "이미지 파일을 드래그 & 드롭하거나, 클릭해서 이미지 파일을 선택해주세요."
+    }
+  },
+  "ago": "전",
+  "endReached": "게시글이 없습니다.",
+  "menu": {
+    "copyLink": "링크 복사",
+    "edit": "수정",
+    "delete": "삭제"
+  }
+}

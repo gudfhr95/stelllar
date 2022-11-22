@@ -1,0 +1,54 @@
+{
+  "createServer": {
+    "save": "Save Changes",
+    "displayName": "Display Name",
+    "name": "Name",
+    "nameError": "Letters and Numbers only",
+    "description": "Description"
+  },
+  "header": {
+    "time": {
+      "Hour": "Hour",
+      "Day": "Day",
+      "Week": "Week",
+      "Month": "Month",
+      "Year": "Year",
+      "All": "All"
+    }
+  },
+  "sidebar": {
+    "join": "Join",
+    "leave": "Leave",
+    "posts": "Posts",
+    "Hot": "Hot",
+    "New": "New",
+    "Top": "Top",
+    "admin": "Admin",
+    "edit": "Edit"
+  },
+  "setting": {
+    "delete": "Delete"
+  },
+  "category": {
+    "title": "Category",
+    "Featured": "Featured",
+    "Arts": "Arts",
+    "Business": "Business",
+    "Culture": "Culture",
+    "Discussion": "Discussion",
+    "Entertainment": "Entertainment",
+    "Gaming": "Gaming",
+    "Health": "Health",
+    "Hobbies": "Hobbies",
+    "Lifestyle": "Lifestyle",
+    "Memes": "Memes",
+    "Meta": "Meta",
+    "News": "News",
+    "Politics": "Politics",
+    "Programming": "Programming",
+    "Science": "Science",
+    "Sports": "Sports",
+    "Technology": "Technology",
+    "Other": "Other"
+  }
+}

@@ -1,0 +1,19 @@
+fragment User on User {
+  id
+  email
+  name
+  image
+}
+
+fragment CurrentUser on User {
+  ...User
+  servers {
+    id
+    name
+    displayName
+    avatarUrl
+    owner {
+      id
+    }
+  }
+}

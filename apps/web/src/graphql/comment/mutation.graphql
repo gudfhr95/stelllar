@@ -1,0 +1,30 @@
+mutation createComment($input: CreateCommentInput!) {
+  createComment(input: $input) {
+    ...Comment
+    author {
+      ...User
+    }
+  }
+}
+
+mutation updateComment($input: UpdateCommentInput!){
+  updateComment(input: $input){
+    ...Comment
+    author {
+      ...User
+    }
+  }
+}
+
+mutation deleteComment($input: String!){
+  deleteComment(id: $input)
+}
+
+mutation commentVote($input: CommentVoteInput!) {
+  commentVote(input: $input) {
+    ...Comment
+    author {
+      ...User
+    }
+  }
+}

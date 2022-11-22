@@ -1,0 +1,17 @@
+{
+  "deletedComment": "[삭제된 댓글입니다]",
+  "create": "댓글 작성",
+  "cancel": "취소",
+  "submit": "작성",
+  "reply": {
+    "show": "더보기",
+    "hide": "숨기기",
+    "label": "답글",
+    "cancel": "취소"
+  },
+  "ago": "전",
+  "menu": {
+    "edit": "수정",
+    "delete": "삭제"
+  }
+}

@@ -1,0 +1,47 @@
+fragment Post on Post {
+  id
+  title
+  text
+  linkUrl
+  linkMetadata {
+    ...Metadata
+  }
+  thumbnailUrl
+  images {
+    image {
+      ...Image
+    }
+  }
+  commentCount
+  voteCount
+  voteType
+  isDeleted
+  createdAt
+  updatedAt
+}
+
+fragment Metadata on LinkMetadata {
+  author
+  date
+  description
+  image {
+    ...Image
+  }
+  publisher
+  title
+  twitterCard
+  url
+  themeColor
+}
+
+fragment Image on Image {
+  originalUrl
+  originalWidth
+  originalHeight
+  popupUrl
+  popupWidth
+  popupHeight
+  smallUrl
+  smallWidth
+  smallHeight
+}

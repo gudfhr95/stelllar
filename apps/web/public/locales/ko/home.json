@@ -1,0 +1,10 @@
+{
+  "feed": {
+    "label": "피드",
+    "feed": "피드",
+    "featured": "추천"
+  },
+  "post": {
+    "label": "정렬"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "deletedComment": "[Deleted Comment]",
+  "create": "Write Comment",
+  "cancel": "Cancel",
+  "submit": "Submit",
+  "reply": {
+    "show": "Show",
+    "hide": "Hide",
+    "label": "Reply",
+    "cancel": "Cancel Reply"
+  },
+  "ago": "ago",
+  "menu": {
+    "edit": "Edit",
+    "delete": "Delete"
+  }
+}

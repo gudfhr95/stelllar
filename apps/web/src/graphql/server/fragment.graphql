@@ -1,0 +1,14 @@
+fragment Server on Server {
+  id
+  name
+  displayName
+  description
+  category
+  bannerUrl
+  avatarUrl
+  userCount
+  owner {
+    id
+  }
+  isJoined
+}

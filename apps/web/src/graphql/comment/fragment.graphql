@@ -1,0 +1,12 @@
+fragment Comment on Comment {
+  id
+  parentComment {
+    id
+  }
+  text
+  voteCount
+  voteType
+  isDeleted
+  createdAt
+  updatedAt
+}

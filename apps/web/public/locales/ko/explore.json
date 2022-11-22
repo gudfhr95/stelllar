@@ -1,0 +1,32 @@
+{
+  "title": "탐색",
+  "notFound": "행성이 없습니다",
+  "sort": {
+    "label": "정렬",
+    "top": "Top",
+    "new": "New"
+  },
+  "category": {
+    "title": "카테고리",
+    "Featured": "추천",
+    "Arts": "예술",
+    "Business": "비즈니스",
+    "Culture": "문화",
+    "Discussion": "토론",
+    "Entertainment": "예능",
+    "Gaming": "게임",
+    "Health": "건강",
+    "Hobbies": "취미",
+    "Lifestyle": "라이프스타일",
+    "Memes": "밈",
+    "Meta": "공지",
+    "News": "뉴스",
+    "Politics": "정치",
+    "Programming": "프로그래밍",
+    "Science": "과학",
+    "Sports": "스포츠",
+    "Technology": "기술",
+    "Other": "기타",
+    "All": "모두 보기"
+  }
+}

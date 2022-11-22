@@ -1,0 +1,15 @@
+mutation updateAvatar($input: UpdateAvatarInput!) {
+  updateAvatar(input: $input){
+    ...User
+  }
+}
+
+mutation updateProfile($input: UpdateProfileInput!){
+  updateProfile(input: $input){
+    ...User
+  }
+}
+
+mutation deleteAccount {
+  deleteUser
+}

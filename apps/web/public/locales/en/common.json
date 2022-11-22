@@ -1,0 +1,28 @@
+{
+  "sidebar": {
+    "home": "Home",
+    "explore": "Explore",
+    "createPlanet": "Create Planet"
+  },
+  "bottomBar": {
+    "login": "Login",
+    "logout": "Logout",
+    "theme": {
+      "dark": "Dark Mode",
+      "light": "Light Mode"
+    }
+  },
+  "userSetting": {
+    "title": "Profile Setting",
+    "uploadAvatar": "Upload Avatar",
+    "name": "Name",
+    "confirm": "Confirm",
+    "error": {
+      "nameLength": "Name length must be 2 or more.",
+      "duplicateName": "Duplicate name."
+    },
+    "toast": {
+      "success": "Saved"
+    }
+  }
+}

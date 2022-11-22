@@ -1,0 +1,275 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Comment implements BaseEntity {
+  id: ID!
+  createdAt: DateTime!
+  author: User
+  serverUser: ServerUser
+  post: Post!
+  text: String!
+  parentComment: Comment
+  voteCount: Int!
+  voteType: VoteType!
+  updatedAt: DateTime
+  isDeleted: Boolean!
+}
+
+interface BaseEntity {
+  id: ID!
+  createdAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+enum VoteType {
+  Up
+  None
+  Down
+}
+
+type Image {
+  originalUrl: String!
+  originalWidth: PositiveInt!
+  originalHeight: PositiveInt!
+  smallUrl: String
+  smallWidth: PositiveInt
+  smallHeight: PositiveInt
+  popupUrl: String
+  popupWidth: PositiveInt
+  popupHeight: PositiveInt
+}
+
+"""Integers that will have a value greater than 0."""
+scalar PositiveInt
+
+type LinkMetadata {
+  title: String
+  description: String
+  date: DateTime
+  author: String
+  publisher: String
+  imageUrl: String
+  image: Image
+  logoUrl: String
+  logo: Image
+  url: String
+  twitterCard: String
+  themeColor: String
+}
+
+type PostImage {
+  image: Image!
+}
+
+type Post implements BaseEntity {
+  id: ID!
+  createdAt: DateTime!
+  title: String!
+  text: String
+  linkUrl: String
+  linkMetadata: LinkMetadata
+  linkMetadatas: [LinkMetadata!]!
+  images: [PostImage!]!
+  thumbnailUrl: String
+  author: User
+  server: Server!
+  voteCount: Int!
+  voteType: VoteType!
+  commentCount: NonNegativeInt!
+  updatedAt: DateTime
+  isDeleted: Boolean!
+}
+
+"""Integers that will have a value of 0 or more."""
+scalar NonNegativeInt
+
+type Server implements BaseEntity {
+  id: ID!
+  createdAt: DateTime!
+  name: String!
+  displayName: String!
+  description: String
+  owner: User!
+  category: ServerCategory!
+  userCount: NonNegativeInt!
+  avatarUrl: String
+  bannerUrl: String
+  isDeleted: Boolean!
+  isJoined: Boolean!
+}
+
+enum ServerCategory {
+  Arts
+  Business
+  Culture
+  Discussion
+  Entertainment
+  Gaming
+  Health
+  Hobbies
+  Lifestyle
+  Memes
+  Meta
+  News
+  Politics
+  Programming
+  Science
+  Sports
+  Technology
+  Other
+}
+
+type User {
+  id: ID!
+  createdAt: DateTime!
+  name: String!
+  email: EmailAddress!
+  image: String
+  lastLoginAt: DateTime
+  isAdmin: Boolean!
+  servers: [Server!]!
+}
+
+"""
+A field whose value conforms to the standard internet email address format as specified in RFC822: https://www.w3.org/Protocols/rfc822/.
+"""
+scalar EmailAddress @specifiedBy(url: "https://www.w3.org/Protocols/rfc822/")
+
+type ServerUser {
+  user: User!
+}
+
+type Query {
+  me: User
+  server(name: String!): Server
+  publicServers(sort: PublicServersSort = Top, category: ServerCategory): [Server!]!
+  post(id: String!): Post!
+  posts(offset: NonNegativeInt = 0, limit: PositiveInt = 20, sort: PostsSort = Hot, time: PostsTime = All, feed: PostsFeed = Joined, serverName: String, folderId: ID, search: String): [Post!]!
+  getLinkMetadata(linkUrl: String!): LinkMetadata
+  comments(postId: ID, sort: CommentsSort = Top): [Comment!]!
+}
+
+enum PublicServersSort {
+  New
+  Top
+}
+
+enum PostsSort {
+  New
+  Top
+  Hot
+  Added
+}
+
+enum PostsTime {
+  Hour
+  Day
+  Week
+  Month
+  Year
+  All
+}
+
+enum PostsFeed {
+  Joined
+  Featured
+  All
+}
+
+enum CommentsSort {
+  New
+  Top
+}
+
+type Mutation {
+  updateAvatar(input: UpdateAvatarInput!): User!
+  updateProfile(input: UpdateProfileInput!): User!
+  deleteUser: Boolean!
+  createServer(input: CreateServerInput!): Server!
+  updateServer(input: UpdateServerInput!): Server!
+  joinServer(serverId: String!): Server!
+  leaveServer(serverId: String!): Server!
+  createPost(input: CreatePostInput!): Post!
+  updatePost(input: UpdatePostInput!): Post!
+  deletePost(id: String!): Boolean!
+  postVote(input: PostVoteInput!): Post!
+  createComment(input: CreateCommentInput!): Comment!
+  updateComment(input: UpdateCommentInput!): Comment!
+  deleteComment(id: String!): Boolean!
+  commentVote(input: CommentVoteInput!): Comment!
+}
+
+input UpdateAvatarInput {
+  avatarFile: Upload!
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+input UpdateProfileInput {
+  name: String!
+}
+
+input CreateServerInput {
+  name: String!
+  displayName: String!
+  description: String
+  category: ServerCategory = Other
+  avatarFile: Upload
+  bannerFile: Upload
+}
+
+input UpdateServerInput {
+  serverId: String!
+  displayName: String!
+  description: String
+  category: ServerCategory = Other
+  avatarFile: Upload
+  bannerFile: Upload
+}
+
+input CreatePostInput {
+  title: String!
+  linkUrl: String
+  text: String
+  serverId: ID!
+  images: [PostImageInput!]
+}
+
+input PostImageInput {
+  file: Upload!
+}
+
+input UpdatePostInput {
+  postId: ID!
+  title: String!
+  linkUrl: String
+  text: String
+  images: [PostImageInput!]
+}
+
+input PostVoteInput {
+  postId: ID!
+  type: VoteType!
+}
+
+input CreateCommentInput {
+  text: String!
+  postId: ID!
+  parentCommentId: ID
+}
+
+input UpdateCommentInput {
+  commentId: ID!
+  text: String!
+}
+
+input CommentVoteInput {
+  commentId: ID!
+  type: VoteType!
+}

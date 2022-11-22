@@ -1,0 +1,30 @@
+mutation createPost($input: CreatePostInput!) {
+  createPost(input: $input) {
+    ...Post
+    author {
+      ...User
+    }
+  }
+}
+
+mutation updatePost($input: UpdatePostInput!){
+  updatePost(input: $input){
+    ...Post
+    author {
+      ...User
+    }
+  }
+}
+
+mutation deletePost($input: String!){
+  deletePost(id: $input)
+}
+
+mutation postVote($input: PostVoteInput!) {
+  postVote(input: $input) {
+    ...Post
+    author {
+      ...User
+    }
+  }
+}
