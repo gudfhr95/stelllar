@@ -15,9 +15,10 @@ Stelllar is a open source forum and chat platform for anonymous communities.
 - [React](https://reactjs.org)
 - [Next.js](https://nextjs.org)
 - [Tailwind CSS](https://tailwindcss.com)
-- [NextAuth.js](https://next-auth.js.org)
 - [Apollo Client](https://github.com/apollographql/apollo-client)
 - [GraphQL Code Generator](https://the-guild.dev/graphql/codegen)
+- [NextAuth.js](https://next-auth.js.org)
+- [Next SEO](https://github.com/garmeeh/next-seo)
 
 #### Backend
 
@@ -28,6 +29,12 @@ Stelllar is a open source forum and chat platform for anonymous communities.
 ## Features
 
 ## Installation
+
+#### Prerequisite
+
+- Node.js 18
+- Yarn
+- Docker, Docker Compose
 
 ## Configuration
 

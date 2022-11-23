@@ -1,5 +1,7 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Head from "next/head";
 import client from "../apollo-client";
 import PostList from "../src/components/post/PostList";
 import { PostsDocument } from "../src/graphql/hooks";
@@ -8,10 +10,17 @@ import HomeLayout from "../src/layouts/HomeLayout";
 export default function Index({
   initialPosts,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const { t } = useTranslation("home");
+
   return (
-    <HomeLayout>
-      <PostList initialPosts={initialPosts} />
-    </HomeLayout>
+    <>
+      <Head>
+        <title>{`${t("title")} - Stelllar`}</title>
+      </Head>
+      <HomeLayout>
+        <PostList initialPosts={initialPosts} />
+      </HomeLayout>
+    </>
   );
 }
 

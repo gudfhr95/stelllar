@@ -23,7 +23,7 @@ export const usePosts = (initialPosts: []) => {
 
   useEffect(() => {
     setHasNext((initialPosts.length as number) === 20);
-    refetch();
+    refetch().then(({ data }) => setHasNext(data.posts.length === 20));
   }, [query]);
 
   const loadMore = async () => {

@@ -1,6 +1,7 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Head from "next/head";
 import client from "../apollo-client";
 import ServerInfoCard from "../src/components/server/ServerInfoCard";
 import EndReached from "../src/components/ui/EndReached";
@@ -13,25 +14,30 @@ export default function Explore({
   const { t } = useTranslation("explore");
 
   return (
-    <ExploreLayout>
-      <div className="md:px-8 md:py-8 px-0 py-0">
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 2xl:grid-cols-5">
-          {servers.map((server) => (
-            <ServerInfoCard
-              key={server.id}
-              name={server.name}
-              displayName={server.displayName}
-              description={server.description}
-              avatarUrl={server.avatarUrl}
-              bannerUrl={server.bannerUrl}
-              userCount={server.userCount}
-              category={server.category}
-            />
-          ))}
+    <>
+      <Head>
+        <title>{`${t("title")} - Stelllar`}</title>
+      </Head>
+      <ExploreLayout>
+        <div className="md:px-8 md:py-8 px-0 py-0">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 2xl:grid-cols-5">
+            {servers.map((server) => (
+              <ServerInfoCard
+                key={server.id}
+                name={server.name}
+                displayName={server.displayName}
+                description={server.description}
+                avatarUrl={server.avatarUrl}
+                bannerUrl={server.bannerUrl}
+                userCount={server.userCount}
+                category={server.category}
+              />
+            ))}
+          </div>
+          {!servers.length && <EndReached>{t("notFound")}</EndReached>}
         </div>
-        {!servers.length && <EndReached>{t("notFound")}</EndReached>}
-      </div>
-    </ExploreLayout>
+      </ExploreLayout>
+    </>
   );
 }
 

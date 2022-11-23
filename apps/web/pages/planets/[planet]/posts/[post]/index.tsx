@@ -1,5 +1,7 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { NextSeo } from "next-seo";
+import Head from "next/head";
 import client from "../../../../../apollo-client";
 import Post from "../../../../../src/components/post/Post";
 import {
@@ -18,10 +20,35 @@ export default function PostPage({
   comments,
   previousPath,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const title = `${post.title} - ${server.displayName}`;
+  const description = `${post.title} ${post.text}`;
+  const url = `https://stelllar.co/planets/${server.name}/posts/${post.id}`;
+
   return (
-    <PostLayout server={server} post={post} previousPath={previousPath}>
-      <Post post={post} comments={comments} />
-    </PostLayout>
+    <>
+      <NextSeo
+        title={title}
+        description={description}
+        canonical={url}
+        openGraph={{
+          type: "website",
+          url,
+          title,
+          description: description,
+          images: [
+            {
+              url: post.images ? post.images[0].image.originalUrl : "",
+            },
+          ],
+        }}
+      />
+      <Head>
+        <title>{title}</title>
+      </Head>
+      <PostLayout server={server} post={post} previousPath={previousPath}>
+        <Post post={post} comments={comments} />
+      </PostLayout>
+    </>
   );
 }
 
