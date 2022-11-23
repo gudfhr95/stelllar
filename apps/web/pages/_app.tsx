@@ -48,6 +48,13 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
         }}
       />
 
+      {/* Google AdSense */}
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4961852375681131"
+        crossOrigin="anonymous"
+      ></Script>
+
       <main className="app">
         <ApolloProvider client={apolloClient}>
           <SessionProvider session={session}>
