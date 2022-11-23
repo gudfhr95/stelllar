@@ -37,7 +37,10 @@ export default function PostPage({
           description: description,
           images: [
             {
-              url: post.images ? post.images[0].image.originalUrl : "",
+              url:
+                post.images && post.images.length > 0
+                  ? post.images[0].image.originalUrl
+                  : "",
             },
           ],
         }}
