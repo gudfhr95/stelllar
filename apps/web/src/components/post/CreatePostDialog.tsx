@@ -236,8 +236,9 @@ export default function CreatePostDialog() {
         return;
       }
 
-      setOpen(false);
       reset();
+      setText("");
+      setOpen(false);
       router.push(`/planets/${server?.name}/posts/${post.id}`);
     });
   };
