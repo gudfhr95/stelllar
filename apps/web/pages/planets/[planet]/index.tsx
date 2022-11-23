@@ -32,8 +32,6 @@ export default function ServerPage({
           images: [
             {
               url: server.bannerUrl ?? "",
-              width: 1280,
-              height: 640,
             },
           ],
         }}
