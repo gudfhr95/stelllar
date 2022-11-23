@@ -16,7 +16,7 @@ export default function PostList({ initialPosts }: PostList) {
   const { t } = useTranslation("post");
   const user = useAuth();
 
-  const [posts, loading, fetchMore, hasNext] = usePosts(initialPosts);
+  const { posts, loading, fetchMore, hasNext } = usePosts(initialPosts);
 
   const renderPostItem = (posts: [], index: number) => {
     const post = posts[index];
