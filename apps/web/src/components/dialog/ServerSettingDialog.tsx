@@ -65,7 +65,7 @@ export default function ServerSettingDialog({ server }: ServerSettingDialog) {
     setValue("displayName", server.displayName);
     setValue("description", server.description);
     setCategory(server.category);
-  }, []);
+  }, [server]);
 
   const onSubmit = ({
     displayName,
