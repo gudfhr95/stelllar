@@ -236,8 +236,9 @@ export default function CreatePostDialog() {
         return;
       }
 
-      setOpen(false);
       reset();
+      setText("");
+      setOpen(false);
       router.push(`/planets/${server?.name}/posts/${post.id}`);
     });
   };
@@ -248,7 +249,7 @@ export default function CreatePostDialog() {
         onSubmit={handleSubmit(onSubmit)}
         className="max-w-screen-md w-full dark:bg-gray-800 bg-white text-left rounded-xl"
       >
-        <div className="grid grid-cols-4">
+        <div className="grid grid-cols-3">
           <ServerSelect
             servers={user ? user.servers : []}
             server={server}

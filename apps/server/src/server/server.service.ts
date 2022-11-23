@@ -1,7 +1,7 @@
 import { QueryOrder } from "@mikro-orm/core";
 import { InjectRepository } from "@mikro-orm/nestjs";
 import { EntityRepository } from "@mikro-orm/postgresql";
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { FileUpload } from "graphql-upload-minimal";
 import { ReorderUtils } from "../common/util/reorder-utils";
 import { FileService } from "../file/file.service";
@@ -32,6 +32,10 @@ export class ServerService {
     bannerFile: Promise<FileUpload>
   ) {
     name = name.trim();
+    if (await this.existsServerByName(name)) {
+      throw new HttpException("duplicateName", HttpStatus.BAD_REQUEST);
+    }
+
     displayName = displayName.trim();
     description = description.trim();
 
@@ -206,6 +210,13 @@ export class ServerService {
     await this.serverRepository.persistAndFlush(server);
 
     return server;
+  }
+
+  async existsServerByName(name: string) {
+    return !!(await this.serverRepository.findOne({
+      name,
+      isDeleted: false,
+    }));
   }
 
   async getServerUsersByServerIdsAndUserId(

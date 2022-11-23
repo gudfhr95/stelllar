@@ -78,6 +78,8 @@ export { IoTelescope as IconExplore } from "react-icons/io5";
 
 export { SiGithub as IconGithub } from "react-icons/si";
 
+export { CgArrowRight as IconUserToServerArrow } from "react-icons/cg";
+
 export * from "./IconCreateServer";
 export * from "./IconSpinner";
 export * from "./IconImage";

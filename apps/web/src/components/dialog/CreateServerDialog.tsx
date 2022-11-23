@@ -8,9 +8,13 @@ import { useCreateServerDialog } from "../../hooks/useCreateServerDialog";
 import { readURL } from "../../utils/readURL";
 import CategorySelect from "../server/CategorySelect";
 import StyledDialog from "../ui/dialog/StyledDialog";
-import { IconCheck, IconEdit } from "../ui/icons/Icons";
+import {
+  IconEdit,
+  IconSpinner,
+  IconUserToServerArrow,
+} from "../ui/icons/Icons";
 
-const SERVER_REGEX = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
+const SERVER_REGEX = /^[a-z|A-Z|0-9|\-]+$/;
 
 export default function CreateServerDialog() {
   const { t } = useTranslation("server");
@@ -27,8 +31,8 @@ export default function CreateServerDialog() {
     register,
     watch,
     reset,
-    setValue,
-    formState: { errors, isValid },
+    setError,
+    formState: { errors },
   } = useForm({
     mode: "onChange",
   });
@@ -49,6 +53,7 @@ export default function CreateServerDialog() {
       readURL(avatarFile[0]).then((url) => setAvatarSrc(url));
     }
   });
+  const name = watch("name");
   const displayName = watch("displayName");
 
   const onSubmit = ({
@@ -69,10 +74,15 @@ export default function CreateServerDialog() {
           bannerFile: bannerFile ? bannerFile[0] : null,
         },
       },
-    }).then(({ data }) => {
-      setOpen(false);
-      router.push(`/planets/${data!.createServer.name}`);
-    });
+    })
+      .then(({ data }) => {
+        reset();
+        setOpen(false);
+        router.push(`/planets/${data!.createServer.name}`);
+      })
+      .catch((data) => {
+        setError("name", { type: data.message });
+      });
   };
 
   const [bannerSrc, setBannerSrc] = useState(null as any);
@@ -97,8 +107,23 @@ export default function CreateServerDialog() {
       onSubmit={handleSubmit(onSubmit)}
       buttons={
         <Tippy content={t("createServer.save")}>
-          <button type="submit" className={`form-button-submit`}>
-            <IconCheck className="w-5 h-5 text-primary" />
+          <button
+            type="submit"
+            disabled={
+              !displayName ||
+              !name ||
+              displayName?.length < 2 ||
+              name?.length < 2 ||
+              createServerLoading ||
+              !SERVER_REGEX.test(name)
+            }
+            className="form-button-submit"
+          >
+            {createServerLoading ? (
+              <IconSpinner className="w-5 h-5 text-primary" />
+            ) : (
+              <IconUserToServerArrow className="w-5 h-5 text-primary" />
+            )}
           </button>
         </Tippy>
       }
@@ -174,8 +199,15 @@ export default function CreateServerDialog() {
               className="bg-transparent h-7 w-full border-b dark:border-gray-700 focus:outline-none transition dark:focus:border-blue-500"
             />
           </div>
-          {errors.name?.type === "pattern" && (
-            <div className="form-error">{t("createServer.nameError")}</div>
+          {!!name && errors.name?.type === "pattern" && (
+            <div className="form-error">
+              {t("createServer.error.namePattern")}
+            </div>
+          )}
+          {!!name && errors.name?.type === "duplicateName" && (
+            <div className="form-error">
+              {t("createServer.error.duplicateName")}
+            </div>
           )}
         </div>
 

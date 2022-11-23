@@ -9,10 +9,6 @@ export const usePosts = (initialPosts: []) => {
     (initialPosts.length as number) === 20
   );
 
-  useEffect(() => {
-    setHasNext((initialPosts.length as number) === 20);
-  }, [query]);
-
   const variables = {
     serverName: query.planet as any,
     feed: query.feed as any,
@@ -20,10 +16,15 @@ export const usePosts = (initialPosts: []) => {
     time: query.time as any,
   };
 
-  const { data, loading, fetchMore } = usePostsQuery({
+  const { data, loading, fetchMore, refetch } = usePostsQuery({
     variables,
-    fetchPolicy: "network-only",
+    fetchPolicy: "cache-and-network",
   });
+
+  useEffect(() => {
+    setHasNext((initialPosts.length as number) === 20);
+    refetch();
+  }, [query]);
 
   const loadMore = async () => {
     if (!hasNext) {
@@ -47,5 +48,5 @@ export const usePosts = (initialPosts: []) => {
 
   const posts = data?.posts ? data.posts : initialPosts;
 
-  return [posts, loading, loadMore, hasNext] as any;
+  return { posts, loading, fetchMore: loadMore, hasNext } as any;
 };
