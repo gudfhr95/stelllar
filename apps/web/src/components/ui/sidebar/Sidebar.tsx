@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { PropsWithChildren } from "react";
 import { useShowLeftSidebar } from "../../../hooks/useShowLeftSidebar";
 import { useShowRightSidebar } from "../../../hooks/useShowRightSidebar";
+import ServerList from "../../server/ServerList";
 
 const sidebarClass = ctl(`
   transition
@@ -87,7 +88,9 @@ export default function Sidebar({
           <div
             className={`md:hidden`}
             onClick={() => setShowLeftSidebar(false)}
-          ></div>
+          >
+            <ServerList />
+          </div>
         )}
         <div
           className="relative h-full w-full scrollbar-dark overflow-y-auto"

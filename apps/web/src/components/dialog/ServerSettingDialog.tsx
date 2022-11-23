@@ -8,7 +8,11 @@ import { useServerSettingDialog } from "../../hooks/useServerSettingDialog";
 import { readURL } from "../../utils/readURL";
 import CategorySelect from "../server/CategorySelect";
 import StyledDialog from "../ui/dialog/StyledDialog";
-import { IconCheck, IconEdit } from "../ui/icons/Icons";
+import {
+  IconEdit,
+  IconSpinner,
+  IconUserToServerArrow,
+} from "../ui/icons/Icons";
 
 type ServerSettingDialog = {
   server: Server;
@@ -28,9 +32,8 @@ export default function ServerSettingDialog({ server }: ServerSettingDialog) {
     handleSubmit,
     register,
     watch,
-    reset,
     setValue,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     mode: "onChange",
   });
@@ -105,8 +108,18 @@ export default function ServerSettingDialog({ server }: ServerSettingDialog) {
       onSubmit={handleSubmit(onSubmit)}
       buttons={
         <Tippy content={t("save")}>
-          <button type="submit" className={`form-button-submit`}>
-            <IconCheck className="w-5 h-5 text-primary" />
+          <button
+            type="submit"
+            disabled={
+              !displayName || displayName?.length < 2 || updateServerLoading
+            }
+            className="form-button-submit"
+          >
+            {updateServerLoading ? (
+              <IconSpinner className="w-5 h-5 text-primary" />
+            ) : (
+              <IconUserToServerArrow className="w-5 h-5 text-primary" />
+            )}
           </button>
         </Tippy>
       }
@@ -168,7 +181,7 @@ export default function ServerSettingDialog({ server }: ServerSettingDialog) {
           <div className="text-sm text-accent flex items-center pt-3">
             <span
               className={`h-7 flex items-center`}
-            >{`stelllar.co/server/${server.name}`}</span>
+            >{`stelllar.co/planets/${server.name}`}</span>
           </div>
           {errors.name?.type === "pattern" && (
             <div className="form-error">{t("nameError")}</div>
