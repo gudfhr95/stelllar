@@ -3,8 +3,11 @@
     "save": "Save Changes",
     "displayName": "Display Name",
     "name": "Name",
-    "nameError": "Letters, numbers and - only",
-    "description": "Description"
+    "description": "Description",
+    "error": {
+      "namePattern": "Letters, numbers and Hyphen(-) only",
+      "duplicateName": "Duplicate Name."
+    }
   },
   "header": {
     "time": {

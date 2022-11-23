@@ -31,8 +31,8 @@ export default function CreateServerDialog() {
     register,
     watch,
     reset,
-    setValue,
-    formState: { errors, isValid },
+    setError,
+    formState: { errors },
   } = useForm({
     mode: "onChange",
   });
@@ -74,11 +74,15 @@ export default function CreateServerDialog() {
           bannerFile: bannerFile ? bannerFile[0] : null,
         },
       },
-    }).then(({ data }) => {
-      reset();
-      setOpen(false);
-      router.push(`/planets/${data!.createServer.name}`);
-    });
+    })
+      .then(({ data }) => {
+        reset();
+        setOpen(false);
+        router.push(`/planets/${data!.createServer.name}`);
+      })
+      .catch((data) => {
+        setError("name", { type: data.message });
+      });
   };
 
   const [bannerSrc, setBannerSrc] = useState(null as any);
@@ -195,8 +199,15 @@ export default function CreateServerDialog() {
               className="bg-transparent h-7 w-full border-b dark:border-gray-700 focus:outline-none transition dark:focus:border-blue-500"
             />
           </div>
-          {errors.name?.type === "pattern" && (
-            <div className="form-error">{t("createServer.nameError")}</div>
+          {!!name && errors.name?.type === "pattern" && (
+            <div className="form-error">
+              {t("createServer.error.namePattern")}
+            </div>
+          )}
+          {!!name && errors.name?.type === "duplicateName" && (
+            <div className="form-error">
+              {t("createServer.error.duplicateName")}
+            </div>
           )}
         </div>
 
