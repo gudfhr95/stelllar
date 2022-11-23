@@ -1,5 +1,7 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { NextSeo } from "next-seo";
+import Head from "next/head";
 import client from "../../../apollo-client";
 import PostList from "../../../src/components/post/PostList";
 import {
@@ -7,19 +9,40 @@ import {
   Server,
   ServerDocument,
 } from "../../../src/graphql/hooks";
-import useAuth from "../../../src/hooks/useAuth";
 import ServerLayout from "../../../src/layouts/ServerLayout";
 
 export default function ServerPage({
   server,
   initialPosts,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const user = useAuth();
+  const title = `${server.displayName} - Stelllar`;
+  const url = `https://stelllar.co/planets/${server.name}`;
 
   return (
-    <ServerLayout server={server}>
-      <PostList initialPosts={initialPosts} />
-    </ServerLayout>
+    <>
+      <NextSeo
+        title={title}
+        description={server.description ?? undefined}
+        canonical={url}
+        openGraph={{
+          type: "website",
+          url,
+          title,
+          description: server.description ?? undefined,
+          images: [
+            {
+              url: server.bannerUrl ?? "",
+            },
+          ],
+        }}
+      />
+      <Head>
+        <title>{title}</title>
+      </Head>
+      <ServerLayout server={server}>
+        <PostList initialPosts={initialPosts} />
+      </ServerLayout>
+    </>
   );
 }
 
