@@ -21,7 +21,7 @@ const listboxClass = ctl(`
   focus:outline-none
   text-sm
   rounded-none
-  rounded-tl-xl
+  rounded-t-xl
 `);
 
 const listboxOptionsClass = ctl(`
@@ -63,7 +63,7 @@ export default function ServerSelect({
   setServer,
 }: ServerSelect) {
   return (
-    <div className="col-span-1 z-10">
+    <div className="col-span-3 z-10">
       <Listbox value={server} onChange={setServer}>
         {({ open }) => (
           <>
