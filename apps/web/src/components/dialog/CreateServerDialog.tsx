@@ -113,7 +113,7 @@ export default function CreateServerDialog() {
               !displayName ||
               !name ||
               displayName?.length < 2 ||
-              name?.length < 3 ||
+              name?.length < 2 ||
               createServerLoading ||
               !SERVER_REGEX.test(name)
             }
