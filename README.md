@@ -25,6 +25,7 @@ Stelllar is a open source forum and chat platform for anonymous communities.
 - [NestJS](https://nestjs.com)
 - [MikroORM](https://mikro-orm.io)
 - [PostgreSQL](https://www.postgresql.org)
+- [DataLoader](https://github.com/graphql/dataloader)
 
 ## Features
 

@@ -80,6 +80,8 @@ export { SiGithub as IconGithub } from "react-icons/si";
 
 export { CgArrowRight as IconUserToServerArrow } from "react-icons/cg";
 
+export { BsFileEarmarkText as IconPost } from "react-icons/bs";
+
 export * from "./IconCreateServer";
 export * from "./IconSpinner";
 export * from "./IconImage";

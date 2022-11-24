@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { getCategoryIcon } from "../../utils/getCategoryIcon";
-import { IconUsers } from "../ui/icons/Icons";
+import { IconPost, IconUsers } from "../ui/icons/Icons";
 import ServerAvatar from "./ServerAvatar";
 
 type ServerInfoCard = {
@@ -12,6 +12,7 @@ type ServerInfoCard = {
   avatarUrl?: string | null;
   bannerUrl?: string | null;
   userCount?: number;
+  postCount?: number;
   shadow?: boolean;
   className?: string;
 };
@@ -24,6 +25,7 @@ export default function ServerInfoCard({
   avatarUrl = null,
   bannerUrl = null,
   userCount = 0,
+  postCount = 0,
   shadow = false,
   className = "",
 }: ServerInfoCard) {
@@ -69,6 +71,13 @@ export default function ServerInfoCard({
             <div className="inline-flex items-center">
               <IconUsers className="w-4 h-4 text-tertiary" />
               <div className="ml-2 text-tertiary">{userCount}</div>
+            </div>
+          </div>
+
+          <div className="flex mt-auto text-xs">
+            <div className="inline-flex items-center">
+              <IconPost className="w-4 h-4 text-tertiary" />
+              <div className="ml-2 text-tertiary">{postCount}</div>
             </div>
 
             <div className="ml-auto inline-flex items-center">

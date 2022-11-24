@@ -321,6 +321,7 @@ export type Server = BaseEntity & {
   isJoined: Scalars['Boolean'];
   name: Scalars['String'];
   owner: User;
+  postCount: Scalars['NonNegativeInt'];
   userCount: Scalars['NonNegativeInt'];
 };
 
@@ -541,7 +542,7 @@ export type PublicServersQueryVariables = Exact<{
 }>;
 
 
-export type PublicServersQuery = { __typename?: 'Query', publicServers: Array<{ __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, avatarUrl?: string | null, bannerUrl?: string | null, userCount: any, category: ServerCategory }> };
+export type PublicServersQuery = { __typename?: 'Query', publicServers: Array<{ __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, avatarUrl?: string | null, bannerUrl?: string | null, userCount: any, postCount: any, category: ServerCategory }> };
 
 export type UserFragment = { __typename?: 'User', id: string, email: any, name: string, image?: string | null };
 
@@ -1317,6 +1318,7 @@ export const PublicServersDocument = gql`
     avatarUrl
     bannerUrl
     userCount
+    postCount
     category
   }
 }
