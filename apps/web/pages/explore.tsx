@@ -30,6 +30,7 @@ export default function Explore({
                 avatarUrl={server.avatarUrl}
                 bannerUrl={server.bannerUrl}
                 userCount={server.userCount}
+                postCount={server.postCount}
                 category={server.category}
               />
             ))}
