@@ -148,15 +148,16 @@ export class PostService {
       images: postImages,
       voteCount: 1,
     });
-
     await this.postRepository.persistAndFlush(post);
+
+    server.postCount += 1;
+    await this.serverRepository.persistAndFlush(server);
 
     const vote = this.postVoteRepository.create({
       post,
       user,
       type: VoteType.Up,
     });
-
     await this.postVoteRepository.persistAndFlush(vote);
 
     return post;
