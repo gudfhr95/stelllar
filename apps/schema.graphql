@@ -95,6 +95,7 @@ type Server implements BaseEntity {
   displayName: String!
   description: String
   owner: User!
+  postCount: NonNegativeInt!
   category: ServerCategory!
   userCount: NonNegativeInt!
   avatarUrl: String
