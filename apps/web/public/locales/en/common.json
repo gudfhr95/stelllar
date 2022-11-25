@@ -25,5 +25,6 @@
       "success": "Saved"
     }
   },
-  "404": "Not Found"
+  "404": "Not Found",
+  "500": "Something went wrong. Please try again later."
 }
