@@ -10,7 +10,7 @@ import { defaultSeoConfig } from "../next-seo.config";
 import LoadingDialog from "../src/components/dialog/LoadingDialog";
 import ContextMenuProvider from "../src/components/ui/context/ContextMenuProvider";
 import { usePageLoading } from "../src/hooks/usePageLoading";
-import { usePreviousPath } from "../src/hooks/usePreviousPath";
+import { usePreviousRoute } from "../src/hooks/usePreviousRoute";
 import MainLayout from "../src/layouts/MainLayout";
 import * as gtag from "../src/lib/gtag";
 import "../src/styles/global.css";
@@ -18,7 +18,7 @@ import "../src/styles/index.css";
 import "../src/styles/tippy.css";
 
 function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
-  const previousPath = usePreviousPath();
+  const { previousRoute } = usePreviousRoute();
   const { isPageLoading } = usePageLoading();
 
   return (
@@ -65,7 +65,7 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
               <div style={{ height: "100%" }} className="flex">
                 <LoadingDialog isOpen={isPageLoading} />
                 <MainLayout>
-                  <Component {...{ ...pageProps, previousPath }} />
+                  <Component {...{ ...pageProps, previousRoute }} />
                 </MainLayout>
               </div>
             </ContextMenuProvider>

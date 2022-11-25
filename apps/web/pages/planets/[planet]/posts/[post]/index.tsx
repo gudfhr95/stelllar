@@ -18,7 +18,7 @@ export default function PostPage({
   server,
   post,
   comments,
-  previousPath,
+  previousRoute,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const title = `${post.title} - ${server.displayName}`;
   const description = `${post.title} ${post.text}`;
@@ -48,7 +48,7 @@ export default function PostPage({
       <Head>
         <title>{title}</title>
       </Head>
-      <PostLayout server={server} post={post} previousPath={previousPath}>
+      <PostLayout server={server} post={post} previousRoute={previousRoute}>
         <Post post={post} comments={comments} />
       </PostLayout>
     </>
@@ -59,7 +59,7 @@ export const getServerSideProps: GetServerSideProps<{
   server: Server;
   post: PostType;
   comments: Comment[];
-  previousPath?: string;
+  previousRoute?: string;
 }> = async ({ req, params, query, locale }) => {
   const { data: serverData } = await client.query({
     query: ServerDocument,

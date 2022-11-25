@@ -9,18 +9,18 @@ import { Post, Server } from "../graphql/hooks";
 type ServerLayout = {
   server: Server;
   post: Post;
-  previousPath?: string | null;
+  previousRoute?: string | null;
 };
 
 export default function PostLayout({
   server,
   post,
-  previousPath = null,
+  previousRoute = null,
   children,
 }: PropsWithChildren<ServerLayout>) {
-  const hasPreviousPath = previousPath !== null;
+  const hasPreviousPath = previousRoute !== null;
   const previousIsServer =
-    previousPath === null || previousPath.includes("planets");
+    previousRoute === null || previousRoute.includes("planets");
 
   return (
     <>
