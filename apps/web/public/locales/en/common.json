@@ -24,5 +24,6 @@
     "toast": {
       "success": "Saved"
     }
-  }
+  },
+  "404": "Not Found"
 }
