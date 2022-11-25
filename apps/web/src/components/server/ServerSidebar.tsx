@@ -9,7 +9,12 @@ import {
 import useAuth from "../../hooks/useAuth";
 import { useServerSettingDialog } from "../../hooks/useServerSettingDialog";
 import { getCategoryIcon } from "../../utils/getCategoryIcon";
-import { IconSettings, IconSpinner, IconUsers } from "../ui/icons/Icons";
+import {
+  IconPost,
+  IconSettings,
+  IconSpinner,
+  IconUsers,
+} from "../ui/icons/Icons";
 import Sidebar from "../ui/sidebar/Sidebar";
 import SidebarItem from "../ui/sidebar/SidebarItem";
 import SidebarLabel from "../ui/sidebar/SidebarLabel";
@@ -129,6 +134,13 @@ export default function ServerSidebar({ server }: ServerSidebar) {
               <div className="text-xs font-medium flex items-center text-tertiary">
                 <IconUsers className="w-4 h-4 mr-2.5" />
                 {server.userCount}
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="text-xs font-medium flex items-center text-tertiary">
+                <IconPost className="w-4 h-4 mr-2.5" />
+                {server.postCount}
               </div>
               <div className="text-xs font-medium flex items-center text-tertiary">
                 <CategoryIcon className="w-4 h-4 mr-2.5" />
