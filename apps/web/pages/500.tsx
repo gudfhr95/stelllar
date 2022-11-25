@@ -1,0 +1,42 @@
+import { GetStaticProps } from "next";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Head from "next/head";
+import astronaut from "../public/images/astronaut.png";
+
+export default function InternalServerErrorPage() {
+  const { t } = useTranslation("common");
+
+  return (
+    <>
+      <Head>
+        <title>500 - Stelllar</title>
+      </Head>
+      <div className="w-full flex flex-col items-center justify-center text-primary">
+        <img
+          alt="astronaut"
+          src={astronaut.src}
+          className="w-64 h-64 wobject-contain opacity-50 animate-float select-none pointer-events-none"
+        />
+        <div className="text-tertiary pt-10 text-2xl font-semibold">
+          {t("500")}
+        </div>
+      </div>
+    </>
+  );
+}
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale as string, [
+        "common",
+        "home",
+        "explore",
+        "server",
+        "post",
+        "comment",
+      ])),
+    },
+  };
+};

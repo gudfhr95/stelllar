@@ -161,14 +161,21 @@ export class ServerService {
     if (sort === PublicServersSort.New) {
       orderBy = { createdAt: QueryOrder.DESC };
     } else if (sort === PublicServersSort.Top) {
-      orderBy = { userCount: QueryOrder.DESC, createdAt: QueryOrder.DESC };
+      orderBy = {
+        userCount: QueryOrder.DESC,
+        postCount: QueryOrder.DESC,
+        createdAt: QueryOrder.DESC,
+      };
     }
 
     return await this.serverRepository.find(where, { orderBy });
   }
 
   async getServerByName(name: string) {
-    return await this.serverRepository.findOne({ name });
+    return await this.serverRepository.findOneOrFail({
+      name,
+      isDeleted: false,
+    });
   }
 
   async joinServer(serverId: string, user: User) {

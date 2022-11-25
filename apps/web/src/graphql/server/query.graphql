@@ -13,6 +13,7 @@ query publicServers($sort: PublicServersSort, $category: ServerCategory) {
     avatarUrl
     bannerUrl
     userCount
+    postCount
     category
   }
 }

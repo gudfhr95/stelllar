@@ -30,6 +30,7 @@ export default function Explore({
                 avatarUrl={server.avatarUrl}
                 bannerUrl={server.bannerUrl}
                 userCount={server.userCount}
+                postCount={server.postCount}
                 category={server.category}
               />
             ))}
@@ -44,32 +45,44 @@ export default function Explore({
 export const getServerSideProps: GetServerSideProps<{
   servers: Server[];
 }> = async ({ req, locale, query }) => {
-  const { data } = await client.query({
-    query: PublicServersDocument,
-    variables: {
-      sort: query.sort ?? null,
-      category:
-        query.category && query.category !== "All" ? query.category : null,
-    },
-    fetchPolicy: "no-cache",
-    context: {
-      headers: {
-        cookie: req.headers.cookie,
+  try {
+    const { data } = await client.query({
+      query: PublicServersDocument,
+      variables: {
+        sort: query.sort ?? null,
+        category:
+          query.category && query.category !== "All" ? query.category : null,
       },
-    },
-  });
+      fetchPolicy: "no-cache",
+      context: {
+        headers: {
+          cookie: req.headers.cookie,
+        },
+      },
+    });
 
-  return {
-    props: {
-      servers: data.publicServers ?? [],
-      ...(await serverSideTranslations(locale as string, [
-        "common",
-        "home",
-        "explore",
-        "server",
-        "post",
-        "comment",
-      ])),
-    },
-  };
+    return {
+      props: {
+        servers: data.publicServers ?? [],
+        ...(await serverSideTranslations(locale as string, [
+          "common",
+          "home",
+          "explore",
+          "server",
+          "post",
+          "comment",
+        ])),
+      },
+    };
+  } catch (e: any) {
+    const {
+      graphQLErrors: [{ statusCode }],
+    } = e;
+
+    if (statusCode === 404) {
+      return { notFound: true };
+    }
+
+    throw new Error();
+  }
 };

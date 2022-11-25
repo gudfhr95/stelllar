@@ -3,8 +3,8 @@ import Dialog from "./Dialog";
 
 interface StyledDialog {
   isOpen: boolean;
-  onClose: () => void;
-  closeOnOverlayClick: boolean;
+  onClose?: () => void;
+  closeOnOverlayClick?: boolean;
   buttons?: any;
   onSubmit?: () => void;
   small?: boolean;
@@ -13,8 +13,8 @@ interface StyledDialog {
 
 export default function StyledDialog({
   isOpen,
-  onClose,
-  closeOnOverlayClick,
+  onClose = () => {},
+  closeOnOverlayClick = true,
   onSubmit,
   buttons,
   small = false,

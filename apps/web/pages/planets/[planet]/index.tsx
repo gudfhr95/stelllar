@@ -50,45 +50,57 @@ export const getServerSideProps: GetServerSideProps<{
   server: Server;
   initialPosts: [];
 }> = async ({ req, params, query, locale }) => {
-  const { data: serverData } = await client.query({
-    query: ServerDocument,
-    variables: {
-      name: params?.planet,
-    },
-    fetchPolicy: "no-cache",
-    context: {
-      headers: {
-        cookie: req.headers.cookie,
+  try {
+    const { data: serverData } = await client.query({
+      query: ServerDocument,
+      variables: {
+        name: params?.planet,
       },
-    },
-  });
-
-  const { data: postsData } = await client.query({
-    query: PostsDocument,
-    variables: {
-      sort: query.sort,
-      time: query.time,
-      serverName: params?.planet,
-    },
-    context: {
-      headers: {
-        cookie: req.headers.cookie,
+      fetchPolicy: "no-cache",
+      context: {
+        headers: {
+          cookie: req.headers.cookie,
+        },
       },
-    },
-  });
+    });
 
-  return {
-    props: {
-      server: serverData?.server,
-      initialPosts: postsData?.posts,
-      ...(await serverSideTranslations(locale as string, [
-        "common",
-        "home",
-        "explore",
-        "server",
-        "post",
-        "comment",
-      ])),
-    },
-  };
+    const { data: postsData } = await client.query({
+      query: PostsDocument,
+      variables: {
+        sort: query.sort,
+        time: query.time,
+        serverName: params?.planet,
+      },
+      context: {
+        headers: {
+          cookie: req.headers.cookie,
+        },
+      },
+    });
+
+    return {
+      props: {
+        server: serverData?.server,
+        initialPosts: postsData?.posts,
+        ...(await serverSideTranslations(locale as string, [
+          "common",
+          "home",
+          "explore",
+          "server",
+          "post",
+          "comment",
+        ])),
+      },
+    };
+  } catch (e: any) {
+    const {
+      graphQLErrors: [{ statusCode }],
+    } = e;
+
+    if (statusCode === 404) {
+      return { notFound: true };
+    }
+
+    throw new Error();
+  }
 };

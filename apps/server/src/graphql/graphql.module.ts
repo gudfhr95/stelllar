@@ -1,5 +1,6 @@
+import { NotFoundError } from "@mikro-orm/core";
 import { ApolloDriver } from "@nestjs/apollo";
-import { Module } from "@nestjs/common";
+import { HttpStatus, Module } from "@nestjs/common";
 import { GraphQLModule } from "@nestjs/graphql";
 
 @Module({
@@ -14,6 +15,22 @@ import { GraphQLModule } from "@nestjs/graphql";
         credentials: true,
       },
       context: ({ req, res }) => ({ req, res }),
+      formatError: (error) => {
+        const {
+          extensions: {
+            exception: { name },
+          },
+        } = error;
+
+        if (name === NotFoundError.name) {
+          return { message: error.message, statusCode: HttpStatus.NOT_FOUND };
+        }
+
+        return {
+          message: error.message,
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        };
+      },
     }),
   ],
 })

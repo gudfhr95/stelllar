@@ -38,6 +38,10 @@ export class Server extends BaseEntity {
   @OneToMany(() => Post, "server")
   posts = new Collection<Post>(this);
 
+  @Field(() => GraphQLNonNegativeInt)
+  @Property({ columnType: "int", unsigned: true })
+  postCount = 0;
+
   @OneToMany(() => ServerUser, "server", {
     orderBy: { position: QueryOrder.ASC },
   })

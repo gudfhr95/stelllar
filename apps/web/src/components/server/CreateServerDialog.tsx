@@ -6,13 +6,13 @@ import { useForm } from "react-hook-form";
 import { ServerCategory, useCreateServerMutation } from "../../graphql/hooks";
 import { useCreateServerDialog } from "../../hooks/useCreateServerDialog";
 import { readURL } from "../../utils/readURL";
-import CategorySelect from "../server/CategorySelect";
 import StyledDialog from "../ui/dialog/StyledDialog";
 import {
   IconEdit,
   IconSpinner,
   IconUserToServerArrow,
 } from "../ui/icons/Icons";
+import CategorySelect from "./CategorySelect";
 
 const SERVER_REGEX = /^[a-z|A-Z|0-9|\-]+$/;
 
@@ -76,13 +76,20 @@ export default function CreateServerDialog() {
       },
     })
       .then(({ data }) => {
-        reset();
+        resetInputs();
         setOpen(false);
         router.push(`/planets/${data!.createServer.name}`);
       })
       .catch((data) => {
         setError("name", { type: data.message });
       });
+  };
+
+  const resetInputs = () => {
+    reset();
+    setBannerSrc(null);
+    setAvatarSrc(null);
+    setCategory(ServerCategory.Other);
   };
 
   const [bannerSrc, setBannerSrc] = useState(null as any);

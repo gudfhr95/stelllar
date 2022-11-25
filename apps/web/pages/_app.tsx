@@ -7,8 +7,10 @@ import Head from "next/head";
 import Script from "next/script";
 import apolloClient from "../apollo-client";
 import { defaultSeoConfig } from "../next-seo.config";
+import LoadingDialog from "../src/components/dialog/LoadingDialog";
 import ContextMenuProvider from "../src/components/ui/context/ContextMenuProvider";
-import { usePreviousPath } from "../src/hooks/usePreviousPath";
+import { usePageLoading } from "../src/hooks/usePageLoading";
+import { usePreviousRoute } from "../src/hooks/usePreviousRoute";
 import MainLayout from "../src/layouts/MainLayout";
 import * as gtag from "../src/lib/gtag";
 import "../src/styles/global.css";
@@ -16,7 +18,8 @@ import "../src/styles/index.css";
 import "../src/styles/tippy.css";
 
 function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
-  const previousPath = usePreviousPath();
+  const { previousRoute } = usePreviousRoute();
+  const { isPageLoading } = usePageLoading();
 
   return (
     <>
@@ -60,8 +63,9 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
           <SessionProvider session={session}>
             <ContextMenuProvider>
               <div style={{ height: "100%" }} className="flex">
+                <LoadingDialog isOpen={isPageLoading} />
                 <MainLayout>
-                  <Component {...{ ...pageProps, previousPath }} />
+                  <Component {...{ ...pageProps, previousRoute }} />
                 </MainLayout>
               </div>
             </ContextMenuProvider>

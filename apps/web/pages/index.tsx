@@ -27,31 +27,43 @@ export default function Index({
 export const getServerSideProps: GetServerSideProps<{
   initialPosts: [];
 }> = async ({ req, locale, query }) => {
-  const { data } = await client.query({
-    query: PostsDocument,
-    variables: {
-      sort: query.sort,
-      time: query.time,
-      feed: query.feed,
-    },
-    context: {
-      headers: {
-        cookie: req.headers.cookie,
+  try {
+    const { data } = await client.query({
+      query: PostsDocument,
+      variables: {
+        sort: query.sort,
+        time: query.time,
+        feed: query.feed,
       },
-    },
-  });
+      context: {
+        headers: {
+          cookie: req.headers.cookie,
+        },
+      },
+    });
 
-  return {
-    props: {
-      initialPosts: data.posts,
-      ...(await serverSideTranslations(locale as string, [
-        "common",
-        "home",
-        "explore",
-        "server",
-        "post",
-        "comment",
-      ])),
-    },
-  };
+    return {
+      props: {
+        initialPosts: data.posts,
+        ...(await serverSideTranslations(locale as string, [
+          "common",
+          "home",
+          "explore",
+          "server",
+          "post",
+          "comment",
+        ])),
+      },
+    };
+  } catch (e: any) {
+    const {
+      graphQLErrors: [{ statusCode }],
+    } = e;
+
+    if (statusCode === 404) {
+      return { notFound: true };
+    }
+
+    throw new Error();
+  }
 };

@@ -255,6 +255,16 @@
           "nullable": false,
           "mappedType": "string"
         },
+        "post_count": {
+          "name": "post_count",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "0",
+          "mappedType": "integer"
+        },
         "category": {
           "name": "category",
           "type": "text",

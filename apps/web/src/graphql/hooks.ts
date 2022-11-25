@@ -321,6 +321,7 @@ export type Server = BaseEntity & {
   isJoined: Scalars['Boolean'];
   name: Scalars['String'];
   owner: User;
+  postCount: Scalars['NonNegativeInt'];
   userCount: Scalars['NonNegativeInt'];
 };
 
@@ -498,42 +499,42 @@ export type GetLinkMetadataQueryVariables = Exact<{
 
 export type GetLinkMetadataQuery = { __typename?: 'Query', getLinkMetadata?: { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null } | null };
 
-export type ServerFragment = { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, isJoined: boolean, owner: { __typename?: 'User', id: string } };
+export type ServerFragment = { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, postCount: any, isJoined: boolean, owner: { __typename?: 'User', id: string } };
 
 export type CreateServerMutationVariables = Exact<{
   input: CreateServerInput;
 }>;
 
 
-export type CreateServerMutation = { __typename?: 'Mutation', createServer: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, isJoined: boolean, owner: { __typename?: 'User', id: string } } };
+export type CreateServerMutation = { __typename?: 'Mutation', createServer: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, postCount: any, isJoined: boolean, owner: { __typename?: 'User', id: string } } };
 
 export type UpdateServerMutationVariables = Exact<{
   input: UpdateServerInput;
 }>;
 
 
-export type UpdateServerMutation = { __typename?: 'Mutation', updateServer: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, isJoined: boolean, owner: { __typename?: 'User', id: string } } };
+export type UpdateServerMutation = { __typename?: 'Mutation', updateServer: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, postCount: any, isJoined: boolean, owner: { __typename?: 'User', id: string } } };
 
 export type JoinServerMutationVariables = Exact<{
   serverId: Scalars['String'];
 }>;
 
 
-export type JoinServerMutation = { __typename?: 'Mutation', joinServer: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, isJoined: boolean, owner: { __typename?: 'User', id: string } } };
+export type JoinServerMutation = { __typename?: 'Mutation', joinServer: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, postCount: any, isJoined: boolean, owner: { __typename?: 'User', id: string } } };
 
 export type LeaveServerMutationVariables = Exact<{
   serverId: Scalars['String'];
 }>;
 
 
-export type LeaveServerMutation = { __typename?: 'Mutation', leaveServer: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, isJoined: boolean, owner: { __typename?: 'User', id: string } } };
+export type LeaveServerMutation = { __typename?: 'Mutation', leaveServer: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, postCount: any, isJoined: boolean, owner: { __typename?: 'User', id: string } } };
 
 export type ServerQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
 
 
-export type ServerQuery = { __typename?: 'Query', server?: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, isJoined: boolean, owner: { __typename?: 'User', id: string } } | null };
+export type ServerQuery = { __typename?: 'Query', server?: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, postCount: any, isJoined: boolean, owner: { __typename?: 'User', id: string } } | null };
 
 export type PublicServersQueryVariables = Exact<{
   sort?: InputMaybe<PublicServersSort>;
@@ -541,7 +542,7 @@ export type PublicServersQueryVariables = Exact<{
 }>;
 
 
-export type PublicServersQuery = { __typename?: 'Query', publicServers: Array<{ __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, avatarUrl?: string | null, bannerUrl?: string | null, userCount: any, category: ServerCategory }> };
+export type PublicServersQuery = { __typename?: 'Query', publicServers: Array<{ __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, avatarUrl?: string | null, bannerUrl?: string | null, userCount: any, postCount: any, category: ServerCategory }> };
 
 export type UserFragment = { __typename?: 'User', id: string, email: any, name: string, image?: string | null };
 
@@ -647,6 +648,7 @@ export const ServerFragmentDoc = gql`
   bannerUrl
   avatarUrl
   userCount
+  postCount
   owner {
     id
   }
@@ -1317,6 +1319,7 @@ export const PublicServersDocument = gql`
     avatarUrl
     bannerUrl
     userCount
+    postCount
     category
   }
 }
