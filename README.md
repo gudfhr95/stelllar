@@ -4,6 +4,10 @@
 <h5 align="center">Open Source Forum & Chat Platform for Anonymous Communities</h5>
 <br/>
 
+<div align="center">
+  <img alt="https://discord.gg/RSbFBvxZay" src="https://dcbadge.vercel.app/api/server/RSbFBvxZay"/>
+</div>
+
 ## About
 
 Stelllar is a open source forum and chat platform for anonymous communities.
@@ -36,6 +40,19 @@ Stelllar is a open source forum and chat platform for anonymous communities.
 - Node.js 18
 - Yarn
 - Docker, Docker Compose
+
+#### Start Database and Storage
+
+Stelllar uses PostgreSQL, and AWS S3 for database and storage service respectively.
+
+For development, instead of AWS S3, Stelllar uses [LocalStack](https://localstack.cloud/) which is a mocking of AWS
+services.
+
+To start PostgreSQL and LocalStack, enter the command below.
+
+```shell
+docker-compose up -d
+```
 
 ## Configuration
 
