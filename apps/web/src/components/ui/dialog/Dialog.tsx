@@ -3,13 +3,13 @@ import { Fragment, PropsWithChildren } from "react";
 
 interface Dialog {
   isOpen: boolean;
-  onClose: () => void;
+  onClose?: () => void;
   closeOnOverlayClick?: boolean;
 }
 
 export default function Dialog({
   isOpen,
-  onClose,
+  onClose = () => {},
   closeOnOverlayClick = false,
   children,
 }: PropsWithChildren<Dialog>) {

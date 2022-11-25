@@ -1,4 +1,3 @@
-import { useTranslation } from "next-i18next";
 import { useLoginDialog } from "../../hooks/useLoginDialog";
 import { popup } from "../../utils/popup";
 import { GoogleSigninButton } from "../ui/buttons/GoogleSigninButton";
@@ -7,8 +6,6 @@ import { IconX } from "../ui/icons/Icons";
 import { VectorLogo } from "../ui/vectors/VectorLogo";
 
 export default function LoginDialog() {
-  const { t } = useTranslation("login-dialog");
-
   const { loginDialog: open, setLoginDialog: setOpen } = useLoginDialog();
 
   const close = () => {

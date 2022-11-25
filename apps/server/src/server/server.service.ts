@@ -172,7 +172,10 @@ export class ServerService {
   }
 
   async getServerByName(name: string) {
-    return await this.serverRepository.findOne({ name });
+    return await this.serverRepository.findOneOrFail({
+      name,
+      isDeleted: false,
+    });
   }
 
   async joinServer(serverId: string, user: User) {
