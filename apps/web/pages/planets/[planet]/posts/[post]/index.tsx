@@ -61,58 +61,70 @@ export const getServerSideProps: GetServerSideProps<{
   comments: Comment[];
   previousRoute?: string;
 }> = async ({ req, params, query, locale }) => {
-  const { data: serverData } = await client.query({
-    query: ServerDocument,
-    variables: {
-      name: params?.planet,
-    },
-    fetchPolicy: "no-cache",
-    context: {
-      headers: {
-        cookie: req.headers.cookie,
+  try {
+    const { data: serverData } = await client.query({
+      query: ServerDocument,
+      variables: {
+        name: params?.planet,
       },
-    },
-  });
-
-  const { data: postData } = await client.query({
-    query: PostDocument,
-    variables: {
-      id: params?.post,
-    },
-    fetchPolicy: "no-cache",
-    context: {
-      headers: {
-        cookie: req.headers.cookie,
+      fetchPolicy: "no-cache",
+      context: {
+        headers: {
+          cookie: req.headers.cookie,
+        },
       },
-    },
-  });
+    });
 
-  const { data: commentsData } = await client.query({
-    query: CommentsDocument,
-    variables: {
-      postId: params?.post,
-    },
-    fetchPolicy: "no-cache",
-    context: {
-      headers: {
-        cookie: req.headers.cookie,
+    const { data: postData } = await client.query({
+      query: PostDocument,
+      variables: {
+        id: params?.post,
       },
-    },
-  });
+      fetchPolicy: "no-cache",
+      context: {
+        headers: {
+          cookie: req.headers.cookie,
+        },
+      },
+    });
 
-  return {
-    props: {
-      server: serverData?.server,
-      post: postData?.post,
-      comments: commentsData?.comments ?? [],
-      ...(await serverSideTranslations(locale as string, [
-        "common",
-        "home",
-        "explore",
-        "server",
-        "post",
-        "comment",
-      ])),
-    },
-  };
+    const { data: commentsData } = await client.query({
+      query: CommentsDocument,
+      variables: {
+        postId: params?.post,
+      },
+      fetchPolicy: "no-cache",
+      context: {
+        headers: {
+          cookie: req.headers.cookie,
+        },
+      },
+    });
+
+    return {
+      props: {
+        server: serverData?.server,
+        post: postData?.post,
+        comments: commentsData?.comments ?? [],
+        ...(await serverSideTranslations(locale as string, [
+          "common",
+          "home",
+          "explore",
+          "server",
+          "post",
+          "comment",
+        ])),
+      },
+    };
+  } catch (e: any) {
+    const {
+      graphQLErrors: [{ statusCode }],
+    } = e;
+
+    if (statusCode === 404) {
+      return { notFound: true };
+    }
+
+    throw new Error();
+  }
 };
