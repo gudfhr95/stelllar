@@ -35,7 +35,7 @@ export class PostService {
 
   async getPostById(postId: string) {
     return await this.postRepository.findOneOrFail(
-      { id: postId },
+      { id: postId, isDeleted: false },
       { populate: ["author", "server"] }
     );
   }
@@ -253,6 +253,30 @@ export class PostService {
     post.isDeleted = true;
 
     await this.postRepository.persistAndFlush(post);
+
+    if (post.linkMetadata) {
+      const { image } = post.linkMetadata;
+
+      await this.fileService.deleteFileInS3ByUrl(image.originalUrl);
+      await this.fileService.deleteFileInS3ByUrl(image.smallUrl);
+      await this.fileService.deleteFileInS3ByUrl(image.popupUrl);
+    }
+
+    if (post.images) {
+      await Promise.all(
+        post.images.map(async (postImage) => {
+          const { image } = postImage;
+
+          await this.fileService.deleteFileInS3ByUrl(image.originalUrl);
+          await this.fileService.deleteFileInS3ByUrl(image.smallUrl);
+          await this.fileService.deleteFileInS3ByUrl(image.popupUrl);
+        })
+      );
+    }
+
+    post.server.postCount -= 1;
+
+    await this.serverRepository.persistAndFlush(post.server);
 
     return post;
   }
