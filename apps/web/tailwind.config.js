@@ -239,20 +239,5 @@ module.exports = {
     typographyPlugin,
     lineClampPlugin,
     scrollbarPlugin({ nocompatible: true }),
-    plugin(function ({ addVariant, e }) {
-      addVariant("electron", ({ modifySelectors, separator }) => {
-        const modified = modifySelectors(({ className }) => {
-          return `.${e(`electron${separator}${className}`)}`;
-        });
-
-        modified.walkRules((rule) => {
-          rule.selectors = rule.selectors.map((selector) => {
-            return `.electron ${selector}`;
-          });
-        });
-
-        return modified;
-      });
-    }),
   ],
 };
