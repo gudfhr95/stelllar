@@ -35,7 +35,7 @@ export class PostService {
 
   async getPostById(postId: string) {
     return await this.postRepository.findOneOrFail(
-      { id: postId },
+      { id: postId, isDeleted: false },
       { populate: ["author", "server"] }
     );
   }
