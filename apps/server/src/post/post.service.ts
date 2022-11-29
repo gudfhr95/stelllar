@@ -254,6 +254,26 @@ export class PostService {
 
     await this.postRepository.persistAndFlush(post);
 
+    if (post.linkMetadata) {
+      const { image } = post.linkMetadata;
+
+      await this.fileService.deleteFileInS3ByUrl(image.originalUrl);
+      await this.fileService.deleteFileInS3ByUrl(image.smallUrl);
+      await this.fileService.deleteFileInS3ByUrl(image.popupUrl);
+    }
+
+    if (post.images) {
+      await Promise.all(
+        post.images.map(async (postImage) => {
+          const { image } = postImage;
+
+          await this.fileService.deleteFileInS3ByUrl(image.originalUrl);
+          await this.fileService.deleteFileInS3ByUrl(image.smallUrl);
+          await this.fileService.deleteFileInS3ByUrl(image.popupUrl);
+        })
+      );
+    }
+
     post.server.postCount -= 1;
 
     await this.serverRepository.persistAndFlush(post.server);
