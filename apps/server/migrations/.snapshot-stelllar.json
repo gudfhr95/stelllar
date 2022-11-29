@@ -518,15 +518,6 @@
           "nullable": true,
           "mappedType": "json"
         },
-        "link_metadatas": {
-          "name": "link_metadatas",
-          "type": "jsonb",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "json"
-        },
         "images": {
           "name": "images",
           "type": "jsonb",
