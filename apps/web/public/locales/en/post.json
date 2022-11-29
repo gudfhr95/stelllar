@@ -20,7 +20,10 @@
   "ago": "ago",
   "endReached": "No more posts",
   "menu": {
-    "copyLink": "Copy to Clipboard",
+    "copyLink": {
+      "label": "Copy Link to Clipboard",
+      "success": "Successfully copied link to clipboard"
+    },
     "edit": "Edit",
     "delete": "Delete"
   }

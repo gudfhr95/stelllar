@@ -1,5 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import toast from "react-hot-toast";
 import { useCopyToClipboard } from "react-use";
 import { useDeletePostMutation } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
@@ -18,6 +19,13 @@ export default function PostContextMenu({ post, ContextMenuItem }: any) {
 
   const { setEditPostDialog } = useEditPostDialog();
 
+  const onClickCopyLink = () => {
+    copyToClipboard(
+      `${location.origin}/planets/${post.server.name}/posts/${post.id}`
+    );
+    toast.success(t("menu.copyLink.success"));
+  };
+
   const onClickEdit = () => {
     setEditPostDialog(true);
   };
@@ -35,10 +43,8 @@ export default function PostContextMenu({ post, ContextMenuItem }: any) {
 
       <ContextMenuSection>
         <ContextMenuItem
-          onClick={() => {
-            copyToClipboard(`${location.origin}${router.asPath}`);
-          }}
-          label={t("menu.copyLink")}
+          onClick={onClickCopyLink}
+          label={t("menu.copyLink.label")}
         />
 
         {canManagePost && (
