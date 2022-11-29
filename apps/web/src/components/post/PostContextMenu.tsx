@@ -5,6 +5,7 @@ import { useDeletePostMutation } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
 import { useEditPostDialog } from "../../hooks/useEditPostDialog";
 import ContextMenuSection from "../ui/context/ContextMenuSection";
+import EditPostDialog from "./EditPostDialog";
 
 export default function PostContextMenu({ post, ContextMenuItem }: any) {
   const { t } = useTranslation("post");
@@ -30,13 +31,16 @@ export default function PostContextMenu({ post, ContextMenuItem }: any) {
   const canManagePost = user?.isAdmin || post.author.id === user?.id;
   return (
     <>
+      <EditPostDialog post={post} />
+
       <ContextMenuSection>
         <ContextMenuItem
           onClick={() => {
             copyToClipboard(`${location.origin}${router.asPath}`);
           }}
           label={t("menu.copyLink")}
-        />{" "}
+        />
+
         {canManagePost && (
           <>
             <ContextMenuItem label={t("menu.edit")} onClick={onClickEdit} />

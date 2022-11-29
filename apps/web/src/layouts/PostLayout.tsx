@@ -1,7 +1,6 @@
 import { PropsWithChildren } from "react";
 import ServerSettingDialog from "../components/dialog/ServerSettingDialog";
 import HomeSidebar from "../components/home/HomeSidebar";
-import EditPostDialog from "../components/post/EditPostDialog";
 import PostHeader from "../components/post/PostHeader";
 import ServerSidebar from "../components/server/ServerSidebar";
 import { Post, Server } from "../graphql/hooks";
@@ -25,8 +24,9 @@ export default function PostLayout({
   return (
     <>
       <ServerSettingDialog server={server} />
-      <EditPostDialog post={post} />
+
       {previousIsServer ? <ServerSidebar server={server} /> : <HomeSidebar />}
+
       <div className="flex flex-col flex-grow">
         <PostHeader post={post} back={hasPreviousPath} />
         <div className="h-full">
