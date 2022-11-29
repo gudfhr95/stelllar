@@ -43,10 +43,7 @@ export class ServerService {
     if (avatarFile) {
       avatarUrl = await this.fileService.uploadSingleFile(
         avatarFile,
-        {
-          width: 256,
-          height: 256,
-        },
+        { width: 256, height: 256 },
         true
       );
     }
@@ -55,10 +52,7 @@ export class ServerService {
     if (bannerFile) {
       bannerUrl = await this.fileService.uploadSingleFile(
         bannerFile,
-        {
-          width: 256,
-          height: 256,
-        },
+        { width: 1920, height: 1080 },
         true
       );
     }
@@ -113,10 +107,7 @@ export class ServerService {
 
       avatarUrl = await this.fileService.uploadSingleFile(
         avatarFile,
-        {
-          width: 256,
-          height: 256,
-        },
+        { width: 256, height: 256 },
         true
       );
     }
@@ -132,10 +123,7 @@ export class ServerService {
 
       bannerUrl = await this.fileService.uploadSingleFile(
         bannerFile,
-        {
-          width: 256,
-          height: 256,
-        },
+        { width: 1920, height: 1080 },
         true
       );
     }
