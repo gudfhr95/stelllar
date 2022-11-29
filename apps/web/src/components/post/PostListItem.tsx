@@ -4,8 +4,8 @@ import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { memo } from "react";
-import toast from "react-hot-toast";
 import { Post, usePostVoteMutation, User, VoteType } from "../../graphql/hooks";
+import { useLoginDialog } from "../../hooks/useLoginDialog";
 import ServerAvatar from "../server/ServerAvatar";
 import {
   IconChat,
@@ -31,11 +31,13 @@ export default memo(function PostItem({
 
   const [postVote] = usePostVoteMutation();
 
+  const { setLoginDialog } = useLoginDialog();
+
   const onClickUpVote = (e: any) => {
     e.stopPropagation();
 
     if (!user) {
-      toast.error("Login to vote");
+      setLoginDialog(true);
       return;
     }
 
@@ -53,7 +55,7 @@ export default memo(function PostItem({
     e.stopPropagation();
 
     if (!user) {
-      toast.error("Login to vote");
+      setLoginDialog(true);
       return;
     }
 

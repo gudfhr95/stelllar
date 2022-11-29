@@ -4,13 +4,13 @@ import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
-import toast from "react-hot-toast";
 import {
   Post as PostType,
   usePostVoteMutation,
   VoteType,
 } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
+import { useLoginDialog } from "../../hooks/useLoginDialog";
 import { createCommentTree } from "../../utils/commentUtils";
 import Comment from "../comment/Comment";
 import CreateCommentCard from "../comment/CreateCommentCard";
@@ -41,6 +41,8 @@ export default function Post({ post, comments, className = "" }: IPost) {
 
   const [postVote] = usePostVoteMutation();
 
+  const { setLoginDialog } = useLoginDialog();
+
   const [currentImage, setCurrentImage] = useState(0);
 
   const commentsTree = useMemo(
@@ -50,7 +52,7 @@ export default function Post({ post, comments, className = "" }: IPost) {
 
   const onClickUpVote = (e: any) => {
     if (!user) {
-      toast.error("Login to vote");
+      setLoginDialog(true);
       return;
     }
 
@@ -66,7 +68,7 @@ export default function Post({ post, comments, className = "" }: IPost) {
 
   const onClickDownVote = (e: any) => {
     if (!user) {
-      toast.error("Login to vote");
+      setLoginDialog(true);
       return;
     }
 
