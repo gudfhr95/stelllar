@@ -254,6 +254,10 @@ export class PostService {
 
     await this.postRepository.persistAndFlush(post);
 
+    post.server.postCount -= 1;
+
+    await this.serverRepository.persistAndFlush(post.server);
+
     return post;
   }
 
