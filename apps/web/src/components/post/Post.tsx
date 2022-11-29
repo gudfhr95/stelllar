@@ -86,7 +86,7 @@ export default function Post({ post, comments, className = "" }: IPost) {
     <>
       <div className="md:pt-4 md:px-4 px-0 pt-0">
         <div
-          className={`${className} cursor-pointer relative group hover:shadow dark:bg-gray-800 dark:hover:bg-gray-825 bg-gray-200 px-2 py-3 md:rounded flex hover:bg-gray-300`}
+          className={`${className} relative group dark:bg-gray-800 bg-gray-200 px-2 py-3 md:rounded flex`}
         >
           <div className="flex flex-col items-center pr-2">
             <button
