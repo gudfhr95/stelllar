@@ -73,16 +73,8 @@ export default function ServerSidebar({ server }: ServerSidebar) {
       <Sidebar>
         {server.bannerUrl ? (
           <div
-            className={`h-20 relative bg-center bg-cover bg-no-repeat ${
-              server.bannerUrl
-                ? ""
-                : "bg-gradient-to-br from-red-400 to-indigo-600"
-            }`}
-            style={
-              server.bannerUrl
-                ? { backgroundImage: `url(${server.bannerUrl})` }
-                : {}
-            }
+            className="w-full h-20 bg-center bg-cover bg-no-repeat"
+            style={{ backgroundImage: `url(${server.bannerUrl})` }}
           />
         ) : (
           <div className="h-12 border-b dark:border-gray-850 shadow flex items-center px-5 text-base font-medium">

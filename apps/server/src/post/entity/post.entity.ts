@@ -38,10 +38,6 @@ export class Post extends BaseEntity {
   @Embedded({ entity: () => LinkMetadata, nullable: true, object: true })
   linkMetadata?: LinkMetadata;
 
-  @Field(() => [LinkMetadata])
-  @Embedded(() => LinkMetadata, { object: true, array: true })
-  linkMetadatas: LinkMetadata[] = [];
-
   @Field(() => [PostImage])
   @Embedded(() => PostImage, { object: true, array: true })
   images: PostImage[] = [];

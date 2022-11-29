@@ -4,9 +4,11 @@ import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { memo } from "react";
-import toast from "react-hot-toast";
 import { Post, usePostVoteMutation, User, VoteType } from "../../graphql/hooks";
+import { useLoginDialog } from "../../hooks/useLoginDialog";
 import ServerAvatar from "../server/ServerAvatar";
+import ContextMenuTrigger from "../ui/context/ContextMenuTrigger";
+import { ContextMenuType } from "../ui/context/ContextMenuType";
 import {
   IconChat,
   IconChevronDown,
@@ -31,11 +33,13 @@ export default memo(function PostItem({
 
   const [postVote] = usePostVoteMutation();
 
+  const { setLoginDialog } = useLoginDialog();
+
   const onClickUpVote = (e: any) => {
     e.stopPropagation();
 
     if (!user) {
-      toast.error("Login to vote");
+      setLoginDialog(true);
       return;
     }
 
@@ -53,7 +57,7 @@ export default memo(function PostItem({
     e.stopPropagation();
 
     if (!user) {
-      toast.error("Login to vote");
+      setLoginDialog(true);
       return;
     }
 
@@ -165,11 +169,16 @@ export default memo(function PostItem({
             <div className="ml-2 text-xs font-medium">{post.commentCount}</div>
           </div>
 
-          <div
-            className={`ml-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex items-center cursor-pointer`}
+          <ContextMenuTrigger
+            data={{ type: ContextMenuType.Post, post }}
+            leftClick
           >
-            <IconDotsVertical className="text-disabled w-4 h-4" />
-          </div>
+            <div
+              className={`ml-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex items-center cursor-pointer`}
+            >
+              <IconDotsVertical className="w-4 h-4" />
+            </div>
+          </ContextMenuTrigger>
         </div>
       </div>
     </div>

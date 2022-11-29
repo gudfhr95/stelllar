@@ -73,7 +73,6 @@ type Post implements BaseEntity {
   text: String
   linkUrl: String
   linkMetadata: LinkMetadata
-  linkMetadatas: [LinkMetadata!]!
   images: [PostImage!]!
   thumbnailUrl: String
   author: User

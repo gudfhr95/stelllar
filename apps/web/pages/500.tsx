@@ -12,7 +12,7 @@ export default function InternalServerErrorPage() {
       <Head>
         <title>500 - Stelllar</title>
       </Head>
-      <div className="w-full flex flex-col items-center justify-center text-primary">
+      <div className="w-full h-full flex flex-col items-center justify-center text-primary bg-gray-750">
         <img
           alt="astronaut"
           src={astronaut.src}

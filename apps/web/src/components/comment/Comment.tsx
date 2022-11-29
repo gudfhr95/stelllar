@@ -4,10 +4,10 @@ import * as Locales from "date-fns/locale";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import toast from "react-hot-toast";
 import { Post, useCommentVoteMutation, VoteType } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
 import { useEditComment } from "../../hooks/useEditComment";
+import { useLoginDialog } from "../../hooks/useLoginDialog";
 import { useReplyComment } from "../../hooks/useReplyComment";
 import ContextMenuTrigger from "../ui/context/ContextMenuTrigger";
 import { ContextMenuType } from "../ui/context/ContextMenuType";
@@ -50,6 +50,7 @@ export default function Comment({
 
   const [commentVote] = useCommentVoteMutation();
 
+  const { setLoginDialog } = useLoginDialog();
   const { replyingCommentId, setReplyingCommentId } = useReplyComment();
   const { editingCommentId, setEditingCommentId } = useEditComment();
 
@@ -57,7 +58,7 @@ export default function Comment({
 
   const onClickUpVote = (e: any) => {
     if (!user) {
-      toast.error("Login to vote");
+      setLoginDialog(true);
       return;
     }
 
@@ -73,7 +74,7 @@ export default function Comment({
 
   const onClickDownVote = (e: any) => {
     if (!user) {
-      toast.error("Login to vote");
+      setLoginDialog(true);
       return;
     }
 
