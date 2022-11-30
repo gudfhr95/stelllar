@@ -4,12 +4,19 @@ import { getServerSideSitemap, ISitemapField } from "next-sitemap";
 export default function Sitemap() {}
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  const lastmod = new Date().toISOString();
-
   try {
+    const siteUrl = "https://stelllar.co";
+    const lastmod = new Date().toISOString();
+
     const pageFields: ISitemapField[] = [
       {
-        loc: "https://stellar.co/",
+        loc: `${siteUrl}`,
+        changefreq: "daily",
+        priority: 0.7,
+        lastmod,
+      },
+      {
+        loc: `${siteUrl}/explore`,
         changefreq: "daily",
         priority: 0.7,
         lastmod,
