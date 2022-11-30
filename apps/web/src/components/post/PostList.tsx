@@ -5,7 +5,7 @@ import { usePosts } from "../../hooks/usePosts";
 import EndReached from "../ui/EndReached";
 import { IconSpinner } from "../ui/icons/IconSpinner";
 import CreatePostHeader from "./CreatePostHeader";
-import PostItem from "./PostListItem";
+import PostListItem from "./PostListItem";
 
 type PostList = {
   showServerName?: boolean;
@@ -23,7 +23,7 @@ export default function PostList({ initialPosts }: PostList) {
     if (!post) return <div style={{ height: "1px" }} />; // returning null or zero height breaks the virtuoso
     return (
       <div className="md:px-4 pb-1.5 px-0">
-        <PostItem post={post} user={user} />
+        <PostListItem post={post} user={user} />
       </div>
     );
   };

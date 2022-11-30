@@ -1,9 +1,8 @@
 import { formatDistanceToNowStrict } from "date-fns";
 import * as Locales from "date-fns/locale";
 import { useTranslation } from "next-i18next";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import { memo } from "react";
+import { memo, MouseEvent } from "react";
 import { Post, usePostVoteMutation, User, VoteType } from "../../graphql/hooks";
 import { useLoginDialog } from "../../hooks/useLoginDialog";
 import ServerAvatar from "../server/ServerAvatar";
@@ -23,7 +22,8 @@ type PostListItem = {
   user?: User | null;
   className?: string;
 };
-export default memo(function PostItem({
+
+export default memo(function PostListItem({
   post,
   user = null,
   className = "",
@@ -35,7 +35,7 @@ export default memo(function PostItem({
 
   const { setLoginDialog } = useLoginDialog();
 
-  const onClickUpVote = (e: any) => {
+  const onClickUpVote = (e: MouseEvent<HTMLElement>) => {
     e.stopPropagation();
 
     if (!user) {
@@ -53,7 +53,7 @@ export default memo(function PostItem({
     });
   };
 
-  const onClickDownVote = (e: any) => {
+  const onClickDownVote = (e: MouseEvent<HTMLElement>) => {
     e.stopPropagation();
 
     if (!user) {
@@ -69,6 +69,12 @@ export default memo(function PostItem({
         },
       },
     });
+  };
+
+  const onClickServer = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+
+    router.push(`/planets/${post.server.name}`);
   };
 
   return (
@@ -131,9 +137,9 @@ export default memo(function PostItem({
 
       <div className="pr-4 flex-grow flex flex-col">
         <div className="flex flex-wrap items-center pb-1.5">
-          <Link
-            href={`/planets/${post.server.name}`}
-            className="flex items-center"
+          <div
+            onClick={onClickServer}
+            className="flex items-center cursor-pointer"
           >
             <ServerAvatar
               name={post.server.name}
@@ -145,7 +151,7 @@ export default memo(function PostItem({
             <span className="ml-1.5 text-xs font-medium text-secondary">
               {post.server.displayName}
             </span>
-          </Link>
+          </div>
           <span className="text-xs text-tertiary">
             &nbsp;&middot;&nbsp;
             {formatDistanceToNowStrict(new Date(post.createdAt), {
