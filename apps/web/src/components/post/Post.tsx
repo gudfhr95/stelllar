@@ -153,9 +153,7 @@ export default function Post({ post, comments, className = "" }: IPost) {
               </div>
             </div>
 
-            <div className="text-secondary font-medium text-base">
-              {post.title}
-            </div>
+            <div className="text-xl font-bold">{post.title}</div>
 
             <div className="mt-0.5 pb-2">
               {post.text && (
