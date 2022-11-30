@@ -56,6 +56,14 @@ export class PostResolver {
     );
   }
 
+  @Public()
+  @Query(() => [Post])
+  async allPosts() {
+    Logger.log("allPosts");
+
+    return await this.postService.getAllPosts();
+  }
+
   @Mutation(() => Post)
   async createPost(
     @Args("input") input: CreatePostInput,

@@ -206,7 +206,6 @@ export type Post = BaseEntity & {
   images: Array<PostImage>;
   isDeleted: Scalars['Boolean'];
   linkMetadata?: Maybe<LinkMetadata>;
-  linkMetadatas: Array<LinkMetadata>;
   linkUrl?: Maybe<Scalars['String']>;
   server: Server;
   text?: Maybe<Scalars['String']>;
@@ -260,6 +259,7 @@ export enum PublicServersSort {
 
 export type Query = {
   __typename?: 'Query';
+  allPosts: Array<Post>;
   comments: Array<Comment>;
   getLinkMetadata?: Maybe<LinkMetadata>;
   me?: Maybe<User>;
@@ -491,6 +491,11 @@ export type PostsQueryVariables = Exact<{
 
 
 export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: string, title: string, text?: string | null, linkUrl?: string | null, thumbnailUrl?: string | null, commentCount: any, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, author?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null } | null, server: { __typename?: 'Server', id: string, name: string, avatarUrl?: string | null, displayName: string }, linkMetadata?: { __typename?: 'LinkMetadata', author?: string | null, date?: any | null, description?: string | null, publisher?: string | null, title?: string | null, twitterCard?: string | null, url?: string | null, themeColor?: string | null, image?: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } | null } | null, images: Array<{ __typename?: 'PostImage', image: { __typename?: 'Image', originalUrl: string, originalWidth: any, originalHeight: any, popupUrl?: string | null, popupWidth?: any | null, popupHeight?: any | null, smallUrl?: string | null, smallWidth?: any | null, smallHeight?: any | null } }> }> };
+
+export type AllPostsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllPostsQuery = { __typename?: 'Query', allPosts: Array<{ __typename?: 'Post', id: string, server: { __typename?: 'Server', name: string } }> };
 
 export type GetLinkMetadataQueryVariables = Exact<{
   linkUrl: Scalars['String'];
@@ -1107,6 +1112,43 @@ export function usePostsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOp
 export type PostsQueryHookResult = ReturnType<typeof usePostsQuery>;
 export type PostsLazyQueryHookResult = ReturnType<typeof usePostsLazyQuery>;
 export type PostsQueryResult = Apollo.QueryResult<PostsQuery, PostsQueryVariables>;
+export const AllPostsDocument = gql`
+    query allPosts {
+  allPosts {
+    id
+    server {
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useAllPostsQuery__
+ *
+ * To run a query within a React component, call `useAllPostsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllPostsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllPostsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAllPostsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<AllPostsQuery, AllPostsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<AllPostsQuery, AllPostsQueryVariables>(AllPostsDocument, options);
+      }
+export function useAllPostsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<AllPostsQuery, AllPostsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<AllPostsQuery, AllPostsQueryVariables>(AllPostsDocument, options);
+        }
+export type AllPostsQueryHookResult = ReturnType<typeof useAllPostsQuery>;
+export type AllPostsLazyQueryHookResult = ReturnType<typeof useAllPostsLazyQuery>;
+export type AllPostsQueryResult = Apollo.QueryResult<AllPostsQuery, AllPostsQueryVariables>;
 export const GetLinkMetadataDocument = gql`
     query getLinkMetadata($linkUrl: String!) {
   getLinkMetadata(linkUrl: $linkUrl) {

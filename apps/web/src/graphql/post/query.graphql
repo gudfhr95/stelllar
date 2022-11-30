@@ -46,6 +46,15 @@ query posts(
   }
 }
 
+query allPosts{
+  allPosts {
+    id
+    server {
+      name
+    }
+  }
+}
+
 query getLinkMetadata($linkUrl: String!) {
   getLinkMetadata(linkUrl: $linkUrl) {
     ...Metadata
