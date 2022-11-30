@@ -102,6 +102,13 @@ export class PostService {
     );
   }
 
+  async getAllPosts() {
+    return await this.postRepository.find(
+      { isDeleted: false },
+      { populate: ["server"] }
+    );
+  }
+
   async createPost(
     user: User,
     serverId: string,

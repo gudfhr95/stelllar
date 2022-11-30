@@ -1,7 +1,12 @@
 import { GetServerSidePropsContext } from "next";
 import { getServerSideSitemap, ISitemapField } from "next-sitemap";
 import client from "../apollo-client";
-import { PublicServersDocument, Server } from "../src/graphql/hooks";
+import {
+  AllPostsDocument,
+  Post,
+  PublicServersDocument,
+  Server,
+} from "../src/graphql/hooks";
 
 export default function Sitemap() {}
 
@@ -36,7 +41,22 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
       lastmod,
     }));
 
-    return getServerSideSitemap(ctx, [...pageFields, ...serverFields]);
+    const { data: postData } = await client.query({
+      query: AllPostsDocument,
+    });
+
+    const postFields = postData.allPosts.map((post: Post) => ({
+      loc: `${siteUrl}/planets/${post.server.name}/posts/${post.id}`,
+      changefreq: "daily",
+      priority: 0.7,
+      lastmod,
+    }));
+
+    return getServerSideSitemap(ctx, [
+      ...pageFields,
+      ...serverFields,
+      ...postFields,
+    ]);
   } catch (e: any) {
     const {
       graphQLErrors: [{ statusCode }],
