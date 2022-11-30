@@ -1051,6 +1051,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@corex/deepmerge@npm:^4.0.29":
+  version: 4.0.29
+  resolution: "@corex/deepmerge@npm:4.0.29"
+  checksum: 78626fd29cb9cbd2953ce5a06f963132c9b4837bb76397982d255131533b61c3ef447f0d295f300aa6b2c3ead182a6fe2e4763181e06a2124df28c08205de1d2
+  languageName: node
+  linkType: hard
+
 "@cspotcode/source-map-support@npm:^0.8.0":
   version: 0.8.1
   resolution: "@cspotcode/source-map-support@npm:0.8.1"
@@ -11205,6 +11212,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"next-sitemap@npm:^3.1.32":
+  version: 3.1.32
+  resolution: "next-sitemap@npm:3.1.32"
+  dependencies:
+    "@corex/deepmerge": ^4.0.29
+    minimist: ^1.2.6
+  peerDependencies:
+    "@next/env": "*"
+    next: "*"
+  bin:
+    next-sitemap: bin/next-sitemap.mjs
+    next-sitemap-cjs: bin/next-sitemap.cjs
+  checksum: e11887974634113d824c438b31da414e1e3285a7bd123eb454f7ce6ae0a41cf210d8af8ba958ebad4e733ac7239d1a9aa75763a1cd5c898a0c6e9819bfa7cbdd
+  languageName: node
+  linkType: hard
+
 "next@npm:13.0.4":
   version: 13.0.4
   resolution: "next@npm:13.0.4"
@@ -15330,6 +15353,7 @@ __metadata:
     next-auth: ^4.16.4
     next-i18next: ^12.1.0
     next-seo: ^5.14.1
+    next-sitemap: ^3.1.32
     postcss: ^8.4.19
     prosemirror-inputrules: ^1.2.0
     react: ^18.2.0

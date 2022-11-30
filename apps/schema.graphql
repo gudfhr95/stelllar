@@ -150,6 +150,7 @@ type Query {
   publicServers(sort: PublicServersSort = Top, category: ServerCategory): [Server!]!
   post(id: String!): Post!
   posts(offset: NonNegativeInt = 0, limit: PositiveInt = 20, sort: PostsSort = Hot, time: PostsTime = All, feed: PostsFeed = Joined, serverName: String, folderId: ID, search: String): [Post!]!
+  allPosts: [Post!]!
   getLinkMetadata(linkUrl: String!): LinkMetadata
   comments(postId: ID, sort: CommentsSort = Top): [Comment!]!
 }

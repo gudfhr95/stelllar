@@ -1,9 +1,8 @@
 import { formatDistanceToNowStrict } from "date-fns";
 import * as Locales from "date-fns/locale";
 import { useTranslation } from "next-i18next";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
+import { MouseEvent, useMemo, useState } from "react";
 import {
   Post as PostType,
   usePostVoteMutation,
@@ -50,7 +49,7 @@ export default function Post({ post, comments, className = "" }: IPost) {
     [comments]
   );
 
-  const onClickUpVote = (e: any) => {
+  const onClickUpVote = (e: MouseEvent<HTMLElement>) => {
     if (!user) {
       setLoginDialog(true);
       return;
@@ -66,7 +65,7 @@ export default function Post({ post, comments, className = "" }: IPost) {
     }).then(() => router.replace(router.asPath));
   };
 
-  const onClickDownVote = (e: any) => {
+  const onClickDownVote = (e: MouseEvent<HTMLElement>) => {
     if (!user) {
       setLoginDialog(true);
       return;
@@ -80,6 +79,10 @@ export default function Post({ post, comments, className = "" }: IPost) {
         },
       },
     }).then(() => router.replace(router.asPath));
+  };
+
+  const onClickServer = (e: MouseEvent<HTMLElement>) => {
+    router.push(`/planets/${post.server.name}`);
   };
 
   return (
@@ -122,9 +125,9 @@ export default function Post({ post, comments, className = "" }: IPost) {
 
           <div className="pr-4 flex-grow flex flex-col">
             <div className="flex flex-wrap items-center pb-1.5">
-              <Link
-                href={`/planets/${post.server.name}`}
-                className="flex items-center"
+              <div
+                onClick={onClickServer}
+                className="flex items-center cursor-pointer"
               >
                 <ServerAvatar
                   name={post.server.name}
@@ -136,7 +139,7 @@ export default function Post({ post, comments, className = "" }: IPost) {
                 <span className="ml-1.5 text-xs font-medium text-secondary">
                   {post.server.displayName}
                 </span>
-              </Link>
+              </div>
               <span className="text-xs text-tertiary">
                 &nbsp;&middot;&nbsp;
                 {formatDistanceToNowStrict(new Date(post.createdAt), {
@@ -150,9 +153,7 @@ export default function Post({ post, comments, className = "" }: IPost) {
               </div>
             </div>
 
-            <div className="text-secondary font-medium text-base">
-              {post.title}
-            </div>
+            <div className="text-xl font-bold">{post.title}</div>
 
             <div className="mt-0.5 pb-2">
               {post.text && (
