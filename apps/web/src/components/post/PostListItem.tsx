@@ -20,14 +20,9 @@ import {
 type PostListItem = {
   post: Post;
   user?: User | null;
-  className?: string;
 };
 
-export default memo(function PostListItem({
-  post,
-  user = null,
-  className = "",
-}: PostListItem) {
+export default memo(function PostListItem({ post, user = null }: PostListItem) {
   const { i18n, t } = useTranslation("post");
   const router = useRouter();
 
@@ -79,7 +74,7 @@ export default memo(function PostListItem({
 
   return (
     <div
-      className={`${className} cursor-pointer relative group hover:shadow dark:bg-gray-800 dark:hover:bg-gray-825 bg-gray-200 px-2 py-3 md:rounded flex hover:bg-gray-300`}
+      className="cursor-pointer relative group hover:shadow dark:bg-gray-800 dark:hover:bg-gray-825 bg-gray-200 px-2 py-3 md:rounded flex hover:bg-gray-300"
       onClick={() =>
         router.push(`/planets/${post.server.name}/posts/${post.id}`)
       }
