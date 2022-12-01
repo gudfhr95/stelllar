@@ -32,6 +32,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
     const { data: serverData } = await client.query({
       query: PublicServersDocument,
+      fetchPolicy: "network-only",
     });
 
     const serverFields = serverData.publicServers.map((server: Server) => ({
@@ -43,6 +44,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
     const { data: postData } = await client.query({
       query: AllPostsDocument,
+      fetchPolicy: "network-only",
     });
 
     const postFields = postData.allPosts.map((post: Post) => ({

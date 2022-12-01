@@ -85,8 +85,20 @@ export default function Post({ post, comments, className = "" }: IPost) {
     router.push(`/planets/${post.server.name}`);
   };
 
+  const onClickImageLeft = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+
+    setCurrentImage(currentImage - 1);
+  };
+
+  const onClickImageRight = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+
+    setCurrentImage(currentImage + 1);
+  };
+
   return (
-    <>
+    <div className="h-full w-full max-w-2xl">
       <div className="md:pt-4 md:px-4 px-0 pt-0">
         <div
           className={`${className} relative group dark:bg-gray-800 bg-gray-200 px-2 py-3 md:rounded flex`}
@@ -153,21 +165,21 @@ export default function Post({ post, comments, className = "" }: IPost) {
               </div>
             </div>
 
-            <div className="text-xl font-bold">{post.title}</div>
+            <div className="text-l font-medium pt-1.5 pb-1.5">{post.title}</div>
 
             <div className="mt-0.5 pb-2">
               {post.text && (
                 <div
                   dangerouslySetInnerHTML={{ __html: post.text }}
-                  className="prose prose-sm dark:prose-dark max-w-none pt-0.5"
+                  className="prose prose-sm dark:prose-dark pt-1.5 pb-1.5 break-all"
                 />
               )}
 
               {post.linkUrl && (
                 <>
                   {post.linkMetadata ? (
-                    <div className="max-w-screen-sm w-full mt-2">
-                      <PostEmbed dark metadata={post.linkMetadata} />
+                    <div className="mt-2 pt-1.5 pb-1.5">
+                      <PostEmbed metadata={post.linkMetadata} />
                     </div>
                   ) : (
                     <a
@@ -183,9 +195,9 @@ export default function Post({ post, comments, className = "" }: IPost) {
               )}
 
               {!!post.images.length && (
-                <div className="mt-2 max-w-[400px]">
+                <div className="mt-2 pt-1.5 pb-1.5">
                   <div className="flex relative">
-                    <div className="w-full h-[300px] relative flex items-center justify-center dark:bg-gray-775">
+                    <div className="w-full h-96 relative flex items-center justify-center bg-gray-100 dark:bg-gray-775 rounded">
                       {post.images.map((image, i) => (
                         <div
                           key={i}
@@ -206,7 +218,7 @@ export default function Post({ post, comments, className = "" }: IPost) {
                       <>
                         {currentImage > 0 && (
                           <div
-                            onClick={() => setCurrentImage(currentImage - 1)}
+                            onClick={onClickImageLeft}
                             className="absolute left-3 top-1/2 transform -translate-y-1/2 rounded-full shadow flex items-center justify-center w-10 h-10 dark:bg-white"
                           >
                             <IconChevronLeft className="w-5 h-5 dark:text-black" />
@@ -215,7 +227,7 @@ export default function Post({ post, comments, className = "" }: IPost) {
 
                         {currentImage < post.images.length - 1 && (
                           <div
-                            onClick={() => setCurrentImage(currentImage + 1)}
+                            onClick={onClickImageRight}
                             className="absolute right-3 top-1/2 transform -translate-y-1/2 rounded-full shadow flex items-center justify-center w-10 h-10 dark:bg-white"
                           >
                             <IconChevronRight className="w-5 h-5 dark:text-black" />
@@ -229,9 +241,7 @@ export default function Post({ post, comments, className = "" }: IPost) {
             </div>
 
             <div className="flex items-center pt-1.5">
-              <div
-                className={`select-none text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex items-center cursor-pointer`}
-              >
+              <div className="select-none text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 flex items-center cursor-pointer">
                 <IconChat className="w-5 h-5" />
                 <div className="ml-2 text-xs font-medium">
                   {post.commentCount}
@@ -259,11 +269,11 @@ export default function Post({ post, comments, className = "" }: IPost) {
         </div>
       )}
 
-      <div className="space-y-2 md:px-4 pt-4 px-0 pb-96">
+      <div className=" space-y-2 md:px-4 pt-4 px-0 pb-96">
         {commentsTree.map((comment: any) => (
           <Comment key={comment.id} post={post} comment={comment} />
         ))}
       </div>
-    </>
+    </div>
   );
 }

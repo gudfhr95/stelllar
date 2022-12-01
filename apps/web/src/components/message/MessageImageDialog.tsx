@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 import { Image } from "../../graphql/hooks";
 import Dialog from "../ui/dialog/Dialog";
 
@@ -17,10 +17,20 @@ export default function MessageImageDialog({
 }: MessageImageDialog) {
   const [showImagePopup, setShowImagePopup] = useState(false);
 
+  const onClickImage = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+
+    setShowImagePopup(true);
+  };
+
+  const onCloseImagePopup = () => {
+    setShowImagePopup(false);
+  };
+
   return (
     <div>
       <img
-        onClick={() => setShowImagePopup(true)}
+        onClick={onClickImage}
         src={image?.smallUrl ?? undefined}
         alt=""
         className={`${rounded ? "rounded" : ""} cursor-pointer max-w-full`}
@@ -30,7 +40,7 @@ export default function MessageImageDialog({
 
       <Dialog
         closeOnOverlayClick
-        onClose={() => setShowImagePopup(false)}
+        onClose={onCloseImagePopup}
         isOpen={showImagePopup}
       >
         <div className="mx-auto">

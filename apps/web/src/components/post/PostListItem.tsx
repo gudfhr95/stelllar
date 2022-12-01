@@ -2,38 +2,37 @@ import { formatDistanceToNowStrict } from "date-fns";
 import * as Locales from "date-fns/locale";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { memo, MouseEvent } from "react";
+import { memo, MouseEvent, useState } from "react";
 import { Post, usePostVoteMutation, User, VoteType } from "../../graphql/hooks";
 import { useLoginDialog } from "../../hooks/useLoginDialog";
+import MessageImageDialog from "../message/MessageImageDialog";
 import ServerAvatar from "../server/ServerAvatar";
 import ContextMenuTrigger from "../ui/context/ContextMenuTrigger";
 import { ContextMenuType } from "../ui/context/ContextMenuType";
 import {
   IconChat,
   IconChevronDown,
+  IconChevronLeft,
+  IconChevronRight,
   IconChevronUp,
   IconDotsVertical,
-  IconLinkWeb,
-  IconText,
 } from "../ui/icons/Icons";
+import PostEmbed from "./PostEmbed";
 
 type PostListItem = {
   post: Post;
   user?: User | null;
-  className?: string;
 };
 
-export default memo(function PostListItem({
-  post,
-  user = null,
-  className = "",
-}: PostListItem) {
+export default memo(function PostListItem({ post, user = null }: PostListItem) {
   const { i18n, t } = useTranslation("post");
   const router = useRouter();
 
   const [postVote] = usePostVoteMutation();
 
   const { setLoginDialog } = useLoginDialog();
+
+  const [currentImage, setCurrentImage] = useState(0);
 
   const onClickUpVote = (e: MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -77,9 +76,21 @@ export default memo(function PostListItem({
     router.push(`/planets/${post.server.name}`);
   };
 
+  const onClickImageLeft = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+
+    setCurrentImage(currentImage - 1);
+  };
+
+  const onClickImageRight = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+
+    setCurrentImage(currentImage + 1);
+  };
+
   return (
     <div
-      className={`${className} cursor-pointer relative group hover:shadow dark:bg-gray-800 dark:hover:bg-gray-825 bg-gray-200 px-2 py-3 md:rounded flex hover:bg-gray-300`}
+      className="cursor-pointer relative group hover:shadow dark:bg-gray-800 dark:hover:bg-gray-825 bg-gray-200 px-2 py-3 md:rounded flex hover:bg-gray-300"
       onClick={() =>
         router.push(`/planets/${post.server.name}/posts/${post.id}`)
       }
@@ -116,25 +127,6 @@ export default memo(function PostListItem({
         </button>
       </div>
 
-      <div
-        className="w-26 min-w-[6.5rem] h-18 min-h-[4.5rem] rounded dark:bg-gray-750 bg-gray-300 mr-4 flex items-center justify-center bg-center bg-cover bg-no-repeat"
-        style={
-          post.thumbnailUrl
-            ? { backgroundImage: `url(${post.thumbnailUrl})` }
-            : {}
-        }
-      >
-        {!post.thumbnailUrl && (
-          <>
-            {post.linkUrl ? (
-              <IconLinkWeb className="w-8 h-8 text-mid" />
-            ) : (
-              <IconText className="w-8 h-8 text-mid" />
-            )}
-          </>
-        )}
-      </div>
-
       <div className="pr-4 flex-grow flex flex-col">
         <div className="flex flex-wrap items-center pb-1.5">
           <div
@@ -165,7 +157,79 @@ export default memo(function PostListItem({
           </div>
         </div>
 
-        <div className="text-secondary font-medium text-base">{post.title}</div>
+        <div className="text-l font-medium pt-1.5 pb-1.5">{post.title}</div>
+
+        {post.text && (
+          <div
+            dangerouslySetInnerHTML={{ __html: post.text }}
+            className="prose prose-sm dark:prose-dark pt-1.5 pb-1.5 break-all line-clamp-10"
+          />
+        )}
+
+        {post.linkUrl && (
+          <>
+            {post.linkMetadata ? (
+              <div className="max-w-2xl w-full mt-2 pt-1.5 pb-1.5">
+                <PostEmbed metadata={post.linkMetadata} />
+              </div>
+            ) : (
+              <a
+                href={post.linkUrl}
+                target="_blank"
+                rel="noopener nofollow noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="text-sm text-blue-400 hover:underline cursor-pointer pt-0.5"
+              >
+                {post.linkUrl}
+              </a>
+            )}
+          </>
+        )}
+
+        {!!post.images.length && (
+          <div className="max-w-2xl mt-2 pt-1.5 pb-1.5">
+            <div className="flex relative">
+              <div className="w-full h-96 relative flex items-center justify-center bg-gray-100 dark:bg-gray-775 rounded">
+                {post.images.map((image, i) => (
+                  <div
+                    key={i}
+                    className={`select-none ${
+                      i === currentImage ? "block" : "hidden"
+                    }`}
+                  >
+                    <MessageImageDialog
+                      rounded={false}
+                      image={image.image}
+                      key={i}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {post.images.length > 1 && (
+                <>
+                  {currentImage > 0 && (
+                    <div
+                      onClick={onClickImageLeft}
+                      className="absolute left-3 top-1/2 transform -translate-y-1/2 rounded-full shadow flex items-center justify-center w-10 h-10 dark:bg-white"
+                    >
+                      <IconChevronLeft className="w-5 h-5 dark:text-black" />
+                    </div>
+                  )}
+
+                  {currentImage < post.images.length - 1 && (
+                    <div
+                      onClick={onClickImageRight}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 rounded-full shadow flex items-center justify-center w-10 h-10 dark:bg-white"
+                    >
+                      <IconChevronRight className="w-5 h-5 dark:text-black" />
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+        )}
 
         <div className="flex items-center pt-1.5">
           <div
