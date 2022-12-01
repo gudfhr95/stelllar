@@ -403,7 +403,7 @@ export default function EditPostDialog({ post }: EditPostDialog) {
 
               {debouncedLinkUrl && isURL(debouncedLinkUrl) && !!linkMeta && (
                 <div className="mt-5">
-                  <PostEmbed dark metadata={linkMeta as LinkMetadata} />
+                  <PostEmbed metadata={linkMeta as LinkMetadata} />
                 </div>
               )}
             </>
