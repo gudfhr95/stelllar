@@ -2,15 +2,18 @@ import { formatDistanceToNowStrict } from "date-fns";
 import * as Locales from "date-fns/locale";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { memo, MouseEvent } from "react";
+import { memo, MouseEvent, useState } from "react";
 import { Post, usePostVoteMutation, User, VoteType } from "../../graphql/hooks";
 import { useLoginDialog } from "../../hooks/useLoginDialog";
+import MessageImageDialog from "../message/MessageImageDialog";
 import ServerAvatar from "../server/ServerAvatar";
 import ContextMenuTrigger from "../ui/context/ContextMenuTrigger";
 import { ContextMenuType } from "../ui/context/ContextMenuType";
 import {
   IconChat,
   IconChevronDown,
+  IconChevronLeft,
+  IconChevronRight,
   IconChevronUp,
   IconDotsVertical,
 } from "../ui/icons/Icons";
@@ -27,6 +30,8 @@ export default memo(function PostListItem({ post, user = null }: PostListItem) {
   const [postVote] = usePostVoteMutation();
 
   const { setLoginDialog } = useLoginDialog();
+
+  const [currentImage, setCurrentImage] = useState(0);
 
   const onClickUpVote = (e: MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -68,6 +73,18 @@ export default memo(function PostListItem({ post, user = null }: PostListItem) {
     e.stopPropagation();
 
     router.push(`/planets/${post.server.name}`);
+  };
+
+  const onClickImageLeft = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+
+    setCurrentImage(currentImage - 1);
+  };
+
+  const onClickImageRight = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+
+    setCurrentImage(currentImage + 1);
   };
 
   return (
@@ -144,8 +161,53 @@ export default memo(function PostListItem({ post, user = null }: PostListItem) {
         {post.text && (
           <div
             dangerouslySetInnerHTML={{ __html: post.text }}
-            className="pt-1.5 pb-1.5 break-all line-clamp-10 bg-gradient-to-b from-black dark:from-white via-black dark:via-white to-transparent text-transparent bg-clip-text"
+            className="prose prose-sm dark:prose-dark pt-1.5 pb-1.5 break-all line-clamp-10"
           />
+        )}
+
+        {!!post.images.length && (
+          <div className="max-w-2xl mt-2 pt-1.5 pb-1.5 z-10">
+            <div className="flex relative">
+              <div className="w-full h-96 relative flex items-center justify-center dark:bg-gray-775">
+                {post.images.map((image, i) => (
+                  <div
+                    key={i}
+                    className={`select-none ${
+                      i === currentImage ? "block" : "hidden"
+                    }`}
+                  >
+                    <MessageImageDialog
+                      rounded={false}
+                      image={image.image}
+                      key={i}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {post.images.length > 1 && (
+                <>
+                  {currentImage > 0 && (
+                    <div
+                      onClick={onClickImageLeft}
+                      className="absolute left-3 top-1/2 transform -translate-y-1/2 rounded-full shadow flex items-center justify-center w-10 h-10 dark:bg-white"
+                    >
+                      <IconChevronLeft className="w-5 h-5 dark:text-black" />
+                    </div>
+                  )}
+
+                  {currentImage < post.images.length - 1 && (
+                    <div
+                      onClick={onClickImageRight}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 rounded-full shadow flex items-center justify-center w-10 h-10 dark:bg-white"
+                    >
+                      <IconChevronRight className="w-5 h-5 dark:text-black" />
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
         )}
 
         <div className="flex items-center pt-1.5">

@@ -1,6 +1,5 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 const colors = require("tailwindcss/colors");
-const plugin = require("tailwindcss/plugin");
 const formsPlugin = require("@tailwindcss/forms");
 const aspectRatioPlugin = require("@tailwindcss/aspect-ratio");
 const typographyPlugin = require("@tailwindcss/typography");
@@ -94,7 +93,6 @@ module.exports = {
         },
         DEFAULT: {
           css: {
-            color: theme("colors.gray.900"),
             a: {
               color: theme("colors.blue.400"),
               "text-decoration": "none",
@@ -134,24 +132,18 @@ module.exports = {
             p: {
               color: theme("colors.gray.900"),
             },
-            "ul > li": {
-              "&::before": {
-                "background-color": theme("colors.gray.900"),
-                "font-weight": "bold",
-              },
+            "ol > li::marker": {
+              color: theme("colors.gray.900"),
             },
-            "ol > li": {
-              "&::before": {
-                color: theme("colors.gray.900"),
-                "font-weight": "bold",
-              },
+            "ul > li::marker": {
+              color: theme("colors.gray.900"),
             },
           },
         },
-
         dark: {
           css: {
             color: theme("colors.gray.100"),
+            "--tw-prose-bullets": theme("colors.gray.100"),
             a: {
               color: theme("colors.blue.400"),
               "text-decoration": "none",
@@ -177,17 +169,11 @@ module.exports = {
             p: {
               color: theme("colors.gray.100"),
             },
-            "ul > li": {
-              "&::before": {
-                "background-color": theme("colors.gray.100"),
-                "font-weight": "bold",
-              },
+            "ol > li::marker": {
+              color: theme("colors.gray.100"),
             },
-            "ol > li": {
-              "&::before": {
-                color: theme("colors.gray.100"),
-                "font-weight": "bold",
-              },
+            "ul > li::marker": {
+              color: theme("colors.gray.100"),
             },
           },
         },

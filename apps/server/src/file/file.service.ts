@@ -19,8 +19,8 @@ export const imageMimeTypes = [
 
 const POPUP_MAX_WIDTH = 1440;
 const POPUP_MAX_HEIGHT = 630;
-const SMALL_MAX_WIDTH = 400;
-const SMALL_MAX_HEIGHT = 300;
+const SMALL_MAX_WIDTH = 550;
+const SMALL_MAX_HEIGHT = 350;
 
 @Injectable()
 export class FileService {

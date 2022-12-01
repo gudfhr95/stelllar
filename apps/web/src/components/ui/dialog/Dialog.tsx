@@ -47,8 +47,12 @@ export default function Dialog({
                 &#8203;
               </span>
               <div
-                onClick={() => {
-                  if (closeOnOverlayClick) onClose();
+                onClick={(e) => {
+                  e.stopPropagation();
+
+                  if (closeOnOverlayClick) {
+                    onClose();
+                  }
                 }}
                 className="overflow-y-auto scrollbar dark:scrollbar-thumb-gray-800 dark:scrollbar-track-transparent inline-block h-screen transform transition-all align-middle w-screen"
               >
