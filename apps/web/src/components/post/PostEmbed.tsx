@@ -6,10 +6,9 @@ import { IconLinkExternal, IconPlay } from "../ui/icons/Icons";
 
 type PostEmbed = {
   metadata: LinkMetadata;
-  dark?: boolean;
 };
 
-export default function PostEmbed({ metadata, dark = false }: PostEmbed) {
+export default function PostEmbed({ metadata }: PostEmbed) {
   const [playing, setPlaying] = useState(false);
 
   const embeddable = canEmbed(metadata.url as string);
@@ -29,15 +28,14 @@ export default function PostEmbed({ metadata, dark = false }: PostEmbed) {
   return (
     <div>
       <div
-        className={`rounded inline-flex transition ${
-          dark
-            ? `dark:bg-gray-850 ${isWhite ? "dark:border-gray-950" : ""}`
-            : `dark:bg-gray-800 ${isWhite ? "dark:border-gray-900" : ""}`
-        } pt-4 border-l-4`}
+        className={`w-full rounded inline-flex transition bg-gray-100 dark:bg-gray-775 ${
+          isWhite ? "border-gray-900 dark:border-gray-100" : ""
+        }
+         pt-4 border-l-4`}
         style={isWhite ? {} : ({ borderColor: metadata.themeColor } as any)}
       >
         <div className="flex-grow rounded-r-md pl-4 pr-4 pb-4 flex flex-col">
-          <div className="max-w-[400px] space-y-3">
+          <div className="max-w-2xl space-y-3">
             {metadata.publisher && (
               <div className="text-xs text-secondary">{metadata.publisher}</div>
             )}
@@ -69,7 +67,7 @@ export default function PostEmbed({ metadata, dark = false }: PostEmbed) {
                   <CustomEmbed url={metadata.url as string} />
                 ) : (
                   <div
-                    className="max-w-[400px] w-full relative rounded cursor-pointer"
+                    className="max-w-2xl w-full relative rounded cursor-pointer"
                     onClick={() => {
                       if (embeddable) {
                         setPlaying(true);

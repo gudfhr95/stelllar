@@ -17,6 +17,7 @@ import {
   IconChevronUp,
   IconDotsVertical,
 } from "../ui/icons/Icons";
+import PostEmbed from "./PostEmbed";
 
 type PostListItem = {
   post: Post;
@@ -165,10 +166,29 @@ export default memo(function PostListItem({ post, user = null }: PostListItem) {
           />
         )}
 
+        {post.linkUrl && (
+          <>
+            {post.linkMetadata ? (
+              <div className="max-w-2xl w-full mt-2 pt-1.5 pb-1.5">
+                <PostEmbed metadata={post.linkMetadata} />
+              </div>
+            ) : (
+              <a
+                href={post.linkUrl}
+                target="_blank"
+                rel="noopener nofollow noreferrer"
+                className="text-sm text-blue-400 hover:underline cursor-pointer pt-0.5"
+              >
+                {post.linkUrl}
+              </a>
+            )}
+          </>
+        )}
+
         {!!post.images.length && (
-          <div className="max-w-2xl mt-2 pt-1.5 pb-1.5 z-10">
+          <div className="max-w-2xl mt-2 pt-1.5 pb-1.5">
             <div className="flex relative">
-              <div className="w-full h-96 relative flex items-center justify-center dark:bg-gray-775">
+              <div className="w-full h-96 relative flex items-center justify-center bg-gray-100 dark:bg-gray-775 rounded">
                 {post.images.map((image, i) => (
                   <div
                     key={i}
