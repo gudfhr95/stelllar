@@ -44,6 +44,7 @@ export default function PostEmbed({ metadata }: PostEmbed) {
                 href={metadata.url as string}
                 rel="noopener nofollow noreferrer"
                 target="_blank"
+                onClick={(e) => e.stopPropagation()}
                 className="text-sm font-semibold text-blue-400 hover:underline"
               >
                 {metadata.title ?? "No title"}

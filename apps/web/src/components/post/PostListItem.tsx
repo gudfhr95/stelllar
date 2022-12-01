@@ -177,6 +177,7 @@ export default memo(function PostListItem({ post, user = null }: PostListItem) {
                 href={post.linkUrl}
                 target="_blank"
                 rel="noopener nofollow noreferrer"
+                onClick={(e) => e.stopPropagation()}
                 className="text-sm text-blue-400 hover:underline cursor-pointer pt-0.5"
               >
                 {post.linkUrl}
