@@ -29,9 +29,9 @@ export default function PostList({ initialPosts }: PostList) {
   };
 
   return (
-    <>
+    <div className="w-full h-full flex flex-col items-center dark:bg-gray-750 bg-gray-100">
       <Virtuoso
-        className="scrollbar-custom dark:bg-gray-750 bg-gray-100"
+        className="w-full max-w-2xl scrollbar-none"
         components={{
           Header: () =>
             !!user ? <CreatePostHeader user={user} /> : <div className="h-4" />,
@@ -50,6 +50,6 @@ export default function PostList({ initialPosts }: PostList) {
         style={{ overflowX: "hidden" }}
         totalCount={posts.length || 0}
       />
-    </>
+    </div>
   );
 }

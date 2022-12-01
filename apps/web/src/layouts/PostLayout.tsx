@@ -30,7 +30,7 @@ export default function PostLayout({
       <div className="flex flex-col flex-grow">
         <PostHeader post={post} back={hasPreviousPath} />
         <div className="h-full">
-          <div className="max-h-full h-full scrollbar-custom dark:bg-gray-750 overflow-y-auto">
+          <div className="max-h-full h-full flex flex-col items-center scrollbar-none dark:bg-gray-750 overflow-y-auto">
             {children}
           </div>
         </div>
