@@ -31,7 +31,7 @@ export default function PostList({ initialPosts }: PostList) {
   return (
     <div className="w-full h-full flex flex-col items-center dark:bg-gray-750 bg-gray-100">
       <Virtuoso
-        className="scrollbar-custom w-full max-w-2xl"
+        className="w-full max-w-2xl scrollbar-none"
         components={{
           Header: () =>
             !!user ? <CreatePostHeader user={user} /> : <div className="h-4" />,

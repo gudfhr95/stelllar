@@ -13,8 +13,6 @@ import {
   IconChevronDown,
   IconChevronUp,
   IconDotsVertical,
-  IconLinkWeb,
-  IconText,
 } from "../ui/icons/Icons";
 
 type PostListItem = {
@@ -111,25 +109,6 @@ export default memo(function PostListItem({ post, user = null }: PostListItem) {
         </button>
       </div>
 
-      <div
-        className="w-26 min-w-[6.5rem] h-18 min-h-[4.5rem] rounded dark:bg-gray-750 bg-gray-300 mr-4 flex items-center justify-center bg-center bg-cover bg-no-repeat"
-        style={
-          post.thumbnailUrl
-            ? { backgroundImage: `url(${post.thumbnailUrl})` }
-            : {}
-        }
-      >
-        {!post.thumbnailUrl && (
-          <>
-            {post.linkUrl ? (
-              <IconLinkWeb className="w-8 h-8 text-mid" />
-            ) : (
-              <IconText className="w-8 h-8 text-mid" />
-            )}
-          </>
-        )}
-      </div>
-
       <div className="pr-4 flex-grow flex flex-col">
         <div className="flex flex-wrap items-center pb-1.5">
           <div
@@ -160,7 +139,14 @@ export default memo(function PostListItem({ post, user = null }: PostListItem) {
           </div>
         </div>
 
-        <div className="text-secondary font-medium text-base">{post.title}</div>
+        <div className="text-l font-medium pt-1.5 pb-1.5">{post.title}</div>
+
+        {post.text && (
+          <div
+            dangerouslySetInnerHTML={{ __html: post.text }}
+            className="pt-1.5 pb-1.5 break-all line-clamp-10 bg-gradient-to-b from-black dark:from-white via-black dark:via-white to-transparent text-transparent bg-clip-text"
+          />
+        )}
 
         <div className="flex items-center pt-1.5">
           <div
