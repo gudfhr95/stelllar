@@ -30,6 +30,9 @@ type Store = {
 
   editingCommentId: string | null;
   setEditingCommentId: (commentId: string | null) => void;
+
+  createChannelDialog: boolean;
+  setCreateChannelDialog: (open: boolean) => void;
 };
 
 export const useStore = create<Store>()((set, get) => ({
@@ -62,4 +65,7 @@ export const useStore = create<Store>()((set, get) => ({
 
   editingCommentId: null,
   setEditingCommentId: (commentId) => set({ editingCommentId: commentId }),
+
+  createChannelDialog: false,
+  setCreateChannelDialog: (open) => set({ createChannelDialog: open }),
 }));

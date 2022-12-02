@@ -1,17 +1,20 @@
 import { useTranslation } from "next-i18next";
-import { Server } from "../../graphql/hooks";
+import { useCreateChannelDialog } from "../../hooks/useCreateChannelDialog";
 import SidebarLabel from "../ui/sidebar/SidebarLabel";
 
-type CreateChannel = {
-  server: Server;
-};
-
-export default function SidebarChannelLabel({ server }: CreateChannel) {
+export default function SidebarChannelLabel() {
   const { t } = useTranslation("channel");
+
+  const { setCreateChannelDialog } = useCreateChannelDialog();
 
   return (
     <>
-      <SidebarLabel onClick={() => {}} plusLabel={t("create.label")}>
+      <SidebarLabel
+        onClick={() => {
+          setCreateChannelDialog(true);
+        }}
+        plusLabel={t("create.label")}
+      >
         {t("label")}
       </SidebarLabel>
     </>

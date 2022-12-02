@@ -182,7 +182,7 @@ export default function CreateServerDialog() {
         <input
           {...register("displayName", { maxLength: 100, required: true })}
           placeholder={t("createServer.displayName")}
-          className="form-input-lg"
+          className="form-input"
           maxLength={100}
         />
       </div>
@@ -203,7 +203,7 @@ export default function CreateServerDialog() {
               minLength={2}
               maxLength={20}
               placeholder={t("createServer.name")}
-              className="bg-transparent h-7 w-full border-b dark:border-gray-700 focus:outline-none transition dark:focus:border-blue-500"
+              className="form-input"
             />
           </div>
           {!!name && errors.name?.type === "pattern" && (

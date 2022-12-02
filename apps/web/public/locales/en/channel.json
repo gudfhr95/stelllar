@@ -1,6 +1,8 @@
 {
   "label": "Channel",
   "create": {
-    "label": "Create Channel"
+    "label": "Create Channel",
+    "name": "Name",
+    "description": "Description"
   }
 }
