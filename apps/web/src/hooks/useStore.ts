@@ -1,4 +1,5 @@
 import create from "zustand";
+import { Channel } from "../graphql/hooks";
 
 type Store = {
   loginDialog: boolean;
@@ -31,8 +32,10 @@ type Store = {
   editingCommentId: string | null;
   setEditingCommentId: (commentId: string | null) => void;
 
-  createChannelDialog: boolean;
-  setCreateChannelDialog: (open: boolean) => void;
+  editChannelDialog: boolean;
+  setEditChannelDialog: (open: boolean) => void;
+  editingChannel: Channel | null;
+  setEditingChannel: (channel: Channel | null) => void;
 };
 
 export const useStore = create<Store>()((set, get) => ({
@@ -66,6 +69,9 @@ export const useStore = create<Store>()((set, get) => ({
   editingCommentId: null,
   setEditingCommentId: (commentId) => set({ editingCommentId: commentId }),
 
-  createChannelDialog: false,
-  setCreateChannelDialog: (open) => set({ createChannelDialog: open }),
+  editChannelDialog: false,
+  setEditChannelDialog: (open) => set({ editChannelDialog: open }),
+  editingChannel: null,
+  setEditingChannel: (channel: Channel | null) =>
+    set({ editingChannel: channel }),
 }));

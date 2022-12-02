@@ -1,17 +1,18 @@
 import { useTranslation } from "next-i18next";
-import { useCreateChannelDialog } from "../../hooks/useCreateChannelDialog";
+import { useEditChannel } from "../../hooks/useEditChannel";
 import SidebarLabel from "../ui/sidebar/SidebarLabel";
 
 export default function SidebarChannelLabel() {
   const { t } = useTranslation("channel");
 
-  const { setCreateChannelDialog } = useCreateChannelDialog();
+  const { setEditChannelDialog, setEditingChannel } = useEditChannel();
 
   return (
     <>
       <SidebarLabel
         onClick={() => {
-          setCreateChannelDialog(true);
+          setEditChannelDialog(true);
+          setEditingChannel(null);
         }}
         plusLabel={t("create.label")}
       >

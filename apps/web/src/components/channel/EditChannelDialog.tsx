@@ -1,27 +1,32 @@
 import { useTranslation } from "next-i18next";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Server, useCreateChannelMutation } from "../../graphql/hooks";
-import { useCreateChannelDialog } from "../../hooks/useCreateChannelDialog";
+import { useEditChannel } from "../../hooks/useEditChannel";
 import ServerAvatar from "../server/ServerAvatar";
 import StyledDialog from "../ui/dialog/StyledDialog";
 import { IconCheck, IconSpinner, IconX } from "../ui/icons/Icons";
 
-type CreateChannelDialog = {
+type EditChannelDialog = {
   server: Server;
 };
 
-export default function CreateChannelDialog({ server }: CreateChannelDialog) {
+export default function EditChannelDialog({ server }: EditChannelDialog) {
   const { t } = useTranslation("channel");
 
-  const { createChannelDialog: open, setCreateChannelDialog: setOpen } =
-    useCreateChannelDialog();
+  const {
+    editChannelDialog: open,
+    setEditChannelDialog: setOpen,
+    editingChannel: channel,
+  } = useEditChannel();
 
   const [createChannel, { loading }] = useCreateChannelMutation();
 
   const {
-    handleSubmit,
     register,
     watch,
+    setValue,
+    handleSubmit,
     reset,
     setError,
     formState: { errors },
@@ -29,6 +34,13 @@ export default function CreateChannelDialog({ server }: CreateChannelDialog) {
     mode: "onChange",
   });
   const name = watch("name");
+
+  useEffect(() => {
+    if (channel) {
+      setValue("name", channel.name);
+      setValue("description", channel.description || "");
+    }
+  }, [channel]);
 
   const onSubmit = ({ name, description }: any) => {
     createChannel({
@@ -77,7 +89,8 @@ export default function CreateChannelDialog({ server }: CreateChannelDialog) {
             className="rounded-md mr-2"
           />
           <div className="truncate">{server.displayName}</div>
-          &nbsp;&nbsp;&middot;&nbsp;&nbsp; {t("create.label")}
+          &nbsp;&nbsp;&middot;&nbsp;&nbsp;
+          {t(`${channel ? "edit" : "create"}.label`)}
           <IconX
             className="h-5 w-5 highlightable ml-auto"
             onClick={() => close()}

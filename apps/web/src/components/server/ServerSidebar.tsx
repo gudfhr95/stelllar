@@ -9,7 +9,7 @@ import {
 import useAuth from "../../hooks/useAuth";
 import { useServerSettingDialog } from "../../hooks/useServerSettingDialog";
 import { getCategoryIcon } from "../../utils/getCategoryIcon";
-import CreateChannelDialog from "../channel/CreateChannelDialog";
+import EditChannelDialog from "../channel/EditChannelDialog";
 import SidebarChannel from "../channel/SidebarChannel";
 import SidebarChannelLabel from "../channel/SidebarChannelLabel";
 import {
@@ -71,9 +71,10 @@ export default function ServerSidebar({ server }: ServerSidebar) {
     }
   };
 
+  const canManageServer = !!user && !!server && user.id === server.owner.id;
   return (
     <>
-      <CreateChannelDialog server={server} />
+      <EditChannelDialog server={server} />
 
       <Sidebar>
         {server.bannerUrl ? (
@@ -156,11 +157,15 @@ export default function ServerSidebar({ server }: ServerSidebar) {
 
           <div className="space-y-0.5">
             {server.channels.map((channel) => (
-              <SidebarChannel key={channel.id} channel={channel} />
+              <SidebarChannel
+                key={channel.id}
+                server={server}
+                channel={channel}
+              />
             ))}
           </div>
 
-          {!!user && !!server && user.id === server.owner.id && (
+          {canManageServer && (
             <>
               <SidebarLabel>{t("sidebar.admin")}</SidebarLabel>
               <div className="space-y-0.5">
