@@ -10,6 +10,7 @@ import useAuth from "../../hooks/useAuth";
 import { useServerSettingDialog } from "../../hooks/useServerSettingDialog";
 import { getCategoryIcon } from "../../utils/getCategoryIcon";
 import CreateChannelDialog from "../channel/CreateChannelDialog";
+import SidebarChannel from "../channel/SidebarChannel";
 import SidebarChannelLabel from "../channel/SidebarChannelLabel";
 import {
   IconPost,
@@ -152,6 +153,12 @@ export default function ServerSidebar({ server }: ServerSidebar) {
           <SidebarSortButtons />
 
           <SidebarChannelLabel />
+
+          <div className="space-y-0.5">
+            {server.channels.map((channel) => (
+              <SidebarChannel key={channel.id} channel={channel} />
+            ))}
+          </div>
 
           {!!user && !!server && user.id === server.owner.id && (
             <>

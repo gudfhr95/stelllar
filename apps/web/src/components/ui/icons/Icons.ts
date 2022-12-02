@@ -86,3 +86,4 @@ export * from "./IconSpinner";
 export * from "./IconImage";
 export * from "./IconCategoryScience";
 export * from "./IconCategoryTechnology";
+export * from "./IconChannel";

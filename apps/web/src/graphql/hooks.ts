@@ -570,7 +570,7 @@ export type ServerQueryVariables = Exact<{
 }>;
 
 
-export type ServerQuery = { __typename?: 'Query', server?: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, postCount: any, isJoined: boolean, owner: { __typename?: 'User', id: string } } | null };
+export type ServerQuery = { __typename?: 'Query', server?: { __typename?: 'Server', id: string, name: string, displayName: string, description?: string | null, category: ServerCategory, bannerUrl?: string | null, avatarUrl?: string | null, userCount: any, postCount: any, isJoined: boolean, channels: Array<{ __typename?: 'Channel', id: string, name: string, description?: string | null }>, owner: { __typename?: 'User', id: string } } | null };
 
 export type PublicServersQueryVariables = Exact<{
   sort?: InputMaybe<PublicServersSort>;
@@ -1391,9 +1391,13 @@ export const ServerDocument = gql`
     query server($name: String!) {
   server(name: $name) {
     ...Server
+    channels {
+      ...Channel
+    }
   }
 }
-    ${ServerFragmentDoc}`;
+    ${ServerFragmentDoc}
+${ChannelFragmentDoc}`;
 
 /**
  * __useServerQuery__
