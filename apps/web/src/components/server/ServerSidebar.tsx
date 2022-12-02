@@ -9,6 +9,7 @@ import {
 import useAuth from "../../hooks/useAuth";
 import { useServerSettingDialog } from "../../hooks/useServerSettingDialog";
 import { getCategoryIcon } from "../../utils/getCategoryIcon";
+import SidebarChannelLabel from "../channel/SidebarChannelLabel";
 import {
   IconPost,
   IconSettings,
@@ -146,6 +147,8 @@ export default function ServerSidebar({ server }: ServerSidebar) {
           </SidebarLabel>
 
           <SidebarSortButtons />
+
+          <SidebarChannelLabel server={server} />
 
           {!!user && !!server && user.id === server.owner.id && (
             <>
