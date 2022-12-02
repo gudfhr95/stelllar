@@ -212,6 +212,7 @@ type Mutation {
   updateComment(input: UpdateCommentInput!): Comment!
   deleteComment(id: String!): Boolean!
   commentVote(input: CommentVoteInput!): Comment!
+  createChannel(input: CreateChannelInput!): Channel!
 }
 
 input UpdateAvatarInput {
@@ -282,4 +283,10 @@ input UpdateCommentInput {
 input CommentVoteInput {
   commentId: ID!
   type: VoteType!
+}
+
+input CreateChannelInput {
+  serverId: ID!
+  name: String!
+  description: String
 }

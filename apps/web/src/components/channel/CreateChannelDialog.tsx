@@ -1,32 +1,10 @@
-import ctl from "@netlify/classnames-template-literals";
 import { useTranslation } from "next-i18next";
-import { Server } from "../../graphql/hooks";
+import { useForm } from "react-hook-form";
+import { Server, useCreateChannelMutation } from "../../graphql/hooks";
 import { useCreateChannelDialog } from "../../hooks/useCreateChannelDialog";
 import ServerAvatar from "../server/ServerAvatar";
 import StyledDialog from "../ui/dialog/StyledDialog";
-import { IconCheck, IconX } from "../ui/icons/Icons";
-
-const dotClass = (enabled: boolean) =>
-  ctl(`
-  h-1.5
-  w-1.5
-  rounded-full
-  dark:bg-gray-100
-  mr-2
-  ${enabled ? "opacity-100" : "opacity-0"}
-`);
-
-const typeClass = (enabled: boolean) =>
-  ctl(`
-  flex
-  items-center
-  cursor-pointer
-  ${
-    enabled
-      ? "text-primary"
-      : "text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-  }
-`);
+import { IconCheck, IconSpinner, IconX } from "../ui/icons/Icons";
 
 type CreateChannelDialog = {
   server: Server;
@@ -38,6 +16,33 @@ export default function CreateChannelDialog({ server }: CreateChannelDialog) {
   const { createChannelDialog: open, setCreateChannelDialog: setOpen } =
     useCreateChannelDialog();
 
+  const [createChannel, { loading }] = useCreateChannelMutation();
+
+  const {
+    handleSubmit,
+    register,
+    watch,
+    reset,
+    setError,
+    formState: { errors },
+  } = useForm({
+    mode: "onChange",
+  });
+  const name = watch("name");
+
+  const onSubmit = ({ name, description }: any) => {
+    createChannel({
+      variables: { input: { name, description, serverId: server.id } },
+    })
+      .then(({ data }) => {
+        reset();
+        close();
+      })
+      .catch((data) => {
+        setError("name", { type: data.message });
+      });
+  };
+
   const close = () => {
     setOpen(false);
   };
@@ -47,9 +52,18 @@ export default function CreateChannelDialog({ server }: CreateChannelDialog) {
       isOpen={open}
       onClose={close}
       closeOnOverlayClick
+      onSubmit={handleSubmit(onSubmit)}
       buttons={
-        <button type="submit" className="form-button-submit" disabled={true}>
-          <IconCheck className="w-5 h-5" />
+        <button
+          type="submit"
+          className="form-button-submit"
+          disabled={!name || loading}
+        >
+          {loading ? (
+            <IconSpinner className="w-5 h-5" />
+          ) : (
+            <IconCheck className="w-5 h-5" />
+          )}
         </button>
       }
     >
@@ -72,6 +86,7 @@ export default function CreateChannelDialog({ server }: CreateChannelDialog) {
         <div>
           <div className="relative">
             <input
+              {...register("name", { required: true, maxLength: 100 })}
               id="name"
               maxLength={100}
               spellCheck={false}
@@ -80,9 +95,13 @@ export default function CreateChannelDialog({ server }: CreateChannelDialog) {
               className="form-input"
             />
           </div>
+          {!!name && errors.name?.type === "duplicateName" && (
+            <div className="form-error">{t("create.error.duplicateName")}</div>
+          )}
         </div>
 
         <textarea
+          {...register("description")}
           placeholder={t("create.description")}
           className="form-textarea"
         />

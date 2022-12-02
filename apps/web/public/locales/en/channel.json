@@ -3,6 +3,9 @@
   "create": {
     "label": "Create Channel",
     "name": "Name",
-    "description": "Description"
+    "description": "Description",
+    "error": {
+      "duplicateName": "Duplicate Name."
+    }
   }
 }

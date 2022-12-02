@@ -31,6 +31,15 @@ export type BaseEntity = {
   id: Scalars['ID'];
 };
 
+export type Channel = BaseEntity & {
+  __typename?: 'Channel';
+  createdAt: Scalars['DateTime'];
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  server: Server;
+};
+
 export type Comment = BaseEntity & {
   __typename?: 'Comment';
   author?: Maybe<User>;
@@ -55,6 +64,12 @@ export enum CommentsSort {
   New = 'New',
   Top = 'Top'
 }
+
+export type CreateChannelInput = {
+  description?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+  serverId: Scalars['ID'];
+};
 
 export type CreateCommentInput = {
   parentCommentId?: InputMaybe<Scalars['ID']>;
@@ -111,6 +126,7 @@ export type LinkMetadata = {
 export type Mutation = {
   __typename?: 'Mutation';
   commentVote: Comment;
+  createChannel: Channel;
   createComment: Comment;
   createPost: Post;
   createServer: Server;
@@ -130,6 +146,11 @@ export type Mutation = {
 
 export type MutationCommentVoteArgs = {
   input: CommentVoteInput;
+};
+
+
+export type MutationCreateChannelArgs = {
+  input: CreateChannelInput;
 };
 
 
@@ -313,6 +334,7 @@ export type Server = BaseEntity & {
   avatarUrl?: Maybe<Scalars['String']>;
   bannerUrl?: Maybe<Scalars['String']>;
   category: ServerCategory;
+  channels: Array<Channel>;
   createdAt: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
   displayName: Scalars['String'];
@@ -398,6 +420,15 @@ export enum VoteType {
   None = 'None',
   Up = 'Up'
 }
+
+export type ChannelFragment = { __typename?: 'Channel', id: string, name: string, description?: string | null };
+
+export type CreateChannelMutationVariables = Exact<{
+  input: CreateChannelInput;
+}>;
+
+
+export type CreateChannelMutation = { __typename?: 'Mutation', createChannel: { __typename?: 'Channel', id: string, name: string, description?: string | null } };
 
 export type CommentFragment = { __typename?: 'Comment', id: string, text: string, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, parentComment?: { __typename?: 'Comment', id: string } | null };
 
@@ -577,6 +608,13 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, email: any, name: string, image?: string | null, servers: Array<{ __typename?: 'Server', id: string, name: string, displayName: string, avatarUrl?: string | null, owner: { __typename?: 'User', id: string } }> } | null };
 
+export const ChannelFragmentDoc = gql`
+    fragment Channel on Channel {
+  id
+  name
+  description
+}
+    `;
 export const CommentFragmentDoc = gql`
     fragment Comment on Comment {
   id
@@ -682,6 +720,39 @@ export const CurrentUserFragmentDoc = gql`
   }
 }
     ${UserFragmentDoc}`;
+export const CreateChannelDocument = gql`
+    mutation createChannel($input: CreateChannelInput!) {
+  createChannel(input: $input) {
+    ...Channel
+  }
+}
+    ${ChannelFragmentDoc}`;
+export type CreateChannelMutationFn = Apollo.MutationFunction<CreateChannelMutation, CreateChannelMutationVariables>;
+
+/**
+ * __useCreateChannelMutation__
+ *
+ * To run a mutation, you first call `useCreateChannelMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateChannelMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createChannelMutation, { data, loading, error }] = useCreateChannelMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateChannelMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateChannelMutation, CreateChannelMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<CreateChannelMutation, CreateChannelMutationVariables>(CreateChannelDocument, options);
+      }
+export type CreateChannelMutationHookResult = ReturnType<typeof useCreateChannelMutation>;
+export type CreateChannelMutationResult = Apollo.MutationResult<CreateChannelMutation>;
+export type CreateChannelMutationOptions = Apollo.BaseMutationOptions<CreateChannelMutation, CreateChannelMutationVariables>;
 export const CreateCommentDocument = gql`
     mutation createComment($input: CreateCommentInput!) {
   createComment(input: $input) {
