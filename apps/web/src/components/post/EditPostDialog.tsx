@@ -187,7 +187,7 @@ export default function EditPostDialog() {
   const [selectedImage, setSelectedImage] = useState(0);
 
   useEffect(() => {
-    resetAll();
+    resetInputs();
 
     if (post) {
       setServer(post.server);
@@ -220,7 +220,7 @@ export default function EditPostDialog() {
     }
   }, [post]);
 
-  const resetAll = () => {
+  const resetInputs = () => {
     setCurrentTab(Tab.Text);
     setText("");
     setDebouncedLinkUrl("");
@@ -306,8 +306,8 @@ export default function EditPostDialog() {
           return;
         }
 
+        resetInputs();
         setOpen(false);
-        reset();
         router.replace(`/planets/${server?.name}/posts/${post.id}`);
       });
     } else {
@@ -330,8 +330,7 @@ export default function EditPostDialog() {
           return;
         }
 
-        reset();
-        setText("");
+        resetInputs();
         setOpen(false);
         router.push(`/planets/${server?.name}/posts/${post.id}`);
       });

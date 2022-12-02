@@ -1,5 +1,4 @@
 import { PropsWithChildren } from "react";
-import ServerSettingDialog from "../components/dialog/ServerSettingDialog";
 import ServerHeader from "../components/server/ServerHeader";
 import ServerSidebar from "../components/server/ServerSidebar";
 import { Server } from "../graphql/hooks";
@@ -14,7 +13,6 @@ export default function ServerLayout({
 }: PropsWithChildren<ServerLayout>) {
   return (
     <>
-      <ServerSettingDialog server={server} />
       <ServerSidebar server={server} />
       <div className="flex flex-col flex-grow">
         <ServerHeader />

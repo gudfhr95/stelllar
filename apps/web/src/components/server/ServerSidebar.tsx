@@ -7,7 +7,7 @@ import {
   useLeaveServerMutation,
 } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
-import { useServerSettingDialog } from "../../hooks/useServerSettingDialog";
+import { useEditServer } from "../../hooks/useEditServer";
 import { getCategoryIcon } from "../../utils/getCategoryIcon";
 import EditChannelDialog from "../channel/EditChannelDialog";
 import SidebarChannel from "../channel/SidebarChannel";
@@ -51,7 +51,7 @@ export default function ServerSidebar({ server }: ServerSidebar) {
   const router = useRouter();
   const user = useAuth();
 
-  const { setServerSettingDialog: setOpen } = useServerSettingDialog();
+  const { setEditServerDialog: setOpen, setEditingServer } = useEditServer();
 
   const [joinServer, { loading: joinServerLoading }] = useJoinServerMutation();
   const [leaveServer, { loading: leaveServerLoading }] =
@@ -169,7 +169,12 @@ export default function ServerSidebar({ server }: ServerSidebar) {
             <>
               <SidebarLabel>{t("sidebar.admin")}</SidebarLabel>
               <div className="space-y-0.5">
-                <SidebarItem onClick={() => setOpen(true)}>
+                <SidebarItem
+                  onClick={() => {
+                    setOpen(true);
+                    setEditingServer(server);
+                  }}
+                >
                   <IconSettings className="mr-3 w-5 h-5" />
                   {t("sidebar.edit")}
                 </SidebarItem>

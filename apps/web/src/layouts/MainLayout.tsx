@@ -2,7 +2,7 @@ import { PropsWithChildren } from "react";
 import BottomBar from "../components/BottomBar";
 import LoginDialog from "../components/dialog/LoginDialog";
 import SettingsDialog from "../components/dialog/UserSettingDialog";
-import CreateServerDialog from "../components/server/CreateServerDialog";
+import EditServerDialog from "../components/server/EditServerDialog";
 import ServerList from "../components/server/ServerList";
 import ResponsiveToaster from "../components/ui/ResponsiveToaster";
 
@@ -12,7 +12,7 @@ export default function MainLayout({ children }: PropsWithChildren) {
       <ResponsiveToaster />
       <LoginDialog />
       <SettingsDialog />
-      <CreateServerDialog />
+      <EditServerDialog />
       <div className="flex-grow">
         <div
           className="flex items-stretch"

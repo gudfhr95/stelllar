@@ -2,7 +2,7 @@ import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { Server } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
-import { useCreateServerDialog } from "../../hooks/useCreateServerDialog";
+import { useEditServer } from "../../hooks/useEditServer";
 import { IconCreateServer, IconExplore, IconHome } from "../ui/icons/Icons";
 import ServerListItem from "./ServerListItem";
 import ServerListServer from "./ServerListServer";
@@ -12,7 +12,7 @@ export default function ServerList({ hide = false }) {
   const router = useRouter();
   const user = useAuth();
 
-  const { setCreateServerDialog } = useCreateServerDialog();
+  const { setEditServerDialog, setEditingServer } = useEditServer();
 
   const homeActive = router.pathname === "/";
   const exploreActive = router.pathname === "/explore";
@@ -63,7 +63,8 @@ export default function ServerList({ hide = false }) {
               <ServerListItem
                 name={t("sidebar.createPlanet")}
                 onClick={() => {
-                  setCreateServerDialog(true);
+                  setEditingServer(null);
+                  setEditServerDialog(true);
                 }}
                 className="dark:bg-gray-800 bg-white hover:bg-purple-600 dark:hover:bg-purple-600"
               >

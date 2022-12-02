@@ -1,5 +1,5 @@
 import create from "zustand";
-import { Channel, Post } from "../graphql/hooks";
+import { Channel, Post, Server } from "../graphql/hooks";
 
 type Store = {
   loginDialog: boolean;
@@ -8,17 +8,16 @@ type Store = {
   userSettingDialog: boolean;
   setUserSettingDialog: (open: boolean) => void;
 
-  createServerDialog: boolean;
-  setCreateServerDialog: (open: boolean) => void;
-
   showLeftSidebar: boolean;
   setShowLeftSidebar: (show: boolean) => void;
 
   showRightSidebar: boolean;
   setShowRightSidebar: (show: boolean) => void;
 
-  serverSettingDialog: boolean;
-  setServerSettingDialog: (open: boolean) => void;
+  editServerDialog: boolean;
+  setEditServerDialog: (open: boolean) => void;
+  editingServer: Server | null;
+  setEditingServer: (server: Server | null) => void;
 
   editPostDialog: boolean;
   setEditPostDialog: (open: boolean) => void;
@@ -44,17 +43,16 @@ export const useStore = create<Store>()((set, get) => ({
   userSettingDialog: false,
   setUserSettingDialog: (open) => set({ userSettingDialog: open }),
 
-  createServerDialog: false,
-  setCreateServerDialog: (open) => set({ createServerDialog: open }),
-
   showLeftSidebar: false,
   setShowLeftSidebar: (show) => set({ showLeftSidebar: show }),
 
   showRightSidebar: false,
   setShowRightSidebar: (show) => set({ showRightSidebar: show }),
 
-  serverSettingDialog: false,
-  setServerSettingDialog: (open) => set({ serverSettingDialog: open }),
+  editServerDialog: false,
+  setEditServerDialog: (open) => set({ editServerDialog: open }),
+  editingServer: null,
+  setEditingServer: (server) => set({ editingServer: server }),
 
   editPostDialog: false,
   setEditPostDialog: (open) => set({ editPostDialog: open }),
