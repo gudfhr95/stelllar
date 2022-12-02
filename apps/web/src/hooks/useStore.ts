@@ -1,5 +1,5 @@
 import create from "zustand";
-import { Channel } from "../graphql/hooks";
+import { Channel, Post } from "../graphql/hooks";
 
 type Store = {
   loginDialog: boolean;
@@ -20,11 +20,10 @@ type Store = {
   serverSettingDialog: boolean;
   setServerSettingDialog: (open: boolean) => void;
 
-  createPostDialog: boolean;
-  setCreatePostDialog: (open: boolean) => void;
-
   editPostDialog: boolean;
   setEditPostDialog: (open: boolean) => void;
+  editingPost: Post | null;
+  setEditingPost: (post: Post | null) => void;
 
   replyingCommentId: string | null;
   setReplyingCommentId: (commentId: string | null) => void;
@@ -57,11 +56,10 @@ export const useStore = create<Store>()((set, get) => ({
   serverSettingDialog: false,
   setServerSettingDialog: (open) => set({ serverSettingDialog: open }),
 
-  createPostDialog: false,
-  setCreatePostDialog: (open) => set({ createPostDialog: open }),
-
   editPostDialog: false,
   setEditPostDialog: (open) => set({ editPostDialog: open }),
+  editingPost: null,
+  setEditingPost: (post) => set({ editingPost: post }),
 
   replyingCommentId: null,
   setReplyingCommentId: (commentId) => set({ replyingCommentId: commentId }),
@@ -72,6 +70,5 @@ export const useStore = create<Store>()((set, get) => ({
   editChannelDialog: false,
   setEditChannelDialog: (open) => set({ editChannelDialog: open }),
   editingChannel: null,
-  setEditingChannel: (channel: Channel | null) =>
-    set({ editingChannel: channel }),
+  setEditingChannel: (channel) => set({ editingChannel: channel }),
 }));

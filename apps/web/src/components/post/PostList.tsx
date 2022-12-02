@@ -5,6 +5,7 @@ import { usePosts } from "../../hooks/usePosts";
 import EndReached from "../ui/EndReached";
 import { IconSpinner } from "../ui/icons/IconSpinner";
 import CreatePostHeader from "./CreatePostHeader";
+import EditPostDialog from "./EditPostDialog";
 import PostListItem from "./PostListItem";
 
 type PostList = {
@@ -29,27 +30,35 @@ export default function PostList({ initialPosts }: PostList) {
   };
 
   return (
-    <div className="w-full h-full flex flex-col items-center dark:bg-gray-750 bg-gray-100">
-      <Virtuoso
-        className="w-full max-w-2xl scrollbar-none"
-        components={{
-          Header: () =>
-            !!user ? <CreatePostHeader user={user} /> : <div className="h-4" />,
-          Footer: () =>
-            hasNext ? (
-              <div className="flex items-center justify-center h-20">
-                <IconSpinner />
-              </div>
-            ) : (
-              <EndReached>{t("endReached")}</EndReached>
-            ),
-        }}
-        endReached={() => fetchMore()}
-        itemContent={(i) => renderPostItem(posts, i)}
-        overscan={100}
-        style={{ overflowX: "hidden" }}
-        totalCount={posts.length || 0}
-      />
-    </div>
+    <>
+      <EditPostDialog />
+
+      <div className="w-full h-full flex flex-col items-center dark:bg-gray-750 bg-gray-100">
+        <Virtuoso
+          className="w-full max-w-2xl scrollbar-none"
+          components={{
+            Header: () =>
+              !!user ? (
+                <CreatePostHeader user={user} />
+              ) : (
+                <div className="h-4" />
+              ),
+            Footer: () =>
+              hasNext ? (
+                <div className="flex items-center justify-center h-20">
+                  <IconSpinner />
+                </div>
+              ) : (
+                <EndReached>{t("endReached")}</EndReached>
+              ),
+          }}
+          endReached={() => fetchMore()}
+          itemContent={(i) => renderPostItem(posts, i)}
+          overscan={100}
+          style={{ overflowX: "hidden" }}
+          totalCount={posts.length || 0}
+        />
+      </div>
+    </>
   );
 }

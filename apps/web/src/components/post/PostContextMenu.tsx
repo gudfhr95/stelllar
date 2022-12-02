@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { useCopyToClipboard } from "react-use";
 import { useDeletePostMutation } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
-import { useEditPostDialog } from "../../hooks/useEditPostDialog";
+import { useEditPost } from "../../hooks/useEditPost";
 import ContextMenuSection from "../ui/context/ContextMenuSection";
 import EditPostDialog from "./EditPostDialog";
 
@@ -17,7 +17,7 @@ export default function PostContextMenu({ post, ContextMenuItem }: any) {
 
   const copyToClipboard = useCopyToClipboard()[1];
 
-  const { setEditPostDialog } = useEditPostDialog();
+  const { setEditPostDialog, setEditingPost } = useEditPost();
 
   const onClickCopyLink = () => {
     copyToClipboard(
@@ -27,6 +27,7 @@ export default function PostContextMenu({ post, ContextMenuItem }: any) {
   };
 
   const onClickEdit = () => {
+    setEditingPost(post);
     setEditPostDialog(true);
   };
 
@@ -39,7 +40,7 @@ export default function PostContextMenu({ post, ContextMenuItem }: any) {
   const canManagePost = user?.isAdmin || post.author.id === user?.id;
   return (
     <>
-      <EditPostDialog post={post} />
+      <EditPostDialog />
 
       <ContextMenuSection>
         <ContextMenuItem
