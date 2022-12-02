@@ -10,6 +10,7 @@ import {
 import { Field, ObjectType } from "@nestjs/graphql";
 import { GraphQLNonNegativeInt } from "graphql-scalars";
 import { GraphQLBoolean } from "graphql/type";
+import { Channel } from "../../channel/entity/channel.entity";
 import { BaseEntity } from "../../common/entity/base.entity";
 import { Post } from "../../post/entity/post.entity";
 import { User } from "../../user/entity/user.entity";
@@ -66,6 +67,12 @@ export class Server extends BaseEntity {
   @Field(() => GraphQLBoolean)
   @Property({ columnType: "boolean" })
   isDeleted = false;
+
+  @Field(() => [Channel])
+  @OneToMany(() => Channel, "server", {
+    orderBy: { position: QueryOrder.ASC },
+  })
+  channels = new Collection<Channel>(this);
 
   @Field()
   isJoined: boolean;

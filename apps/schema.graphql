@@ -2,6 +2,24 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Channel implements BaseEntity {
+  id: ID!
+  createdAt: DateTime!
+  name: String!
+  description: String
+  server: Server!
+}
+
+interface BaseEntity {
+  id: ID!
+  createdAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Comment implements BaseEntity {
   id: ID!
   createdAt: DateTime!
@@ -15,16 +33,6 @@ type Comment implements BaseEntity {
   updatedAt: DateTime
   isDeleted: Boolean!
 }
-
-interface BaseEntity {
-  id: ID!
-  createdAt: DateTime!
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 enum VoteType {
   Up
@@ -100,6 +108,7 @@ type Server implements BaseEntity {
   avatarUrl: String
   bannerUrl: String
   isDeleted: Boolean!
+  channels: [Channel!]!
   isJoined: Boolean!
 }
 
