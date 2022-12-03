@@ -53,6 +53,36 @@ export class ChannelService {
     return channel;
   }
 
+  async updateChannel(
+    channelId: string,
+    user: User,
+    name: string,
+    description: string
+  ) {
+    name = name.trim();
+    if (await this.existsChannelByName(name)) {
+      throw new HttpException("duplicateName", HttpStatus.BAD_REQUEST);
+    }
+    description = description.trim();
+
+    const channel = await this.channelRepository.findOneOrFail(
+      {
+        id: channelId,
+        isDeleted: false,
+      },
+      {
+        populate: ["server"],
+      }
+    );
+
+    channel.name = name ?? channel.name;
+    channel.description = description ?? channel.description;
+
+    await this.channelRepository.persistAndFlush(channel);
+
+    return channel;
+  }
+
   async existsChannelByName(name: string) {
     return !!(await this.channelRepository.findOne({ name, isDeleted: false }));
   }

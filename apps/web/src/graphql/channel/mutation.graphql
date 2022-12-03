@@ -3,3 +3,9 @@ mutation createChannel($input: CreateChannelInput!) {
     ...Channel
   }
 }
+
+mutation updateChannel($input: UpdateChannelInput!){
+  updateChannel(input: $input){
+    ...Channel
+  }
+}

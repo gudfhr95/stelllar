@@ -137,6 +137,7 @@ export type Mutation = {
   leaveServer: Server;
   postVote: Post;
   updateAvatar: User;
+  updateChannel: Channel;
   updateComment: Comment;
   updatePost: Post;
   updateProfile: User;
@@ -196,6 +197,11 @@ export type MutationPostVoteArgs = {
 
 export type MutationUpdateAvatarArgs = {
   input: UpdateAvatarInput;
+};
+
+
+export type MutationUpdateChannelArgs = {
+  input: UpdateChannelInput;
 };
 
 
@@ -377,6 +383,12 @@ export type UpdateAvatarInput = {
   avatarFile: Scalars['Upload'];
 };
 
+export type UpdateChannelInput = {
+  channelId: Scalars['ID'];
+  description?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
 export type UpdateCommentInput = {
   commentId: Scalars['ID'];
   text: Scalars['String'];
@@ -429,6 +441,13 @@ export type CreateChannelMutationVariables = Exact<{
 
 
 export type CreateChannelMutation = { __typename?: 'Mutation', createChannel: { __typename?: 'Channel', id: string, name: string, description?: string | null } };
+
+export type UpdateChannelMutationVariables = Exact<{
+  input: UpdateChannelInput;
+}>;
+
+
+export type UpdateChannelMutation = { __typename?: 'Mutation', updateChannel: { __typename?: 'Channel', id: string, name: string, description?: string | null } };
 
 export type CommentFragment = { __typename?: 'Comment', id: string, text: string, voteCount: number, voteType: VoteType, isDeleted: boolean, createdAt: any, updatedAt?: any | null, parentComment?: { __typename?: 'Comment', id: string } | null };
 
@@ -753,6 +772,39 @@ export function useCreateChannelMutation(baseOptions?: ApolloReactHooks.Mutation
 export type CreateChannelMutationHookResult = ReturnType<typeof useCreateChannelMutation>;
 export type CreateChannelMutationResult = Apollo.MutationResult<CreateChannelMutation>;
 export type CreateChannelMutationOptions = Apollo.BaseMutationOptions<CreateChannelMutation, CreateChannelMutationVariables>;
+export const UpdateChannelDocument = gql`
+    mutation updateChannel($input: UpdateChannelInput!) {
+  updateChannel(input: $input) {
+    ...Channel
+  }
+}
+    ${ChannelFragmentDoc}`;
+export type UpdateChannelMutationFn = Apollo.MutationFunction<UpdateChannelMutation, UpdateChannelMutationVariables>;
+
+/**
+ * __useUpdateChannelMutation__
+ *
+ * To run a mutation, you first call `useUpdateChannelMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateChannelMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateChannelMutation, { data, loading, error }] = useUpdateChannelMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateChannelMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateChannelMutation, UpdateChannelMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<UpdateChannelMutation, UpdateChannelMutationVariables>(UpdateChannelDocument, options);
+      }
+export type UpdateChannelMutationHookResult = ReturnType<typeof useUpdateChannelMutation>;
+export type UpdateChannelMutationResult = Apollo.MutationResult<UpdateChannelMutation>;
+export type UpdateChannelMutationOptions = Apollo.BaseMutationOptions<UpdateChannelMutation, UpdateChannelMutationVariables>;
 export const CreateCommentDocument = gql`
     mutation createComment($input: CreateCommentInput!) {
   createComment(input: $input) {

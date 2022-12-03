@@ -1,7 +1,12 @@
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Server, useCreateChannelMutation } from "../../graphql/hooks";
+import {
+  Server,
+  useCreateChannelMutation,
+  useUpdateChannelMutation,
+} from "../../graphql/hooks";
 import { useEditChannel } from "../../hooks/useEditChannel";
 import ServerAvatar from "../server/ServerAvatar";
 import StyledDialog from "../ui/dialog/StyledDialog";
@@ -13,6 +18,7 @@ type EditChannelDialog = {
 
 export default function EditChannelDialog({ server }: EditChannelDialog) {
   const { t } = useTranslation("channel");
+  const router = useRouter();
 
   const {
     editChannelDialog: open,
@@ -20,7 +26,10 @@ export default function EditChannelDialog({ server }: EditChannelDialog) {
     editingChannel: channel,
   } = useEditChannel();
 
-  const [createChannel, { loading }] = useCreateChannelMutation();
+  const [createChannel, { loading: createChannelLoading }] =
+    useCreateChannelMutation();
+  const [updateChannel, { loading: updateChannelLoading }] =
+    useUpdateChannelMutation();
 
   const {
     register,
@@ -43,16 +52,31 @@ export default function EditChannelDialog({ server }: EditChannelDialog) {
   }, [channel]);
 
   const onSubmit = ({ name, description }: any) => {
-    createChannel({
-      variables: { input: { name, description, serverId: server.id } },
-    })
-      .then(({ data }) => {
-        reset();
-        close();
+    if (channel) {
+      updateChannel({
+        variables: { input: { channelId: channel.id, name, description } },
       })
-      .catch((data) => {
-        setError("name", { type: data.message });
-      });
+        .then(({ data }) => {
+          reset();
+          close();
+          router.replace(router.asPath);
+        })
+        .catch((data) => {
+          setError("name", { type: data.message });
+        });
+    } else {
+      createChannel({
+        variables: { input: { name, description, serverId: server.id } },
+      })
+        .then(({ data }) => {
+          reset();
+          close();
+          router.replace(router.asPath);
+        })
+        .catch((data) => {
+          setError("name", { type: data.message });
+        });
+    }
   };
 
   const close = () => {
@@ -69,9 +93,9 @@ export default function EditChannelDialog({ server }: EditChannelDialog) {
         <button
           type="submit"
           className="form-button-submit"
-          disabled={!name || loading}
+          disabled={!name || createChannelLoading || updateChannelLoading}
         >
-          {loading ? (
+          {createChannelLoading || updateChannelLoading ? (
             <IconSpinner className="w-5 h-5" />
           ) : (
             <IconCheck className="w-5 h-5" />
