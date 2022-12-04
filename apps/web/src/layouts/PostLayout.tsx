@@ -1,5 +1,4 @@
 import { PropsWithChildren } from "react";
-import ServerSettingDialog from "../components/dialog/ServerSettingDialog";
 import HomeSidebar from "../components/home/HomeSidebar";
 import PostHeader from "../components/post/PostHeader";
 import ServerSidebar from "../components/server/ServerSidebar";
@@ -23,8 +22,6 @@ export default function PostLayout({
 
   return (
     <>
-      <ServerSettingDialog server={server} />
-
       {previousIsServer ? <ServerSidebar server={server} /> : <HomeSidebar />}
 
       <div className="flex flex-col flex-grow">

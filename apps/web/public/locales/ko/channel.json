@@ -1,0 +1,14 @@
+{
+  "label": "채널",
+  "create": {
+    "label": "채널 만들기",
+    "name": "이름",
+    "description": "설명",
+    "error": {
+      "duplicateName": "중복된 이름입니다"
+    }
+  },
+  "edit": {
+    "label": "채널 수정"
+  }
+}

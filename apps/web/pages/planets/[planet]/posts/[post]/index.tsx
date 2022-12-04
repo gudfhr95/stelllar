@@ -113,6 +113,7 @@ export const getServerSideProps: GetServerSideProps<{
           "server",
           "post",
           "comment",
+          "channel",
         ])),
       },
     };

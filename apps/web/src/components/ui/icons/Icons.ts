@@ -42,7 +42,6 @@ export {
   HiEmojiHappy as IconFormatEmoji,
   HiOutlineExternalLink as IconLinkExternal,
   HiChevronUp as IconChevronUp,
-  HiGlobeAlt as IconLinkWeb,
   HiChatAlt2 as IconChat,
   HiDotsVertical as IconDotsVertical,
   HiCheckCircle as IconFeatured,
@@ -87,3 +86,4 @@ export * from "./IconSpinner";
 export * from "./IconImage";
 export * from "./IconCategoryScience";
 export * from "./IconCategoryTechnology";
+export * from "./IconChannel";

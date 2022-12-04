@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { User } from "../../graphql/hooks";
-import { useCreatePostDialog } from "../../hooks/useCreatePostDialog";
+import { useEditPost } from "../../hooks/useEditPost";
 import UserAvatar from "../user/UserAvatar";
 
 type CreatePostHeader = {
@@ -10,14 +10,15 @@ type CreatePostHeader = {
 export default function CreatePostHeader({ user }: CreatePostHeader) {
   const { t } = useTranslation("post");
 
-  const { setCreatePostDialog } = useCreatePostDialog();
+  const { setEditPostDialog, setEditingPost } = useEditPost();
 
   return (
     <>
       <div className="p-4">
         <div
           onClick={() => {
-            setCreatePostDialog(true);
+            setEditPostDialog(true);
+            setEditingPost(null);
           }}
           className="dark:bg-gray-700 h-13 flex items-center rounded transition dark:hover:bg-gray-650 cursor-pointer bg-gray-200 hover:bg-gray-300"
         >

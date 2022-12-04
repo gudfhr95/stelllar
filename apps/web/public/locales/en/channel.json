@@ -1,0 +1,14 @@
+{
+  "label": "Channel",
+  "create": {
+    "label": "Create Channel",
+    "name": "Name",
+    "description": "Description",
+    "error": {
+      "duplicateName": "Duplicate Name."
+    }
+  },
+  "edit": {
+    "label": "채널 수정"
+  }
+}

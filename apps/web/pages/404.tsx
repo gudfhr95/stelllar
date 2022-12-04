@@ -36,6 +36,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         "server",
         "post",
         "comment",
+        "channel",
       ])),
     },
   };

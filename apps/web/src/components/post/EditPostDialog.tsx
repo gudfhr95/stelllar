@@ -10,11 +10,12 @@ import {
   LinkMetadata,
   Post,
   Server,
+  useCreatePostMutation,
   useGetLinkMetadataQuery,
   useUpdatePostMutation,
 } from "../../graphql/hooks";
 import useAuth from "../../hooks/useAuth";
-import { useEditPostDialog } from "../../hooks/useEditPostDialog";
+import { useEditPost } from "../../hooks/useEditPost";
 import PostEmbed from "../post/PostEmbed";
 import ServerSelect from "../post/ServerSelect";
 import Dialog from "../ui/dialog/Dialog";
@@ -140,19 +141,28 @@ async function convertURLtoFile(url: string) {
   return new File([data], filename!, metadata);
 }
 
-type EditPostDialog = {
-  post: Post;
-};
-
-export default function EditPostDialog({ post }: EditPostDialog) {
+export default function EditPostDialog() {
   const { t } = useTranslation("post");
   const router = useRouter();
   const user = useAuth();
 
-  const [updatePost, { loading }] = useUpdatePostMutation();
+  useEffect(() => {
+    setServer(
+      router.query.planet
+        ? user &&
+            user.servers.find((s: Server) => s.name == router.query.planet)
+        : null
+    );
+  }, [user, router.query]);
 
-  const { editPostDialog: open, setEditPostDialog: setOpen } =
-    useEditPostDialog();
+  const [createPost, { loading: createLoading }] = useCreatePostMutation();
+  const [updatePost, { loading: updateLoading }] = useUpdatePostMutation();
+
+  const {
+    editPostDialog: open,
+    setEditPostDialog: setOpen,
+    editingPost: post,
+  } = useEditPost();
 
   const [server, setServer] = useState<Server | null>(null);
   const [currentTab, setCurrentTab] = useState(Tab.Text);
@@ -177,34 +187,47 @@ export default function EditPostDialog({ post }: EditPostDialog) {
   const [selectedImage, setSelectedImage] = useState(0);
 
   useEffect(() => {
-    setServer(post.server);
+    resetInputs();
 
-    const postType = getPostType(post);
-    setCurrentTab(postType);
+    if (post) {
+      setServer(post.server);
 
-    setValue("title", post.title);
-    if (postType === Tab.Text) {
-      setText(post.text ?? "");
-    } else if (postType === Tab.Link) {
-      setValue("linkUrl", post.linkUrl ?? "");
-    } else {
-      const images = post.images;
+      const postType = getPostType(post);
+      setCurrentTab(postType);
 
-      let readers = [];
-      for (let i = 0; i < images.length; i++) {
-        readers.push(convertURLtoFile(images[i].image.originalUrl));
+      setValue("title", post.title);
+      if (postType === Tab.Text) {
+        setText(post.text ?? "");
+      } else if (postType === Tab.Link) {
+        setValue("linkUrl", post.linkUrl ?? "");
+      } else {
+        const images = post.images;
+
+        let readers = [];
+        for (let i = 0; i < images.length; i++) {
+          readers.push(convertURLtoFile(images[i].image.originalUrl));
+        }
+
+        Promise.all(readers).then((values) =>
+          setImages(
+            values.map((file, i) => ({
+              file,
+              data: images[i].image.originalUrl,
+            })) as []
+          )
+        );
       }
-
-      Promise.all(readers).then((values) =>
-        setImages(
-          values.map((file, i) => ({
-            file,
-            data: images[i].image.originalUrl,
-          })) as []
-        )
-      );
     }
-  }, []);
+  }, [post]);
+
+  const resetInputs = () => {
+    setCurrentTab(Tab.Text);
+    setText("");
+    setDebouncedLinkUrl("");
+    setImages([]);
+    setSelectedImage(0);
+    reset();
+  };
 
   const onChangeImages = (e: any) => {
     const files = e.target.files;
@@ -263,29 +286,55 @@ export default function EditPostDialog({ post }: EditPostDialog) {
   };
 
   const onSubmit = ({ title, linkUrl }: any) => {
-    updatePost({
-      variables: {
-        input: {
-          postId: post.id,
-          title,
-          text: text && currentTab === Tab.Text ? text : null,
-          linkUrl: linkUrl && currentTab === Tab.Link ? linkUrl : null,
-          images:
-            images && images.length > 0 && currentTab === Tab.Image
-              ? images.map(({ file }) => ({ file }))
-              : null,
+    if (post) {
+      updatePost({
+        variables: {
+          input: {
+            postId: post.id,
+            title,
+            text: text && currentTab === Tab.Text ? text : null,
+            linkUrl: linkUrl && currentTab === Tab.Link ? linkUrl : null,
+            images:
+              images && images.length > 0 && currentTab === Tab.Image
+                ? images.map(({ file }) => ({ file }))
+                : null,
+          },
         },
-      },
-    }).then(({ data }) => {
-      const post = data?.updatePost;
-      if (!post) {
-        return;
-      }
+      }).then(({ data }) => {
+        const post = data?.updatePost;
+        if (!post) {
+          return;
+        }
 
-      setOpen(false);
-      reset();
-      router.replace(`/planets/${server?.name}/posts/${post.id}`);
-    });
+        resetInputs();
+        setOpen(false);
+        router.replace(`/planets/${server?.name}/posts/${post.id}`);
+      });
+    } else {
+      createPost({
+        variables: {
+          input: {
+            title,
+            text: text && currentTab === Tab.Text ? text : null,
+            linkUrl: linkUrl && currentTab === Tab.Link ? linkUrl : null,
+            serverId: server?.id ?? "",
+            images:
+              images && images.length > 0 && currentTab === Tab.Image
+                ? images.map(({ file }) => ({ file }))
+                : null,
+          },
+        },
+      }).then(({ data }) => {
+        const post = data?.createPost;
+        if (!post) {
+          return;
+        }
+
+        resetInputs();
+        setOpen(false);
+        router.push(`/planets/${server?.name}/posts/${post.id}`);
+      });
+    }
   };
 
   return (
@@ -509,11 +558,16 @@ export default function EditPostDialog({ post }: EditPostDialog) {
               </button>
               <button
                 type="submit"
-                disabled={!formState.isValid || !server || loading}
+                disabled={
+                  !formState.isValid ||
+                  !server ||
+                  createLoading ||
+                  updateLoading
+                }
                 className={postBtnClass}
               >
                 {t("create.submit")}
-                {loading && (
+                {(createLoading || updateLoading) && (
                   <IconSpinner className="w-5 h-5 text-primary ml-3" />
                 )}
               </button>

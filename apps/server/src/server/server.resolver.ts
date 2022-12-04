@@ -10,6 +10,7 @@ import {
 import { GraphQLBoolean } from "graphql/type";
 import { CurrentUser } from "../auth/decorator/current-user.decorator";
 import { Public } from "../auth/decorator/public.decorator";
+import { Channel } from "../channel/entity/channel.entity";
 import { User } from "../user/entity/user.entity";
 import { Server } from "./entity/server.entity";
 import { CreateServerInput } from "./input/create-server.input";
@@ -101,5 +102,10 @@ export class ServerResolver {
   @ResolveField("isJoined", () => GraphQLBoolean)
   async isJoined(@Parent() server: Server, @CurrentUser() user?: User) {
     return this.serverLoader.serverJoinedLoader(user?.id).load(server.id);
+  }
+
+  @ResolveField("channels", () => [Channel])
+  async channels(@Parent() server: Server) {
+    return this.serverLoader.serverChannelsLoader().load(server.id);
   }
 }

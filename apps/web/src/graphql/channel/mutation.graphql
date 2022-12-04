@@ -1,0 +1,11 @@
+mutation createChannel($input: CreateChannelInput!) {
+  createChannel(input: $input) {
+    ...Channel
+  }
+}
+
+mutation updateChannel($input: UpdateChannelInput!){
+  updateChannel(input: $input){
+    ...Channel
+  }
+}

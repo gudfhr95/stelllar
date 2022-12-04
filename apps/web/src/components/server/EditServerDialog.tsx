@@ -1,10 +1,14 @@
 import Tippy from "@tippyjs/react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ServerCategory, useCreateServerMutation } from "../../graphql/hooks";
-import { useCreateServerDialog } from "../../hooks/useCreateServerDialog";
+import {
+  ServerCategory,
+  useCreateServerMutation,
+  useUpdateServerMutation,
+} from "../../graphql/hooks";
+import { useEditServer } from "../../hooks/useEditServer";
 import { readURL } from "../../utils/readURL";
 import StyledDialog from "../ui/dialog/StyledDialog";
 import {
@@ -16,20 +20,26 @@ import CategorySelect from "./CategorySelect";
 
 const SERVER_REGEX = /^[a-z|A-Z|0-9|\-]+$/;
 
-export default function CreateServerDialog() {
+export default function EditServerDialog() {
   const { t } = useTranslation("server");
   const router = useRouter();
 
-  const { createServerDialog: open, setCreateServerDialog: setOpen } =
-    useCreateServerDialog();
+  const {
+    editServerDialog: open,
+    setEditServerDialog: setOpen,
+    editingServer: server,
+  } = useEditServer();
 
   const [createServer, { loading: createServerLoading }] =
     useCreateServerMutation();
+  const [updateServer, { loading: updateServerLoading }] =
+    useUpdateServerMutation();
 
   const {
     handleSubmit,
     register,
     watch,
+    setValue,
     reset,
     setError,
     formState: { errors },
@@ -43,58 +53,90 @@ export default function CreateServerDialog() {
         return;
       }
 
-      readURL(bannerFile[0]).then((url) => setBannerSrc(url));
+      readURL(bannerFile[0]).then((url) => setBannerSrc(url as string));
     } else if (name === "avatarFile") {
       const { avatarFile } = values;
       if (!avatarFile || !avatarFile[0]) {
         return;
       }
 
-      readURL(avatarFile[0]).then((url) => setAvatarSrc(url));
+      readURL(avatarFile[0]).then((url) => setAvatarSrc(url as string));
     }
   });
   const name = watch("name");
   const displayName = watch("displayName");
+  const [bannerSrc, setBannerSrc] = useState<any>(null);
+  const [avatarSrc, setAvatarSrc] = useState<any>(null);
+  const [category, setCategory] = useState(
+    server?.category ?? ServerCategory.Other
+  );
+
+  useEffect(() => {
+    resetInputs();
+
+    if (server) {
+      setBannerSrc(server.bannerUrl);
+      setAvatarSrc(server.avatarUrl);
+      setValue("name", server.name);
+      setValue("displayName", server.displayName);
+      setValue("description", server.description);
+      setCategory(server.category);
+    }
+  }, [server]);
+
+  const resetInputs = () => {
+    setBannerSrc(null);
+    setAvatarSrc(null);
+    setCategory(ServerCategory.Other);
+    reset();
+  };
 
   const onSubmit = ({
-    name,
     displayName,
     description,
     avatarFile,
     bannerFile,
   }: any) => {
-    createServer({
-      variables: {
-        input: {
-          name,
-          displayName,
-          description,
-          category,
-          avatarFile: avatarFile ? avatarFile[0] : null,
-          bannerFile: bannerFile ? bannerFile[0] : null,
+    if (server) {
+      updateServer({
+        variables: {
+          input: {
+            serverId: server.id,
+            displayName,
+            description,
+            category,
+            avatarFile: avatarFile ? avatarFile[0] : null,
+            bannerFile: bannerFile ? bannerFile[0] : null,
+          },
         },
-      },
-    })
-      .then(({ data }) => {
+      }).then(() => {
         resetInputs();
         setOpen(false);
-        router.push(`/planets/${data!.createServer.name}`);
-      })
-      .catch((data) => {
-        setError("name", { type: data.message });
+        router.push(router.asPath);
       });
+    } else {
+      createServer({
+        variables: {
+          input: {
+            name,
+            displayName,
+            description,
+            category,
+            avatarFile: avatarFile ? avatarFile[0] : null,
+            bannerFile: bannerFile ? bannerFile[0] : null,
+          },
+        },
+      })
+        .then(({ data }) => {
+          resetInputs();
+          close();
+          router.push(`/planets/${data!.createServer.name}`);
+        })
+        .catch((data) => {
+          setError("name", { type: data.message });
+        });
+    }
   };
-
-  const resetInputs = () => {
-    reset();
-    setBannerSrc(null);
-    setAvatarSrc(null);
-    setCategory(ServerCategory.Other);
-  };
-
-  const [bannerSrc, setBannerSrc] = useState(null as any);
-  const [avatarSrc, setAvatarSrc] = useState(null as any);
-  const [category, setCategory] = useState(ServerCategory.Other);
 
   const close = () => {
     setOpen(false);
@@ -113,7 +155,7 @@ export default function CreateServerDialog() {
       closeOnOverlayClick
       onSubmit={handleSubmit(onSubmit)}
       buttons={
-        <Tippy content={t("createServer.save")}>
+        <Tippy content={t("save")}>
           <button
             type="submit"
             disabled={
@@ -122,11 +164,12 @@ export default function CreateServerDialog() {
               displayName?.length < 2 ||
               name?.length < 2 ||
               createServerLoading ||
+              updateServerLoading ||
               !SERVER_REGEX.test(name)
             }
             className="form-button-submit"
           >
-            {createServerLoading ? (
+            {createServerLoading || updateServerLoading ? (
               <IconSpinner className="w-5 h-5 text-primary" />
             ) : (
               <IconUserToServerArrow className="w-5 h-5 text-primary" />
@@ -181,7 +224,7 @@ export default function CreateServerDialog() {
       <div className="pl-30 pr-5 pt-2 text-left">
         <input
           {...register("displayName", { maxLength: 100, required: true })}
-          placeholder={t("createServer.displayName")}
+          placeholder={t("edit.displayName")}
           className="form-input-lg"
           maxLength={100}
         />
@@ -193,34 +236,34 @@ export default function CreateServerDialog() {
             <span className={`h-7 flex items-center`}>
               stelllar.co/planets/
             </span>
-            <input
-              {...register("name", {
-                pattern: SERVER_REGEX,
-                required: true,
-                minLength: 2,
-                maxLength: 20,
-              })}
-              minLength={2}
-              maxLength={20}
-              placeholder={t("createServer.name")}
-              className="bg-transparent h-7 w-full border-b dark:border-gray-700 focus:outline-none transition dark:focus:border-blue-500"
-            />
+            {server ? (
+              <span>{`${server.name}`}</span>
+            ) : (
+              <input
+                {...register("name", {
+                  pattern: SERVER_REGEX,
+                  required: true,
+                  minLength: 2,
+                  maxLength: 20,
+                })}
+                minLength={2}
+                maxLength={20}
+                placeholder={t("edit.name")}
+                className="form-input"
+              />
+            )}
           </div>
           {!!name && errors.name?.type === "pattern" && (
-            <div className="form-error">
-              {t("createServer.error.namePattern")}
-            </div>
+            <div className="form-error">{t("edit.error.namePattern")}</div>
           )}
           {!!name && errors.name?.type === "duplicateName" && (
-            <div className="form-error">
-              {t("createServer.error.duplicateName")}
-            </div>
+            <div className="form-error">{t("edit.error.duplicateName")}</div>
           )}
         </div>
 
         <textarea
           {...register("description", { maxLength: 500 })}
-          placeholder={t("createServer.description")}
+          placeholder={t("edit.description")}
           className="form-textarea"
           maxLength={500}
         />
